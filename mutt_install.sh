@@ -1,5 +1,5 @@
 #!/bin/bash
-muttdir="$HOME/Repos/email-mutt-offline/"
+muttdir="$HOME/.config/mutt/"
 mkdir -p ~/.config/mutt/credentials
 
 # Email for GPG

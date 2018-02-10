@@ -4,7 +4,9 @@ Mutt is one of the most rewarding programs one can use, but can be a pain in the
 
 ## Progress
 
-The main scripts `mutt_install.sh` can create or add an account from a domain in `domain.csv` to `~/.offlineimaprc` without a problem.
+* The main scripts `mutt_install.sh` can create or add an account from a domain in `domain.csv` to `~/.offlineimaprc` without a problem.
+* It also creates a email-specific settings for your muttrc, which are outputed in the `accounts/` directory in your mutt directory.
+* It uses your gpg encryption to store your encrypted password in `credentials/`, where there are also two scripts that allow mutt and offlineIMAP to decrypt the passwords when needed.
 
 ## YOU CAN HELP
 

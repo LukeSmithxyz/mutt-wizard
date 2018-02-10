@@ -5,3 +5,4 @@ SERVICE,IMAP,imap port,SMTP,smtp port,spoolfile,postponed,record
 "Office 365",outlook.office365.com,993,smtp.office365.com,587,INBOX,Drafts,Sent Items
 "Host Gator",gator4171.hostgator.com,993,gator4171.hostgator.com,587,INBOX,INBOX.Drafts,INBOX.Sent
 "GoDaddy",imap.secureserver.net,993,smtpout.secureserver.net,465,,,
+"Yandex",imap.yandex.com,993.00,smtp.yandex.com,465.00,,,

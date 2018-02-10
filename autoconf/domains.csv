@@ -57,6 +57,8 @@ teknik.io,mail.teknik.io,993.00,mail.teknik.io,587.00,,,
 yandex.com,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
 outlook.com,imap-mail.outlook.com,993.00,smtp-mail.outlook.com,587.00,,,
 hotmail.com,imap-mail.outlook.com,993.00,smtp-mail.outlook.com,587.00,,,
+msn.com,imap-mail.outlook.com,993.00,smtp-mail.outlook.com,587.00,,,
+live.com,imap-mail.outlook.com,993.00,smtp-mail.outlook.com,587.00,,,
 gmail.com,imap.google.com,993.00,smtp.gmail.com,587.00,INBOX,[Gmail].Drafts,[Gmail].Sent Mail
 cock.li,mail.cock.li,993.00,mail.cock.li,587.00,INBOX,Drafts,Sent
 airmail.cc,mail.cock.li,993.00,mail.cock.li,587.00,INBOX,Drafts,Sent
@@ -89,3 +91,12 @@ nuke.africa,mail.cock.li,993.00,mail.cock.li,587.00,INBOX,Drafts,Sent
 posteo.de,posteo.de,993,posteo.de,587,INBOX,Drafts,Sent
 runbox.com,mail.runbox.com,993,mail.runbox.com,587,INBOX,Drafts,Sent
 lukesmith.xyz,gator4171.hostgator.com,993,gator4171.hostgator.com,587,INBOX,INBOX.Drafts,INBOX.Sent
+email.arizona.edu,mail.catnet.arizona.edu,993,smtpgate.email.arizona.edu,587,INBOX,[Gmail].Drafts,[Gmail].Sent Mail
+yandex.ru,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
+yandex.com,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
+yandex.net,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
+yandex.by,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
+yandex.kz,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
+yandex.ua,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
+ya.ru,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
+narod.ru,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,

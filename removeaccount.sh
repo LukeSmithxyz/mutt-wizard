@@ -6,15 +6,35 @@ muttdir="$HOME/.config/mutt/"
 
 # Feed the script the title of the account.
 
-title=$1
+cat ~/.offlineimaprc | grep "^accounts =" | sed -e 's/accounts =\( \)//g;s/\(,\) /\n/g;' | nl --number-format=ln > /tmp/numbered
 
 removeAccount() { sed -ie "
-	/Account $title]/,/Account/{//!d}
-	/Account $title]/d
-	s/ $title\(,\|$\)//g
-	s/=$title\(,\|$\)/=/g
+	/Account $1]/,/Account/{//!d}
+	/Account $1]/d
+	s/ $1\(,\|$\)//g
+	s/=$1\(,\|$\)/=/g
 	s/,$//g
 	" ~/.offlineimaprc
-	rm "$muttdir"accounts/$title.muttrc
-	echo $title deleted. ;}
-#removeAccount $title
+	rm "$muttdir"accounts/$1.muttrc
+	echo $1 deleted. ;}
+
+#/tmp/numbered
+
+accounts=()
+while read n s ; do
+	accounts+=($n "$s" off)
+done < /tmp/numbered
+
+choices=$(dialog --separate-output --checklist "Choose an email account to remove." 22 76 16 "${accounts[@]}" 2>&1 >/dev/tty)
+clear
+
+if [ -z "$choices" ];
+	then
+		echo no selection
+	else
+		todelet=$(IFS="|"; keys="${choices[*]}"; keys="${keys//|/\\|}"; grep -w "${keys}" /tmp/numbered  | awk '{print $2}')
+		for i in $todelet; do removeAccount $i; done
+fi
+
+
+

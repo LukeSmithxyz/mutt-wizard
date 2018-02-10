@@ -18,7 +18,7 @@ Or you can help monetarily via [Patreon](https://patreon.com/lukesmith) or [Payp
 
 * Expand the list of server information in `domains.csv`, including adding spoolfiles/records/postponed folders for each account.
 * Write scripts that do the following:
-	* Stat `~/.offlineimaprc` and the the mutt configs to see what accounts are currently available. (**Done**, currently in `stat.sh`; needs integration.)
+	* Stat `~/.offlineimaprc` and the the mutt configs to see what accounts are currently available. (**Done**, currently in `removeaccount.sh`; needs integration.)
 	* Delete a profile from above if requested. (**Done**, currently in `removeaccount.sh`; needs integration.)
 	* Add a profile above if requested, including:
 		* An automatic search of `domains.csv` for server information. (**Done**)
@@ -27,6 +27,3 @@ Or you can help monetarily via [Patreon](https://patreon.com/lukesmith) or [Payp
 	* Configure notmuch with all accounts.
 	* A prompt for adding encypted passwords for each account available.
 		* Or directions for adding plain text passwords if desired.
-
-### Todo: Add settings for email accounts not unified by one domain
-

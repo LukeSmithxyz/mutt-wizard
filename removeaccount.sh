@@ -17,6 +17,7 @@ removeAccount() { sed -ie "
 	" ~/.offlineimaprc
 	rm "$muttdir"accounts/$1.muttrc
 	rm "$muttdir"credentials/$1.gpg
+	rm -rf "$muttdir"accounts/$1
 	echo $1 deleted. ;}
 
 #/tmp/numbered
@@ -31,11 +32,8 @@ clear
 
 if [ -z "$choices" ];
 	then
-		echo no selection
+		clear
 	else
 		todelet=$(IFS="|"; keys="${choices[*]}"; keys="${keys//|/\\|}"; grep -w "${keys}" /tmp/numbered  | awk '{print $2}')
 		for i in $todelet; do removeAccount $i; done
 fi
-
-
-

@@ -63,7 +63,10 @@ replacement="
 	s/\$type/$type/g;
 	/$delet/d"
 
-
+# Gets the first unused shortcut number in the muttrc and puts it in $idnum.
+cat "$muttdir"muttrc | grep i[0-9] | awk '{print $3}' | sed -e 's/i//g' > /tmp/mutt_used
+echo -e "1\n2\n3\n4\n5\n6\n7\n8\n9" > /tmp/mutt_all_possible
+idnum=$(diff /tmp/mutt_all_possible /tmp/mutt_used | sed -n 2p | awk '{print $2}')
 
 addAccount() {
 	# First, adding the encrypted password.
@@ -78,9 +81,18 @@ addAccount() {
 
 	# Add the mutt profile.
 	cat "$muttdir"autoconf/mutt_profile | sed -e "$replacement" > "$muttdir"accounts/$title.muttrc
+	# Add a numbered shortcut in the muttrc
+	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source "$muttdir"accounts/$title.muttrc<enter><change-folder>!<enter>'" >> "$muttdir"muttrc
 
-	# Add on offlineimaprc sync list.
-	sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =$/accounts = $title/g" ~/.offlineimaprc ;}
+	# Adding directory structure for cache.
+	mkdir -p "$muttdir"accounts/$title/cache/bodies "$muttdir"accounts/$title/cache/headers
+
+	# Add to offlineimaprc sync list.
+	sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =$/accounts = $title/g" ~/.offlineimaprc
+
+	# Makes account default if there is no default account.
+	grep "$muttdir"muttrc -e "^source .*accounts.*" >/dev/null && echo there || \
+	echo "source ${muttdir}accounts/$title.muttrc" >> "$muttdir"muttrc ;}
 
 addAccount
 clear

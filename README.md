@@ -30,11 +30,3 @@ Or you can help monetarily via [Patreon](https://patreon.com/lukesmith) or [Payp
 
 ### Todo: Add settings for email accounts not unified by one domain
 
---------
-
-zoho,imap.zoho.com,993.00,smtp.zoho.com,465.00
-icloud,imap.mail.me.com,993.00,smtp.mail.me.com,587.00
-inbox.com,imap.inbox.com,993.00,smtp.inbox.com,465.00
-office365,outlook.office365.com,993.00,smtp.office365.com,587.00,INBOX,Drafts,Sent Items
-hostgator,gator4171.hostgator.com,993.00,gator4171.hostgator.com,587.00
-godaddy,imap.secureserver.net,993,smtpout.secureserver.net,465

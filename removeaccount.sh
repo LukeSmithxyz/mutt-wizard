@@ -16,6 +16,7 @@ removeAccount() { sed -ie "
 	s/,$//g
 	" ~/.offlineimaprc
 	rm "$muttdir"accounts/$1.muttrc
+	rm "$muttdir"credentials/$1.gpg
 	echo $1 deleted. ;}
 
 #/tmp/numbered

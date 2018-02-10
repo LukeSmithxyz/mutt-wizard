@@ -1,0 +1,18 @@
+[Account $title]
+
+localrepository = $title-local
+remoterepository = $title-remote
+
+[Repository $title-remote]
+type = $type
+remoteuser = $fulladdr
+sslcacerfile = /etc/ssl/cets/ca-certificates.crt
+remotepasseval = mailpasswd("$title")
+remotehost = $imap
+port = $iport
+folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[Repository $title-local]
+type = Maildir
+localfolders = ~/.mail/$title

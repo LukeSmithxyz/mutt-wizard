@@ -1,0 +1,26 @@
+# vim: filetype=muttrc
+# muttrc file for account $title
+set realname = "$realname"
+set from = "$fulladdr"
+set smtp_url = "smtp://$fulladdr@$smtp:$sport/"
+set sendmail = "/usr/bin/msmtp -a $title"
+set folder = "~/.mail/$title"
+set header_cache = ~/.config/mutt/$title/cache/headers
+set message_cachedir = ~/.config/mutt/$title/cache/bodies
+set certificate_file = ~/.config/mutt/$title/certificates
+source "~/.config/mutt/credentials/getmuttpass $title |"
+
+set spoolfile = "+$spoolfile"
+set record = "+$record"
+set postponed = "+$postponed"
+
+
+set mbox_type = Maildir
+set ssl_starttls = yes
+set ssl_force_tls = yes
+
+bind index,pager g noop
+bind index gg first-entry
+macro index,pager gi "<change-folder>=$spoolfile<enter>" "Go to inbox"
+macro index,pager gs "<change-folder>=$record<enter>" "Go to sent"
+macro index,pager gd "<change-folder>=$postponed<enter>" "Go to drafts"

@@ -1,0 +1,111 @@
+[general]
+accounts = luke, gmail
+#accounts = luke, gmail, gkulade, kulade, evenor
+starttls = yes
+ssl = yes
+autorefresh = 1
+pythonfile = ~/.config/mutt/credentials/imappwd.py
+
+
+#######
+[Account gmail]
+
+localrepository = gmail-local
+remoterepository = gmail-remote
+
+[Repository gmail-remote]
+type = Gmail
+remoteuser = luxmyth@gmail.com
+remotepasseval =  mailpasswd("gmail")
+folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail', '[Gmail]/Chats', '[Gmail].Trash', 'Trump', 'ugaroml', 'SMS']
+#folderfilter = lambda foldername: foldername in ['INBOX', 'lingcircle', "[Gmail].Sent Mail", '[Gmail].Drafts']
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[Repository gmail-local]
+type = Maildir
+localfolders = ~/.Mail/Gmail
+
+#######
+
+[Account luke]
+
+localrepository = luke-local
+remoterepository = luke-remote
+
+[Repository luke-remote]
+type = IMAP
+remoteuser = luke@lukesmith.xyz
+remotepasseval = mailpasswd("luke")
+remotehost = gator4171.hostgator.com
+folderfilter = lambda foldername: foldername in ['INBOX', 'INBOX.Sent', 'INBOX.Drafts']
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[Repository luke-local]
+type = Maildir
+localfolders = ~/.Mail/Luke
+
+[Account kulade]
+localrepository = kulade-local
+remoterepository = kulade-remote
+
+[Repository kulade-remote]
+type = IMAP
+remoteuser = kulade@cock.li
+remotepasseval =  mailpasswd("kulade")
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+remotehost = mail.cock.li
+
+[Repository kulade-local]
+type = Maildir
+localfolders = ~/.Mail/kulade
+#######
+[Account gkulade]
+
+localrepository = gkulade-local
+remoterepository = gkulade-remote
+
+[Repository gkulade-remote]
+type = Gmail
+remoteuser = kulade@gmail.com
+remotepasseval =  mailpasswd("gkulade")
+folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail', 'SMS', 'Call log']
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[Repository gkulade-local]
+type = Maildir
+localfolders = ~/.Mail/gkulade
+
+#[Account arizona]
+#
+#localrepository = arizona-local
+#remoterepository = arizona-remote
+#
+#[Repository arizona-remote]
+#type = IMAP
+#remoteuser = lukesmith@email.arizona.edu
+#remotehost = mail.catnet.arizona.edu
+#port = 993
+##folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail', '[Gmail]/Chats', '[Gmail].Trash', 'Trump', 'ugaroml', 'SMS']
+#folderfilter = lambda foldername: foldername in ['INBOX', 'lingcircle', '[Gmail].Sent Mail', '[Gmail].Drafts']
+#sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+#
+#[Repository arizona-local]
+#type = Maildir
+#localfolders = ~/.Mail/Arizona
+
+[Account evenor]
+localrepository = evenor-local
+remoterepository = evenor-remote
+
+[Repository evenor-remote]
+
+type = IMAP
+remoteuser = evenor@teknik.io
+remotepasseval =  mailpasswd("evenor")
+remotehost = mail.teknik.io
+port = 993
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[Repository evenor-local]
+type = Maildir
+localfolders = ~/.Mail/Evenor

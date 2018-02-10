@@ -1,5 +1,5 @@
 #!/bin/sh
-muttdir="$HOME/Repos/email-mutt-offline/"
+muttdir="$HOME/.config/mutt/"
 
 # This script will remove an account from ~/.offlineimaprc and the
 # designated location in ~/.config/mutt/accounts.
@@ -17,4 +17,4 @@ removeAccount() { sed -ie "
 	" ~/.offlineimaprc
 	rm "$muttdir"accounts/$title.muttrc
 	echo $title deleted. ;}
-removeAccount $title
+#removeAccount $title

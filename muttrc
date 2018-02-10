@@ -47,3 +47,5 @@ macro index,pager i1 '<sync-mailbox><enter-command>source /home/luke/.config/mut
 source /home/luke/.config/mutt/accounts/luke.muttrc
 macro index,pager i2 '<sync-mailbox><enter-command>source /home/luke/.config/mutt/accounts/gkulade.muttrc<enter><change-folder>!<enter>'
 macro index,pager i3 '<sync-mailbox><enter-command>source /home/luke/.config/mutt/accounts/gmail.muttrc<enter><change-folder>!<enter>'
+macro index,pager i4 '<sync-mailbox><enter-command>source /home/luke/.config/mutt/accounts/luke.muttrc<enter><change-folder>!<enter>'
+macro index,pager i5 '<sync-mailbox><enter-command>source /home/luke/.config/mutt/accounts/gmail.muttrc<enter><change-folder>!<enter>'

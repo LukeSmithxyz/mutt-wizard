@@ -1,6 +1,8 @@
 # vim: filetype=muttrc
 # This is the general mutt config which has the settings that all accounts use.
 source etc/muttcol
+bind index,pager i noop
+bind index,pager g noop
 source personal.muttrc
 set sleep_time = 0
 set sort = 'reverse-date'
@@ -13,8 +15,6 @@ set date_format="%m/%d %I:%M"
 set index_format="%2C %Z %D %-15.15F %s (%-4.4c)"
 set markers = no
 set mark_old = no
-bind index,pager i noop
-bind index,pager g noop
 auto_view text/html
 auto_view application/pdf
 alternative_order text/plain text/enriched text/html

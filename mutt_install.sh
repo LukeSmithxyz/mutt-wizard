@@ -69,6 +69,7 @@ echo -e "1\n2\n3\n4\n5\n6\n7\n8\n9" > /tmp/mutt_all_possible
 idnum=$(diff /tmp/mutt_all_possible /tmp/mutt_used | sed -n 2p | awk '{print $2}')
 
 addAccount() {
+	mkdir -p "$muttdir"accounts/
 	# First, adding the encrypted password.
 	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the password for the \"$title\" account." 10 60 2> /tmp/$title
 	gpg -r $youremail --encrypt /tmp/$title

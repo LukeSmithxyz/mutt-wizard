@@ -1,6 +1,5 @@
 # vim: filetype=muttrc
 # This is the general mutt config which has the settings that all accounts use.
-source muttcol
 set sleep_time = 0
 set sort = 'reverse-date'
 set editor = vim

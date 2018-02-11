@@ -1,20 +1,11 @@
 #!/bin/bash
 
 muttdir="$HOME/.config/mutt/"
-mkdir -p ~/.config/mutt/credentials
+mkdir -p "$muttdir"credentials/ "$muttdir"accounts/
 
-# Email for GPG
-youremail=$(\
-	dialog --title "Luke's mutt/offlineIMAP password wizard" --inputbox "Insert the email address with which you originally created your key pair. This is NOT necessarily the email you want to configure." 10 60 \
-	3>&1 1>&2 2>&3 3>&- \
-	)
+gpgemail=$( dialog --title "Luke's mutt/offlineIMAP password wizard" --inputbox "Insert the email address with which you originally created your GPG key pair. This is NOT necessarily the email you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- )
 
-# Get email address
-fulladdr=$(\
-	dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Insert your full email address." 10 60 \
-	3>&1 1>&2 2>&3 3>&- \
-	)
-
+mainloop() { fulladdr=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Insert the full email address for the account you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- )
 # Check to see if domain is in domain list
 serverinfo=$(cat "$muttdir"autoconf/domains.csv | grep -w ^${fulladdr##*@})
 if [ -z "$serverinfo" ];
@@ -26,18 +17,8 @@ IFS=, read service imap iport smtp sport spoolfile postponed record <<EOF
 $serverinfo
 EOF
 fi
-
-realname=$(\
-	dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Enter the full name you'd like to be identified by on this email account." 10 60 \
-	3>&1 1>&2 2>&3 3>&- \
-	)
-
-title=$(\
-	dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Give a short, one-word name for this email account that will differentiate it from other email accounts." 10 60 \
-	3>&1 1>&2 2>&3 3>&- \
-	)
-
-
+realname=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Enter the full name you'd like to be identified by on this email account." 10 60 3>&1 1>&2 2>&3 3>&- )
+title=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Give a short, one-word name for this email account that will differentiate it from other email accounts." 10 60 3>&1 1>&2 2>&3 3>&- )
 # Sets the repo type and other variables for the sed regex.
 if [[ "$service" == "gmail.com" ]];
 	then
@@ -47,7 +28,6 @@ if [[ "$service" == "gmail.com" ]];
 		type="IMAP"
 		delet="Gmail]\/"
 fi
-
 # The replacements
 replacement="
 	s/\$realname/$realname/g;
@@ -67,12 +47,13 @@ replacement="
 cat "$muttdir"personal.muttrc | grep i[0-9] | awk '{print $3}' | sed -e 's/i//g' > /tmp/mutt_used
 echo -e "1\n2\n3\n4\n5\n6\n7\n8\n9" > /tmp/mutt_all_possible
 idnum=$(diff /tmp/mutt_all_possible /tmp/mutt_used | sed -n 2p | awk '{print $2}')
+addAccount \
+;}
 
 addAccount() {
-	mkdir -p "$muttdir"accounts/
 	# First, adding the encrypted password.
 	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the password for the \"$title\" account." 10 60 2> /tmp/$title
-	gpg -r $youremail --encrypt /tmp/$title
+	gpg -r $gpgemail --encrypt /tmp/$title
 	shred -u /tmp/$title && echo "Password encrypted and memory shredded."
 	mv /tmp/$title.gpg ~/.config/mutt/credentials/
 
@@ -95,5 +76,10 @@ addAccount() {
 	grep "$muttdir"personal.muttrc -e "^source .*accounts.*" >/dev/null && echo there || \
 	echo "source ${muttdir}accounts/$title.muttrc" >> "$muttdir"personal.muttrc ;}
 
-addAccount
+mainloop
+while : ;
+do
+	dialog --title "Luke's mutt/offlineIMAP password wizard" --yesno "Would you like to add another email account?" 10 60 || break
+	mainloop
+done
 clear

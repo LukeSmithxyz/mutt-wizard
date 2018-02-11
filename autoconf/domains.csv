@@ -53,7 +53,7 @@ cyberservices.com,imap.mail.com,995.00,smtp.mail.com,587.00,INBOX,Drafts,Sent
 deliveryman.com,imap.mail.com,995.00,smtp.mail.com,587.00,INBOX,Drafts,Sent
 diplomats.com,imap.mail.com,995.00,smtp.mail.com,587.00,INBOX,Drafts,Sent
 hostgator,gator4171.hostgator.com,993.00,gator4171.hostgator.com,587.00,INBOX,INBOX.Sent,INBOX.Drafts
-teknik.io,mail.teknik.io,993.00,mail.teknik.io,587.00,,,
+teknik.io,mail.teknik.io,993.00,mail.teknik.io,587.00,INBOX,Drafts,Sent
 yandex.com,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
 outlook.com,imap-mail.outlook.com,993.00,smtp-mail.outlook.com,587.00,,,
 hotmail.com,imap-mail.outlook.com,993.00,smtp-mail.outlook.com,587.00,,,

@@ -1,4 +1,4 @@
 *.gpg
-*.muttrc
 accounts/
 *.pyc
+*.muttrc

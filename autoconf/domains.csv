@@ -100,3 +100,5 @@ yandex.kz,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
 yandex.ua,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
 ya.ru,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
 narod.ru,imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
+muny.us,mail.muny.us,993,mail.muny.us,465,INBOX,Drafts,Sent
+billycarlyle.uk,mail.muny.us,993,mail.muny.us,465,INBOX,Drafts,Sent

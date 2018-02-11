@@ -16,7 +16,7 @@ fulladdr=$(\
 	)
 
 # Check to see if domain is in domain list
-serverinfo=$(cat autoconf/domains.csv | grep -w ^${fulladdr##*@})
+serverinfo=$(cat "$muttdir"autoconf/domains.csv | grep -w ^${fulladdr##*@})
 if [ -z "$serverinfo" ];
 	then
 		echo No suitable match. && exit

@@ -1,12 +1,13 @@
 # vim: filetype=muttrc
 # This is the general mutt config which has the settings that all accounts use.
+source etc/muttcol
 set sleep_time = 0
 set sort = 'reverse-date'
 set editor = vim
 #set copy = no
 set timeout = "5"
 set mail_check = "10"
-set mailcap_path = ~/.config/mutt/mailcap
+set mailcap_path = ~/.config/mutt/etc/mailcap
 set date_format="%m/%d %I:%M"
 set index_format="%2C %Z %D %-15.15F %s (%-4.4c)"
 set markers = no
@@ -21,10 +22,10 @@ mono bold bold
 mono underline underline
 mono indicator reverse
 color index yellow default '.*'
-#color index_author red default '.*'
-#color index_number blue default
-#color index_subject cyan default '.s'
-#color index_size green default
+color index_author red default '.*'
+color index_number blue default
+color index_subject cyan default '.s'
+color index_size green default
 color normal default default
 color body brightred default [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
 color body brightblue default (https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+
@@ -43,3 +44,9 @@ macro index,pager \Cu |urlview\n
 bind index \Cf noop
 macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" "show only messages matching a notmuch pattern"
 macro index A "<limit>all\n" "show all messages (undo limit)"
+macro index,pager i1 '<sync-mailbox><enter-command>source /home/luke/.config/mutt/accounts/luke.muttrc<enter><change-folder>!<enter>'
+source /home/luke/.config/mutt/accounts/luke.muttrc
+macro index,pager i2 '<sync-mailbox><enter-command>source /home/luke/.config/mutt/accounts/gmail.muttrc<enter><change-folder>!<enter>'
+macro index,pager i3 '<sync-mailbox><enter-command>source /home/luke/.config/mutt/accounts/gkulade.muttrc<enter><change-folder>!<enter>'
+macro index,pager i4 '<sync-mailbox><enter-command>source /home/luke/.config/mutt/accounts/evenor.muttrc<enter><change-folder>!<enter>'
+macro index,pager i5 '<sync-mailbox><enter-command>source /home/luke/.config/mutt/accounts/kulade.muttrc<enter><change-folder>!<enter>'

@@ -1,4 +1,4 @@
-# vim: filetype=muttrc
+# vim: filetype=neomuttrc
 # This is the general mutt config which has the settings that all accounts use.
 source etc/muttcol
 bind index,pager i noop

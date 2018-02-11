@@ -1,4 +1,4 @@
-# vim: filetype=muttrc
+# vim: filetype=neomuttrc
 # muttrc file for account $title
 set realname = "$realname"
 set from = "$fulladdr"

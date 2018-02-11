@@ -14,7 +14,13 @@ dialog, neomutt and offlineimap installed. The contents of this repo should go d
 	* For most accounts, you can jump to sent mail with `gs`, drafts with `gd` and the inbox with `gi`. I haven't worked this out for every domain.
 * It uses your gpg encryption to store your encrypted password in `credentials/`, where there are also two scripts that allow mutt and offlineIMAP to decrypt the passwords when needed.
 
-## YOU CAN HELP
+### Verified to be working with
+
+Gmail accounts, cock.li accounts, teknik.io, mail.com accounts should work 100% already. Still, email me at [luke@lukesmith.xyz](mailto:luke@lukesmith.xyz) if you run into something.
+
+Accounts with Yandex, Yahoo, Aol, Outlook, Office 365 and iCloud should work, but the hotkeys to jump from inbox to sent to drafts, etc. won't be automatic because I don't yet know the folder structures of these accounts. If you try the script on these accounts, please check what the structure looks like in `~/.mail/<account name>/` and tell me what you see and I can automate this!
+
+## You can help!
 
 If you use mutt with a particular host or domain, put your server information in `domains.csv`! This will make everyone else who uses your email provider's life much easier!
 
@@ -27,13 +33,6 @@ Mail is stored in `~/.mail`. mutt configs and caches for each account are in `~/
 ## Todo
 
 * Expand the list of server information in `domains.csv`, including adding spoolfiles/records/postponed folders for each account.
-* Write scripts that do the following:
-	* Stat `~/.offlineimaprc` and the the mutt configs to see what accounts are currently available. (**Done**, currently in `removeaccount.sh`; needs integration.)
-	* Delete a profile from above if requested. (**Done**, currently in `removeaccount.sh`; needs integration.)
-	* Add a profile above if requested, including:
-		* An automatic search of `domains.csv` for server information. (**Done**)
-		* An ncurses menu for inputing server settings if not available in `domains.csv`. (Soon, see `manual.sh`)
-		* Differential actions for Gmail accounts since these are distinct in offlineIMAP. (**Done**)
-	* Configure notmuch with all accounts.
-	* A prompt for adding encypted passwords for each account available.
-		* Or directions for adding plain text passwords if desired.
+* An ncurses menu for inputing server settings if not available in `domains.csv`. (Soon, see `manual.sh`)
+* Configure notmuch with all accounts.
+* Move all scripts into one wizard script, integrating all the options.

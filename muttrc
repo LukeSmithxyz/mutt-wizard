@@ -1,6 +1,7 @@
 # vim: filetype=muttrc
 # This is the general mutt config which has the settings that all accounts use.
 source etc/muttcol
+source personal.muttrc
 set sleep_time = 0
 set sort = 'reverse-date'
 set editor = vim
@@ -44,4 +45,3 @@ macro index,pager \Cu |urlview\n
 bind index \Cf noop
 macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" "show only messages matching a notmuch pattern"
 macro index A "<limit>all\n" "show all messages (undo limit)"
-macro index,pager i1 '<sync-mailbox><enter-command>source /home/luke/.config/mutt/accounts/luke.muttrc<enter><change-folder>!<enter>'

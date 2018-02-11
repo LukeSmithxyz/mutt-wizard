@@ -67,7 +67,7 @@ addAccount() {
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source "$muttdir"accounts/$title.muttrc<enter><change-folder>!<enter>'" >> "$muttdir"personal.muttrc
 
 	# Adding directory structure for cache.
-	mkdir -p "$muttdir"accounts/$title/cache/bodies "$muttdir"accounts/$title/cache/headers
+	mkdir -p "$muttdir"accounts/$title/cache/bodies
 
 	# Add to offlineimaprc sync list.
 	sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =$/accounts = $title/g" ~/.offlineimaprc

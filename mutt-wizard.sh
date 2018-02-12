@@ -31,7 +31,7 @@ removeAccount() { sed -ie "
 	rm "$muttdir"accounts/$1.muttrc
 	rm "$muttdir"credentials/$1.gpg
 	rm -rf "$muttdir"accounts/$1
-	echo $1 deleted. ;}
+	sed -i '/$1.muttrc/d' "$muttdir"personal.muttrc ;}
 
 manual() { \
 	imap=$( dialog --inputbox "Insert the IMAP server for your email provider (excluding the port number)" 10 60 3>&1 1>&2 2>&3 3>&- )

@@ -23,7 +23,7 @@ The email accounts that *won't* work with the script would include Proton Mail a
 
 ## Installation and Dependencies
 
-dialog, neomutt and offlineimap should be installed. The contents of this repo should go directly in `~/.config/mutt/` and run from there. You also need to have a GPG public/private key pair for the wizard to automatically store your passwords. Otherwise you'll have to store them insecurely in plaintext files without the help of the wizard.
+dialog, neomutt and offlineimap should be installed. The contents of this repo should go directly in `~/.config/mutt/` and run from there. You also need to have a GPG public/private key pair for the wizard to automatically store your passwords. Otherwise you'll have to store them insecurely in plaintext files without the help of the wizard. As a note, if you uuse a distribution like Void that uses GPG2 and not GPG, you should symlink /usr/bin/gpg to /usr/bin/gpg2 or wherever the GPG2 binary lives.
 
 Just run `mutt-wizard.sh` for all the options.
 

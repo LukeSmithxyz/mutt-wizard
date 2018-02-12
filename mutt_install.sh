@@ -33,6 +33,11 @@ removeAccount() { sed -ie "
 	rm -rf "$muttdir"accounts/$1
 	echo $1 deleted. ;}
 
+manual() { \
+	imap=$( dialog --inputbox "Insert the IMAP server for your email provider (excluding the port number)" 10 60 3>&1 1>&2 2>&3 3>&- )
+	iport=$(dialog --inputbox "What is your server's IMAP port number? (Usually 993)" 10 60 3>&1 1>&2 2>&3 3>&-)
+	smtpserver=$( dialog --inputbox "Insert the SMTP server for your email provider (excluding the port number)" 10 60 3>&1 1>&2 2>&3 3>&- )
+	sport=$( dialog --inputbox "What is your server's SMTP port number? (Usually 587 or 465)" 10 60 3>&1 1>&2 2>&3 3>&- ) ;}
 
 
 addloop() { fulladdr=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Insert the full email address for the account you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- )
@@ -40,7 +45,7 @@ addloop() { fulladdr=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --in
 serverinfo=$(cat "$muttdir"autoconf/domains.csv | grep -w ^${fulladdr##*@})
 if [ -z "$serverinfo" ];
 	then
-		echo No suitable match in domains.csv. && clear && exit
+		manual
 	else
 # Read in server data as variables
 IFS=, read service imap iport smtp sport spoolfile postponed record <<EOF

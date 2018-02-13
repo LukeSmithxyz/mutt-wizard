@@ -6,11 +6,17 @@ Mutt is one of the most rewarding programs one can use, but can be a pain in the
 
 ## User interface
 
-The main script can take an email and autodetect its server settings, generating a muttrc and offlineimaprc profile automatically. I gives you options for add accounts to the system, detecting them, removing them and autodetecting mailboxes and generating shortcut keys in mutt.
+The main script can take an email and autodetect its server settings, generating a muttrc and offlineimaprc profile automatically. I gives you options for add accounts to the system, detecting them, removing them and autodetecting mailboxes and generating shortcut keys in mutt. You get:
+
++ Automatic configuration of mutt and offlineimap
++ Automatic encryption and safe storage of passwords which are used my mutt and offlineimap when necessary
++ Multiple account management in mutt: jump from account to account with the `i` prefix in mutt: `i1`: first email account, `i5`: fifth, etc.
++ Easy movement to mail folders in mutt: `gi`: go to inbox, `gs` to sent mail, `ga` to archive, `gS` to spam, `gd` to drafts, etc.
++ Some sensible default controls and colors. This system is going to be integrated into my [public auto-rice script](https://larbs.xyz) so I want it to look pretty and be usable out the box.
 
 ### Will it work on my email? (95% yes)
 
-Yes! At this point the only problems are the unexpected ones. I've tried the system personally on Gmail, Teknik.io, cock.li and Yandex, while others have tried other providers. If your domain is in the `domains.csv` configuration should be 100% automatic and error free, if it's not in the file, the prompt will simply ask you for server information which you can look up yourself; the script knows exactly where to put everything and will configure everything else!
+Yes! At this point, the only problems are the unexpected ones. Please try it, and if you do run into problems, email me at [luke@lukesmith.xyz](mailto:luke@lukesmith.xyz)! I've tried the system personally on Gmail, Teknik.io, cock.li and Yandex, while others have tried other providers. If your domain is in the `domains.csv` configuration should be 100% automatic and error free, if it's not in the file, the prompt will simply ask you for server information which you can look up yourself; the script knows exactly where to put everything and will configure everything else!
 
 The only email provider which I think will *not* work (and will never work) is Proton Mail, but that's only because they require encryption through their web client IIRC.
 

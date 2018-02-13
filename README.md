@@ -4,12 +4,7 @@ Mutt is one of the most rewarding programs one can use, but can be a pain in the
 
 ## User interface
 
-* The main scripts `mutt-wizard.sh` has options to add new email accounts, or remove unwanted ones. For email providers listed in the `autoconf/domains.csv` file, this will be 100% automatic and for other email addresses it will simply prompt you for you email's SMTP and IMAP server settings (which you can easily look up).
-* The scripts will take that information and autogenerate mutt and offlineimap config files so you don't have to worry about them.
-* It also creates a email-specific settings for your muttrc, which are outputed in the `accounts/` directory in your mutt directory.
-	* The script will automatically handle multiple accounts. Each will be assigned a number 1-9, and you can jump from one to another in mutt by pressing `i` and then that number. You can change the numbers by manually editing the macros in `personal.muttrc`.
-	* For most accounts, you can jump to sent mail with `gs`, drafts with `gd` and the inbox with `gi`. I haven't worked this out for every domain.
-* It uses your gpg encryption to store your encrypted password in `credentials/`, where there are also two scripts that allow mutt and offlineIMAP to decrypt the passwords when needed.
+The main script can take an email and autodetect its server settings, generating a muttrc and offlineimaprc profile automatically. I gives you options for add accounts to the system, detecting them, removing them and autodetecting mailboxes and generating shortcut keys in mutt.
 
 ### Will it work on my email? (95% yes)
 
@@ -23,7 +18,7 @@ The email accounts that *won't* work with the script would include Proton Mail a
 
 ## Installation and Dependencies
 
-dialog, neomutt and offlineimap should be installed. The contents of this repo should go directly in `~/.config/mutt/` and run from there. You also need to have a GPG public/private key pair for the wizard to automatically store your passwords. Otherwise you'll have to store them insecurely in plaintext files without the help of the wizard. As a note, if you uuse a distribution like Void that uses GPG2 and not GPG, you should symlink /usr/bin/gpg to /usr/bin/gpg2 or wherever the GPG2 binary lives.
+dialog, neomutt and offlineimap should be installed. The contents of this repo should go directly in `~/.config/mutt/` and run from there. You also need to have a GPG public/private key pair for the wizard to automatically store your passwords. Otherwise you'll have to store them insecurely in plaintext files without the help of the wizard.
 
 Just run `mutt-wizard.sh` for all the options.
 

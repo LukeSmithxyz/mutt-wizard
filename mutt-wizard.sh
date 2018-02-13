@@ -132,7 +132,7 @@ addAccount \
 addAccount() {
 	# First, adding the encrypted password.
 	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the password for the \"$title\" account." 10 60 2> /tmp/$title
-	gpg -r $gpgemail --encrypt /tmp/$title || (dialog --title "GPG decryption failed." --msgbox "GPG decryption failed. This is either because you do not have a GPG key pair or because your distro uses GPG2 and you thus need to symlink /usr/bin/gpg to /usr/bin/gpg2." 7 60 && break)
+	gpg2 -r $gpgemail --encrypt /tmp/$title || (dialog --title "GPG decryption failed." --msgbox "GPG decryption failed. This is either because you do not have a GPG key pair or because your distro uses GPG1 and you thus need to symlink /usr/bin/gpg2 to /usr/bin/gpg." 7 60 && break)
 	shred -u /tmp/$title
 	mv /tmp/$title.gpg ~/.config/mutt/credentials/
 

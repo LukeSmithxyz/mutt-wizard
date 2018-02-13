@@ -24,48 +24,19 @@ color attachment    white           default
 color search        brightmagenta   default
 color status        brightyellow    black
 color indicator     brightblack     yellow
-color tree          yellow          default                                     # arrow in threads
 mono  bold          bold
 mono  underline     underline
 mono  indicator     reverse
 mono  error         bold
-color index         red             default         "~A"                        # all messages
-color index         brightred       default         "~E"                        # expired messages
-color index         blue            default         "~N"                        # new messages
-color index         blue            default         "~O"                        # old messages
-color index         brightmagenta   default         "~Q"                        # messages that have been replied to
-color index         brightgreen     default         "~R"                        # read messages
-color index         blue            default         "~U"                        # unread messages
-color index         blue            default         "~U~$"                      # unread, unreferenced messages
-color index         brightyellow    default         "~v"                        # messages part of a collapsed thread
-color index         brightyellow    default         "~P"                        # messages from me
-color index         cyan            default         "~p!~F"                     # messages to me
-color index         cyan            default         "~N~p!~F"                   # new messages to me
-color index         cyan            default         "~U~p!~F"                   # unread messages to me
-color index         brightgreen     default         "~R~p!~F"                   # messages to me
-color index         red             default         "~F"                        # flagged messages
-color index         red             default         "~F~p"                      # flagged messages to me
-color index         red             default         "~N~F"                      # new flagged messages
-color index         red             default         "~N~F~p"                    # new flagged messages to me
-color index         red             default         "~U~F~p"                    # new flagged messages to me
-color index         black           red             "~D"                        # deleted messages
-color index         brightcyan      default         "~v~(!~N)"                  # collapsed thread with no unread
-color index         yellow          default         "~v~(~N)"                   # collapsed thread with some unread
-color index         green           default         "~N~v~(~N)"                 # collapsed thread with unread parent
-color index         red             black           "~v~(~F)!~N"                # collapsed thread with flagged, no unread
-color index         yellow          black           "~v~(~F~N)"                 # collapsed thread with some unread & flagged
-color index         green           black           "~N~v~(~F~N)"               # collapsed thread with unread parent & flagged
-color index         green           black           "~N~v~(~F)"                 # collapsed thread with unread parent, no unread inside, but some flagged
-color index         cyan            black           "~v~(~p)"                   # collapsed thread with unread parent, no unread inside, some to me directly
-color index         yellow          red             "~v~(~D)"                   # thread with deleted (doesn't differentiate between all or partial)
 color hdrdefault    brightgreen     default
 color header        brightyellow    default         "^(From)"
 color header        blue            default         "^(Subject)"
-color quoted        blue            default
-color quoted1       cyan            default
-color quoted2       yellow          default
-color quoted3       red             default
-color quoted4       brightred       default
+color quoted        green            default
+color quoted1       blue            default
+color quoted2       cyan          default
+color quoted3       yellow             default
+color quoted4       red       default
+color quoted5       brightred       default
 color signature     brightgreen     default
 color bold          black           default
 color underline     black           default

@@ -8,13 +8,9 @@ The main script can take an email and autodetect its server settings, generating
 
 ### Will it work on my email? (95% yes)
 
-Gmail accounts, cock.li accounts, teknik.io, mail.com accounts should work 100% already. Still, email me at [luke@lukesmith.xyz](mailto:luke@lukesmith.xyz) if you run into something.
+Yes! At this point the only problems are the unexpected ones. I've tried the system personally on Gmail, Teknik.io, cock.li and Yandex, while others have tried other providers. If your domain is in the `domains.csv` configuration should be 100% automatic and error free, if it's not in the file, the prompt will simply ask you for server information which you can look up yourself; the script knows exactly where to put everything and will configure everything else!
 
-Accounts with Yandex, Yahoo, AOL, Outlook, Office 365 and iCloud should work, but the hotkeys to jump from inbox to sent to drafts, etc. won't be automatic because I don't yet know the folder structures of these accounts. If you try the script on these accounts, please check what the structure looks like in `~/.mail/<account name>/` and tell me what you see and I can automate this!
-
-For all other accounts, the wizard will prompt you to put in your SMTP and IMAP server information; obviously it will know exactly what to do with everything, you just have to give it the info.
-
-The email accounts that *won't* work with the script would include Proton Mail accounts (which I believe are totally encrypted and only available by the web client) and possibly some University emails. In the latter case, you may just have to search your university's website for the specifics. I'll just say I redirect my university email to another account to avoid this problem and others.
+The only email provider which I think will *not* work (and will never work) is Proton Mail, but that's only because they require encryption through their web client IIRC.
 
 ## Installation and Dependencies
 
@@ -24,9 +20,11 @@ Just run `mutt-wizard.sh` for all the options.
 
 Once you successfully run the script, you should be able to simply run `offlineimap` to start your mail sync (which will be big at first). Opening `neomutt`, you should see your mail.
 
+Note that once you run `offlineimap`, you'll want to reopen the script and select the option to autodetect mailboxes to put the finishing touches and to let you switch from mailbox-to-mailbox in just two key presses.
+
 ### "Wait? The script asks for my passwords?"
 
-Look at the code. The script takes the passwords you give it, encrypts them immediately with your own GPG key, and shreds the leftovers. Nothing malicious; it's all there. If it makes you comfortable you can even run the script offline at first.
+Look at the code. The script takes the passwords you give it, encrypts them immediately with your own GPG key, and shreds the leftovers. Nothing malicious; it's all there! If it makes you comfortable you can even run the script offline at first.
 
 ## You can help!
 
@@ -40,4 +38,5 @@ Mail is stored in `~/.mail`. mutt configs and caches for each account are in `~/
 
 ## Todo
 
-* Expand the list of server information in `domains.csv`, including adding spoolfiles/records/postponed folders for each account.
+* Expand the list of server information in `domains.csv`.
+* Add an option to update passwords.

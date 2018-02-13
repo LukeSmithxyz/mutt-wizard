@@ -21,6 +21,3 @@ set ssl_force_tls = yes
 
 bind index,pager g noop
 bind index gg first-entry
-macro index,pager gi "<change-folder>=$spoolfile<enter>" "Go to inbox"
-macro index,pager gs "<change-folder>=$record<enter>" "Go to sent"
-macro index,pager gd "<change-folder>=$postponed<enter>" "Go to drafts"

@@ -1,9 +1,11 @@
 # vim: filetype=neomuttrc
 # This is the general mutt config which has the settings that all accounts use.
-source etc/muttcol
 bind index,pager i noop
 bind index,pager g noop
+bind index \Cf noop
+source etc/muttcol
 source personal.muttrc
+source etc/aliases
 set sleep_time = 0
 set sort = 'reverse-date'
 set editor = vim
@@ -19,18 +21,7 @@ auto_view text/html
 auto_view application/pdf
 alternative_order text/plain text/enriched text/html
 
-mono bold bold
-mono underline underline
-mono indicator reverse
-color index yellow default '.*'
-color index_author red default '.*'
-color index_number blue default
-color index_subject cyan default '.s'
-color index_size green default
-color normal default default
-color body brightred default [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
-color body brightblue default (https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+
-
+# General remappings
 bind editor <space> noop
 bind index G last-entry
 bind index gg first-entry
@@ -42,6 +33,23 @@ bind index F search
 bind index,pager R group-reply
 macro index,pager S '<sync-mailbox>
 macro index,pager \Cu |urlview\n
-bind index \Cf noop
+
+# Notmuch searching
 macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" "show only messages matching a notmuch pattern"
 macro index A "<limit>all\n" "show all messages (undo limit)"
+
+# Sidebar mappings
+set sidebar_visible = yes
+set sidebar_width = 20
+set sidebar_short_path = yes
+set sidebar_next_new_wrap = yes
+set mail_check_stats
+set sidebar_format = '%B%?F? [%F]?%* %?N?%N/?%S'
+bind index,pager \Ck sidebar-prev
+bind index,pager \Cj sidebar-next
+bind index,pager \Co sidebar-open
+bind index,pager <F3> sidebar-page-up
+bind index,pager <F4> sidebar-page-down
+bind index,pager \Cp sidebar-prev-new
+bind index,pager \Cn sidebar-next-new
+bind index,pager B sidebar-toggle-visible

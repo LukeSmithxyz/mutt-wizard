@@ -3,4 +3,3 @@
 accounts/
 *.pyc
 personal.muttrc
-etc/aliases

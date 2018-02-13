@@ -1,5 +1,7 @@
 # Luke's mutt Wizard for automatic Neomutt and OfflineIMAP configuration!
 
+![mutt wizard preview](etc/mw.png)
+
 Mutt is one of the most rewarding programs one can use, but can be a pain in the ass to configure. Since my job is making power-user tools available for the masses I want to create a tool that automates most of mutt configuration so that users can simply give their email address and get a /comfy/ setup. At that, I don't just want a mutt wizard, but an offlineIMAP wizard, so users can easily access their mail offline as well, and a wizard that makes it easy to store passwords securely using gpg.
 
 ## User interface

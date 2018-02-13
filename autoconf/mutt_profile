@@ -10,11 +10,6 @@ set message_cachedir = ~/.config/mutt/accounts/$title/cache/bodies
 set certificate_file = ~/.config/mutt/accounts/$title/certificates
 source "~/.config/mutt/credentials/getmuttpass $title |"
 
-set spoolfile = "+$spoolfile"
-set record = "+$record"
-set postponed = "+$postponed"
-
-
 set mbox_type = Maildir
 set ssl_starttls = yes
 set ssl_force_tls = yes

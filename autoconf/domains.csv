@@ -1,5 +1,5 @@
 ADDRESS,IMAP,imap port,SMTP,smtp port
-yahoo.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,465/587
+yahoo.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,587
 mail.com,imap.mail.com,995,smtp.mail.com,587
 aol.com,imap.aol.com,993,smtp.aol.com,465
 email.com,imap.mail.com,995,smtp.mail.com,587

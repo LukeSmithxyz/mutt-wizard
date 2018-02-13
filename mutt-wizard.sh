@@ -92,7 +92,7 @@ if [ -z "$serverinfo" ];
 		manual
 	else
 # Read in server data as variables
-IFS=, read service imap iport smtp sport spoolfile postponed record <<EOF
+IFS=, read service imap iport smtp sport <<EOF
 $serverinfo
 EOF
 fi
@@ -116,9 +116,6 @@ replacement="
 	s/\$iport/$iport/g;
 	s/\$smtp/$smtp/g;
 	s/\$sport/$sport/g;
-	s/\$spoolfile/$spoolfile/g;
-	s/\$postponed/$postponed/g;
-	s/\$record/$record/g;
 	s/\$type/$type/g;
 	/$delet/d"
 

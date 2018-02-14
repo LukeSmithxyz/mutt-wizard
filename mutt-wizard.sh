@@ -66,7 +66,7 @@ getAccounts() { \
 # Yields a menu of available accounts.
 inventory() { \
 	getAccounts
-	choices=$(dialog --separate-output --checklist "Choose an email account." 15 40 16 "${accounts[@]}" 2>&1 >/dev/tty)
+	choices=$(dialog --separate-output --checklist "Select all desired email accounts with <SPACE>." 15 40 16 "${accounts[@]}" 2>&1 >/dev/tty)
 
 	if [ -z "$choices" ];
 		then

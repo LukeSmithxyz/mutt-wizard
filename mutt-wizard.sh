@@ -40,13 +40,13 @@ detectMailboxes() { \
 	sed -i "/^mailboxes\|^set spoolfile\|^set record\|^set postponed/d" "$muttdir"accounts/$1.muttrc
 	echo mailboxes $oneline >> "$muttdir"accounts/$1.muttrc
 	sed -i "/^macro index,pager g/d" "$muttdir"accounts/$1.muttrc
-	grep -vi /tmp/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail\|sms" | sort -n | sed 1q | formatShortcut i inbox $1
+	grep -vi /tmp/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail\|sms\|call" | sort -n | sed 1q | formatShortcut i inbox $1
 	grep -i /tmp/$1_boxes -e sent | formatShortcut s sent $1
 	grep -i /tmp/$1_boxes -e draft | formatShortcut d drafts $1
 	grep -i /tmp/$1_boxes -e trash | formatShortcut t trash $1
 	grep -i /tmp/$1_boxes -e spam | formatShortcut S spam $1
 	grep -i /tmp/$1_boxes -e archive | formatShortcut a archive $1
-	spoolfile=$(grep -vi /tmp/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail" | sort -n | sed 1q | sed -e 's/=/+/g')
+	spoolfile=$(grep -vi /tmp/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail\|sms\|call" | sort -n | sed 1q | sed -e 's/=/+/g')
 	record=$(grep -i /tmp/$1_boxes -e sent | sed -e 's/=/+/g')
 	postponed=$(grep -i /tmp/$1_boxes -e draft | sed -e 's/=/+/g')
 	echo "set spoolfile = \"$spoolfile\"" >> "$muttdir"accounts/$1.muttrc

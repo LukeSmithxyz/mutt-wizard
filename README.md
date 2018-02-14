@@ -24,11 +24,13 @@ The only email provider which I think will *not* work (and will never work) is P
 
 dialog, neomutt and offlineimap should be installed. The contents of this repo should go directly in `~/.config/mutt/` and run from there. You also need to have a GPG public/private key pair for the wizard to automatically store your passwords. Otherwise you'll have to store them insecurely in plaintext files without the help of the wizard.
 
-Just run `mutt-wizard.sh` for all the options.
+Just run `mutt-wizard.sh` for all the options, to install an account:
 
-Once you successfully run the script, you should be able to simply run `offlineimap` to start your mail sync (which will be big at first). Opening `neomutt`, you should see your mail.
+* First, select the "Add an account" option and give the script your account information.
+* Second, in a separate terminal, start your mail sync my running `offlineimap` or `offlineimap -a <your account name>`. This will start downloading all your mail for offline access.
+* Third, once your mailbox has started to download, reenter the script and select the "Auto-detect mailboxes" open. This will finalize the install and let you open up mutt to see your mail.
 
-Note that once you run `offlineimap`, you'll want to reopen the script and select the option to autodetect mailboxes to put the finishing touches and to let you switch from mailbox-to-mailbox in just two key presses.
+Whenever you want to check for mail, just run the `offlineimap` command again.
 
 ### "Wait? The script asks for my passwords?"
 

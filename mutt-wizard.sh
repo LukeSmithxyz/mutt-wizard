@@ -186,7 +186,7 @@ choice=$(dialog --title "Luke's mutt/offlineIMAP wizard" \
 	4 "Remove an email account." \
 	5 "Remove all email accounts." \
 	6 "Exit this wizard." \
-	 3>&1 1>&2 2>&3 3>&1 ) || clear && exit
+	 3>&1 1>&2 2>&3 3>&1 )
 
 case $choice in
 0) dialog --title "Accounts detected" --msgbox "The following accounts have been detected:

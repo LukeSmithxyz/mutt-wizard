@@ -181,7 +181,7 @@ wipe () { rm $HOME/.offlineimaprc
 
 while : ;
 	do
-choice=$(dialog --title "Luke's mutt/offlineIMAP wizard" \
+choice=$(dialog --title "Luke's mutt/offlineIMAP wizard" --nocancel \
 	--menu "What would you like to do?" 14 45 7 \
 	0 "List all email accounts configured." \
 	1 "Add an email account." \

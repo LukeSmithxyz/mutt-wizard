@@ -20,6 +20,8 @@ Yes! At this point, the only problems are the unexpected ones. Please try it, an
 
 The only email provider which I think will *not* work (and will never work) is Proton Mail, but that's only because they require encryption through their web client IIRC.
 
+Note also that Gmail and some providers require you to enable sign-ins from third-party (or as they call it "less secure") applications to be able to load mail with mutt and offlineimap. Be sure to enable that!
+
 ## Installation and Dependencies
 
 dialog, neomutt and offlineimap should be installed. The contents of this repo should go directly in `~/.config/mutt/` and run from there. You also need to have a GPG public/private key pair for the wizard to automatically store your passwords. Otherwise you'll have to store them insecurely in plaintext files without the help of the wizard.

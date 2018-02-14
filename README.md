@@ -47,4 +47,3 @@ Mail is stored in `~/.mail`. mutt configs and caches for each account are in `~/
 ## Todo
 
 * Expand the list of server information in `domains.csv`.
-* Add an option to update passwords.

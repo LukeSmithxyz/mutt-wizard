@@ -102,3 +102,4 @@ ya.ru,imap.yandex.com,993,smtp.yandex.com,465
 narod.ru,imap.yandex.com,993,smtp.yandex.com,465
 muny.us,mail.muny.us,993,mail.muny.us,465
 billycarlyle.uk,mail.muny.us,993,mail.muny.us,465
+sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587

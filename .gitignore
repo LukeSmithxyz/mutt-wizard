@@ -3,3 +3,4 @@
 accounts/
 *.pyc
 personal.muttrc
+thunderbird/

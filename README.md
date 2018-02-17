@@ -4,21 +4,23 @@
 
 Mutt is one of the most rewarding programs one can use, but can be a pain in the ass to configure. Since my job is making power-user tools available for the masses I want to create a tool that automates most of mutt configuration so that users can simply give their email address and get a /comfy/ setup. At that, I don't just want a mutt wizard, but an offlineIMAP wizard, so users can easily access their mail offline as well, and a wizard that makes it easy to store passwords securely using gpg.
 
+The mutt-wizard is all of this in a simple ncurses menu. It's really just a little bash script, but one that can save countless people thousands of combined manhours of frustratingly trying to get all the moving pieces working together.
+
 ## User interface
 
-The main script can take an email and autodetect its server settings, generating a muttrc and offlineimaprc profile automatically. I gives you options for add accounts to the system, detecting them, removing them and autodetecting mailboxes and generating shortcut keys in mutt. You get:
+The system takes an email and autodetect its server settings, generating a muttrc and offlineimaprc profile automatically. If it can't do so, it simply prompts you for these (which you can easily look up) and will put them all in the right places. You get:
 
 + Automatic configuration of mutt and offlineimap
 + Automatic encryption and safe storage of passwords which are used my mutt and offlineimap when necessary
 + Multiple account management in mutt: jump from account to account with the `i` prefix in mutt: `i1`: first email account, `i5`: fifth, etc.
 + Easy movement to mail folders in mutt: `gi`: go to inbox, `gs` to sent mail, `ga` to archive, `gS` to spam, `gd` to drafts, etc.
-+ Some sensible default controls and colors. This system is going to be integrated into my [public auto-rice script](https://larbs.xyz) so I want it to look pretty and be usable out the box.
++ Some default controls and colors. This system is going to be integrated into my [public auto-rice script](https://larbs.xyz) so I want it to look pretty and be usable out the box.
 
 ### Will it work on my email? (95% yes)
 
-Yes! At this point, the only problems are the unexpected ones. Please try it, and if you do run into problems, email me at [luke@lukesmith.xyz](mailto:luke@lukesmith.xyz)! I've tried the system personally on Gmail, Teknik.io, cock.li and Yandex, while others have tried other providers. If your domain is in the `domains.csv` configuration should be 100% automatic and error free, if it's not in the file, the prompt will simply ask you for server information which you can look up yourself; the script knows exactly where to put everything and will configure everything else!
+Yes! At this point, the only problems are the unexpected ones. Please try it, and if you do run into problems, email me at [luke@lukesmith.xyz](mailto:luke@lukesmith.xyz)! I've tried the system personally on Gmail, Teknik.io, cock.li and Yandex, while others have tried other providers.
 
-The only email provider which I think will *not* work (and will never work) is Proton Mail, but that's only because they require encryption through their web client IIRC.
+One email provider which I think will *not* work (and will never work) is Proton Mail, but that's only because they require encryption through their web client IIRC.
 
 Note also that Gmail and some providers require you to enable sign-ins from third-party (or as they call it "less secure") applications to be able to load mail with mutt and offlineimap. Be sure to enable that!
 
@@ -50,4 +52,4 @@ Mail is stored in `~/.mail`. mutt configs and caches for each account are in `~/
 
 ## Todo
 
-* Expand the list of server information in `domains.csv`.
+* Expand the list of server information in `domains.csv`, possibly porting the Thunderbird autoconfigure settings.

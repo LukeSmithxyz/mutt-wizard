@@ -161,16 +161,23 @@ addAccount() {
 
 	# Makes account default if there is no default account.
 	grep "$muttdir"personal.muttrc -e "^source .*accounts.*" >/dev/null && echo there || \
-	echo "source ${muttdir}accounts/$title.muttrc" >> "$muttdir"personal.muttrc ;}
+	echo "source ${muttdir}accounts/$title.muttrc" >> "$muttdir"personal.muttrc
+
+	dialog --title "Finalizing your account." --msgbox "The account \"$title\" has been added. Now to finalize installation, do the following:
+
+	1) Run offlineimap to start the sync. This will start your mail sync.
+	2) After or while running offlineimap, choose the \"autodetect mailboxes\" option, which will finalize your config files based on the directory structure of the downloaded mailbox.
+
+	After that, you will be able to open neomutt to your email account." 13 80 ;}
 
 # This is run when a user chooses to add an account.
-addChosen() { \
+chooseAdd() { \
 	mkdir -p "$muttdir"credentials/ "$muttdir"accounts/
 	gpgemail=$( dialog --title "Luke's mutt/offlineIMAP password wizard" --inputbox "Insert the email address with which you originally created your GPG key pair. This is NOT necessarily the email you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- )
 	addloop
 	while : ;
 	do
-		dialog --title "Luke's mutt/offlineIMAP password wizard" --yesno "Would you like to add another email account?" 10 60 || break
+		dialog --title "Luke's mutt/offlineIMAP password wizard" --yesno "Would you like to add another email account?" 5 60 || break
 		addloop
 	done ;}
 
@@ -196,7 +203,7 @@ case $choice in
 0) dialog --title "Accounts detected" --msgbox "The following accounts have been detected:
 $(grep ~/.offlineimaprc -e "^accounts =" | sed 's/accounts =//g')
 " 6 60;;
-1) addChosen;;
+1) chooseAdd;;
 2) detectWarning && chooseDetect ;;
 3) inventory && for i in $userchoices; do changePassword $i ; done;;
 4) inventory && for i in $userchoices; do removeAccount $i ; done;;

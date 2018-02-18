@@ -59,6 +59,12 @@ fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465
 firemail.cc,mail.cock.li,993,mail.cock.li,587
 getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
 gmail.com,imap.google.com,993,smtp.gmail.com,587
+gmx.com,imap.gmx.net,993,mail.gmx.net,587
+gmx.de,imap.gmx.net,993,mail.gmx.net,587
+gmx.eu,imap.gmx.net,993,mail.gmx.net,587
+gmx.info,imap.gmx.net,993,mail.gmx.net,587
+gmx.net,imap.gmx.net,993,mail.gmx.net,587
+gmx.org,imap.gmx.net,993,mail.gmx.net,587
 goat.si,mail.cock.li,993,mail.cock.li,587
 hitler.rocks,mail.cock.li,993,mail.cock.li,587
 horsefucker.org,mail.cock.li,993,mail.cock.li,587
@@ -107,3 +113,4 @@ yandex.kz,imap.yandex.com,993,smtp.yandex.com,465
 yandex.net,imap.yandex.com,993,smtp.yandex.com,465
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,465
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,465
+zoho.com,imap.zoho.com,993,smtp.zoho.com,465

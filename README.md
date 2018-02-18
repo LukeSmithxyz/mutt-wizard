@@ -11,7 +11,7 @@ The mutt-wizard is all of this in a simple ncurses menu. It's really just a litt
 The system takes an email and autodetect its server settings, generating a muttrc and offlineimaprc profile automatically. If it can't do so, it simply prompts you for these (which you can easily look up) and will put them all in the right places. You get:
 
 + Automatic configuration of mutt and offlineimap
-+ Automatic encryption and safe storage of passwords which are used my mutt and offlineimap when necessary
++ Automatic encryption and safe storage of passwords which are used by mutt and offlineimap when necessary
 + Multiple account management in mutt: jump from account to account with the `i` prefix in mutt: `i1`: first email account, `i5`: fifth, etc.
 + Easy movement to mail folders in mutt: `gi`: go to inbox, `gs` to sent mail, `ga` to archive, `gS` to spam, `gd` to drafts, etc.
 + Some default controls and colors. This system is going to be integrated into my [public auto-rice script](https://larbs.xyz) so I want it to look pretty and be usable out the box.
@@ -31,7 +31,7 @@ dialog, neomutt and offlineimap should be installed. The contents of this repo s
 Just run `mutt-wizard.sh` for all the options, to install an account:
 
 * First, select the "Add an account" option and give the script your account information.
-* Second, in a separate terminal, start your mail sync my running `offlineimap` or `offlineimap -a <your account name>`. This will start downloading all your mail for offline access.
+* Second, in a separate terminal, start your mail sync by running `offlineimap` or `offlineimap -a <your account name>`. This will start downloading all your mail for offline access.
 * Third, once your mailbox has started to download, reenter the script and select the "Auto-detect mailboxes" open. This will finalize the install and let you open up mutt to see your mail.
 
 Whenever you want to check for mail, just run the `offlineimap` command again.

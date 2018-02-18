@@ -5,7 +5,7 @@ remoterepository = $title-remote
 
 [Repository $title-remote]
 type = $type
-remoteuser = $fulladdr
+remoteuser = $login
 sslcacerfile = /etc/ssl/cets/ca-certificates.crt
 remotepasseval = mailpasswd("$title")
 remotehost = $imap

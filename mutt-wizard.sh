@@ -109,6 +109,7 @@ EOF
 fi
 realname=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Enter the full name you'd like to be identified by on this email account." 10 60 3>&1 1>&2 2>&3 3>&- )
 title=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Give a short, one-word name for this email account that will differentiate it from other email accounts." 10 60 3>&1 1>&2 2>&3 3>&- )
+login=$(dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Enter your login for the \"$title\" account.\n(If left empty, the full email address will be used instead.)" 10 60 3>&1 1>&2 2>&3 3>&- )
 # Sets the repo type and other variables for the sed regex.
 if [[ "$service" == "gmail.com" ]];
 	then
@@ -117,6 +118,10 @@ if [[ "$service" == "gmail.com" ]];
 	else
 		type="IMAP"
 		delet="Gmail]\/"
+fi
+if [[ -z "$login" ]];
+	then
+		login=$fulladdr
 fi
 # The replacements
 replacement="
@@ -128,8 +133,8 @@ replacement="
 	s/\$smtp/$smtp/g;
 	s/\$sport/$sport/g;
 	s/\$type/$type/g;
+	s/\$login/$login/g;
 	/$delet/d"
-
 # Gets the first unused shortcut number in the muttrc and puts it in $idnum.
 cat "$muttdir"personal.muttrc | grep i[0-9] | awk '{print $3}' | sed -e 's/i//g' > /tmp/mutt_used
 echo -e "1\n2\n3\n4\n5\n6\n7\n8\n9" > /tmp/mutt_all_possible

@@ -147,6 +147,7 @@ addAccount() {
 	# Creating the offlineimaprc if it doesn't exist already.
 	if [ ! -f ~/.offlineimaprc ]; then cp "$muttdir"autoconf/offlineimap_header ~/.offlineimaprc; fi
 	cat "$muttdir"autoconf/offlineimap_profile | sed -e "$replacement" >> ~/.offlineimaprc
+	mkdir -p ~/.mail/$title
 
 	# Add the mutt profile.
 	cat "$muttdir"autoconf/mutt_profile | sed -e "$replacement" > "$muttdir"accounts/$title.muttrc

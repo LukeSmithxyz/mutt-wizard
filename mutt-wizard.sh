@@ -2,6 +2,12 @@
 
 muttdir="$HOME/.config/mutt/"
 
+if [ $muttdir == "$(pwd)" ]
+then
+	echo "The contents of this repository should be placed inside .config/mutt"
+	pause
+fi
+
 changePassword() { \
 	gpgemail=$( dialog --title "Luke's mutt/offlineIMAP password wizard" --inputbox "Insert the email address with which you originally created your GPG key pair. This is NOT necessarily the email you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- )
 	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the new password for the \"$1\" account." 10 60 2> /tmp/$1

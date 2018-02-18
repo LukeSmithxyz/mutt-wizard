@@ -26,7 +26,11 @@ Note also that Gmail and some providers require you to enable sign-ins from thir
 
 ## Installation and Dependencies
 
-dialog, neomutt and offlineimap should be installed. The contents of this repo should go directly in `~/.config/mutt/` and run from there. You also need to have a GPG public/private key pair for the wizard to automatically store your passwords. Otherwise you'll have to store them insecurely in plaintext files without the help of the wizard.
+dialog, neomutt and offlineimap should be installed. You also need to have a GPG public/private key pair for the wizard to automatically store your passwords. Otherwise you'll have to store them insecurely in plaintext files without the help of the wizard. The whole repo should be cloned to `~/.config/mutt/`. (If you have a previous mutt folder, you'll want to back it up or delete it first.)
+
+```
+git clone https://github.com/LukeSmithxyz/mutt-wizard.git ~/.config/mutt
+```
 
 Just run `mutt-wizard.sh` for all the options, to install an account:
 

@@ -20,9 +20,11 @@ asia.com,imap.mail.com,995,smtp.mail.com,587
 asia.com,imap.mail.com,995,smtp.mail.com,587
 auctioneer.net,imap.mail.com,995,smtp.mail.com,587
 bartender.net,imap.mail.com,995,smtp.mail.com,587
+bguth.de,wp300.webpack.hosteurope.de,993,wp300.webpack.hosteurope.de,587
 bikerider.com,imap.mail.com,995,smtp.mail.com,587
 billycarlyle.uk,mail.muny.us,993,mail.muny.us,465
 birdlover.com,imap.mail.com,995,smtp.mail.com,587
+bjoernguthphotography.de,wp300.webpack.hosteurope.de,993,wp300.webpack.hosteurope.de,587
 brew-meister.com,imap.mail.com,995,smtp.mail.com,587
 cash4u.com,imap.mail.com,995,smtp.mail.com,587
 cheerful.com,imap.mail.com,995,smtp.mail.com,587
@@ -57,6 +59,7 @@ engineer.com,imap.mail.com,995,smtp.mail.com,587
 europe.com,imap.mail.com,995,smtp.mail.com,587
 fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465
 firemail.cc,mail.cock.li,993,mail.cock.li,587
+fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
 getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
 gmail.com,imap.google.com,993,smtp.gmail.com,587
 gmx.com,imap.gmx.net,993,mail.gmx.net,587
@@ -93,6 +96,7 @@ posteo.de,posteo.de,993,posteo.de,587
 rape.lol,mail.cock.li,993,mail.cock.li,587
 redchan.it,mail.cock.li,993,mail.cock.li,587
 runbox.com,mail.runbox.com,993,mail.runbox.com,587
+rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
 techie.com,imap.mail.com,995,smtp.mail.com,587
 teknik.io,mail.teknik.io,993,mail.teknik.io,587

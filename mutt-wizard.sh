@@ -49,8 +49,8 @@ detectMailboxes() { \
 	grep -i /tmp/$1_boxes -e spam | formatShortcut S spam $1
 	grep -i /tmp/$1_boxes -e archive | formatShortcut a archive $1
 	spoolfile=$(grep -vi /tmp/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail\|sms\|call" | sort -n | sed 1q | sed -e 's/=/+/g')
-	record=$(grep -i /tmp/$1_boxes -e sent | sed -e 's/=/+/g')
-	postponed=$(grep -i /tmp/$1_boxes -e draft | sed -e 's/=/+/g')
+	record=$(grep -i /tmp/$1_boxes -e sent | sed -e 's/=/+/g' | sed 1q)
+	postponed=$(grep -i /tmp/$1_boxes -e draft | sed -e 's/=/+/g' | sed 1q)
 	echo "set spoolfile = \"$spoolfile\"" >> "$muttdir"accounts/$1.muttrc
 	echo "set record = \"$record\"" >> "$muttdir"accounts/$1.muttrc
 	echo "set postponed = \"$postponed\"" >> "$muttdir"accounts/$1.muttrc ;}

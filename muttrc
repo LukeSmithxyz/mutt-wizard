@@ -4,7 +4,6 @@ bind index,pager i noop
 bind index,pager g noop
 bind index \Cf noop
 source etc/muttcol
-source personal.muttrc
 source etc/aliases
 set sleep_time = 0
 set sort = 'reverse-date'
@@ -53,3 +52,5 @@ bind index,pager <F4> sidebar-page-down
 bind index,pager \Cp sidebar-prev-new
 bind index,pager \Cn sidebar-next-new
 bind index,pager B sidebar-toggle-visible
+
+source personal.muttrc

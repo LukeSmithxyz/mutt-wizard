@@ -149,6 +149,9 @@ addAccount() {
 	shred -u /tmp/$title
 	mv /tmp/$title.gpg ~/.config/mutt/credentials/
 
+	# Adding directory structure for cache.
+	mkdir -p "$muttdir"accounts/$title/cache/bodies
+
 	# Creating the offlineimaprc if it doesn't exist already.
 	if [ ! -f ~/.offlineimaprc ]; then cp "$muttdir"autoconf/offlineimap_header ~/.offlineimaprc; fi
 	cat "$muttdir"autoconf/offlineimap_profile | sed -e "$replacement" >> ~/.offlineimaprc
@@ -158,9 +161,6 @@ addAccount() {
 	cat "$muttdir"autoconf/mutt_profile | sed -e "$replacement" > "$muttdir"accounts/$title.muttrc
 	# Add a numbered shortcut in the muttrc
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source "$muttdir"accounts/$title.muttrc<enter><change-folder>!<enter>'" >> "$muttdir"personal.muttrc
-
-	# Adding directory structure for cache.
-	mkdir -p "$muttdir"accounts/$title/cache/bodies
 
 	# Add to offlineimaprc sync list.
 	sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =$/accounts = $title/g" ~/.offlineimaprc

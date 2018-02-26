@@ -36,9 +36,20 @@ formatShortcut() { \
 	echo "macro index,pager g$1 \"<change-folder>$data<enter>\" \"Go to $2.\"" >> "$muttdir"accounts/$3.muttrc
 	done ;}
 
+gen_delim() { \
+	delim="="
+	for i in `seq $(( $1 - 1 ))`
+	do
+		delim="$delim-"
+	done
+	echo $delim ;}
+
 detectMailboxes() { \
 	find ~/.mail/$1 -maxdepth 1 -mindepth 1 -type d | sed -e "s/.*\///g;s/^/=/g" > /tmp/$1_boxes
+	sidebar_width=$(sed -n -e '/^set sidebar_width/p' "$muttdir"/muttrc | awk -F'=' '{print $2}')
+	delim=$(gen_delim $sidebar_width)
 	oneline=$(cat /tmp/$1_boxes | tr "\n" " ")
+	oneline="=$1 $delim $oneline"
 	sed -i "/^mailboxes\|^set spoolfile\|^set record\|^set postponed/d" "$muttdir"accounts/$1.muttrc
 	echo mailboxes $oneline >> "$muttdir"accounts/$1.muttrc
 	sed -i "/^macro index,pager g/d" "$muttdir"accounts/$1.muttrc

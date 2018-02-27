@@ -16,6 +16,7 @@ set date_format="%m/%d %I:%M"
 set index_format="%2C %Z %D %-15.15F %s (%-4.4c)"
 set markers = no
 set mark_old = no
+set mime_forward = yes
 auto_view text/html
 auto_view application/pdf
 alternative_order text/plain text/enriched text/html

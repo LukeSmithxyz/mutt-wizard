@@ -26,6 +26,12 @@ alternative_order text/plain text/enriched text/html
 bind editor <space> noop
 bind index G last-entry
 bind index gg first-entry
+bind pager j next-line
+bind pager k previous-line
+bind attach,index,pager \CD next-page
+bind attach,index,pager \CU previous-page
+bind pager gg top
+bind pager G bottom
 bind index d half-down
 bind index u half-up
 bind index D delete-message

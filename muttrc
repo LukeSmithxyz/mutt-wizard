@@ -14,6 +14,7 @@ set mail_check = "10"
 set mailcap_path = ~/.config/mutt/etc/mailcap
 set date_format="%m/%d %I:%M"
 set index_format="%2C %Z %?X?A& ? %D %-15.15F %s (%-4.4c)"
+set forward_format = "Fwd: %s"
 set markers = no
 set mark_old = no
 set mime_forward = yes

@@ -14,6 +14,7 @@ set mbox_type = Maildir
 set ssl_starttls = yes
 set ssl_force_tls = yes
 
+bind index,pager gg noop
 bind index,pager g noop
 bind index gg first-entry
 unmailboxes *

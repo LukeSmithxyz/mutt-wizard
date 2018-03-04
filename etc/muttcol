@@ -11,6 +11,12 @@ color index brightyellow black "~N"
 color index_author brightred black "~N"
 color index_subject brightcyan black "~N"
 
+# Header colors:
+color header blue default ".*"
+color header brightmagenta default "^(From)"
+color header brightcyan default "^(Subject)"
+color header brightwhite default "^(CC|BCC)"
+
 mono bold bold
 mono underline underline
 mono indicator reverse
@@ -30,8 +36,6 @@ color attachment white default
 color search brightmagenta default
 color status brightyellow black
 color hdrdefault brightgreen default
-color header brightyellow default "^(From)"
-color header blue default "^(Subject)"
 color quoted green default
 color quoted1 blue default
 color quoted2 cyan default

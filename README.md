@@ -15,6 +15,7 @@ The system takes an email and autodetect its server settings, generating a muttr
 + Multiple account management in mutt: jump from account to account with the `i` prefix in mutt: `i1`: first email account, `i5`: fifth, etc.
 + Easy movement to mail folders in mutt: `gi`: go to inbox, `gs` to sent mail, `ga` to archive, `gS` to spam, `gd` to drafts, etc.
 + Some default controls and colors. This system is going to be integrated into my [public auto-rice script](https://larbs.xyz) so I want it to look pretty and be usable out the box.
++ An optional autosync script that will smartly run offlineimap when connected to the internet at what interval you want and will notify you with a ding when new mail arrives.
 
 ### Will it work on my email? (95% yes)
 
@@ -50,6 +51,8 @@ The automatically deployed configs will look for certain programs for certain ex
 + `mupdf` -- for viewing attached pdfs (`v` to view attachments, then select .pdf)
 + `notmuch` -- for mail searching and indexing set to `ctrl-f`. Be sure to run `notmuch setup`. Remember your mail is in `~/.mail/` when you configure notmuch.
 + `w3m` and/or `w3mimg` -- for viewing images. Like .pdfs, view in the attachments menu.
++ A cron manager if you want the autosync feature.
++ `mpv` if you want the autosync feature to notify you with a ding on new mail.
 
 ### "Wait? The script asks for my passwords?"
 

@@ -11,11 +11,11 @@
 ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` >/dev/null || exit
 
 # Get current number of new mail, then begin sync.
-ori=$(find ~/.mail -wholename '*/new/*' | grep /new/ | grep -vi "spam\|trash\|junk" | wc -l)
+ori=$(find ~/.mail -wholename '*/new/*' | grep -vi "spam\|trash\|junk" | wc -l)
 offlineimap -o
 
-# Output new new mail count.
-new=$(find ~/.mail -wholename '*/new/*' | grep /new/ | grep -vi "spam\|trash\|junk" | wc -l)
+# Recount new mail.
+new=$(find ~/.mail -wholename '*/new/*' | grep -vi "spam\|trash\|junk" | wc -l)
 
 # If new mail has grown, play a notification.
 if [ "$new" -gt "$ori" ]; then

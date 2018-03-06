@@ -9,7 +9,7 @@ remoteuser = $login
 sslcacerfile = /etc/ssl/cets/ca-certificates.crt
 remotepasseval = mailpasswd("$title")
 remotehost = $imap
-port = $iport
+remoteport = $iport
 folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 

@@ -4,6 +4,7 @@ localrepository = $title-local
 remoterepository = $title-remote
 
 [Repository $title-remote]
+auth_mechanisms = LOGIN
 type = $type
 remoteuser = $login
 sslcacerfile = /etc/ssl/cets/ca-certificates.crt

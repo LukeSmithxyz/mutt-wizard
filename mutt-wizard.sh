@@ -183,7 +183,7 @@ addAccount() {
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source "$muttdir"accounts/$title.muttrc<enter><change-folder>!<enter>'" >> "$muttdir"personal.muttrc
 
 	# Add to offlineimaprc sync list.
-	sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =$/accounts = $title/g" ~/.offlineimaprc
+	sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =\s*$/accounts = $title/g" ~/.offlineimaprc
 
 	# Makes account default if there is no default account.
 	grep "$muttdir"personal.muttrc -e "^source .*accounts.*" >/dev/null && echo there || \

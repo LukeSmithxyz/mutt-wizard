@@ -7,8 +7,13 @@
 #
 # I have this run as a cronjob every 5 minutes.
 
-# Check for internet connection. Exit script if none.
-ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` >/dev/null || exit
+# Check for internet connection. Exit script if none. (timeout in mac is `-t`)
+if [ "$(uname)" == "Darwin" ]
+then
+	ping -q -t 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` >/dev/null || exit
+else
+	ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` >/dev/null || exit
+fi
 
 # Get current number of new mail, then begin sync.
 ori=$(find ~/.mail -wholename '*/new/*' | grep -vi "spam\|trash\|junk" | wc -l)

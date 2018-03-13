@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [[ "$(uname)" == "Darwin" ]]
+then
+	os=".macos"
+else
+	os=""
+fi
+
 muttdir="$HOME/.config/mutt/"
 
 chooseSync() { (crontab -l && testSync) || dialog --msgbox "No cronjob manager detected. Please install one and return to enable automatic mailsyncing" 10 60 ;}
@@ -173,8 +180,8 @@ addAccount() {
 	mkdir -p "$muttdir"accounts/$title/cache/bodies
 
 	# Creating the offlineimaprc if it doesn't exist already.
-	if [ ! -f ~/.offlineimaprc ]; then cp "$muttdir"autoconf/offlineimap_header ~/.offlineimaprc; fi
-	cat "$muttdir"autoconf/offlineimap_profile | sed -e "$replacement" >> ~/.offlineimaprc
+	if [ ! -f ~/.offlineimaprc ]; then cp "$muttdir"autoconf/offlineimap_header"$os" ~/.offlineimaprc; fi
+	cat "$muttdir"autoconf/offlineimap_profile"$os" | sed -e "$replacement" >> ~/.offlineimaprc
 	mkdir -p ~/.mail/$title
 
 	# Add the mutt profile.
@@ -183,7 +190,7 @@ addAccount() {
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source "$muttdir"accounts/$title.muttrc<enter><change-folder>!<enter>'" >> "$muttdir"personal.muttrc
 
 	# Add to offlineimaprc sync list.
-	sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =\s*$/accounts = $title/g" ~/.offlineimaprc
+	sed -i.bu "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =\s*$/accounts = $title/g" ~/.offlineimaprc && rm ~/.offlineimaprc.bu
 
 	# Makes account default if there is no default account.
 	grep "$muttdir"personal.muttrc -e "^source .*accounts.*" >/dev/null && echo there || \

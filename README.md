@@ -27,6 +27,8 @@ Note also that Gmail and some providers require you to enable sign-ins from thir
 
 ## Installation and Dependencies
 
+> **MacOS prerequisites** - Install `iproute2mac` and `mpv` ( brew install iproute2mac mpv )
+
 `dialog`, `neomutt` and `offlineimap` should be installed. You also need to have a GPG public/private key pair for the wizard to automatically store your passwords. The whole repo should be cloned to `~/.config/mutt/`. (If you have a previous mutt folder, you'll want to back it up or delete it first.)
 
 ```

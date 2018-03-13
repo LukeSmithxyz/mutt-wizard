@@ -1,0 +1,6 @@
+[general]
+accounts =
+starttls = yes
+ssl = true
+pythonfile = ~/.config/mutt/credentials/imappwd.py
+

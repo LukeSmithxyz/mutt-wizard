@@ -7,7 +7,7 @@ source etc/muttcol
 source etc/aliases
 set sleep_time = 0
 set sort = 'reverse-date'
-set editor = vim
+set editor = $EDITOR
 #set copy = no
 set timeout = "5"
 set mail_check = "10"

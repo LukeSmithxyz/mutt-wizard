@@ -10,8 +10,8 @@ The mutt-wizard is all of this in a simple ncurses menu. It's really just a litt
 
 The system takes an email and autodetect its server settings, generating a muttrc and offlineimaprc profile automatically. If it can't do so, it simply prompts you for these (which you can easily look up) and will put them all in the right places. You get:
 
-+ Automatic configuration of mutt and offlineimap
-+ Automatic encryption and safe storage of passwords which are used by mutt and offlineimap when necessary
++ Automatic configuration of mutt and offlineimap.
++ Automatic encryption and safe storage of passwords which are used by mutt and offlineimap when necessary.
 + Multiple account management in mutt: jump from account to account with the `i` prefix in mutt: `i1`: first email account, `i5`: fifth, etc.
 + Easy movement to mail folders in mutt: `gi`: go to inbox, `gs` to sent mail, `ga` to archive, `gS` to spam, `gd` to drafts, etc.
 + Some default controls and colors. This system is going to be integrated into my [public auto-rice script](https://larbs.xyz) so I want it to look pretty and be usable out the box.

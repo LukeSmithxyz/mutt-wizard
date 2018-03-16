@@ -2,6 +2,12 @@
 
 muttdir="$HOME/.config/mutt/"
 
+createMailboxes() { rm -f "$muttdir"autoconf/log
+	offlineimap --info -a $1 2&> "$muttdir"autoconf/log
+	for box in $(sed -n '/^Folderlist/,/^Folderlist/p' "$muttdir"autoconf/log |
+		grep "^ " | awk '{print $1}' | sed -e 's/\//./g')
+	do mkdir -p $HOME/.mail/$1/$box; echo mkdir -p $HOME/.mail/$1/$box; done ;}
+
 chooseSync() { (crontab -l && testSync) || dialog --msgbox "No cronjob manager detected. Please install one and return to enable automatic mailsyncing" 10 60 ;}
 testSync() { (crontab -l | grep .config/mutt/etc/mailsync && removeSync) || addSync ;}
 
@@ -189,12 +195,12 @@ addAccount() {
 	grep "$muttdir"personal.muttrc -e "^source .*accounts.*" >/dev/null && echo there || \
 	echo "source ${muttdir}accounts/$title.muttrc" >> "$muttdir"personal.muttrc
 
-	dialog --title "Finalizing your account." --msgbox "The account \"$title\" has been added. Now to finalize installation, do the following:
+	dialog --title "Finalizing your account." --infobox "The account \"$title\" has been added. Now attempting to configure mail directories...
 
-	1) Run offlineimap to start the sync. This will start your mail sync.
-	2) After or while running offlineimap, choose the \"autodetect mailboxes\" option, which will finalize your config files based on the directory structure of the downloaded mailbox.
-
-	After that, you will be able to open neomutt to your email account." 13 80 ;}
+	This may take several seconds..." 10 70
+	createMailboxes $title || (clear && exit)
+	detectMailboxes $title
+	dialog --title "Account added." --msgbox "Your "$fulladdr" account has been added. To start the download of your mail, you can manually run \`offlineimap -a $title\` in a terminal. The first sync may take some time depending on the amount of your mail." 8 60 ;}
 
 # This is run when a user chooses to add an account.
 chooseAdd() { \

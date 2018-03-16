@@ -4,3 +4,4 @@ accounts/
 *.pyc
 personal.muttrc
 thunderbird/
+autoconf/log

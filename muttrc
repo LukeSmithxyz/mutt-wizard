@@ -19,6 +19,7 @@ set forward_format = "Fwd: %s"
 set markers = no
 set mark_old = no
 set mime_forward = yes
+set smtp_authenticators = 'gssapi:login'
 auto_view text/html
 auto_view application/pdf
 alternative_order text/plain text/enriched text/html

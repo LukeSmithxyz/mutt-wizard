@@ -7,11 +7,12 @@ remoterepository = $title-remote
 auth_mechanisms = LOGIN
 type = $type
 remoteuser = $login
+sslcacertfile = /usr/local/etc/openssl/cert.pem
 remotepasseval = mailpasswd("$title")
 remotehost = $imap
 remoteport = $iport
 folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']
-sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+sslcacertfile = /usr/local/etc/openssl/cert.pem
 
 [Repository $title-local]
 type = Maildir

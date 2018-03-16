@@ -13,7 +13,7 @@ createMailboxes() { rm -f "$muttdir"autoconf/log
 	offlineimap --info -a $1 2&> "$muttdir"autoconf/log
 	for box in $(sed -n '/^Folderlist/,/^Folderlist/p' "$muttdir"autoconf/log |
 		grep "^ " | awk '{print $1}' | sed -e 's/\//./g')
-	do mkdir -p $HOME/.mail/$1/$box; echo mkdir -p $HOME/.mail/$1/$box; done ;}
+	do mkdir -p $HOME/.mail/$1/$box; done ;}
 
 chooseSync() { (crontab -l && testSync) || dialog --msgbox "No cronjob manager detected. Please install one and return to enable automatic mailsyncing" 10 60 ;}
 testSync() { (crontab -l | grep .config/mutt/etc/mailsync && removeSync) || addSync ;}

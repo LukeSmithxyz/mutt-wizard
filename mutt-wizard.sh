@@ -29,7 +29,13 @@ changePassword() { \
 	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the new password for the \"$1\" account." 10 60 2> /tmp/$1
 	gpg2 -r $gpgemail --encrypt /tmp/$1 || (dialog --title "GPG decryption failed." --msgbox "GPG decryption failed. This is either because you do not have a GPG key pair or because your distro uses GPG1 and you thus need to symlink /usr/bin/gpg2 to /usr/bin/gpg." 7 60 && break)
 	shred -u /tmp/$1
-	mv /tmp/$1.gpg ~/.config/mutt/credentials/ ;}
+	mv /tmp/$1.gpg ~/.config/mutt/credentials/
+	dialog --title "Finalizing your account." --infobox "The account \"$title\"'s password has been changed. Now attempting to configure mail directories...
+
+	This may take several seconds..." 10 70
+	createMailboxes $title || (clear && exit)
+	detectMailboxes $title
+	dialog --title "Password changed." --msgbox "Your "$fulladdr" password has been changed. To start the download of your mail, you can manually run \`offlineimap -a $title\` in a terminal. The first sync may take some time depending on the amount of your mail." 8 60 ;}
 
 chooseDetect() { for x in $(cat ~/.offlineimaprc | grep "^accounts =" | sed -e 's/accounts =\( \)//g;s/\(,\) /\n/g;'); do detectMailboxes $x; done && detectSuccess ;}
 

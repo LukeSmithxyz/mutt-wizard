@@ -9,11 +9,11 @@ fi
 
 muttdir="$HOME/.config/mutt/"
 
-createMailboxes() { rm -f "$muttdir"autoconf/log
-	offlineimap --info -a $1 2&> "$muttdir"autoconf/log
-	for box in $(sed -n '/^Folderlist/,/^Folderlist/p' "$muttdir"autoconf/log |
-		grep "^ " | awk '{print $1}' | sed -e 's/\//./g')
-	do mkdir -p $HOME/.mail/$1/$box; done ;}
+createMailboxes() { rm -f /tmp/log /tmp/lognew
+	offlineimap --info -a $1 2&> /tmp/log
+	sed -n '/^Folderlist/,/^Folderlist/p' /tmp/log |
+		grep "^ " | sed -e "s/\//./g;s/(.*//g;s/^ //g" > /tmp/lognew
+	while read box; do mkdir -p "$HOME/.mail/$1/$box"; done </tmp/lognew ;}
 
 chooseSync() { (crontab -l && testSync) || dialog --msgbox "No cronjob manager detected. Please install one and return to enable automatic mailsyncing" 10 60 ;}
 testSync() { (crontab -l | grep .config/mutt/etc/mailsync && removeSync) || addSync ;}

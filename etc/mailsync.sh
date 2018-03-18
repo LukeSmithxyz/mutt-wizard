@@ -17,7 +17,7 @@ fi
 
 # Get current number of new mail, then begin sync.
 ori=$(find ~/.mail -wholename '*/new/*' | grep -vi "spam\|trash\|junk" | wc -l)
-offlineimap -o
+offlineimap -o "$@"
 
 # Recount new mail.
 new=$(find ~/.mail -wholename '*/new/*' | grep -vi "spam\|trash\|junk" | wc -l)

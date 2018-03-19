@@ -51,6 +51,7 @@ set quit                 # don't ask, just do
 set fast_reply           # skip to compose when replying
 set edit_headers         # show headers when composing
 set askcc                # ask for CC:
+set fcc_attach           # save attachments with the body
 
 #Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"

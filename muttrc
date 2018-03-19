@@ -48,6 +48,7 @@ bind attach <return> view-mailcap
 
 set delete               # don't ask, just do
 set quit                 # don't ask, just do
+set fast_reply           # skip to compose when replying
 
 #Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"

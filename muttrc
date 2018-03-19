@@ -46,6 +46,7 @@ macro index,pager \Cu |urlview\n
 # View attachments properly.
 bind attach <return> view-mailcap
 set fast_reply           # skip to compose when replying
+set edit_headers         # show headers when composing
 
 #Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"

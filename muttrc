@@ -43,6 +43,9 @@ bind index,pager R group-reply
 macro index,pager S '<sync-mailbox>
 macro index,pager \Cu |urlview\n
 
+# View attachments properly.
+bind attach <return> view-mailcap
+
 set delete               # don't ask, just do
 set quit                 # don't ask, just do
 

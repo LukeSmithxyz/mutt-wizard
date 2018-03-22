@@ -148,7 +148,7 @@ EOF
 fi
 realname=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Enter the full name you'd like to be identified by on this email account." 10 60 3>&1 1>&2 2>&3 3>&- )
 title=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Give a short, one-word name for this email account that will differentiate it from other email accounts." 10 60 3>&1 1>&2 2>&3 3>&- )
-login=$(dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Enter your login for the \"$title\" account.\n(If left empty, the full email address will be used instead.)" 10 60 3>&1 1>&2 2>&3 3>&- )
+login=$(dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "If you have a username for the \"$title\" account which is different from your email address, enter it here. Otherwise leave this prompt blank." 10 60 3>&1 1>&2 2>&3 3>&- )
 # Sets the repo type and other variables for the sed regex.
 if [[ "$service" == "gmail.com" ]];
 	then

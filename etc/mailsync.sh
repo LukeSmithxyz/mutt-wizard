@@ -26,3 +26,21 @@ new=$(find ~/.mail -wholename '*/new/*' | grep -vi "spam\|trash\|junk" | wc -l)
 if [ "$new" -gt "$ori" ]; then
 	mpv --quiet ~/.config/mutt/etc/notify.opus
 fi
+
+for account in $(ls ~/.mail)
+do
+        for mailbox in $(ls ~/.mail/$account/)
+        do
+                #List unread messages newer than last mailsync and count them
+                newcount=$(find ~/.mail/$account/$mailbox/new/ -type f -newer ~/.config/mutt/etc/mailsynclastrun 2> /dev/null | wc -l)
+                #Pop a Mac style notification with the count for that mailbox
+                if [ "$(uname)" == "Darwin" -a "$newcount" -gt "0" ]
+                then
+                        osascript -e "display notification \"$newcount in $mailbox\" with title \"Youve got Mail\" subtitle \"Account: $account\""
+                        sleep 2
+                fi
+        done
+done
+
+#Create a touch file that indicates the time of the last run of mailsync
+touch ~/.config/mutt/etc/mailsynclastrun

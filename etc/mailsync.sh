@@ -32,6 +32,7 @@ do
 	then
 		notify "$account" "$newcount" & disown
 		mpv --quiet ~/.config/mutt/etc/notify.opus
+		pkill -RTMIN+12 i3blocks # For my i3blocks setup. Updates new mail counter.
 	fi
 done
 

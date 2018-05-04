@@ -7,39 +7,32 @@
 #
 # I have this run as a cronjob every 5 minutes.
 
-# Check for internet connection. Exit script if none. (timeout in mac is `-t`)
+export DISPLAY=:0.0
+
+# Checks for internet connection and set notification script.
+# Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" == "Darwin" ]
 then
 	ping -q -t 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` >/dev/null || exit
+	notify() { osascript -e "display notification \"$2 in $1\" with title \"Youve got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 else
 	ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` >/dev/null || exit
+	notify() { pgrep -x dunst && notify-send -i ~/.config/mutt/etc/email.gif "$2 new mail(s) in \`$1\` account." ;}
 fi
 
-# Get current number of new mail, then begin sync.
-ori=$(find ~/.mail -wholename '*/new/*' | grep -vi "spam\|trash\|junk" | wc -l)
+# Run offlineimap. You can feed this script different settings.
 offlineimap -o "$@"
 
-# Recount new mail.
-new=$(find ~/.mail -wholename '*/new/*' | grep -vi "spam\|trash\|junk" | wc -l)
-
-# If new mail has grown, play a notification.
-if [ "$new" -gt "$ori" ]; then
-	mpv --quiet ~/.config/mutt/etc/notify.opus
-fi
-
+# Check all accounts/mailboxes for new mail. Notify if there is new content.
 for account in $(ls ~/.mail)
 do
-        for mailbox in $(ls ~/.mail/$account/)
-        do
-                #List unread messages newer than last mailsync and count them
-                newcount=$(find ~/.mail/$account/$mailbox/new/ -type f -newer ~/.config/mutt/etc/mailsynclastrun 2> /dev/null | wc -l)
-                #Pop a Mac style notification with the count for that mailbox
-                if [ "$(uname)" == "Darwin" -a "$newcount" -gt "0" ]
-                then
-                        osascript -e "display notification \"$newcount in $mailbox\" with title \"Youve got Mail\" subtitle \"Account: $account\""
-                        sleep 2
-                fi
-        done
+	#List unread messages newer than last mailsync and count them
+	newcount=$(find ~/.mail/$account/INBOX/new/ -type f -newer ~/.config/mutt/etc/mailsynclastrun 2> /dev/null | wc -l)
+	if [ "$newcount" -gt "0" ]
+	then
+		notify "$account" "$newcount" & disown
+		mpv --quiet ~/.config/mutt/etc/notify.opus
+	fi
 done
 
 #Create a touch file that indicates the time of the last run of mailsync

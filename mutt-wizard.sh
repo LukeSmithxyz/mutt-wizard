@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+# Generate our own space for temporary files
+TMPDIR=$(mktemp -d) || exit 1
+if [ -z "$TMPDIR" ]; then echo Unable to setup temporary directory >&2; exit 1; fi
+tmp_cleanup() {
+	# Ensure TMPDIR variable is not empty and has at least 5 characters before trying to delete it
+	[ -n "$TMPDIR" ] && [ "$(expr length "$TMPDIR")" -ge 5 ] && rm -rf $TMPDIR
+}
+trap tmp_cleanup EXIT
+
+
 if [[ "$(uname)" == "Darwin" ]]
 then
 	os=".macos"
@@ -10,11 +20,10 @@ fi
 muttdir="$HOME/.config/mutt/"
 
 createMailboxes() { \
-	tmpdir=$(mktemp -d)
-	offlineimap --info -a $1 2&> "$tmpdir"/log
-	sed -n '/^Folderlist/,/^Folderlist/p' "$tmpdir"/log |
-		grep "^ " | sed -e "s/\//./g;s/(.*//g;s/^ //g" > "$tmpdir"/lognew
-	while read box; do mkdir -p "$HOME/.mail/$1/$box"; done <"$tmpdir"/lognew ;}
+	offlineimap --info -a $1 2&> "$TMPDIR"/log
+	sed -n '/^Folderlist/,/^Folderlist/p' "$TMPDIR"/log |
+		grep "^ " | sed -e "s/\//./g;s/(.*//g;s/^ //g" > "$TMPDIR"/lognew
+	while read box; do mkdir -p "$HOME/.mail/$1/$box"; done <"$TMPDIR"/lognew ;}
 
 chooseSync() { (cat /var/run/crond.pid  && testSync) || dialog --msgbox "No cronjob manager detected. Please install one and return to enable automatic mailsyncing" 10 60 ;}
 testSync() { (crontab -l | grep .config/mutt/etc/mailsync && removeSync) || addSync ;}
@@ -27,10 +36,10 @@ removeSync() { ((crontab -l | sed -e '/.config\/mutt\/etc\/mailsync/d') | cronta
 
 changePassword() { \
 	gpgemail=$( dialog --title "Luke's mutt/offlineIMAP password wizard" --inputbox "Insert the email address with which you originally created your GPG key pair. This is NOT necessarily the email you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- )
-	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the new password for the \"$1\" account." 10 60 2> /tmp/$1
-	gpg2 -r $gpgemail --encrypt /tmp/$1 || (dialog --title "GPG decryption failed." --msgbox "GPG decryption failed. This is either because you do not have a GPG key pair or because your distro uses GPG1 and you thus need to symlink /usr/bin/gpg2 to /usr/bin/gpg." 7 60 && break)
-	shred -u /tmp/$1
-	mv /tmp/$1.gpg ~/.config/mutt/credentials/
+	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the new password for the \"$1\" account." 10 60 2> $TMPDIR/$1
+	gpg2 -r $gpgemail --encrypt $TMPDIR/$1 || (dialog --title "GPG decryption failed." --msgbox "GPG decryption failed. This is either because you do not have a GPG key pair or because your distro uses GPG1 and you thus need to symlink /usr/bin/gpg2 to /usr/bin/gpg." 7 60 && break)
+	shred -u $TMPDIR/$1
+	mv $TMPDIR/$1.gpg ~/.config/mutt/credentials/
 	dialog --title "Finalizing your account." --infobox "The account \"$title\"'s password has been changed. Now attempting to configure mail directories...
 
 	This may take several seconds..." 10 70
@@ -74,34 +83,34 @@ gen_delim() { \
 	echo $delim ;}
 
 detectMailboxes() { \
-	find ~/.mail/$1 -maxdepth 1 -mindepth 1 -type d | sed -e "s/.*\///g;s/^/=/g" > /tmp/$1_boxes
+	find ~/.mail/$1 -maxdepth 1 -mindepth 1 -type d | sed -e "s/.*\///g;s/^/=/g" > $TMPDIR/$1_boxes
 	sidebar_width=$(sed -n -e '/^set sidebar_width/p' "$muttdir"/muttrc | awk -F'=' '{print $2}')
 	delim=$(gen_delim $sidebar_width)
-	oneline=$(cat /tmp/$1_boxes | sed -e "s/^\|$/\"/g" | tr "\n" " ")
+	oneline=$(cat $TMPDIR/$1_boxes | sed -e "s/^\|$/\"/g" | tr "\n" " ")
 	oneline="=$1 $delim $oneline"
 	sed -i "/^mailboxes\|^set spoolfile\|^set record\|^set postponed/d" "$muttdir"accounts/$1.muttrc
 	echo mailboxes $oneline >> "$muttdir"accounts/$1.muttrc
 	sed -i "/^macro index,pager g/d" "$muttdir"accounts/$1.muttrc
-	grep -vi /tmp/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail\|sms\|call" | sort -n | sed 1q | formatShortcut i inbox $1
-	grep -i /tmp/$1_boxes -e sent | sed 1q | formatShortcut s sent $1
-	grep -i /tmp/$1_boxes -e draft | sed 1q | formatShortcut d drafts $1
-	grep -i /tmp/$1_boxes -e trash | sed 1q | formatShortcut t trash $1
-	grep -i /tmp/$1_boxes -e spam | sed 1q | formatShortcut S spam $1
-	grep -i /tmp/$1_boxes -e archive | sed 1q | formatShortcut a archive $1
-	spoolfile=$(grep -vi /tmp/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail\|sms\|call" | sort -n | sed 1q | sed -e 's/=/+/g')
-	record=$(grep -i /tmp/$1_boxes -e sent | sed -e 's/=/+/g' | sed 1q)
-	postponed=$(grep -i /tmp/$1_boxes -e draft | sed -e 's/=/+/g' | sed 1q)
+	grep -vi $TMPDIR/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail\|sms\|call" | sort -n | sed 1q | formatShortcut i inbox $1
+	grep -i $TMPDIR/$1_boxes -e sent | sed 1q | formatShortcut s sent $1
+	grep -i $TMPDIR/$1_boxes -e draft | sed 1q | formatShortcut d drafts $1
+	grep -i $TMPDIR/$1_boxes -e trash | sed 1q | formatShortcut t trash $1
+	grep -i $TMPDIR/$1_boxes -e spam | sed 1q | formatShortcut S spam $1
+	grep -i $TMPDIR/$1_boxes -e archive | sed 1q | formatShortcut a archive $1
+	spoolfile=$(grep -vi $TMPDIR/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail\|sms\|call" | sort -n | sed 1q | sed -e 's/=/+/g')
+	record=$(grep -i $TMPDIR/$1_boxes -e sent | sed -e 's/=/+/g' | sed 1q)
+	postponed=$(grep -i $TMPDIR/$1_boxes -e draft | sed -e 's/=/+/g' | sed 1q)
 	echo "set spoolfile = \"$spoolfile\"" >> "$muttdir"accounts/$1.muttrc
 	echo "set record = \"$record\"" >> "$muttdir"accounts/$1.muttrc
 	echo "set postponed = \"$postponed\"" >> "$muttdir"accounts/$1.muttrc ;}
 
 # Get all accounts in ~/.offlineimaprc and load into variable `accounts`.
 getAccounts() { \
-	cat ~/.offlineimaprc | grep "^accounts =" | sed -e 's/accounts =\( \)//g;s/\(,\) /\n/g;' | nl --number-format=ln > /tmp/numbered
+	cat ~/.offlineimaprc | grep "^accounts =" | sed -e 's/accounts =\( \)//g;s/\(,\) /\n/g;' | nl --number-format=ln > $TMPDIR/numbered
 	accounts=()
 	while read n s ; do
 		accounts+=($n "$s" off)
-	done < /tmp/numbered ;}
+	done < $TMPDIR/numbered ;}
 
 # Yields a menu of available accounts.
 inventory() { \
@@ -112,7 +121,7 @@ inventory() { \
 		then
 			clear
 		else
-		userchoices=$(IFS="|"; keys="${choices[*]}"; keys="${keys//|/\\|}"; grep -w "${keys}" /tmp/numbered  | awk '{print $2}')
+		userchoices=$(IFS="|"; keys="${choices[*]}"; keys="${keys//|/\\|}"; grep -w "${keys}" $TMPDIR/numbered  | awk '{print $2}')
 	fi ;}
 
 
@@ -176,18 +185,18 @@ replacement="
 	s/\$login/$login/g;
 	/$delet/d"
 # Gets the first unused shortcut number in the muttrc and puts it in $idnum.
-cat "$muttdir"personal.muttrc | grep i[0-9] | awk '{print $3}' | sed -e 's/i//g' > /tmp/mutt_used
-echo -e "1\n2\n3\n4\n5\n6\n7\n8\n9" > /tmp/mutt_all_possible
-idnum=$(diff /tmp/mutt_all_possible /tmp/mutt_used | sed -n 2p | awk '{print $2}')
+cat "$muttdir"personal.muttrc | grep i[0-9] | awk '{print $3}' | sed -e 's/i//g' > $TMPDIR/mutt_used
+echo -e "1\n2\n3\n4\n5\n6\n7\n8\n9" > $TMPDIR/mutt_all_possible
+idnum=$(diff $TMPDIR/mutt_all_possible $TMPDIR/mutt_used | sed -n 2p | awk '{print $2}')
 addAccount \
 ;}
 
 addAccount() {
 	# First, adding the encrypted password.
-	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the password for the \"$title\" account." 10 60 2> /tmp/$title
-	gpg2 -r $gpgemail --encrypt /tmp/$title || (dialog --title "GPG decryption failed." --msgbox "GPG decryption failed. This is either because you do not have a GPG key pair or because your distro uses GPG1 and you thus need to symlink /usr/bin/gpg2 to /usr/bin/gpg." 7 60 && break)
-	shred -u /tmp/$title
-	mv /tmp/$title.gpg ~/.config/mutt/credentials/
+	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the password for the \"$title\" account." 10 60 2> $TMPDIR/$title
+	gpg2 -r $gpgemail --encrypt $TMPDIR/$title || (dialog --title "GPG decryption failed." --msgbox "GPG decryption failed. This is either because you do not have a GPG key pair or because your distro uses GPG1 and you thus need to symlink /usr/bin/gpg2 to /usr/bin/gpg." 7 60 && break)
+	shred -u $TMPDIR/$title
+	mv $TMPDIR/$title.gpg ~/.config/mutt/credentials/
 
 	# Adding directory structure for cache.
 	mkdir -p "$muttdir"accounts/$title/cache/bodies

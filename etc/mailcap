@@ -1,7 +1,7 @@
 #text/html; qutebrowser %s &; test=test -n "$DISPLAY"; needsterminal;
 
-text/html; $BROWSER %s 2>/dev/null & disown; copiousoutput;
-#text/html; w3m -I %{charset} -T text/html; copiousoutput;
+#text/html; $BROWSER %s 2>/dev/null & disown; copiousoutput;
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
 
 application/pdf; mv %s %s.pdf && i3 exec mupdf %s.pdf > /dev/null; needsterminal;
 

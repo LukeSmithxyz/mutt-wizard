@@ -21,6 +21,7 @@ set smtp_authenticators = 'gssapi:login'
 auto_view text/html
 auto_view application/pdf
 alternative_order text/plain text/enriched text/html
+set rfc2047_parameters = yes
 
 # General remappings
 bind editor <space> noop

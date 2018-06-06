@@ -56,6 +56,7 @@ macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "ma
 
 #sync email
 macro index O "<shell-escape>offlineimap<enter>" "run offlineimap to sync all mail"
+#this will be overridden by each accout's .muttrc
 macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
 
 #copy/move dialogs

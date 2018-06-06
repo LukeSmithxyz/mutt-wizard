@@ -82,7 +82,8 @@ detectMailboxes() { \
 	sed -i "/^mailboxes\|^set spoolfile\|^set record\|^set postponed/d" "$muttdir"accounts/$1.muttrc
 	echo mailboxes $oneline >> "$muttdir"accounts/$1.muttrc
 	sed -i "/^macro index,pager g/d" "$muttdir"accounts/$1.muttrc
-	grep -vi /tmp/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail\|sms\|call\|delete" | sort -n | sed 1q | formatShortcut i inbox $1
+	inbox=$(grep -vi /tmp/$1_boxes -e "trash\|drafts\|sent\|trash\|spam\|junk\|archive\|chat\|old\|new\|gmail\|sms\|call\|delete" | sort -n | sed 1q | sed -e 's/=//g')
+	echo $inbox | formatShortcut i inbox $1
 	grep -i /tmp/$1_boxes -e sent | sed 1q | formatShortcut s sent $1
 	grep -i /tmp/$1_boxes -e draft | sed 1q | formatShortcut d drafts $1
 	grep -i /tmp/$1_boxes -e trash | sed 1q | formatShortcut t trash $1
@@ -92,6 +93,7 @@ detectMailboxes() { \
 	record=$(grep -i /tmp/$1_boxes -e sent | sed -e 's/=/+/g' | sed 1q)
 	postponed=$(grep -i /tmp/$1_boxes -e draft | sed -e 's/=/+/g' | sed 1q)
 	trash=$(grep -i /tmp/$1_boxes -e trash | sed -e 's/=/+/g' | sed 1q)
+	echo "macro index o \"<shell-escape>offlineimap -qf $inbox -a $1<enter>\" \"run offlineimap to sync inbox\"" >> "$muttdir"accounts/$1.muttrc
 	echo "set spoolfile = \"$spoolfile\"" >> "$muttdir"accounts/$1.muttrc
 	echo "set record = \"$record\"" >> "$muttdir"accounts/$1.muttrc
 	echo "set postponed = \"$postponed\"" >> "$muttdir"accounts/$1.muttrc

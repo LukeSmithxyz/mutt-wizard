@@ -18,6 +18,7 @@ set markers = no
 set mark_old = no
 set mime_forward = yes
 set smtp_authenticators = 'gssapi:login'
+set wait_key = no
 auto_view text/html
 auto_view application/pdf
 alternative_order text/plain text/enriched text/html
@@ -36,7 +37,7 @@ bind index D delete-message
 bind index U undelete-message
 bind index F search
 bind index,pager R group-reply
-macro index,pager S '<sync-mailbox>
+macro index,pager S '<sync-mailbox><shell-escape>pkill -RTMIN+12 i3blocks<enter>'
 macro index,pager \Cu |urlview\n
 
 # View attachments properly.

@@ -20,8 +20,13 @@ else
 	notify() { pgrep -x dunst && notify-send -i ~/.config/mutt/etc/email.gif "$2 new mail(s) in \`$1\` account." ;}
 fi
 
+echo 🔃 > ~/.config/mutt/.dl
+pkill -RTMIN+12 i3blocks
+
 # Run offlineimap. You can feed this script different settings.
 offlineimap -o "$@"
+rm -f ~/.config/mutt/.dl
+pkill -RTMIN+12 i3blocks
 
 # Check all accounts/mailboxes for new mail. Notify if there is new content.
 for account in $(ls ~/.mail)
@@ -32,7 +37,6 @@ do
 	then
 		notify "$account" "$newcount" & disown
 		mpv --quiet ~/.config/mutt/etc/notify.opus
-		pkill -RTMIN+12 i3blocks # For my i3blocks setup. Updates new mail counter.
 	fi
 done
 

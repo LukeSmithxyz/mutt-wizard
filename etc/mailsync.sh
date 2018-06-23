@@ -13,10 +13,10 @@ export DISPLAY=:0.0
 # Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" == "Darwin" ]
 then
-	ping -q -t 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` >/dev/null || exit
+	ping -q -t 1 -c 1 `ip r | grep -m 1 default | cut -d ' ' -f 3` >/dev/null || exit
 	notify() { osascript -e "display notification \"$2 in $1\" with title \"Youve got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 else
-	ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` >/dev/null || exit
+	ping -q -w 1 -c 1 `ip r | grep -m 1 default | cut -d ' ' -f 3` >/dev/null || exit
 	notify() { pgrep -x dunst && notify-send -i ~/.config/mutt/etc/email.gif "$2 new mail(s) in \`$1\` account." ;}
 fi
 

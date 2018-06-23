@@ -99,6 +99,7 @@ redchan.it,mail.cock.li,993,mail.cock.li,587
 runbox.com,mail.runbox.com,993,mail.runbox.com,587
 rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
+t-online.de,secureimap.t-online.de,993,securesmtp.t-online.de,465
 techie.com,imap.mail.com,995,smtp.mail.com,587
 teknik.io,mail.teknik.io,993,mail.teknik.io,587
 tfwno.gf,mail.cock.li,993,mail.cock.li,587
@@ -109,6 +110,7 @@ uymail.com,imap.mail.com,995,smtp.mail.com,587
 waifu.club,mail.cock.li,993,mail.cock.li,587
 wants.dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 wants.dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
+web.de,imap.web.de,993,smtp.web.de,587
 writeme.com,imap.mail.com,995,smtp.mail.com,587
 ya.ru,imap.yandex.com,993,smtp.yandex.com,465
 yahoo.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,587

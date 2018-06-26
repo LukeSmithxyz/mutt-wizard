@@ -20,7 +20,7 @@ chooseSync() { (cat /var/run/crond.pid  && testSync) || dialog --msgbox "No cron
 testSync() { (crontab -l | grep .config/mutt/etc/mailsync && removeSync) || addSync ;}
 
 addSync() { min=$(dialog --inputbox "How many minutes should be between mail syncs?" 8 60 3>&1 1>&2 2>&3 3>&-)
-	(crontab -l; echo "*/$min * * * * export DISPLAY=:0.0 && $HOME/.config/mutt/etc/mailsync.sh") | crontab - &&
+	(crontab -l; echo "*/$min * * * * eval \"export $(egrep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -u $LOGNAME -x i3)/environ)\"; $HOME/.config/mutt/etc/mailsync.sh") | crontab - &&
 	dialog --msgbox "Cronjob successfully added. Remember you may need to restart or tell systemd/etc. to start your cron manager for this to take effect." 7 60 ;}
 
 removeSync() { ((crontab -l | sed -e '/.config\/mutt\/etc\/mailsync/d') | crontab - >/dev/null) && dialog --msgbox "Cronjob successfully removed. To reactivate, select this option again." 6 60 ;}

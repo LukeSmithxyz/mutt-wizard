@@ -40,6 +40,7 @@ bind index F search
 bind index,pager R group-reply
 macro index,pager S '<sync-mailbox><shell-escape>pkill -RTMIN+12 i3blocks<enter>'
 macro index,pager \Cu |urlview\n
+macro index,pager ,, |urlview\n
 
 # View attachments properly.
 bind attach <return> view-mailcap

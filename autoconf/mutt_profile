@@ -15,8 +15,6 @@ alias me $realname <$fulladdr>
 set mbox_type = Maildir
 set ssl_starttls = yes
 set ssl_force_tls = yes
-set spoolfile = "+INBOX"
-macro index,pager gi "<change-folder>=INBOX<enter>" "Go to inbox."
 
 bind index,pager gg noop
 bind index,pager g noop

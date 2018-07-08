@@ -82,14 +82,17 @@ detectMailboxes() { \
 	sed -i "/^mailboxes\|^set record\|^set postponed/d" "$muttdir"accounts/$1.muttrc
 	echo mailboxes $oneline >> "$muttdir"accounts/$1.muttrc
 	sed -i "/^macro index,pager g/d" "$muttdir"accounts/$1.muttrc
+	grep -i /tmp/$1_boxes -e inbox | sed 1q | formatShortcut i inbox $1
 	grep -i /tmp/$1_boxes -e sent | sed 1q | formatShortcut s sent $1
 	grep -i /tmp/$1_boxes -e draft | sed 1q | formatShortcut d drafts $1
 	grep -i /tmp/$1_boxes -e trash | sed 1q | formatShortcut t trash $1
 	grep -i /tmp/$1_boxes -e spam | sed 1q | formatShortcut S spam $1
 	grep -i /tmp/$1_boxes -e archive | sed 1q | formatShortcut a archive $1
+	spoolfile=$(grep -i /tmp/$1_boxes -e inbox | sed -e 's/=/+/g' | sed 1q)
 	record=$(grep -i /tmp/$1_boxes -e sent | sed -e 's/=/+/g' | sed 1q)
 	postponed=$(grep -i /tmp/$1_boxes -e draft | sed -e 's/=/+/g' | sed 1q)
 	trash=$(grep -i /tmp/$1_boxes -e trash | sed -e 's/=/+/g' | sed 1q)
+	echo "set spoolfile = \"$spoolfile\"" >> "$muttdir"accounts/$1.muttrc
 	echo "set record = \"$record\"" >> "$muttdir"accounts/$1.muttrc
 	echo "set postponed = \"$postponed\"" >> "$muttdir"accounts/$1.muttrc
 	echo "set trash = \"$trash\"" >> "$muttdir"accounts/$1.muttrc ;}

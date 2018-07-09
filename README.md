@@ -50,9 +50,21 @@ The automatically deployed configs will look for certain programs for certain ex
 + `iproute2mac` for Mac users who want the autosync feature.
 + `mpv` if you want the autosync feature to notify you with a ding on new mail.
 
-### "Wait? The script asks for my passwords?"
+## The autosync
 
-Look at the code. The script takes the passwords you give it, encrypts them immediately with your own GPG key, and shreds the leftovers. Nothing malicious; it's all there! If it makes you comfortable you can even run the script offline at first.
+If you activate the autosync at a significantly infrequent interval, by
+default, your system might prompt you for your GPG password every time. To
+prevent this, you can change the time a GPG unlock lasts by adding a time in
+seconds as below into `~/.gnupg/gpg-agent.conf`:
+
+```
+default-cache-ttl <number-of-seconds>
+max-cache-ttl <number-of-seconds>
+```
+
+You can also use [pam-gnupg](https://github.com/cruegge/pam-gnupg) if you want
+to just log into your keyring immediately on log in. This is what I do, but
+it's less secure if you leave you computer logged on.
 
 ## You can help!
 

@@ -37,6 +37,7 @@ do
 	then
 		notify "$account" "$newcount" & disown
 		mpv --really-quiet ~/.config/mutt/etc/notify.opus
+		notmuch new
 	fi
 done
 

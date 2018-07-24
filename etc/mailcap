@@ -1,13 +1,6 @@
-#text/html; qutebrowser %s &; test=test -n "$DISPLAY"; needsterminal;
-
-#text/html; $BROWSER %s 2>/dev/null & disown; copiousoutput;
-text/html; w3m -I %{charset} -T text/html; copiousoutput;
-
-application/pdf; mv %s %s.pdf && i3 exec mupdf %s.pdf > /dev/null; needsterminal;
-
-image/*; ~/.config/mutt/etc/muttimage.sh %s ; copiousoutput
-
-#application/pdf; pdftotext '%s' -; copiousoutput; description=PDF Document;
-#nametemplate=%s.pdf
-#
 text/plain; vim %s ;
+text/html; $BROWSER '%s' ;
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
+image/*; ~/.config/mutt/etc/muttimage.sh %s ; copiousoutput
+video/*; setsid nohup mpv --quiet %s & disown; copiousoutput
+application/pdf; pdftotext '%s' -; copiousoutput;

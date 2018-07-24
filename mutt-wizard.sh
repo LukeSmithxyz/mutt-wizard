@@ -17,20 +17,20 @@ createMailboxes() { \
 	while read box; do mkdir -p "$HOME/.mail/$1/$box"; done <"$tmpdir"/lognew ;}
 
 chooseSync() { (cat /var/run/crond.pid  && testSync) || dialog --msgbox "No cronjob manager detected. Please install one and return to enable automatic mailsyncing" 10 60 ;}
-testSync() { (crontab -l | grep .config/mutt/etc/mailsync && removeSync) || addSync ;}
+testSync() { (crontab -l | grep mailsync.sh && removeSync) || addSync ;}
 
 addSync() { min=$(dialog --inputbox "How many minutes should be between mail syncs?" 8 60 3>&1 1>&2 2>&3 3>&-)
-	(crontab -l; echo "*/$min * * * * eval \"export $(egrep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -u $LOGNAME -x i3)/environ)\"; $HOME/.config/mutt/etc/mailsync.sh") | crontab - &&
+	(crontab -l; echo "*/$min * * * * eval \"export $(egrep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -u $LOGNAME -x i3)/environ)\"; "$muttdir"etc/mailsync.sh") | crontab - &&
 	dialog --msgbox "Cronjob successfully added. Remember you may need to restart or tell systemd/etc. to start your cron manager for this to take effect." 7 60 ;}
 
-removeSync() { ((crontab -l | sed -e '/.config\/mutt\/etc\/mailsync/d') | crontab - >/dev/null) && dialog --msgbox "Cronjob successfully removed. To reactivate, select this option again." 6 60 ;}
+removeSync() { ((crontab -l | sed -e '/mailsync.sh/d') | crontab - >/dev/null) && dialog --msgbox "Cronjob successfully removed. To reactivate, select this option again." 6 60 ;}
 
 changePassword() { \
 	gpgemail=$( dialog --title "Luke's mutt/offlineIMAP password wizard" --inputbox "Insert the email address with which you originally created your GPG key pair. This is NOT necessarily the email you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- )
 	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the new password for the \"$1\" account." 10 60 2> /tmp/$1
 	gpg2 -r $gpgemail --encrypt /tmp/$1 || (dialog --title "GPG decryption failed." --msgbox "GPG decryption failed. This is either because you do not have a GPG key pair or because your distro uses GPG1 and you thus need to symlink /usr/bin/gpg2 to /usr/bin/gpg." 7 60 && break)
 	shred -u /tmp/$1
-	mv /tmp/$1.gpg ~/.config/mutt/credentials/
+	mv /tmp/$1.gpg "$muttdir"credentials/
 	dialog --title "Finalizing your account." --infobox "The account \"$title\"'s password has been changed. Now attempting to configure mail directories...
 
 	This may take several seconds..." 10 70
@@ -189,7 +189,7 @@ addAccount() {
 	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the password for the \"$title\" account." 10 60 2> /tmp/$title
 	gpg2 -r $gpgemail --encrypt /tmp/$title || (dialog --title "GPG decryption failed." --msgbox "GPG decryption failed. This is either because you do not have a GPG key pair or because your distro uses GPG1 and you thus need to symlink /usr/bin/gpg2 to /usr/bin/gpg." 7 60 && break)
 	shred -u /tmp/$title
-	mv /tmp/$title.gpg ~/.config/mutt/credentials/
+	mv /tmp/$title.gpg "$muttdir"credentials/
 
 	# Adding directory structure for cache.
 	mkdir -p "$muttdir"accounts/$title/cache/bodies

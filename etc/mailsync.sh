@@ -37,9 +37,9 @@ do
 	then
 		notify "$account" "$newcount" & disown
 		mpv --really-quiet ~/.config/mutt/etc/notify.opus
-		notmuch new
 	fi
 done
+notmuch new
 
 #Create a touch file that indicates the time of the last run of mailsync
 touch ~/.config/mutt/etc/mailsynclastrun

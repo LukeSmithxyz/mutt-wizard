@@ -75,7 +75,7 @@ gen_delim() { \
 
 detectMailboxes() { \
 	find ~/.mail/$1 -maxdepth 1 -mindepth 1 -type d | sed -e "s/.*\///g;s/^/=/g" > /tmp/$1_boxes
-	sidebar_width=$(sed -n -e '/^set sidebar_width/p' "$muttdir"/muttrc | awk -F'=' '{print $2}')
+	sidebar_width=$(sed -n -e '/^set sidebar_width/p' "$muttdir"muttrc | awk -F'=' '{print $2}')
 	delim=$(gen_delim $sidebar_width)
 	oneline=$(cat /tmp/$1_boxes | sed -e "s/^\|$/\"/g" | tr "\n" " ")
 	oneline="=$1 $delim $oneline"

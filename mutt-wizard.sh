@@ -79,7 +79,7 @@ detectMailboxes() { \
 	delim=$(gen_delim $sidebar_width)
 	oneline=$(cat /tmp/$1_boxes | sed -e "s/^\|$/\"/g" | tr "\n" " ")
 	oneline="=$1 $delim $oneline"
-	sed -i "/^mailboxes\|^set record\|^set postponed/d" "$muttdir"accounts/$1.muttrc
+	sed -i "/^mailboxes\|^set record\|^set postponed\|^set trash\|^set spoolfile/d" "$muttdir"accounts/$1.muttrc
 	echo mailboxes $oneline >> "$muttdir"accounts/$1.muttrc
 	sed -i "/^macro index,pager g/d" "$muttdir"accounts/$1.muttrc
 	grep -i /tmp/$1_boxes -e inbox | sed 1q | formatShortcut i inbox $1

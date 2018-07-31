@@ -54,7 +54,7 @@ mail with mutt and offlineimap. Be sure to enable that!
 
 ## Installation and Dependencies
 
-`dialog`, `neomutt` and `offlineimap` should be installed. You also need to
+`dialog`, `neomutt`, `offlineimap` and `msmtp` should be installed. You also need to
 have a GPG public/private key pair for the wizard to automatically store your
 passwords. The whole repo should be cloned to `~/.config/mutt/`. (If you have a
 previous mutt folder, you'll want to back it up or delete it first.)

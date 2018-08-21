@@ -63,10 +63,10 @@ previous mutt folder, you'll want to back it up or delete it first.)
 git clone https://github.com/LukeSmithxyz/mutt-wizard.git ~/.config/mutt
 ```
 
-You will want to delete or rename your current `~/.offlineimaprc` as well, as
-although you can later modify the `~/.offlineimaprc` produced by the script,
-you must have no file there the first time you add your first account or the
-wizard will assume some settings are already set which aren't.
+You will want to delete or rename your current `~/.offlineimaprc` and
+`~/.msmtprc` as well, as although you can later modify these files produced by
+the script, you must have no file there the first time you add your first
+account or the wizard will assume some settings are already set which aren't.
 
 Just run `mutt-wizard.sh` and choose to add an account. After you do so, you
 may run `offlineimap` to begin the mailsync, and you will be able to run

@@ -2,7 +2,6 @@
 # muttrc file for account $title
 set realname = "$realname"
 set from = "$fulladdr"
-set smtp_url = "smtp://$login@$smtp:$sport/"
 set sendmail = "/usr/bin/msmtp -a $title"
 set folder = "~/.mail/$title"
 set header_cache = ~/.config/mutt/accounts/$title/cache/headers

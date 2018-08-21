@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ "$(uname)" == "Darwin" ]]
-then
-	os=".macos"
-else
-	os=""
-fi
+[ "$(uname)" == "Darwin" ] && os=".macos"
 
 muttdir="$HOME/.config/mutt/"
 
@@ -198,6 +193,10 @@ addAccount() {
 	if [ ! -f ~/.offlineimaprc ]; then cp "$muttdir"autoconf/offlineimap_header"$os" ~/.offlineimaprc; fi
 	cat "$muttdir"autoconf/offlineimap_profile"$os" | sed -e "$replacement" >> ~/.offlineimaprc
 	mkdir -p ~/.mail/$title
+
+	# Creating msmtprc if it doesn't exist already.
+	if [ ! -f ~/.msmtprc ]; then cp "$muttdir"autoconf/msmtprc_header ~/.msmtprc; fi
+	cat "$muttdir"autoconf/msmtprc_profile | sed -e "$replacement" >> ~/.msmtprc
 
 	# Add the mutt profile.
 	cat "$muttdir"autoconf/mutt_profile | sed -e "$replacement" > "$muttdir"accounts/$title.muttrc

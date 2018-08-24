@@ -14,10 +14,10 @@ export DISPLAY=:0.0
 if [ "$(uname)" == "Darwin" ]
 then
 	ping -q -t 1 -c 1 `ip r | grep -m 1 default | cut -d ' ' -f 3` >/dev/null || exit
-	notify() { osascript -e "display notification \"$2 in $1\" with title \"Youve got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
+	notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 else
 	ping -q -w 1 -c 1 `ip r | grep -m 1 default | cut -d ' ' -f 3` >/dev/null || exit
-	notify() { pgrep -x dunst && notify-send -i ~/.config/mutt/etc/email.gif "$2 new mail(s) in \`$1\` account." ;}
+	notify() { mpv --really-quiet ~/.config/mutt/etc/notify.opus & pgrep -x dunst && notify-send -i ~/.config/mutt/etc/email.gif "$2 new mail(s) in \`$1\` account." ;}
 fi
 
 echo 🔃 > ~/.config/mutt/.dl
@@ -36,7 +36,6 @@ do
 	if [ "$newcount" -gt "0" ]
 	then
 		notify "$account" "$newcount" & disown
-		mpv --really-quiet ~/.config/mutt/etc/notify.opus
 	fi
 done
 notmuch new

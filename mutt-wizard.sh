@@ -3,6 +3,8 @@
 [ "$(uname)" == "Darwin" ] && os=".macos"
 
 muttdir="$HOME/.config/mutt/"
+namere="^[a-z_][a-z0-9_-]*$"
+emailre=".+@.+\..+"
 
 createMailboxes() { \
 	tmpdir=$(mktemp -d)
@@ -22,6 +24,9 @@ removeSync() { ((crontab -l | sed -e '/mailsync.sh/d') | crontab - >/dev/null) &
 
 changePassword() { \
 	gpgemail=$( dialog --title "Luke's mutt/offlineIMAP password wizard" --inputbox "Insert the email address with which you originally created your GPG key pair. This is NOT necessarily the email you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- )
+	while ! [[ "${gpgemail}" =~ ${emailre} ]]; do
+		gpgemail=$(dialog --no-cancel --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "That's not a valid email address. Please input the entire address." 10 60 3>&1 1>&2 2>&3 3>&1)
+	done
 	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the new password for the \"$1\" account." 10 60 2> /tmp/$1
 	gpg2 -r $gpgemail --encrypt /tmp/$1 || (dialog --title "GPG decryption failed." --msgbox "GPG decryption failed. This is either because you do not have a GPG key pair or because your distro uses GPG1 and you thus need to symlink /usr/bin/gpg2 to /usr/bin/gpg." 7 60 && break)
 	shred -u /tmp/$1
@@ -133,6 +138,9 @@ manual() { \
 
 
 addloop() { fulladdr=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Insert the full email address for the account you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- )
+while ! [[ "${fulladdr}" =~ ${emailre} ]]; do
+	fulladdr=$(dialog --no-cancel --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "That's not a valid email address. Please input the entire address." 10 60 3>&1 1>&2 2>&3 3>&1)
+done
 # Check to see if domain is in domain list
 serverinfo=$(cat "$muttdir"autoconf/domains.csv | grep -w ^${fulladdr##*@})
 if [ -z "$serverinfo" ];
@@ -146,7 +154,6 @@ EOF
 fi
 realname=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Enter the full name you'd like to be identified by on this email account." 10 60 3>&1 1>&2 2>&3 3>&- )
 title=$(dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Give a short, one-word name for this email account that will differentiate it from other email accounts." 10 60 3>&1 1>&2 2>&3 3>&1) || exit
-namere="^[a-z_][a-z0-9_-]*$"
 while ! [[ "${title}" =~ ${namere} ]]; do
 	title=$(dialog --no-cancel --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Account title not valid. Give a username beginning with a letter, with only lowercase letters, - or _." 10 60 3>&1 1>&2 2>&3 3>&1)
 done

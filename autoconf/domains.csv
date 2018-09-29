@@ -122,6 +122,7 @@ stronzi.org,mail.autistici.org,993,smtp.autistici.org,465
 subvertising.org,mail.autistici.org,993,smtp.autistici.org,465
 t-online.de,secureimap.t-online.de,993,securesmtp.t-online.de,465
 techie.com,imap.mail.com,995,smtp.mail.com,587
+telenet.be,imap.telenet.be,993,smtp.telenet.be,587
 teknik.io,mail.teknik.io,993,mail.teknik.io,587
 tfwno.gf,mail.cock.li,993,mail.cock.li,587
 tu-harburg.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
@@ -142,3 +143,5 @@ yandex.net,imap.yandex.com,993,smtp.yandex.com,465
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,465
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,465
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
+duke.edu,outlook.office365.com,993,smtp.office365.com,587
+

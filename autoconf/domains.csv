@@ -65,6 +65,7 @@ email.com,imap.mail.com,995,smtp.mail.com,587
 engineer.com,imap.mail.com,995,smtp.mail.com,587
 europe.com,imap.mail.com,995,smtp.mail.com,587
 fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465
+fastmail.fm,imap.fastmail.com,993,smtp.fastmail.com,465
 firemail.cc,mail.cock.li,993,mail.cock.li,587
 fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
 getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587

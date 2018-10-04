@@ -13,7 +13,6 @@ createMailboxes() { \
 		grep "^ " | sed -e "s/\//./g;s/(.*//g;s/^ //g" > "$tmpdir"/lognew
 	while read box; do mkdir -p "$HOME/.mail/$1/$box"; done <"$tmpdir"/lognew ;}
 
-chooseSync() { (cat /var/run/crond.pid  && testSync) || dialog --msgbox "No cronjob manager detected. Please install one and return to enable automatic mailsyncing" 10 60 ;}
 testSync() { (crontab -l | grep mailsync.sh && removeSync) || addSync ;}
 
 addSync() { min=$(dialog --inputbox "How many minutes should be between mail syncs?" 8 60 3>&1 1>&2 2>&3 3>&-)
@@ -263,7 +262,7 @@ case $choice in
 $(grep ~/.offlineimaprc -e "^accounts =" | sed 's/accounts =//g')
 " 6 60;;
 1) chooseAdd;;
-2) chooseSync;;
+2) testSync;;
 3) detectWarning && chooseDetect;;
 4) inventory && for i in $userchoices; do changePassword $i ; done;;
 5) inventory && for i in $userchoices; do removeAccount $i ; done;;

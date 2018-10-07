@@ -21,7 +21,7 @@ set mime_forward = yes
 set smtp_authenticators = 'gssapi:login'
 set wait_key = no
 auto_view text/html
-auto_view application/pdf
+auto_view application/pgp-encrypted
 alternative_order text/plain text/enriched text/html
 set rfc2047_parameters = yes
 

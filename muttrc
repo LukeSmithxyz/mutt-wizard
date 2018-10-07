@@ -39,6 +39,8 @@ bind index D delete-message
 bind index U undelete-message
 bind index F search
 bind index,pager R group-reply
+bind index,pager \031 previous-undeleted # Mouse wheel
+bind index,pager \005 next-undeleted # Mouse wheel
 macro index,pager S <sync-mailbox>
 macro index,pager \Cu |urlscan\n
 macro index,pager ,, |urlscan\n

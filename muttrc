@@ -39,9 +39,9 @@ bind index D delete-message
 bind index U undelete-message
 bind index F search
 bind index,pager R group-reply
-macro index,pager S '<sync-mailbox><shell-escape>pkill -RTMIN+12 i3blocks<enter>'
-macro index,pager \Cu |urlview\n
-macro index,pager ,, |urlview\n
+macro index,pager S <sync-mailbox>
+macro index,pager \Cu |urlscan\n
+macro index,pager ,, |urlscan\n
 
 # View attachments properly.
 bind attach <return> view-mailcap

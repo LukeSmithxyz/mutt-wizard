@@ -79,7 +79,7 @@ accounts.
 The automatically deployed configs will look for certain programs for certain
 extra abilities. Consider installing the following for the extra functionality.
 
-+ `urlview` -- Detecting and following links with `ctrl-u`
++ `urlscan` -- Detecting and following links with `ctrl-u`
 + `mupdf` -- for viewing attached pdfs (`v` to view attachments, then select
   .pdf)
 + `notmuch` -- for mail searching and indexing set to `ctrl-f`. Be sure to run

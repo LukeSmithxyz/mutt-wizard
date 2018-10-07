@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # This script will run offlineimap and check
 # for new email if there is an internet connection.
 #
@@ -11,7 +11,7 @@ export DISPLAY=:0.0
 
 # Checks for internet connection and set notification script.
 # Settings are different for MacOS (Darwin) systems.
-if [ "$(uname)" == "Darwin" ]
+if [ "$(uname)" = "Darwin" ]
 then
 	ping -q -t 1 -c 1 `ip r | grep -m 1 default | cut -d ' ' -f 3` >/dev/null || exit
 	notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
@@ -32,10 +32,10 @@ pkill -RTMIN+12 i3blocks
 for account in $(ls ~/.mail)
 do
 	#List unread messages newer than last mailsync and count them
-	newcount=$(find ~/.mail/$account/INBOX/new/ -type f -newer ~/.config/mutt/etc/mailsynclastrun 2> /dev/null | wc -l)
+	newcount=$(find ~/.mail/"$account"/INBOX/new/ -type f -newer ~/.config/mutt/etc/mailsynclastrun 2> /dev/null | wc -l)
 	if [ "$newcount" -gt "0" ]
 	then
-		notify "$account" "$newcount" & disown
+		setsid notify "$account" "$newcount" &
 	fi
 done
 notmuch new

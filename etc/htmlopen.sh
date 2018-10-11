@@ -4,7 +4,8 @@
 
 file=$(mktemp -u --suffix=.html)
 
-echo $file
+rm -f "$file"
+
 cp "$1" "$file"
 
-setsid firefox "$file" &
+setsid firefox "$file" >/dev/null 2>&1 &

@@ -35,7 +35,7 @@ do
 	newcount=$(find ~/.mail/"$account"/INBOX/new/ -type f -newer ~/.config/mutt/etc/mailsynclastrun 2> /dev/null | wc -l)
 	if [ "$newcount" -gt "0" ]
 	then
-		setsid notify "$account" "$newcount" &
+		notify "$account" "$newcount" &
 	fi
 done
 notmuch new

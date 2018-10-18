@@ -67,6 +67,7 @@ europe.com,imap.mail.com,995,smtp.mail.com,587
 fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465
 fastmail.fm,imap.fastmail.com,993,smtp.fastmail.com,465
 firemail.cc,mail.cock.li,993,mail.cock.li,587
+forthnet.gr,mail.forthnet.gr,993,smtp-auth.forthnet.gr,465
 fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
 getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
 gmail.com,imap.google.com,993,smtp.gmail.com,587
@@ -86,6 +87,7 @@ hitler.rocks,mail.cock.li,993,mail.cock.li,587
 horsefucker.org,mail.cock.li,993,mail.cock.li,587
 hostgator,gator4171.hostgator.com,993,gator4171.hostgator.com,587
 hotmail.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+hushmail.com,imap.hushmail.com,993,smtp.hushmail.com,465
 iname.com,imap.mail.com,995,smtp.mail.com,587
 insiberia.net,mail.autistici.org,993,smtp.autistici.org,465
 insicuri.net,mail.autistici.org,993,smtp.autistici.org,465
@@ -98,6 +100,7 @@ loves.dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 loves.dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
 lukesmith.xyz,mail.privateemail.com,993,mail.privateemail.com,587
 mail.com,imap.mail.com,995,smtp.mail.com,587
+mail.ru,imap.mail.ru,993,smtp.mail.ru,465
 mailbox.org,imap.mailbox.org,993,smtps.mailbox.org,465
 memeware.net,mail.cock.li,993,mail.cock.li,587
 mortemale.org,mail.autistici.org,993,smtp.autistici.org,465

@@ -77,7 +77,7 @@ accounts.
 
 ### Installation on macOS
 
-You may need to add symbolic links or aliases on macOS, or the account generation logic may fail, or worse.
+You may need to install or symlink additional packages on macOS. Otherwise the generation of configuration files may fail, or worse.
 
 ```
 ln -s /usr/local/bin/gpg /usr/local/bin/gpg2

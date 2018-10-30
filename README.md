@@ -74,6 +74,17 @@ neomutt and see your mail.  If mutt doesn't immediately work properly run the
 `Redetect mailboxes` option, then open mutt. This may be necessary for some
 accounts.
 
+
+### Installation on macOS
+
+You may need to install or symlink additional packages on macOS. Otherwise the generation of configuration files may fail, or worse.
+
+```
+ln -s /usr/local/bin/gpg /usr/local/bin/gpg2
+brew install coreutils
+ln -s /usr/local/bin/gshred /usr/local/bin/shred
+```
+
 ### Non-essential dependencies
 
 The automatically deployed configs will look for certain programs for certain

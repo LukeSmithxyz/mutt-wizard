@@ -1,7 +1,7 @@
 text/plain; vim %s ;
-text/html; ~/.config/mutt/etc/htmlopen.sh %s ;
+text/html; ~/.config/mutt/etc/openfile.sh %s ;
 text/html; w3m -I %{charset} -T text/html; copiousoutput;
 image/*; ~/.config/mutt/etc/muttimage.sh %s ; copiousoutput
 video/*; setsid mpv --quiet %s &; copiousoutput
-application/pdf; cp '%s' /tmp/doc.pdf && setsid zathura /tmp/doc.pdf &; copiousoutput;
+application/pdf; ~/.config/mutt/etc/openfile.sh %s ;
 application/pgp-encrypted; gpg -d '%s'; copiousoutput;

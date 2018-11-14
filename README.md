@@ -44,9 +44,10 @@ and if you do run into problems, email me at
 personally on Gmail, Teknik.io, cock.li and Yandex, while others have tried
 other providers.
 
-One email provider which I think will *not* work (and will never work) is
-Proton Mail, but that's only because they require encryption through their web
-client IIRC.
+If you have a ProtonMail account, due to their secure setup, you must have
+[ProtonMail Bridge](https://protonmail.com/bridge/) installed and configured.
+Compatibility with ProtonMail is still in testing, so be sure to open an issue
+if you have problems as I do not have a paid account to test this with.
 
 Note also that Gmail and some providers require you to enable sign-ins from
 third-party (or as they call it "less secure") applications to be able to load

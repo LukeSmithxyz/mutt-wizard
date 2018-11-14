@@ -117,6 +117,8 @@ paranoici.org,mail.autistici.org,993,smtp.autistici.org,465
 post.com,imap.mail.com,995,smtp.mail.com,587
 posteo.de,posteo.de,993,posteo.de,587
 privacyrequired.com,mail.autistici.org,993,smtp.autistici.org,465
+protonmail.ch,127.0.0.1,1143,127.0.0.1,1025
+protonmail.com,127.0.0.1,1143,127.0.0.1,1025
 rape.lol,mail.cock.li,993,mail.cock.li,587
 redchan.it,mail.cock.li,993,mail.cock.li,587
 runbox.com,mail.runbox.com,993,mail.runbox.com,587

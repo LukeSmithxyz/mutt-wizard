@@ -93,6 +93,7 @@ insiberia.net,mail.autistici.org,993,smtp.autistici.org,465
 insicuri.net,mail.autistici.org,993,smtp.autistici.org,465
 inventati.org,mail.autistici.org,993,smtp.autistici.org,465
 krutt.org,mail.autistici.org,993,smtp.autistici.org,465
+lavabit.com,lavabit.com,993,lavabit.com,587
 linuxmail.org,imap.mail.com,995,smtp.mail.com,587
 live.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 logorroici.org,mail.autistici.org,993,smtp.autistici.org,465

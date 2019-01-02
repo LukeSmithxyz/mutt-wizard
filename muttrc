@@ -42,8 +42,8 @@ bind index,pager R group-reply
 bind index,pager \031 previous-undeleted # Mouse wheel
 bind index,pager \005 next-undeleted # Mouse wheel
 macro index,pager S <sync-mailbox>
-macro index,pager \Cu |urlscan\n
-macro index,pager ,, |urlscan\n
+macro index,pager \Cu "|urlscan\n"
+macro index,pager ,, "|urlscan\n"
 
 # View attachments properly.
 bind attach <return> view-mailcap
@@ -55,6 +55,10 @@ set forward_decode                   # decode when forwarding
 set forward_quote                    # include message in forwards
 set reverse_name                     # reply as whomever it was to
 set include                          # include message in replies
+
+set query_command="abook --mutt-query '%s'"
+macro index,pager  a "<pipe-message>abook --add-email<return>" "Add this sender to Abook"
+bind editor        <Tab> complete-query
 
 #Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"

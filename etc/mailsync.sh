@@ -20,7 +20,7 @@ else
 	notify() { mpv --really-quiet ~/.config/mutt/etc/notify.opus & pgrep -x dunst && notify-send -i ~/.config/mutt/etc/email.gif "$2 new mail(s) in \`$1\` account." ;}
 fi
 
-echo 🔃 > ~/.config/mutt/.dl
+echo " 🔃" > ~/.config/mutt/.dl
 pkill -RTMIN+12 i3blocks
 
 # Run offlineimap. You can feed this script different settings.

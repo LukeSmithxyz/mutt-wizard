@@ -56,9 +56,6 @@ color body brightgreen default "^### \.*" # Subsubheadings as bold green
 color body yellow default "^(\t| )*(-|\\*) \.*" # List items as yellow
 color body brightcyan default "[;:][-o][)/(|]" # emoticons
 color body brightcyan default "[;:][)(|]" # emoticons
-color body brightcyan default "[*]?((N)?ACK|CU|LOL|SCNR|BRB|BTW|CWYL|\
- |FWIW|vbg|GD&R|HTH|HTHBE|IMHO|IMNSHO|\
- |IRL|RTFM|ROTFL|ROFL|YMMV)[*]?"
 color body brightcyan default "[ ][*][^*]*[*][ ]?" # more emoticon?
 color body brightcyan default "[ ]?[*][^*]*[*][ ]" # more emoticon?
 color body red default "(BAD signature)"

@@ -64,6 +64,11 @@ formatShortcut() { \
 	echo "macro index,pager g$1 \"<change-folder>$data<enter>\" \"Go to $2.\"" >> "$muttdir"/accounts/$3.muttrc
 	done ;}
 
+formatMoveEmailShortcut() { \
+	while read data; do
+	echo "macro index,pager <Backspace>$1 \"<save-message>$data<enter><enter>\" \"Save message to $2.\"" >> "$muttdir"/accounts/$3.muttrc
+	done ;}
+
 gen_delim() { \
 	delim="="
 	for i in `seq $(( $1 - 1 ))`
@@ -87,7 +92,9 @@ detectMailboxes() { \
 	grep -i /tmp/$1_boxes -e trash | sed 1q | formatShortcut t trash $1
 	grep -i /tmp/$1_boxes -e spam | sed 1q | formatShortcut S spam $1
 	grep -i /tmp/$1_boxes -e junk | sed 1q | formatShortcut j junk $1
-	grep -i /tmp/$1_boxes -e archive | sed 1q | formatShortcut a archive $1
+	archive_box=$(grep -i /tmp/$1_boxes -e archive | sed 1q)
+	echo $archive_box | formatShortcut a archive $1
+	echo $archive_box | formatMoveEmailShortcut a archive $1
 	spoolfile=$(grep -i /tmp/$1_boxes -e inbox | sed -e 's/=/+/g' | sed 1q)
 	record=$(grep -i /tmp/$1_boxes -e sent | sed -e 's/=/+/g' | sed 1q)
 	postponed=$(grep -i /tmp/$1_boxes -e draft | sed -e 's/=/+/g' | sed 1q)

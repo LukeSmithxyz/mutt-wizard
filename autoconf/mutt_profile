@@ -18,4 +18,5 @@ set ssl_force_tls = yes
 bind index,pager gg noop
 bind index,pager g noop
 bind index gg first-entry
+bind index,pager <Backspace> noop
 unmailboxes *

@@ -44,8 +44,8 @@ bind index \005 next-undeleted # Mouse wheel
 bind pager \031 previous-line # Mouse wheel
 bind pager \005 next-line # Mouse wheel
 macro index,pager S <sync-mailbox>
-macro index,pager \Cu |urlscan\n
-macro index,pager ,, |urlscan\n
+macro index,pager \Cu "|urlscan -r 'echo {} | parallel xargs $BROWSER'"\n
+macro index,pager ,, "|urlscan -r 'echo {} | parallel xargs $BROWSER'"\n
 
 # View attachments properly.
 bind attach <return> view-mailcap

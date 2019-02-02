@@ -86,6 +86,7 @@ detectMailboxes() { \
 	grep -i /tmp/$1_boxes -e draft | sed 1q | formatShortcut d drafts $1
 	grep -i /tmp/$1_boxes -e trash | sed 1q | formatShortcut t trash $1
 	grep -i /tmp/$1_boxes -e spam | sed 1q | formatShortcut S spam $1
+	grep -i /tmp/$1_boxes -e junk | sed 1q | formatShortcut j junk $1
 	grep -i /tmp/$1_boxes -e archive | sed 1q | formatShortcut a archive $1
 	spoolfile=$(grep -i /tmp/$1_boxes -e inbox | sed -e 's/=/+/g' | sed 1q)
 	record=$(grep -i /tmp/$1_boxes -e sent | sed -e 's/=/+/g' | sed 1q)

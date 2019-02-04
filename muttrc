@@ -31,13 +31,15 @@ bind index G last-entry
 bind index gg first-entry
 bind pager j next-line
 bind pager k previous-line
-bind pager gg top
-bind pager G bottom
-bind index d half-down
-bind index u half-up
+bind browser h goto-parent
+bind browser l select-entry
+bind pager,browser gg top-page
+bind pager,browser G bottom-page
+bind index,browser d half-down
+bind index,browser u half-up
 bind index D delete-message
 bind index U undelete-message
-bind index F search
+bind index,browser F search
 bind index,pager R group-reply
 bind index \031 previous-undeleted # Mouse wheel
 bind index \005 next-undeleted # Mouse wheel

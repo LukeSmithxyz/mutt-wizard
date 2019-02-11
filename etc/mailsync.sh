@@ -13,10 +13,10 @@ export DISPLAY=:0.0
 # Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" = "Darwin" ]
 then
-	ping -q -t 1 -c 1 1.1.1.1 > /dev/null || exit
+	ping -q -c 1 1.1.1.1 > /dev/null || exit
 	notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 else
-	ping -q -W 1 -c 1 1.1.1.1 > /dev/null || exit
+	ping -q -c 1 1.1.1.1 > /dev/null || exit
 	notify() { mpv --really-quiet ~/.config/mutt/etc/notify.opus & pgrep -x dunst && notify-send -i ~/.config/mutt/etc/email.gif "$2 new mail(s) in \`$1\` account." ;}
 fi
 

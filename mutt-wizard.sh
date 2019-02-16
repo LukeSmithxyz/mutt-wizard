@@ -127,7 +127,9 @@ removeAccount() { sed -ie "
 	rm "$muttdir"/accounts/$1.muttrc
 	rm "$muttdir"/credentials/$1.gpg
 	rm -rf "$muttdir"/accounts/$1
-	sed -i "/$1.muttrc/d" "$muttdir"/personal.muttrc ;}
+	sed -i "/$1.muttrc/d" "$muttdir"/personal.muttrc 
+	# Delete from the line matching the account name, until the next account or empty line
+	sed -i "/account $1/,/^\(\s*$\|account\)/d" ~/.msmtprc ;}
 
 manual() { \
 	imap=$( dialog --inputbox "Insert the IMAP server for your email provider (excluding the port number)" 10 60 3>&1 1>&2 2>&3 3>&- )

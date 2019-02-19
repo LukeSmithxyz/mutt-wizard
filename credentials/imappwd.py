@@ -6,6 +6,6 @@ def mailpasswd(acct):
   path = "%s/.config/mutt/credentials/%s.gpg" % (home,acct)
   args = ["gpg2", "--use-agent", "--quiet", "--batch", "-d", path]
   try:
-    return subprocess.check_output(args).strip()
+    return subprocess.check_output(args).strip().decode('UTF-8')
   except subprocess.CalledProcessError:
       return ""

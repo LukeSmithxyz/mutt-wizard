@@ -3,7 +3,6 @@
 bind index,pager i noop
 bind index,pager g noop
 bind index \Cf noop
-source etc/aliases
 source personal.muttrc
 set sleep_time = 0
 set sort = 'reverse-date'

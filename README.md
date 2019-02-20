@@ -86,18 +86,15 @@ brew install coreutils
 ln -s /usr/local/bin/gshred /usr/local/bin/shred
 ```
 
-### Non-essential dependencies
+### Non-essential dependencies for extra features
 
 The automatically deployed configs will look for certain programs for certain
 extra abilities. Consider installing the following for the extra functionality.
 
-+ `urlscan` -- Detecting and following links with `ctrl-u`
-+ `mupdf` -- for viewing attached pdfs (`v` to view attachments, then select
-  .pdf)
 + `notmuch` -- for mail searching and indexing set to `ctrl-f`. Be sure to run
   `notmuch setup`. Remember your mail is in `~/.mail/` when you configure
   notmuch.
-+ `w3m` and/or `w3mimg` -- for viewing images. Like .pdfs, view in the attachments menu.
++ `w3m` and/or `w3mimg` -- for HTML emails and viewing images. Like .pdfs, view in the attachments menu.
 + A cron manager if you want the autosync feature.
 + `iproute2mac` for Mac users who want the autosync feature.
 + `mpv` if you want the autosync feature to notify you with a ding on new mail.

@@ -45,8 +45,6 @@ bind index \005 next-undeleted # Mouse wheel
 bind pager \031 previous-line # Mouse wheel
 bind pager \005 next-line # Mouse wheel
 macro index,pager S <sync-mailbox>
-macro index,pager \Cu "|urlscan -r 'setsid $BROWSER \"{}\"'"\n
-macro index,pager ,, "|urlscan -r 'setsid $BROWSER \"{}\"'"\n
 set query_command= "abook --mutt-query '%s'"
 bind editor        <Tab> complete-query
 

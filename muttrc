@@ -48,6 +48,8 @@ bind pager \005 next-line # Mouse wheel
 macro index,pager S <sync-mailbox>
 macro index,pager \Cu "|urlscan -r 'setsid $BROWSER \"{}\"'"\n
 macro index,pager ,, "|urlscan -r 'setsid $BROWSER \"{}\"'"\n
+set query_command= "abook --mutt-query '%s'"
+bind editor        <Tab> complete-query
 
 # View attachments properly.
 bind attach <return> view-mailcap

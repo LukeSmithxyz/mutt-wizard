@@ -92,13 +92,14 @@ unmailboxes *
 userexit() { clear; exit ;}
 
 addaccount() { \
-	printf "Insert the email address that you want to autoconfigure for mutt/offlineIMAP\\n\\nEmail: "
+	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/offlineIMAP\\n\\nEmail: "
 	read -r fulladdr
 	while ! echo "$fulladdr" | grep "$emailre" >/dev/null; do
-		printf "That is not a valud email address, please retype the desired email.\\n\\nEmail: "
+		printf "That is not a valid \033[31memail address\033[0m, please retype the desired email.\\n\\nEmail: "
 		read -r fulladdr
 	done
 	domain="$(echo "$fulladdr" | sed "s/.*@//")"
+	printf "\\nSearching for \033[32m%s\033[0m in \033[34m\`domains.csv\`\033[0m..." "$domain"
 	serverinfo="$(grep "$domain" "$muttdir/domains.csv")"
 	if [ -z "$serverinfo" ]; then
 		printf "Your email domain is not in mutt-wizard's database yet.\\nmutt-wizard will still autoconfigure everything, but you will have to manually type in your service's IMAP and SMTP server information.\\nYou can usually quickly find this by internet searching for it.\\n"
@@ -111,28 +112,30 @@ addaccount() { \
 		printf "What is your server's SMTP port number? (Usually 587 or 465)\\n"
 		read -r sport
 		printf "\\nGreat! If you want to be helpful, copy the line below and you can add it to the \`domains.csv\` file on Github.\\nThis will make things easier for others who use your email provider.\\n\\n%s,%s,%s,%s,%s\\n\\nAlthough be sure to test to see if these settings work first! ;-)\\n" "$domain" "$imap" "$iport" "$smtp" "$sport"
-		exit
 	else
 		IFS=, read service imap iport smtp sport <<EOF
 $serverinfo
 EOF
-	printf "Congrats! Server info has automatically be found, so you won't have to look anything up!\\nIMAP server: %s\\nIMAP port: %s\\nSMTP server: %s\\nSMTP port: %s\\nThis data will be used by the wizard.\\n" "$imap" "$iport" "$smtp" "$sport"
-	exit
+	printf "\\n\033[3;33mCongrats!\033[0m Server info has automatically be found, so you won't have to look anything up!\\n\t\033[1mIMAP server\033[0m: %s\\n\t\033[1mIMAP port\033[0m: %s\\n\t\033[1mSMTP server\033[0m: %s\\n\t\033[1mSMTP port\033[0m: %s\\nThis data will be used by the wizard.\\n" "$imap" "$iport" "$smtp" "$sport"
 	fi
-	printf "Enter the full name you want to be identified by on this account.\\nReal name: "
+	printf "\\nPress enter to continue.\\n"
+	stty -echo
+	read wait
+	stty echo
+	printf "Enter the \033[35mfull name\033[0m you want to be identified by on this account.\\n\tReal name: "
 	read -r realname
-	printf "Enter a short, one-word identifier for this email account that will distinguish them from any other accounts you add.\\nAccount name: "
+	printf "Enter a short, \033[36mone-word identifier\033[0m for this email account that will distinguish them from any other accounts you add.\\n\tAccount name: "
 	read -r title
 	while ! echo "$title" | grep "$namere" >/dev/null; do
-		printf "Try again. Pick a nickname that is one word only including lowercase letters and _ or -.\\nAccount name: "
+		printf "\033[31mTry again\033[0m. Pick a nickname that is one word only including lowercase letters and _ or -.\\n\tAccount name: "
 		read -r title
 	done
-	printf "If your account has a special username different from your address, insert it now. Otherwise leave this prompt totally blank.\\nLogin(?): "
+	printf "If your account has a special username different from your address, insert it now. Otherwise leave this prompt totally blank.\\n\tLogin(?): "
 	read -r login
 	[ -z "$login" ] && login="$fulladdr"
 	if [ "$service" = "gmail.com" ]; then
 		type="Gmail"; ifgoogleline="folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']"
-		printf "Google mail account detected. Remember to check the README to make sure of Google-specific settings you must enable.\\n"
+		printf "\033[1mGoogle\033[0m mail account detected. Remember to check the README to make sure of Google-specific settings you must enable.\\n"
 	else
 		type="IMAP"; ifgoogleline="remotehost = $imap"
 	fi
@@ -150,7 +153,7 @@ EOF
 }
 
 getpass() { \
-	printf "Now enter your password for the \"%s\" account. Don't worry, this will be encrypted and only you with your GPG key can view it.\\nPassword: " "$1"
+	printf "Now enter your password for the \"%s\" account. Don't worry, this will be encrypted and only you with your GPG key can view it.\\n\tPassword: " "$1"
 	stty -echo
 	read -r password
 	stty echo
@@ -221,10 +224,11 @@ detectMailboxes() { \
 
 [ -z "$gpgemail" ] && askgpg
 
+
 main() { \
 	while : ; do
-	printf "What would you like mutt-wizard to do?
-	1 Add an email account
+	printf "What would you like \033[32mmutt-wizard\033[0m to do?
+	\033[31m1 Add an email account\033[0m
 	2 Autodetect mailboxes
 	3 Change an account's password
 	0 Exit

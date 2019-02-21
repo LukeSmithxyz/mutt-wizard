@@ -148,6 +148,7 @@ EOF
 	echo "$offlineimap_profile" >> "$HOME/.config/offlineimap/config"
 	echo "$msmtp_profile" >> "$HOME/.config/msmtp/config"
 	echo "$mutt_profile" > "$accdir/$title.muttrc"
+	trysync && finalize
 }
 
 getpass() { \
@@ -202,10 +203,14 @@ trysync() { \
 	stty echo
 	(sleep 15; killall offlineimap; killall offlineimap; killall offlineimap) &
 	offlineimap -qoa "$title"
-	exit 0
+	if ls -d "$maildir/$1/"* >/dev/null 2>&1; then
+		printf "\033[32mSync successful.\033[0m\\n"; exit
+	else
+		printf "\033[31m\033[31mSync not successful.\033[0m Try running offlineimap manually after double-checking your password and server settings.\\nThen select to finalize the account.\\n"; exit 1
+	fi
 }
 
-detectMailboxes() { \
+finalize() { \
 	boxes="$(ls -d "$maildir/$1/"* 2>/dev/null | sed "s/.*\///;s/^/=/")"
 	[ -z "$boxes" ] && printf "\033[31mNo local mailboxes have been detected for %s.\033[0m\\nThis means that offlineimap has not been successfully run.\\nRun offlineimap, and if it has an error, be sure to check your password and server settings manually if needbe.\\n" "$1" && exit
 	echo "$boxes" > "$tmpdir/$1_boxes"

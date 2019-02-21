@@ -111,20 +111,6 @@ localfolders = $maildir/$title
 
 userexit() { clear; exit ;}
 
-inventory() { \
-	grep "^accounts =" "$HOME/.config/offlineimap/config" | sed 's/accounts =\( \)//g;s/\(,\) /\n/g;' | nl --number-format=ln > "$tmpdir/numbered"
-	accounts=()
-	while read n s ; do
-		accounts+=($n "$s" off)
-	done < "$tmpdir/numbered"
-	choices=$(dialog --separate-output --checklist "Select all desired email accounts with <SPACE>." 15 40 16 "${accounts[@]}" 2>&1 >/dev/tty)
-
-	if [ -z "$choices" ];
-		then
-			clear
-		else
-		userchoices=$(IFS="|"; keys="${choices[*]}"; keys="${keys//|/\\|}"; grep -w "${keys}" "$tmpdir/numbered"  | awk '{print $2}')
-	fi ;}
 
 chooseadd() { \
 	fulladdr=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Insert the full email address for the account you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- ) || userexit

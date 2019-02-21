@@ -7,7 +7,7 @@ creddir="$HOME/.local/share/muttwizard"	# Location of encrypted credentials
 bindir="$HOME/.config/mutt/bin"		# Location of scripts run by mutt or the wizard
 namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
-gpgemail="$(cat "$creddir/gpgemail")"	# Get previously set gpg email address
+gpgemail="$(cat "$creddir/gpgemail" 2>&1)"	# Get previously set gpg email address
 tmpdir="$(mktemp -d)"
 GPG="gpg"; command -v gpg >/dev/null || GPG="gpg2"	# Ensure proper gpg command
 
@@ -87,57 +87,55 @@ bind index,pager C noop
 bind index gg first-entry
 unmailboxes *
 "
-
-offlineimap_profile="
-[Account $title]
-localrepository = $title-local
-remoterepository = $title-remote
-
-[Repository $title-remote]
-auth_mechanisms = LOGIN
-type = $type
-remoteuser = $login
-remotepasseval = mailpasswd(\"$title\")
-remotehost = $imap
-remoteport = $iport
-folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']
-sslcacertfile = /etc/ssl/certs/ca-certificates.crt
-
-[Repository $title-local]
-type = Maildir
-localfolders = $maildir/$title
-"
 }
 
 userexit() { clear; exit ;}
 
-
-chooseadd() { \
-	fulladdr=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Insert the full email address for the account you want to configure." 10 60 3>&1 1>&2 2>&3 3>&- ) || userexit
-	while ! echo "$fulladdr" | grep "emailre" >/dev/null; do
-		fulladdr=$(dialog --no-cancel --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "That's not a valid email address. Please input the entire address." 10 60 3>&1 1>&2 2>&3 3>&1) || userexit
+addaccount() { \
+	printf "Insert the email address that you want to autoconfigure for mutt/offlineIMAP\\n\\nEmail: "
+	read -r fulladdr
+	while ! echo "$fulladdr" | grep "$emailre" >/dev/null; do
+		printf "That is not a valud email address, please retype the desired email.\\n\\nEmail: "
+		read -r fulladdr
 	done
 	domain="$(echo "$fulladdr" | sed "s/.*@//")"
 	serverinfo="$(grep "$domain" "$muttdir/domains.csv")"
 	if [ -z "$serverinfo" ]; then
-		imap="$( dialog --inputbox "Insert the IMAP server for your email provider (excluding the port number)" 10 60 3>&1 1>&2 2>&3 3>&- )"
-		iport="$(dialog --inputbox "What is your server's IMAP port number? (Usually 993)" 10 60 3>&1 1>&2 2>&3 3>&-)"
-		smtp="$(dialog --inputbox "Insert the SMTP server for your email provider (excluding the port number)" 10 60 3>&1 1>&2 2>&3 3>&- )"
-		sport="$(dialog --inputbox "What is your server's SMTP port number? (Usually 587 or 465)" 10 60 3>&1 1>&2 2>&3 3>&- )"
+		printf "Your email domain is not in mutt-wizard's database yet.\\nmutt-wizard will still autoconfigure everything, but you will have to manually type in your service's IMAP and SMTP server information.\\nYou can usually quickly find this by internet searching for it.\\n"
+		printf "Insert the IMAP server for your email provider (excluding the port number)\\n"
+		read -r imap
+		printf "What is your server's IMAP port number? (Usually something like 993)\\n"
+		read -r iport
+		printf "Insert the SMTP server for your email provider (excluding the port number)\\n"
+		read -r smtp
+		printf "What is your server's SMTP port number? (Usually 587 or 465)\\n"
+		read -r sport
+		printf "Great. If you want to be helpful, copy the line below and you can add it to the \`domains.csv\` file on Github. This will make things easier for others who use your email provider.\\n\\n%s,%s,%s,%s,%s\\n\\nAlthough be sure to test to see if these settings work first! ;-)\\n" "$domain" "$imap" "$iport" "$smtp" "$sport"
+		exit
 	else
 		IFS=, read service imap iport smtp sport <<EOF
 $serverinfo
 EOF
+	printf "Congrats! Server info has automatically be found, so you won't have to look anything up!\\nIMAP server: %s\\nIMAP port: %s\\nSMTP server: %s\\nSMTP port: %s\\nThis data will be used by the wizard.\\n" "$imap" "$iport" "$smtp" "$sport"
+	exit
 	fi
-	realname=$( dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Enter the full name you'd like to be identified by on this email account." 10 60 3>&1 1>&2 2>&3 3>&- ) || userexit
-	title=$(dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Give a short, one-word name for this email account that will differentiate it from other email accounts." 10 60 3>&1 1>&2 2>&3 3>&1) || userexit
+	printf "Enter the full name you want to be identified by on this account.\\nReal name: "
+	read -r realname
+	printf "Enter a short, one-word identifier for this email account that will distinguish them from any other accounts you add.\\nAccount name: "
+	read -r title
 	while ! echo "$title" | grep "$namere" >/dev/null; do
-		title=$(dialog --no-cancel --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "Account title not valid. Give a username beginning with a letter, with only lowercase letters, - or _." 10 60 3>&1 1>&2 2>&3 3>&1) || userexit
+		printf "Try again. Pick a nickname that is one word only including lowercase letters and _ or -.\\nAccount name: "
+		read -r title
 	done
-	login=$(dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "If you have a username for the \"$title\" account which is different from your email address, enter it here. Otherwise leave this prompt blank." 10 60 3>&1 1>&2 2>&3 3>&- ) || userexit
+	printf "If your account has a special username different from your address, insert it now. Otherwise leave this prompt totally blank.\\nLogin(?): "
+	read -r login
 	[ -z "$login" ] && login="$fulladdr"
-	# service
-	# ifgoogleline
+	if [ "$service" = "gmail.com" ]; then
+		type="Gmail"; ifgoogleline="folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']"
+		printf "Google mail account detected. Remember to check the README to make sure of Google-specific settings you must enable.\\n"
+	else
+		type="IMAP"; ifgoogleline="remotehost = $imap"
+	fi
 	grep "i[0-9]" "$muttdir/personal.muttrc" | awk '{print $3}' | sed -e 's/i//g' > "$tmpdir/mutt_used"
 	printf "1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9" > "$tmpdir/mutt_all_possible"
 	idnum=$(diff "$tmpdir/mutt_all_possible" "$tmpdir/mutt_used" | sed -n 2p | awk '{print $2}')
@@ -152,23 +150,32 @@ EOF
 }
 
 getpass() { \
-	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the password for the \"$1\" account." 10 60 2> "$tmpdir/$1"
+	printf "Now enter your password for the \"%s\" account. Don't worry, this will be encrypted and only you with your GPG key can view it.\\nPassword: " "$1"
+	stty -echo
+	read -r password
+	stty echo
+	echo "$password" > "$tmpdir/$1"
+	printf "Encrypting your password with %s..."
 	"$GPG" -r "$gpgemail" --encrypt "$tmpdir/$1"
-	shred -u "$tmpdir/$1"
+	print "DONE\\nShredding all memory of your password for safety's sake..."
+	unset password
+	shred -u "$tmpdir/$1" | rm -f "$tmpdir/$1"
 	mv "$tmpdir/$1.gpg" "$creddir"
+	printf "DONE.\\n"
 }
 
 askgpg() { \
-	gpgemail=$(dialog --title "Luke's mutt/offlineIMAP wizard" --inputbox "To safely encrypt passwords, mutt-wizard requires that you have a GPG public/private key pair.\n\nPlease insert the email address for your key pair here, or generate one first with \`$GPG --full-gen-key\` and come back." 12 60 3>&1 1>&2 2>&3 3>&- ) || userexit
+	printf "To safely encrypt passwords, mutt-wizard requires that you have a GPG public/private key pair.\\n\\nPlease input the email address of your GPG key pair below.\\nEmail: "
+	read -r gpgemail
 	while ! echo "$gpgemail" | grep "$emailre"; do
-		gpgemail=$(dialog --title "Luke's mutt/offlineIMAP wizard" --inputbox "That's not a valid email address. Please input the entire address." 10 60 3>&1 1>&2 2>&3 3>&1) || userexit
-
+		printf "That is not a valud email address. Please try again.\\nEmail: "
+		read -r gpgemail
 	done
 	if "$GPG" -K | grep "<$gpgemail>"; then
 		echo "$gpgemail" > "$creddir/gpgemail"
 	else
-		dialog --title "Luke's mutt/offlineIMAP wizard" --msgbox "You do not appear to have a private key with that email address.\n\nPlease be sure to create your key with \`$GPG --full-gen-key\` and come back." 8 70
-		clear; exit
+		printf "You do not appear to have a private key associated with %s.\\nPlease generate a GPG key pair by running \`%s --full-gen-key\` and rerun the wizard.\\n" "$gpgemail" "$GPG"
+		exit 1
 	fi
 }
 
@@ -229,11 +236,8 @@ choice=$(dialog --title "Luke's mutt/offlineIMAP wizard" --nocancel \
 	 3>&1 1>&2 2>&3 3>&1 )
 
 case $choice in
-0) dialog --title "Accounts detected" --msgbox "The following accounts have been detected:
-$(grep ~/.offlineimaprc -e "^accounts =" | sed 's/accounts =//g')
-" 6 60;;
-1) chooseadd ;;
-2) detectWarning && chooseDetect;;
+0) addaccount ;;
+1) detectWarning && chooseDetect;;
 3) inventory && for i in $userchoices; do getpass "$i" ; done;;
 4) inventory && for i in $userchoices; do removeAccount "$i" ; done;;
 5) (dialog --defaultno --title "Wipe all custom neomutt/offlineIMAP settings?" --yesno "Would you like to wipe all of the mutt/offlineIMAP settings generated by the system?" 6 60 && wipe) ;;

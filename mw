@@ -138,8 +138,8 @@ EOF
 		type="IMAP"; ifgoogleline="remotehost = $imap"
 	fi
 	grep "i[0-9]" "$muttdir/personal.muttrc" | awk '{print $3}' | sed -e 's/i//g' > "$tmpdir/mutt_used"
-	printf "1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9" > "$tmpdir/mutt_all_possible"
-	idnum=$(diff "$tmpdir/mutt_all_possible" "$tmpdir/mutt_used" | sed -n 2p | awk '{print $2}')
+	seq 1 9 > "$tmpdir/mutt_all"
+	idnum=$(diff "$tmpdir/mutt_all" "$tmpdir/mutt_used" | sed -n 2p | awk '{print $2}')
 	getpass "$title"
 	getprofiles
 	mkdir -p "$HOME/.config/offlineimap/" "$HOME/.config/msmtp"

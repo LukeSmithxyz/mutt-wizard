@@ -150,22 +150,12 @@ EOF
 	done
 	login=$(dialog --title "Luke's mutt/offlineIMAP autoconfig" --inputbox "If you have a username for the \"$title\" account which is different from your email address, enter it here. Otherwise leave this prompt blank." 10 60 3>&1 1>&2 2>&3 3>&- ) || userexit
 	[ -z "$login" ] && login="$fulladdr"
-	#ifgoogleline
+	# service
+	# ifgoogleline
 	grep "i[0-9]" "$muttdir/personal.muttrc" | awk '{print $3}' | sed -e 's/i//g' > "$tmpdir/mutt_used"
 	printf "1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9" > "$tmpdir/mutt_all_possible"
 	idnum=$(diff "$tmpdir/mutt_all_possible" "$tmpdir/mutt_used" | sed -n 2p | awk '{print $2}')
 	getpass "$title" || userexit
-	addaccount
-}
-
-getpass() { \
-	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the password for the \"$1\" account." 10 60 2> "$tmpdir/$1"
-	"$GPG" -r "$gpgemail" --encrypt "$tmpdir/$1"
-	shred -u "$tmpdir/$1"
-	mv "$tmpdir/$1.gpg" "$creddir"
-}
-
-addaccount() { \
 	getprofiles
 	mkdir -p "$HOME/.config/offlineimap/" "$HOME/.config/msmtp"
 	[ ! -f "$HOME/.config/offlineimap/config" ] && echo "$offlineimap_header" > "$HOME/.config/offlineimap/config"
@@ -173,6 +163,13 @@ addaccount() { \
 	echo "$offlineimap_profile" >> "$HOME/.config/offlineimap/config"
 	echo "$msmtp_profile" >> "$HOME/.config/msmtp/config"
 	echo "$mutt_profile" > "$accdir/$title.muttrc"
+}
+
+getpass() { \
+	dialog --title "Luke's mutt/offlineIMAP password wizard" --passwordbox "Enter the password for the \"$1\" account." 10 60 2> "$tmpdir/$1"
+	"$GPG" -r "$gpgemail" --encrypt "$tmpdir/$1"
+	shred -u "$tmpdir/$1"
+	mv "$tmpdir/$1.gpg" "$creddir"
 }
 
 askgpg() { \

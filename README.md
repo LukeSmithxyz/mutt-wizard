@@ -16,12 +16,20 @@ Clone the repo to `~/.config/mutt`. Either move to backup or delete your old `~/
 
 Be sure to install the following programs:
 
-- `neomutt` - the email client.
-- `offlineimap` - downloads the email.
+- `neomutt` - the email client. If you delete a lot of the neomutt-specific settings in the muttrc, you can run vanilla mutt if you want.
+- `offlineimap` - downloads the email. Required for installation.
 - `msmtp` - sends your email.
-- `dialog` - is the mutt-wizard interface.
+- `dialog` - is the mutt-wizard interface. Required for installation.
 
-**You must have a GPG public/private key pair as well.** This is what will safely encrypt your passwords.
+**You must have a GPG public/private key pair as well.** This is what will safely encrypt your passwords. Run `gpg --full-gen-key` (or `gpg2 --full-gen-key`) to get one.
+
+## Install
+
+Once the repository is in place in `~/.config/mutt/`:
+
+- Select to add an account. This will autogenerate your config files for mutt, offlineimap and msmtp.
+- Run `offlineimap` once (at least a partial sync). This will create all the directories you need to finalize installation and will start downloading your mail.
+- Select the option to autodetect mailboxes. This will use the directories offlineimap creates to detect your mailboxes and make your mail readable by mutt.
 
 ### Optional dependencies
 

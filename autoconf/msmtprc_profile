@@ -1,7 +1,0 @@
-
-account $title
-host $smtp
-port $sport
-from $login
-user $login
-passwordeval "gpg -d --quiet --for-your-eyes-only --no-tty ~/.config/mutt/credentials/$title.gpg | sed -e '$a\'"

@@ -108,7 +108,7 @@ mortemale.org,mail.autistici.org,993,smtp.autistici.org,465
 msn.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 muny.us,mail.muny.us,993,mail.muny.us,465
 myself.com,imap.mail.com,995,smtp.mail.com,587
-narod.ru,imap.yandex.com,993,smtp.yandex.com,465
+narod.ru,imap.yandex.com,993,smtp.yandex.com,587
 national.shitposting.agency,mail.cock.li,993,mail.cock.li,587
 nigge.rs,mail.cock.li,993,mail.cock.li,587
 nuke.africa,mail.cock.li,993,mail.cock.li,587
@@ -142,14 +142,14 @@ wants.dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 wants.dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
 web.de,imap.web.de,993,smtp.web.de,587
 writeme.com,imap.mail.com,995,smtp.mail.com,587
-ya.ru,imap.yandex.com,993,smtp.yandex.com,465
+ya.ru,imap.yandex.com,993,smtp.yandex.com,587
 yahoo.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,587
-yandex.by,imap.yandex.com,993,smtp.yandex.com,465
-yandex.com,imap.yandex.com,993,smtp.yandex.com,465
-yandex.kz,imap.yandex.com,993,smtp.yandex.com,465
-yandex.net,imap.yandex.com,993,smtp.yandex.com,465
-yandex.ru,imap.yandex.com,993,smtp.yandex.com,465
-yandex.ua,imap.yandex.com,993,smtp.yandex.com,465
+yandex.by,imap.yandex.com,993,smtp.yandex.com,587
+yandex.com,imap.yandex.com,993,smtp.yandex.com,587
+yandex.kz,imap.yandex.com,993,smtp.yandex.com,587
+yandex.net,imap.yandex.com,993,smtp.yandex.com,587
+yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
+yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 duke.edu,outlook.office365.com,993,smtp.office365.com,587
 

@@ -10,7 +10,7 @@ set editor = $EDITOR
 #set copy = no
 set timeout = "5"
 set mail_check = "10"
-set mailcap_path = ~/.config/mutt/etc/mailcap
+set mailcap_path = ~/.config/mutt/bin/mailcap
 set date_format="%y/%m/%d %I:%M"
 set index_format="%2C %zs %?X?A& ? %D %-15.15F %s (%-4.4c)"
 set markers = no
@@ -64,10 +64,6 @@ macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "ma
 #sync email
 macro index O "<shell-escape>$HOME/.config/mutt/etc/mailsync.sh<enter>" "run offlineimap to sync all mail"
 macro index o "<shell-escape>$HOME/.config/mutt/etc/mailsync.sh -qf INBOX<enter>" "run offlineimap to sync inbox"
-
-#copy/move dialogs
-macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
-macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 
 # Notmuch searching
 macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" "show only messages matching a notmuch pattern"

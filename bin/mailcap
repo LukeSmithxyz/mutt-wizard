@@ -1,7 +1,7 @@
 text/plain; vim %s ;
-text/html; ~/.config/mutt/etc/openfile.sh %s ;
+text/html; ~/.config/mutt/bin/openfile %s ;
 text/html; w3m -I %{charset} -T text/html; copiousoutput;
-image/*; ~/.config/mutt/etc/muttimage.sh %s ; copiousoutput
+image/*; ~/.config/mutt/bin/muttimage %s ; copiousoutput
 video/*; setsid mpv --quiet %s &; copiousoutput
-application/pdf; ~/.config/mutt/etc/openfile.sh %s ;
+application/pdf; ~/.config/mutt/bin/openfile %s ;
 application/pgp-encrypted; gpg -d '%s'; copiousoutput;

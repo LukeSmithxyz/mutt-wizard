@@ -1,138 +1,59 @@
-# Luke's mutt Wizard for automatic Neomutt and OfflineIMAP configuration!
+# mutt-wizard
 
-![mutt wizard preview](etc/mw.png)
+The mutt-wizard is a simple `dialog`-based interface gives you:
 
-Mutt is one of the most rewarding programs one can use, but can be a pain in
-the ass to configure. Since my job is making power-user tools available for the
-masses I want to create a tool that automates most of mutt configuration so
-that users can simply give their email address and get a /comfy/ setup. At
-that, I don't just want a mutt wizard, but an offlineIMAP wizard, so users can
-easily access their mail offline as well, and a wizard that makes it easy to
-store passwords securely using gpg.
+- a fully-functioning neomutt-based terminal email workflow with vim bindings, vibrant display.
+- email backed up offline with offlineIMAP, allowing mobile and offline access of all your mail.
+- automatically generated shortcuts for jumping between different accounts or mailboxes within an account.
+- sensible binds that make managing, moving and reading mail quicker and easier than ever.
+- your passwords safely encrypted on your machine so you (and only you) can access your account easily (uses GPG).
 
-The mutt-wizard is all of this in a simple ncurses menu. It's really just a
-little bash script, but one that can save countless people thousands of
-combined manhours of frustratingly trying to get all the moving pieces working
-together.
+I maintain mutt-wizard for GNU/Linux, but individual contributors have also made it compatible with Mac.
 
-## User interface
+## Use mutt-wizard
 
-The system takes an email and autodetect its server settings, generating a
-muttrc and offlineimaprc profile automatically. If it can't do so, it simply
-prompts you for these (which you can easily look up) and will put them all in
-the right places. You get:
+Clone the repo to `~/.config/mutt`. Either move to backup or delete your old `~/.config/mutt` directory if you have one. Remove/backup your old offlineimap and msmtp configs if you have them as well.
 
-+ Automatic configuration of mutt and offlineimap.
-+ Automatic encryption and safe storage of passwords which are used by mutt and
-  offlineimap when necessary.
-+ Multiple account management in mutt: jump from account to account with the
-  `i` prefix in mutt: `i1`: first email account, `i5`: fifth, etc.
-+ Easy movement to mail folders in mutt: `gi`: go to inbox, `gs` to sent mail,
-  `ga` to archive, `gS` to spam, `gd` to drafts, etc.
-+ Some default controls and colors. This system is going to be integrated into
-  my [public auto-rice script](https://larbs.xyz) so I want it to look pretty
-  and be usable out the box.
-+ An optional autosync script that will smartly run offlineimap when connected
-  to the internet at what interval you want and will notify you with a ding
-  when new mail arrives.
+Be sure to install the following programs:
 
-### Will it work on my email? (95% yes)
+- `neomutt` - the email client.
+- `offlineimap` - downloads the email.
+- `msmtp` - sends your email.
+- `dialog` - is the mutt-wizard interface.
 
-Yes! At this point, the only problems are the unexpected ones. Please try it,
-and if you do run into problems, email me at
-[luke@lukesmith.xyz](mailto:luke@lukesmith.xyz)! I've tried the system
-personally on Gmail, Teknik.io, cock.li and Yandex, while others have tried
-other providers.
+**You must have a GPG public/private key pair as well.** This is what will safely encrypt your passwords.
 
-If you have a ProtonMail account, due to their secure setup, you must have
-[ProtonMail Bridge](https://protonmail.com/bridge/) installed and configured.
-Compatibility with ProtonMail is still in testing, so be sure to open an issue
-if you have problems as I do not have a paid account to test this with.
+### Optional dependencies
 
-Note also that Gmail and some providers require you to enable sign-ins from
-third-party (or as they call it "less secure") applications to be able to load
-mail with mutt and offlineimap. Be sure to enable that!
+mutt-wizard is configured by default for you to use other useful tools, but these are not strictly necessary.
 
-## Installation and Dependencies
+- `w3m` - You'll probably want this one at least. It will help you read HTML email from those terrible people who send it... if you want to. It will also enable viewing images in mutt.
+- `notmuch` - can index your mail to be easily searched. Install it and run `notmuch setup`, tell it that your mail is in `~/.local/share/mail/`. You can run it in mutt with `ctrl-f`. Remember to run `notmuch new` to process new mail, although the included `mailsync` script does this for you.
+- `abook` - a terminal-based address book. Pressing tab while typing an address to send mail to will suggest contacts that are in your abook.
+- A cron manager - if you want to enable the auto-sync feature.
 
-`dialog`, `neomutt`, `offlineimap` and `msmtp` should be installed. You also need to
-have a GPG public/private key pair for the wizard to automatically store your
-passwords. The whole repo should be cloned to `~/.config/mutt/`. (If you have a
-previous mutt folder, you'll want to back it up or delete it first.)
+## New stuff and improvements since the original release
 
-```
-git clone https://github.com/LukeSmithxyz/mutt-wizard.git ~/.config/mutt
-```
+- More autogenerated shortcuts that allow quickly moving and copying mail between boxes.
+- More elegant attachment handling. Image/video/pdf attachments without relying on the neomutt instance.
+- abook integration by default.
+- The messy template files have been removed and are now a part of the script itself.
+- Optimal XDG standards compliance, moving offlineimap and msmtp configs to `~/.config/` and moving mail to `~/.local/share/mail/`.
+- `accounts/` hold account data and `bin/` holds script run by for for mutt. All other directories have been disintegrated.
+- Better handling of different gpg versions.
+- Narrow POSIX compliance because why not?
 
-You will want to delete or rename your current `~/.offlineimaprc` and
-`~/.msmtprc` as well, as although you can later modify these files produced by
-the script, you must have no file there the first time you add your first
-account or the wizard will assume some settings are already set which aren't.
+## Known issues (not my fault!)
 
-Just run `mutt-wizard.sh` and choose to add an account. After you do so, you
-may run `offlineimap` to begin the mailsync, and you will be able to run
-neomutt and see your mail.  If mutt doesn't immediately work properly run the
-`Redetect mailboxes` option, then open mutt. This may be necessary for some
-accounts.
+- If you're using a Gmail account, check the pinned issue on the Github. Gmail accounts haven't been working properly with offlineimap recently, but there's an easy fix. Remember also to enable third-party ("""less secure""") applications.
+- Check the ProtonMail issue as well. ProtonMail recently allows IMAP usage with their Bridge program for paid users. I don't have this, so I can't bugtest on it, but many users have gotten it working. Either way, it requires a little more work than just using the wizard.
+- Don't expect mutt-wizard to work out the box on a university email. Universities often have special IMAP policies and server settings. You might be lucky, but you might have to changes some settings in the offlineimap config file to get it to work properly with a university email.
+- If you use an email server whose mailboxes are not in English, mutt-wizard might not be able to guess which is which, so you may have to manually set your Inbox, Sent, Trash, Drafts, etc. in your mutt config file.
 
+## Help!
 
-### Installation on macOS
+- Try mutt-wizard out on weird machines and weird email addresses and report any errors.
+- Open a PR to add new server information into `domains.csv` so their users can more easily use mutt-wizard.
+- If nothing else, [Donate!](https://paypal.me/LukeMSmith)
 
-You may need to install or symlink additional packages on macOS. Otherwise the generation of configuration files may fail, or worse.
-
-```
-ln -s /usr/local/bin/gpg /usr/local/bin/gpg2
-brew install coreutils
-ln -s /usr/local/bin/gshred /usr/local/bin/shred
-```
-
-### Non-essential dependencies for extra features
-
-The automatically deployed configs will look for certain programs for certain
-extra abilities. Consider installing the following for the extra functionality.
-
-+ `notmuch` -- for mail searching and indexing set to `ctrl-f`. Be sure to run
-  `notmuch setup`. Remember your mail is in `~/.mail/` when you configure
-  notmuch.
-+ `w3m` and/or `w3mimg` -- for HTML emails and viewing images. Like .pdfs, view in the attachments menu.
-+ A cron manager if you want the autosync feature.
-+ `iproute2mac` for Mac users who want the autosync feature.
-+ `mpv` if you want the autosync feature to notify you with a ding on new mail.
-
-## The autosync
-
-If you activate the autosync at a significantly infrequent interval, by
-default, your system might prompt you for your GPG password every time. To
-prevent this, you can change the time a GPG unlock lasts by adding a time in
-seconds as below into `~/.gnupg/gpg-agent.conf`:
-
-```
-default-cache-ttl <number-of-seconds>
-max-cache-ttl <number-of-seconds>
-```
-
-You can also use [pam-gnupg](https://github.com/cruegge/pam-gnupg) if you want
-to just log into your keyring immediately on log in. This is what I do, but
-it's less secure if you leave you computer logged on.
-
-## You can help!
-
-If you use mutt with a particular host or domain, put your server information
-in `domains.csv`! This will make everyone else who uses your email provider's
-life much easier!
-
-Or you can help monetarily via [Patreon](https://patreon.com/lukesmith) or
-[Paypal](https://paypal.me/LukeMSmith)!
-
-## Notes
-
-Mail is stored in `~/.mail`. mutt configs and caches for each account are in
-`~/.config/mutt/accounts/`. Encypted passwords are in
-`~/.config/mutt/credentials`. A "personal" muttrc, with the macros for
-switching accounts and the default config is in
-`~/.config/mutt/personal.muttrc`.
-
-## Todo
-
-* Expand the list of server information in `domains.csv`, possibly porting the
-  Thunderbird autoconfigure settings.
+See Luke's website [here](https://lukesmith.xyz). Email him at [luke@lukesmith.xyz](mailto:luke@lukesmith.xyz).

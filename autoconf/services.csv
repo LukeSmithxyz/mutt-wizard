@@ -1,9 +1,0 @@
-SERVICE,IMAP,imap port,SMTP,smtp port,spoolfile,postponed,record
-"Zoho",imap.zoho.com,993,smtp.zoho.com,465,,,
-"iCloud",imap.mail.me.com,993,smtp.mail.me.com,587,,,
-"Inbox.com",imap.inbox.com,993,smtp.inbox.com,465,,,
-"Office 365",outlook.office365.com,993,smtp.office365.com,587,INBOX,Drafts,Sent Items
-"Host Gator",gator4171.hostgator.com,993,gator4171.hostgator.com,587,INBOX,INBOX.Drafts,INBOX.Sent
-"GoDaddy",imap.secureserver.net,993,smtpout.secureserver.net,465,,,
-"Yandex",imap.yandex.com,993.00,smtp.yandex.com,465.00,,,
-"Muny Mail",mail.muny.us,993,mail.muny.us,465,,,

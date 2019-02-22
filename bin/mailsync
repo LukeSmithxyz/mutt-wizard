@@ -16,7 +16,7 @@ if [ "$(uname)" = "Darwin" ]
 then
 	notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 else
-	notify() { mpv --really-quiet "$HOME/.config/mutt/bin/notify.opus" & pgrep -x dunst && notify-send -i "$HOME/.config/mutt/bin/email.gif" "$2 new mail(s) in \`$1\` account." ;}
+	notify() { mpv --really-quiet "$HOME/.config/mutt/bin/notify.opus" & pgrep -x dunst && notify-send "📬 $2 new mail(s) in \`$1\` account." ;}
 fi
 
 echo " 🔃" > /tmp/imapsyncicon

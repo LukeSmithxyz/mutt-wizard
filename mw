@@ -38,7 +38,7 @@ type = $type
 remoteuser = $login
 remotepasseval = mailpasswd(\"$title\")
 remoteport = $iport
-sslline = $sslcert
+sslcacertfile = $sslcert
 $ifgoogleline
 
 [Repository $title-local]

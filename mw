@@ -18,6 +18,7 @@ case "$(uname)" in
 esac
 
 getprofiles() { \
+	printf "Creating profiles for \`$title\`..."
 offlineimap_header="[general]
 accounts =
 starttls = yes
@@ -85,6 +86,7 @@ bind index,pager C noop
 bind index gg first-entry
 unmailboxes *
 "
+	printf "DONE.\\n"
 }
 
 addaccount() { \

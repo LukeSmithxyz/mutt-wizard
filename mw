@@ -239,11 +239,30 @@ finalize() { \
 	printf "All done.\\n"
 }
 
-
 #wipe () { rm "$HOME/.config/offlineimap/config" "$accdir" "$creddir" "$muttdir/personal.muttrc" ;}
 
 [ -z "$gpgemail" ] && askgpg
 
+select() { \
+	grep "^accounts *=" "$HOME/.config/offlineimap/config" | sed 's/accounts *= *//g;s/,/ /g;s/ \+/\n/g' | nl > "$tmpdir/numbered"
+	cat "$tmpdir/numbered"
+	print "Select (an) account(s) to %s.\\n" "$1"
+	read -r input
+}
+
+removeAccount() { sed -ie "
+	/Account $1]/,/Account/{//!d}
+	/Account $1]/d
+	s/ $1\(,\|$\)//g
+	s/=$1\(,\|$\)/=/g
+	s/,$//g
+	" "$HOME/.config/offlineimap/config"
+	rm "$muttdir/accounts/$1.muttrc"
+	rm "$muttdir/credentials/$1.gpg"
+	rm -rf "$muttdir/accounts/$1"
+	sed -i "/$1.muttrc/d" "$muttdir/personal.muttrc"
+	# Delete from the line matching the account name, until the next account or empty line
+	sed -i "/account $1/,/^\(\s*$\|account\)/d" "$HOME/.config/msmtp/config";}
 
 main() { \
 	while : ; do
@@ -256,6 +275,7 @@ Input a number to continue or press ctrl-c.\\n"
 	read -r choice
 	case "$choice" in
 		1) addaccount ;;
+		2) finalize ;;
 		0) break ;;
 		*) printf "Invalid input.\\n"
 	esac

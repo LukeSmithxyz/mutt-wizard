@@ -273,14 +273,19 @@ main() { \
 	\033[31m1 Add an email account\033[0m
 	2 Autodetect mailboxes
 	3 Change an account's password
-	4 Change GPG key pair used for encryption
+	4 Remove an account
+	5 Change GPG key pair used for encryption
+	6 Delete all account data
 	0 Exit
 Input a number to continue or press ctrl-c.\\n"
 	read -r choice
 	case "$choice" in
 		1) addaccount ;;
-		2) pick delete yes && finalize "$title" ;;
-		4) askgpg ;;
+		2) pick finalize && finalize "$title" ;;
+		2) break ;;
+		4) pick delete yes && delete "$title" ;;
+		5) askgpg ;;
+		6) printf "Are you \033[31;1mreally\033[0m sure you want to delete all email accounts?\\n" && read -r input && echo "$input" | grep -i "y\(es\)*" >/dev/null && wipe && printf "Account data purged." ;;
 		0) break ;;
 		*) printf "Invalid input.\\n"
 	esac

@@ -50,7 +50,7 @@ msmtp_header="defaults
 auth	on
 tls	on
 tls_trust_file	$sslcert
-logfile	~/.msmtp.log
+logfile	~/.config/msmtp/msmtp.log
 "
 
 msmtp_profile="

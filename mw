@@ -251,9 +251,9 @@ wipe () { rm -rf "$HOME/.config/offlineimap/config" "$accdir" "$creddir" "$muttd
 [ -z "$gpgemail" ] && askgpg
 
 pick() { \
-	numbered="$(grep "^accounts *=" "$HOME/.config/offlineimap/config" | sed 's/accounts *= *//g;s/,/ /g;s/ \+/\n/g' | nl)"# > "$tmpdir/numbered"
+	numbered="$(grep "^accounts *=" "$HOME/.config/offlineimap/config" | sed 's/accounts *= *//g;s/,/ /g;s/ \+/\n/g' | nl)"
+	[ "$(echo "$numbered" | wc -w)" = 0 ]  && printf "No accounts to delete.\\n" && return 1
 	printf "Select (an) account(s) to %s.\\n" "$1"
-	[ -z "$numbered" ] || return 1
 	echo "$numbered"
 	read -r input
 	title="$(echo "$numbered" | grep "$input" | awk '{print $2}')"

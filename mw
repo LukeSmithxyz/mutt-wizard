@@ -7,7 +7,7 @@ creddir="$HOME/.local/share/muttwizard"	# Location of encrypted credentials
 bindir="$HOME/.config/mutt/bin"		# Location of scripts run by mutt or the wizard
 namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
-gpgemail="$(cat "$creddir/gpgemail" 2>&1)"	# Get previously set gpg email address
+gpgemail="$(cat "$creddir/gpgemail" 2>/dev/null)"	# Get previously set gpg email address
 tmpdir="$(mktemp -d)"
 GPG="gpg"; command -v gpg >/dev/null || GPG="gpg2"	# Ensure proper gpg command
 
@@ -169,11 +169,11 @@ getpass() { \
 askgpg() { \
 	printf "To safely encrypt passwords, mutt-wizard requires that you have a GPG public/private key pair.\\n\\nPlease input the email address of your GPG key pair below.\\nEmail: "
 	read -r gpgemail
-	while ! echo "$gpgemail" | grep "$emailre"; do
-		printf "That is not a valud email address. Please try again.\\nEmail: "
+	while ! echo "$gpgemail" | grep "$emailre" >/dev/null; do
+		printf "That is not a valid email address. Please try again.\\nEmail: "
 		read -r gpgemail
 	done
-	if "$GPG" -K | grep "<$gpgemail>"; then
+	if "$GPG" -K | grep "<$gpgemail>" >/dev/null; then
 		echo "$gpgemail" > "$creddir/gpgemail"
 	else
 		printf "You do not appear to have a private key associated with %s.\\nPlease generate a GPG key pair by running \`%s --full-gen-key\` and rerun the wizard.\\n" "$gpgemail" "$GPG"
@@ -273,12 +273,14 @@ main() { \
 	\033[31m1 Add an email account\033[0m
 	2 Autodetect mailboxes
 	3 Change an account's password
+	4 Change GPG key pair used for encryption
 	0 Exit
 Input a number to continue or press ctrl-c.\\n"
 	read -r choice
 	case "$choice" in
 		1) addaccount ;;
 		2) pick delete yes && finalize "$title" ;;
+		4) askgpg ;;
 		0) break ;;
 		*) printf "Invalid input.\\n"
 	esac

@@ -100,7 +100,7 @@ live.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 logorroici.org,mail.autistici.org,993,smtp.autistici.org,465
 loves.dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 loves.dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
-lukesmith.xyz,mail.privateemail.com,993,mail.privateemail.com,587
+lukesmith.xyz,imap.yandex.com,993,smtp.yandex.com,587
 mail.com,imap.mail.com,995,smtp.mail.com,587
 mail.ru,imap.mail.ru,993,smtp.mail.ru,465
 mailbox.org,imap.mailbox.org,993,smtps.mailbox.org,465

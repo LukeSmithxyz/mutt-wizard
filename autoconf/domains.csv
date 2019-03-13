@@ -153,4 +153,4 @@ yandex.ru,imap.yandex.com,993,smtp.yandex.com,465
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,465
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 duke.edu,outlook.office365.com,993,smtp.office365.com,587
-
+erciyes.edu.tr,posta.erciyes.edu.tr,993,smtp.erciyes.edu.tr,587

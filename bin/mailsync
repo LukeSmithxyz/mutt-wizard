@@ -7,13 +7,13 @@
 #
 # I have this run as a cronjob every 5 minutes.
 
-export DISPLAY=:0.0
-
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || exit
+
+export DISPLAY=:0.0
+
 # Settings are different for MacOS (Darwin) systems.
-if [ "$(uname)" = "Darwin" ]
-then
+if [ "$(uname)" = "Darwin" ]; then
 	notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 else
 	notify() { paplay "$HOME/.config/mutt/bin/notify.ogg" & pgrep -x dunst && notify-send "📬 $2 new mail(s) in \`$1\` account." ;}
@@ -28,16 +28,13 @@ rm -f /tmp/imapsyncicon
 pkill -RTMIN+12 i3blocks
 
 # Check all accounts/mailboxes for new mail. Notify if there is new content.
-for account in $(ls ~/.local/share/mail)
+for account in "$HOME/.local/share/mail/"*
 do
-	#List unread messages newer than last mailsync and count them
-	newcount=$(find ~/.mail/"$account"/INBOX/new/ -type f -newer ~/.config/mutt/bin/.mailsynclastrun 2> /dev/null | wc -l)
-	if [ "$newcount" -gt "0" ]
-	then
-		notify "$account" "$newcount" &
-	fi
+	acc="$(echo "$account" | sed "s/.*\///")"
+	newcount=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" -type f -newer "$HOME/.config/mutt/bin/.mailsynclastrun" 2> /dev/null | wc -l)
+	[ "$newcount" -gt "0" ] && notify "$acc" "$newcount" &
 done
 notmuch new
 
 #Create a touch file that indicates the time of the last run of mailsync
-touch ~/.config/mutt/bin/.mailsynclastrun
+touch "$HOME/.config/mutt/bin/.mailsynclastrun"

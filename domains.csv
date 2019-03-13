@@ -64,6 +64,7 @@ duke.edu,outlook.office365.com,993,smtp.office365.com,587
 email.arizona.edu,mail.catnet.arizona.edu,993,smtpgate.email.arizona.edu,587
 email.com,imap.mail.com,995,smtp.mail.com,587
 engineer.com,imap.mail.com,995,smtp.mail.com,587
+erciyes.edu.tr,posta.erciyes.edu.tr,993,smtp.erciyes.edu.tr,587
 europe.com,imap.mail.com,995,smtp.mail.com,587
 fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465
 fastmail.fm,imap.fastmail.com,993,smtp.fastmail.com,465

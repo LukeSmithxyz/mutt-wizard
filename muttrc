@@ -62,8 +62,8 @@ set include                          # include message in replies
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
 
 #sync email
-macro index O "<shell-escape>$HOME/.config/mutt/etc/mailsync.sh<enter>" "run offlineimap to sync all mail"
-macro index o "<shell-escape>$HOME/.config/mutt/etc/mailsync.sh -qf INBOX<enter>" "run offlineimap to sync inbox"
+macro index O "<shell-escape>$HOME/.config/mutt/bin/mailsync<enter>" "run offlineimap to sync all mail"
+macro index o "<shell-escape>$HOME/.config/mutt/bin/mailsync -qf INBOX<enter>" "run offlineimap to sync inbox"
 
 # Notmuch searching
 macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" "show only messages matching a notmuch pattern"

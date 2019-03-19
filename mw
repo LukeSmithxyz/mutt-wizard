@@ -149,7 +149,8 @@ EOF
 	printf "\033[0m"
 	[ -z "$login" ] && login="$fulladdr"
 	if [ "$service" = "gmail.com" ]; then
-		type="Gmail"; ifgoogleline="folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']"
+		type="Gmail"; ifgoogleline="folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']
+ssl_version = tls1_2"
 		printf "\033[1mGoogle\033[0m mail account detected. Remember to check the README to make sure of Google-specific settings you must enable.\\n"
 	else
 		type="IMAP"; ifgoogleline="remotehost = $imap"

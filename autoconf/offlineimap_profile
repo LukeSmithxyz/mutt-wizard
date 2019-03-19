@@ -13,6 +13,7 @@ remotehost = $imap
 remoteport = $iport
 folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl_version = tls1_2
 
 [Repository $title-local]
 type = Maildir

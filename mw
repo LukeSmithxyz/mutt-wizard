@@ -19,7 +19,49 @@ case "$(uname)" in
 esac
 
 getprofiles() { \
+	unset msmtp_header msmtp_profile mutt_profile offlineimap_header offlineimap_profile
 	printf "Creating profiles for \`%s\`..." "$title"
+msmtp_header="defaults
+auth	on
+tls	on
+tls_trust_file	$sslcert
+logfile	~/.config/msmtp/msmtp.log
+"
+msmtp_profile="
+
+account $title
+host $smtp
+port $sport
+from $login
+user $login
+passwordeval \"$GPG -d --quiet --for-your-eyes-only --no-tty $creddir/$title.gpg | sed -e '\$a\\'\"
+"
+
+if [ "$accounttype" = "offline" ]; then
+mutt_profile="# vim: filetype=neomuttrc
+# muttrc file for account $title
+set realname = \"$realname\"
+set from = \"$fulladdr\"
+set sendmail = \"/usr/bin/msmtp -a $title\"
+set folder = \"$maildir/$title\"
+set header_cache = $accdir/$title/cache/headers
+set message_cachedir = $accdir/$title/cache/bodies
+set certificate_file = $accdir/$title/certificates
+source \"$bindir/getmuttpass $title |\"
+
+alias me $realname <$fulladdr>
+
+set mbox_type = Maildir
+set ssl_starttls = yes
+set ssl_force_tls = yes
+
+bind index,pager gg noop
+bind index,pager g noop
+bind index,pager M noop
+bind index,pager C noop
+bind index gg first-entry
+unmailboxes *
+"
 offlineimap_header="[general]
 accounts =
 starttls = yes
@@ -46,29 +88,14 @@ type = Maildir
 localfolders = $maildir/$title
 "
 
-msmtp_header="defaults
-auth	on
-tls	on
-tls_trust_file	$sslcert
-logfile	~/.config/msmtp/msmtp.log
-"
-
-msmtp_profile="
-
-account $title
-host $smtp
-port $sport
-from $login
-user $login
-passwordeval \"$GPG -d --quiet --for-your-eyes-only --no-tty $creddir/$title.gpg | sed -e '\$a\\'\"
-"
-
+else
 mutt_profile="# vim: filetype=neomuttrc
 # muttrc file for account $title
 set realname = \"$realname\"
 set from = \"$fulladdr\"
 set sendmail = \"/usr/bin/msmtp -a $title\"
-set folder = \"$maildir/$title\"
+set folder = \"imaps://$imap:$iport\"
+set imap_user = $login
 set header_cache = $accdir/$title/cache/headers
 set message_cachedir = $accdir/$title/cache/bodies
 set certificate_file = $accdir/$title/certificates
@@ -87,6 +114,7 @@ bind index,pager C noop
 bind index gg first-entry
 unmailboxes *
 "
+fi
 	printf "DONE.\\n"
 }
 
@@ -129,10 +157,7 @@ $serverinfo
 EOF
 	printf "\\n\033[3;33mCongrats!\033[0m Server info has automatically be found, so you won't have to look anything up!\\n\t\033[1mIMAP server\033[0m: %s\\n\t\033[1mIMAP port\033[0m: %s\\n\t\033[1mSMTP server\033[0m: %s\\n\t\033[1mSMTP port\033[0m: %s\\nThis data will be used by the wizard.\\n" "$imap" "$iport" "$smtp" "$sport"
 	fi
-	printf "\\nPress enter to continue.\\n"
-	stty -echo
-	read -r
-	stty echo
+	cont
 	printf "Enter the \033[35mfull name\033[0m you want to be identified by on this account.\\n\tReal name: "
 	read -r realname
 	printf "Enter a short, \033[36mone-word identifier\033[0m for this email account that will distinguish them from any other accounts you add.\\n\tAccount name: "
@@ -160,14 +185,16 @@ ssl_version = tls1_2"
 	idnum=$(diff "$tmpdir/mutt_all" "$tmpdir/mutt_used" | sed -n 2p | awk '{print $2}')
 	getpass
 	getprofiles
-	mkdir -p "$accdir/$title/cache/bodies"
-	mkdir -p "$HOME/.config/offlineimap/" "$HOME/.config/msmtp"
-	[ ! -f "$HOME/.config/offlineimap/config" ] && echo "$offlineimap_header" > "$HOME/.config/offlineimap/config"
+	mkdir -p "$accdir/$title/cache/bodies" "$HOME/.config/msmtp"
 	[ ! -f "$HOME/.config/msmtp/config" ] && echo "$msmtp_header" > "$HOME/.config/msmtp/config"
-	echo "$offlineimap_profile" >> "$HOME/.config/offlineimap/config"
 	echo "$msmtp_profile" >> "$HOME/.config/msmtp/config"
 	echo "$mutt_profile" > "$accdir/$title.muttrc"
-	sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =\\s*$/accounts = $title/g" "$HOME/.config/offlineimap/config"
+	if [ "$accounttype" = "offline" ]; then
+		mkdir -p "$HOME/.config/offlineimap/"
+		[ ! -f "$HOME/.config/offlineimap/config" ] && echo "$offlineimap_header" > "$HOME/.config/offlineimap/config"
+	 	echo "$offlineimap_profile" >> "$HOME/.config/offlineimap/config"
+		sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =\\s*$/accounts = $title/g" "$HOME/.config/offlineimap/config"
+	fi
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source \"$muttdir\"/accounts/$title.muttrc<enter><change-folder>!<enter>;<check-stats>'" >> "$muttdir/personal.muttrc"
 	! grep "^source.*.muttrc" "$muttdir/personal.muttrc" >/dev/null && echo "source $accdir/$title.muttrc" >> "$muttdir/personal.muttrc"
 	trysync && finalize
@@ -204,7 +231,7 @@ askgpg() { \
 		mkdir -p "$creddir"
 		echo "$gpgemail" > "$creddir/gpgemail"
 	else
-		printf "You do not appear to have a private key associated with %s.\\nPlease generate a GPG key pair by running \`%s --full-gen-key\` and rerun the wizard.\\n" "$gpgemail" "$GPG"
+		printf "You do not appear to have a private key associated with \033[33m%s\033[0m.\\nPlease generate a GPG key pair by running \`\033[32m%s --full-gen-key\033[0m\` and rerun the wizard.\\n" "$gpgemail" "$GPG"
 		exit 1
 	fi
 }
@@ -217,10 +244,8 @@ formatShortcut() { \
 
 trysync() { \
 	! ping -q -c 1 1.1.1.1 > /dev/null && printf "No internet connection detected.\\nTry rerunning offlineimap manually when connection is established, then select the option to detect mailboxes and finalize installation.\\n" && return 1
-	printf "\033[32mYou must have an internet connection to continue.\033[0m\\nmutt-wizard will run offlineimap briefly to (1) ensure that login details are functional and (2) allow offlineimap to tell us what mailboxes your email account has.\\nAfter around 15 seconds, mutt-wizard will kill the process and continue.\\nYou can run offlineimap manually to finish the mail sync later.\\nPress enter to continue.\\n."
-	stty -echo
-	read -r
-	stty echo
+	printf "\033[32mYou must have an internet connection to continue.\033[0m\\nmutt-wizard will run offlineimap briefly to (1) ensure that login details are functional and (2) allow offlineimap to tell us what mailboxes your email account has.\\nAfter around 15 seconds, mutt-wizard will kill the process and continue.\\nYou can run offlineimap manually to finish the mail sync later.\\n"
+	cont
 	(sleep 15; killall offlineimap; killall offlineimap; killall offlineimap)>/dev/null 2>&1 &
 	mkdir -p "$maildir"
 	offlineimap -qoa "$title"
@@ -293,31 +318,89 @@ delete() { sed -i "
 	# Delete from the line matching the account name, until the next account or empty line
 	sed -i "/account $title/,/^\(\s*$\|account\)/d" "$HOME/.config/msmtp/config";}
 
+choosecron() { ! pgrep crond >/dev/null && echo "No cron manager running. Install/enable one and then select this option again." && return 1
+	if crontab -l | grep mailsync >/dev/null; then
+		echo "Active mail sync cronjob detected. Do you want to remove it?"
+		printf "\033[36m\t"
+		read -r rmyn
+		printf "\033[0m"
+		echo "$rmyn" | grep -i "^y\(es\)*$" >/dev/null && crontab -l | sed '/mailsync/d' | crontab - >/dev/null && echo "Mail sync turned off."
+	else
+		echo "How many minutes between each mail sync?"
+		printf "\033[36m\t"
+		read -r minnum
+		printf "\033[0m"
+		while ! echo "$minnum" | grep "^[0-9]\+$" >/dev/null; do
+			printf "That doesn't look like a number. How many minutes between each mail sync?"
+			printf "\033[36m\t"
+			read -r minnum
+			printf "\033[0m"
+		done
+		(crontab -l; echo "*/$minnum * * * * export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus; export DISPLAY=:0; . \$HOME/.profile; $muttdir/bin/mailsync -f INBOX") | crontab - &&
+			echo "Cronjob added. Mail will sync every $minnum minutes. Be sure you have your cron manager running."
+	fi
+}
+
+cont() { [ -n "$1" ] && printf "%s\\n" "$1"
+	printf "Press Enter to continue.\\n"
+	stty -echo
+	read -r null
+	stty echo
+}
+
+addtype() { \
+	while : ; do
+		echo "Do you want to keep your mail for this account offline with offlineimap? [yes/no]"
+		read -r offnot
+		case "$offnot" in
+			[Yy]es) accounttype="offline" && break ;;
+			[Nn]o) accounttype="online" && break ;;
+			*) echo "I don't know what you mean. Try again or press ctrl-c to quit." ;;
+		esac
+	done
+	addaccount
+}
+
 main() { \
 	while : ; do
 	[ -z "$gpgemail" ] && askgpg
-	printf "What would you like \033[32mmutt-wizard\033[0m to do?
+	printf "Current GPG key email: %s\\n\033[34m" "$gpgemail"
+cat << "EOF"
+ _ __ ___  _   _| |_| |_    __      _(_)______ _ _ __ __| |
+| '_ ` _ \| | | | __| __|___\ \ /\ / / |_  / _` | '__/ _` |
+| | | | | | |_| | |_| ||_____\ V  V /| |/ / (_| | | | (_| |
+|_| |_| |_|\__,_|\__|\__|     \_/\_/ |_/___\__,_|_|  \__,_|
+EOF
+
+	printf "\033[0mMade and maintained by Luke Smith <https://lukesmith.xyz>
+
+What would you like \033[32mmutt-wizard\033[0m to do?
 	\033[31m1 Add an email account\033[0m
 	2 Autodetect mailboxes
 	3 Change an account's password
 	4 Remove an account
 	5 Change GPG key pair used for encryption
 	6 Delete all account data
+	7 Enable/disable autosync
+	9 Edit this script
 	0 Exit
 Input a number to continue or press ctrl-c.\\n"
 	printf "\033[36m\t"
 	read -r choice
 	printf "\033[0m"
 	case "$choice" in
-		1) addaccount ;;
+		1) addtype ;;
 		2) pick finalize && finalize ;;
 		3) pick "change the password of" yes && getpass ;;
 		4) pick delete yes && delete ;;
 		5) askgpg ;;
 		6) wipe && printf "Account data purged." ;;
+		7) choosecron ;;
+		9) "$EDITOR" "$0"; exit ;;
 		0) break ;;
 		*) printf "Invalid input.\\n"
 	esac
+	cont
 done
 }
 

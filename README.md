@@ -46,7 +46,7 @@ mutt-wizard is configured by default for you to use other useful tools, but thes
 - More elegant attachment handling. Image/video/pdf attachments without relying on the neomutt instance.
 - abook integration by default.
 - The messy template files have been removed and are now a part of the script itself.
-- Optimal XDG standards compliance, moving offlineimap and msmtp configs to `~/.config/` and moving mail to `~/.local/share/mail/`.
+- Optimal XDG standards compliance, moving offlineimap and msmtp configs to `~/.config/` and moving mail to `~/.local/share/mail/`. offlineimap still uses home for its cache though.
 - `accounts/` hold account data and `bin/` holds script run by or for mutt. All other directories have been disintegrated.
 - Better handling of different gpg versions.
 - Script is POSIX sh compliance.

@@ -61,6 +61,7 @@ bind index,pager M noop
 bind index,pager C noop
 bind index gg first-entry
 unmailboxes *
+set imap_check_subscribed
 "
 offlineimap_header="[general]
 accounts =

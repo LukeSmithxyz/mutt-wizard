@@ -8,7 +8,7 @@ bindir="$HOME/.config/mutt/bin"		# Location of scripts run by mutt or the wizard
 namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
 [ ! -f "$muttdir/domains.csv" ] || [ ! -d "$bindir" ] && printf "Read the README. Be sure to put the repo in the right place before running.\\n" && exit 1
-gpgemail="$(cat "$creddir/gpgemail" 2>/dev/null)"	# Get previously set gpg email address
+gpgemail="$(grep "$emailre" "$creddir/gpgemail")"	# Get previously set gpg email address
 tmpdir="$(mktemp -d)"
 GPG="gpg"; command -v gpg >/dev/null || GPG="gpg2"	# Ensure proper gpg command
 

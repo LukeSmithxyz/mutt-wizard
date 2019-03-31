@@ -294,7 +294,7 @@ wipe () { \
 }
 
 pick() { \
-	numbered="$(grep "^accounts *=" "$HOME/.config/offlineimap/config" | sed 's/accounts *= *//g;s/,/ /g;s/ \+/\n/g' | nl)"
+	numbered="$(ls $accdir/*muttrc | sed "s/.*\///;s/\..*//" | nl)"
 	[ "$(echo "$numbered" | wc -w)" = 0 ]  && printf "No accounts to delete.\\n" && return 1
 	printf "Select an accounts to %s:\\n" "$1"
 	echo "$numbered"

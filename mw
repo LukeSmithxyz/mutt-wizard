@@ -304,7 +304,7 @@ pick() { \
 	[ -z "$input" ] && return 1
 	title="$(echo "$numbered" | grep "$input" | awk '{print $2}')"
 	[ -z "$title" ] && printf "Invalid response." && return 1
-	[ -n "$2" ] && printf "Are you sure you want to %s the \`%s\` account?" "$1" "$title" && read -r input && echo "$input" | grep -i "y\(es\)*" >/dev/null
+	[ -n "$2" ] && printf "Are you sure you want to %s the \`%s\` account?\\n" "$1" "$title" && read -r input && echo "$input" | grep -i "y\(es\)*" >/dev/null
 }
 
 delete() { sed -i "

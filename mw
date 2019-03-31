@@ -196,7 +196,7 @@ ssl_version = tls1_2"
 	 	echo "$offlineimap_profile" >> "$HOME/.config/offlineimap/config"
 		sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =\\s*$/accounts = $title/g" "$HOME/.config/offlineimap/config"
 	fi
-	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source \"$muttdir\"/accounts/$title.muttrc<enter><change-folder>!<enter>;<check-stats>'" >> "$muttdir/personal.muttrc"
+	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$title.muttrc<enter><change-folder>!<enter>;<check-stats>'" >> "$muttdir/personal.muttrc"
 	! grep "^source.*.muttrc" "$muttdir/personal.muttrc" >/dev/null && echo "source $accdir/$title.muttrc" >> "$muttdir/personal.muttrc"
 	trysync && finalize
 }

@@ -1,5 +1,4 @@
 #!/bin/sh
-
 muttdir="$HOME/.config/mutt"		# Main mutt config location
 accdir="$muttdir/accounts"		# Directory for account settings
 maildir="$HOME/.local/share/mail"	# Location of mail storage
@@ -7,6 +6,7 @@ creddir="$HOME/.local/share/muttwizard"	# Location of encrypted credentials
 bindir="$HOME/.config/mutt/bin"		# Location of scripts run by mutt or the wizard
 namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
+mbsyncrc="$HOME/.mbsyncrc"
 [ ! -f "$muttdir/domains.csv" ] || [ ! -d "$bindir" ] && printf "Read the README. Be sure to put the repo in the right place before running.\\n" && exit 1
 gpgemail="$(grep "$emailre" "$creddir/gpgemail")"	# Get previously set gpg email address
 tmpdir="$(mktemp -d)"
@@ -19,7 +19,7 @@ case "$(uname)" in
 esac
 
 getprofiles() { \
-	unset msmtp_header msmtp_profile mutt_profile offlineimap_header offlineimap_profile
+	unset msmtp_header msmtp_profile mutt_profile mbsync_profile
 	printf "Creating profiles for \`%s\`..." "$title"
 msmtp_header="defaults
 auth	on
@@ -63,32 +63,29 @@ bind index gg first-entry
 unmailboxes *
 set imap_check_subscribed
 "
-offlineimap_header="[general]
-accounts =
-starttls = yes
-ssl = true
-pythonfile = $bindir/imappwd.py
+mbsync_profile="IMAPAccount $title
+Host $imap
+Port  $iport
+PassCmd \"gpg -q --for-your-eyes-only --no-tty -d ~/.local/share/muttwizard/$title.gpg\"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-"
-offlineimap_profile="
-[Account $title]
-localrepository = $title-local
-remoterepository = $title-remote
+IMAPStore $title-remote
+Account $title
 
-[Repository $title-remote]
-auth_mechanisms = LOGIN
-type = $type
-remoteuser = $login
-remotepasseval = mailpasswd(\"$title\")
-remoteport = $iport
-sslcacertfile = $sslcert
-$ifgoogleline
+MaildirStore $title-local
+Subfolder Verbatim
+Path ~/.local/share/mail/$title/
+Inbox ~/.local/share/mail/$title/INBOX
 
-[Repository $title-local]
-type = Maildir
-localfolders = $maildir/$title
-"
+Channel $title
+Master $title-remote
+Slave $title-local
+Patterns * !\"[Gmail]/All Mail\"
 
+Create Both
+SyncState *
+# End profile"
 else
 mutt_profile="# vim: filetype=neomuttrc
 # muttrc file for account $title
@@ -120,7 +117,7 @@ fi
 }
 
 addaccount() { \
-	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/offlineIMAP\\n\\nEmail: "
+	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/mbsync\\n\\nEmail: "
 	printf "\033[36m\t"
 	read -r fulladdr
 	printf "\033[0m"
@@ -190,15 +187,9 @@ ssl_version = tls1_2"
 	[ ! -f "$HOME/.config/msmtp/config" ] && echo "$msmtp_header" > "$HOME/.config/msmtp/config"
 	echo "$msmtp_profile" >> "$HOME/.config/msmtp/config"
 	echo "$mutt_profile" > "$accdir/$title.muttrc"
-	if [ "$accounttype" = "offline" ]; then
-		mkdir -p "$HOME/.config/offlineimap/"
-		[ ! -f "$HOME/.config/offlineimap/config" ] && echo "$offlineimap_header" > "$HOME/.config/offlineimap/config"
-	 	echo "$offlineimap_profile" >> "$HOME/.config/offlineimap/config"
-		sed -i "s/^accounts =.*[a-zA-Z]$/&, $title/g;s/^accounts =\\s*$/accounts = $title/g" "$HOME/.config/offlineimap/config"
-	fi
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$title.muttrc<enter><change-folder>!<enter>;<check-stats>'" >> "$muttdir/personal.muttrc"
 	! grep "^source.*.muttrc" "$muttdir/personal.muttrc" >/dev/null && echo "source $accdir/$title.muttrc" >> "$muttdir/personal.muttrc"
-	trysync && finalize
+	[ ! "$accounttype" = "offline" ] && trysync && finalize
 }
 
 getpass() { \
@@ -244,22 +235,22 @@ formatShortcut() { \
 	done ;}
 
 trysync() { \
-	! ping -q -c 1 1.1.1.1 > /dev/null && printf "No internet connection detected.\\nTry rerunning offlineimap manually when connection is established, then select the option to detect mailboxes and finalize installation.\\n" && return 1
-	printf "\033[32mYou must have an internet connection to continue.\033[0m\\nmutt-wizard will run offlineimap briefly to (1) ensure that login details are functional and (2) allow offlineimap to tell us what mailboxes your email account has.\\nAfter around 15 seconds, mutt-wizard will kill the process and continue.\\nYou can run offlineimap manually to finish the mail sync later.\\n"
+	! ping -q -c 1 1.1.1.1 > /dev/null && printf "No internet connection detected.\\nTry rerunning \`mbsync $title\` manually when connection is established, then select the option to detect mailboxes and finalize installation.\\n" && return 1
+	printf "\033[32mYou must have an internet connection to continue.\033[0m\\nmutt-wizard will run mbsync briefly to (1) ensure that login details are functional and (2) allow mbsync to tell us what mailboxes your email account has.\\nAfter around 15 seconds, mutt-wizard will kill the process and continue.\\nYou can run mbsync manually to finish the mail sync later.\\n"
 	cont
-	(sleep 15; killall offlineimap; killall offlineimap; killall offlineimap)>/dev/null 2>&1 &
+	(sleep 15; killall mbsync)>/dev/null 2>&1 &
 	mkdir -p "$maildir"
-	offlineimap -qoa "$title"
+	mbsync "$title"
 	if ls -d "$maildir/$title/"* >/dev/null 2>&1; then
 		printf "\033[32mSync successful.\033[0m\\n"; return
 	else
-		printf "\033[31m\033[31mSync not successful.\033[0m Try running offlineimap manually after double-checking your password and server settings.\\nThen select to finalize the account.\\n"; return 1
+		printf "\033[31m\033[31mSync not successful.\033[0m Try running \`mbsync $title\` manually after double-checking your password and server settings.\\nThen select to finalize the account.\\n"; return 1
 	fi
 }
 
 finalize() { \
 	boxes="$(du -a "$maildir/$title/"* -d 0 | sed "s/^.*\//=/")"
-	[ -z "$boxes" ] && printf "\033[31mNo local mailboxes have been detected for %s.\033[0m\\nThis means that offlineimap has not been successfully run.\\nRun offlineimap, and if it has an error, be sure to check your password and server settings manually if needbe.\\n" "$title" && return
+	[ -z "$boxes" ] && printf "\033[31mNo local mailboxes have been detected for %s.\033[0m\\nThis means that mbsync has not been successfully run.\\nRun mbsync, and if it has an error, be sure to check your password and server settings manually if needbe.\\n" "$title" && return
 	echo "$boxes" > "$tmpdir/title_boxes"
 	printf "Setting up the mutt sidebar...\\n"
 	sidebar_width="$(sed -n -e '/^set sidebar_width/p' "$muttdir/muttrc" | awk -F'=' '{print $2}')"
@@ -289,7 +280,7 @@ finalize() { \
 wipe () { \
 	printf "Are you \033[31;1mreally\033[0m sure you want to delete all email accounts?\\n" && read -r input && ! echo "$input" | grep -i "y\(es\)*" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1
 	printf "Are you really, really sure?" && read -r input && ! echo "$input" | grep -i "y\(es\)*" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1
-	#rm -rf "$HOME/.config/offlineimap/config" "$accdir" "$creddir" "$muttdir/personal.muttrc"
+	#rm -rf "$mbsyncrc" "$accdir" "$creddir" "$muttdir/personal.muttrc"
 	echo deleted
 }
 
@@ -307,13 +298,7 @@ pick() { \
 	[ -n "$2" ] && printf "Are you sure you want to %s the \`%s\` account?\\n" "$1" "$title" && read -r input && echo "$input" | grep -i "y\(es\)*" >/dev/null
 }
 
-delete() { sed -i "
-	/Account $title]/,/Account/{//!d}
-	/Account $title]/d
-	s/ $title\(,\|$\)//g
-	s/=$title\(,\|$\)/=/g
-	s/,$//g
-	" "$HOME/.config/offlineimap/config"
+delete() { sed -i "/IMAPAccount $title/,/# End profile/d" "$mbsyncrc"
 	rm -rf "${accdir:?}/${title:?}" "$creddir/$title.gpg" "$accdir/$title.muttrc"
 	sed -i "/$title.muttrc/d" "$muttdir/personal.muttrc"
 	# Delete from the line matching the account name, until the next account or empty line
@@ -351,7 +336,7 @@ cont() { [ -n "$1" ] && printf "%s\\n" "$1"
 
 addtype() { \
 	while : ; do
-		echo "Do you want to keep your mail for this account offline with offlineimap? [yes/no]"
+		echo "Do you want to keep your mail for this account offline with mbsync? [yes/no]"
 		read -r offnot
 		case "$offnot" in
 			[Yy]es) accounttype="offline" && break ;;

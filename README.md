@@ -3,7 +3,7 @@
 The mutt-wizard is a simple interface gives you:
 
 - a fully-functioning neomutt-based terminal email workflow with vim bindings, vibrant display.
-- email backed up offline with offlineIMAP, allowing mobile and offline access of all your mail.
+- email backed up offline with isync/mbsync, allowing mobile and offline access of all your mail.
 - automatically generated shortcuts for jumping between different accounts or mailboxes within an account.
 - sensible binds that make managing, moving and reading mail quicker and easier than ever.
 - your passwords safely encrypted on your machine so you (and only you) can access your account easily (uses GPG).
@@ -12,12 +12,12 @@ I maintain mutt-wizard for GNU/Linux, but individual contributors have also made
 
 ## Use mutt-wizard
 
-Clone the repo to `~/.config/mutt`. Either move to backup or delete your old `~/.config/mutt` directory if you have one. Remove/backup your old offlineimap and msmtp configs if you have them as well.
+Clone the repo to `~/.config/mutt`. Either move to backup or delete your old `~/.config/mutt` directory if you have one. Remove/backup your old isync/mbsync and msmtp configs if you have them as well.
 
 Be sure to install the following programs:
 
 - `neomutt` - the email client. If you delete a lot of the neomutt-specific settings in the muttrc, you can run vanilla mutt if you want.
-- `offlineimap` - downloads the email. Required for installation.
+- `isync` - for the `mbsync` command. Downloads the email. Required for installation.
 - `msmtp` - sends your email.
 
 **You must have a GPG public/private key pair as well.** This is what will safely encrypt your passwords. Run `gpg --full-gen-key` (or `gpg2 --full-gen-key`) to get one.
@@ -26,9 +26,9 @@ Be sure to install the following programs:
 
 Once the repository is in place in `~/.config/mutt/`:
 
-- Select to add an account. This will autogenerate your config files for mutt, offlineimap and msmtp.
-- Run `offlineimap` once (at least a partial sync). This will create all the directories you need to finalize installation and will start downloading your mail.
-- Select the option to autodetect mailboxes. This will use the directories offlineimap creates to detect your mailboxes and make your mail readable by mutt.
+- Select to add an account. This will autogenerate your config files for mutt, mbsync and msmtp.
+- Run `mbsync -a` once (at least a partial sync). This will create all the directories you need to finalize installation and will start downloading your mail.
+- Select the option to autodetect mailboxes. This will use the directories mbsync creates to detect your mailboxes and make your mail readable by mutt.
 
 ### Optional dependencies
 
@@ -46,16 +46,16 @@ mutt-wizard is configured by default for you to use other useful tools, but thes
 - More elegant attachment handling. Image/video/pdf attachments without relying on the neomutt instance.
 - abook integration by default.
 - The messy template files have been removed and are now a part of the script itself.
-- Optimal XDG standards compliance, moving offlineimap and msmtp configs to `~/.config/` and moving mail to `~/.local/share/mail/`. offlineimap still uses home for its cache though.
+- Optimal XDG standards compliance, moving msmtp configs to `~/.config/`, moving mail to `~/.local/share/mail/` and moving mutt-wizard files to `~/.local/share/muttwizard/`. isync/mbsync still uses home for default though as XDG compliance is not built into them.
 - `accounts/` hold account data and `bin/` holds script run by or for mutt. All other directories have been disintegrated.
 - Better handling of different gpg versions.
 - Script is POSIX sh compliance.
 
 ## Known issues (not my fault!)
 
-- If you're using a Gmail account, check the pinned issue on the Github. Gmail accounts haven't been working properly with offlineimap recently, but there's an easy fix. Remember also to enable third-party ("""less secure""") applications.
-- Check the ProtonMail issue as well. ProtonMail recently allows IMAP usage with their Bridge program for paid users. I don't have this, so I can't bugtest on it, but many users have gotten it working. Either way, it requires a little more work than just using the wizard.
-- Don't expect mutt-wizard to work out the box on a university email. Universities often have special IMAP policies and server settings. You might be lucky, but you might have to changes some settings in the offlineimap config file to get it to work properly with a university email.
+- For Gmail accounts, remember also to enable third-party ("""less secure""") applications before attempting installation.
+- Check the ProtonMail issue on Github if you are a Protonmail user. ProtonMail recently allows IMAP usage with their Bridge program for paid users. I don't have this, so I can't bugtest on it, but many users have gotten it working. Either way, it requires a little more work than just using the wizard.
+- Don't expect mutt-wizard to work out the box on a university email. Universities often have special IMAP policies and server settings. You might be lucky, but you might have to changes some settings in the mbsyncrc config file to get it to work properly with a university email.
 - If you use an email server whose mailboxes are not in English, mutt-wizard might not be able to guess which is which, so you may have to manually set your Inbox, Sent, Trash, Drafts, etc. in your mutt config file.
 
 ## Help!

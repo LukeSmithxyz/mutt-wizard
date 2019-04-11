@@ -74,13 +74,13 @@ IMAPStore $title-remote
 Account $title
 
 MaildirStore $title-local
-Subfolder Verbatim
+Subfolders Verbatim
 Path ~/.local/share/mail/$title/
 Inbox ~/.local/share/mail/$title/INBOX
 
 Channel $title
-Master $title-remote
-Slave $title-local
+Master :$title-remote:
+Slave :$title-local:
 Patterns * !\"[Gmail]/All Mail\"
 
 Create Both
@@ -189,7 +189,7 @@ ssl_version = tls1_2"
 	echo "$mutt_profile" > "$accdir/$title.muttrc"
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$title.muttrc<enter><change-folder>!<enter>;<check-stats>'" >> "$muttdir/personal.muttrc"
 	! grep "^source.*.muttrc" "$muttdir/personal.muttrc" >/dev/null && echo "source $accdir/$title.muttrc" >> "$muttdir/personal.muttrc"
-	[ ! "$accounttype" = "offline" ] && trysync && finalize
+	[ "$accounttype" = "offline" ] && echo "$mbsync_profile" >> "$mbsyncrc" && trysync && finalize
 }
 
 getpass() { \
@@ -280,8 +280,7 @@ finalize() { \
 wipe () { \
 	printf "Are you \033[31;1mreally\033[0m sure you want to delete all email accounts?\\n" && read -r input && ! echo "$input" | grep -i "y\(es\)*" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1
 	printf "Are you really, really sure?" && read -r input && ! echo "$input" | grep -i "y\(es\)*" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1
-	#rm -rf "$mbsyncrc" "$accdir" "$creddir" "$muttdir/personal.muttrc"
-	echo deleted
+	#rm -rf "$mbsyncrc" "$accdir" "$creddir" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged."
 }
 
 pick() { \

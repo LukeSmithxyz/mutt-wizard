@@ -65,6 +65,7 @@ set imap_check_subscribed
 "
 mbsync_profile="IMAPAccount $title
 Host $imap
+User $login
 Port  $iport
 PassCmd \"gpg -q --for-your-eyes-only --no-tty -d ~/.local/share/muttwizard/$title.gpg\"
 SSLType IMAPS

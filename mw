@@ -172,13 +172,6 @@ EOF
 	read -r login
 	printf "\033[0m"
 	[ -z "$login" ] && login="$fulladdr"
-	if [ "$service" = "gmail.com" ]; then
-		type="Gmail"; ifgoogleline="folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']
-ssl_version = tls1_2"
-		printf "\033[1mGoogle\033[0m mail account detected. Remember to check the README to make sure of Google-specific settings you must enable.\\n"
-	else
-		type="IMAP"; ifgoogleline="remotehost = $imap"
-	fi
 	grep "i[0-9]" "$muttdir/personal.muttrc" | awk '{print $3}' | sed -e 's/i//g' > "$tmpdir/mutt_used"
 	seq 1 9 > "$tmpdir/mutt_all"
 	idnum=$(diff "$tmpdir/mutt_all" "$tmpdir/mutt_used" | sed -n 2p | awk '{print $2}')
@@ -236,16 +229,15 @@ formatShortcut() { \
 	done ;}
 
 trysync() { \
-	! ping -q -c 1 1.1.1.1 > /dev/null && printf "No internet connection detected.\\nTry rerunning \`mbsync $title\` manually when connection is established, then select the option to detect mailboxes and finalize installation.\\n" && return 1
+	! ping -q -c 1 1.1.1.1 > /dev/null && printf "No internet connection detected.\\nTry rerunning \`mbsync %s\` manually when connection is established, then select the option to detect mailboxes and finalize installation.\\n" "$title" && return 1
 	printf "\033[32mYou must have an internet connection to continue.\033[0m\\nmutt-wizard will run mbsync briefly to (1) ensure that login details are functional and (2) allow mbsync to tell us what mailboxes your email account has.\\nAfter around 15 seconds, mutt-wizard will kill the process and continue.\\nYou can run mbsync manually to finish the mail sync later.\\n"
 	cont
-	(sleep 15; killall mbsync)>/dev/null 2>&1 &
 	mkdir -p "$maildir/$title"
-	mbsync "$title"
-	if ls -d "$maildir/$title/"* >/dev/null 2>&1; then
-		printf "\033[32mSync successful.\033[0m\\n"; return
+	if mailboxes="$(mbsync -l "$title")" >/dev/null 2>&1; then
+		printf "\033[32mMailboxes detected.\033[0m\\n"
+		echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$title/{}"
 	else
-		printf "\033[31m\033[31mSync not successful.\033[0m Try running \`mbsync $title\` manually after double-checking your password and server settings.\\nThen select to finalize the account.\\n"; return 1
+		printf "\033[31m\033[31mSync not successful.\033[0m Try running \`mbsync %s\` manually after double-checking your password and server settings.\\nThen select to finalize the account.\\n" "$title"; return 1
 	fi
 }
 
@@ -278,15 +270,14 @@ finalize() { \
 	printf "All done.\\n"
 }
 
-wipe () { \
-	printf "Are you \033[31;1mreally\033[0m sure you want to delete all email accounts?\\n" && read -r input && ! echo "$input" | grep -i "y\(es\)*" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1
-	printf "Are you really, really sure?" && read -r input && ! echo "$input" | grep -i "y\(es\)*" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1
-	rm -rf "$mbsyncrc" "$accdir" "$creddir" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged."
-}
+confirm() { printf "Are you \033[31;1mreally\033[0m sure you want to %s?\\n\t" "$@" && read -r input && ! echo "$input" | grep -i "y\(es\)*" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1
+	printf "Are you really, really sure you want to %s?\\n\t" "$@" && read -r input && ! echo "$input" | grep -i "y\(es\)*" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1
+	return 0 ;}
+
 
 pick() { \
 	numbered="$(ls $accdir/*muttrc | sed "s/.*\///;s/\..*//" | nl)"
-	[ "$(echo "$numbered" | wc -w)" = 0 ]  && printf "No accounts to delete.\\n" && return 1
+	[ "$(echo "$numbered" | wc -w)" = 0 ]  && printf "No accounts to choose from.\\n" && return 1
 	printf "Select an accounts to %s:\\n" "$1"
 	echo "$numbered"
 	printf "\033[36m\t"
@@ -295,14 +286,14 @@ pick() { \
 	[ -z "$input" ] && return 1
 	title="$(echo "$numbered" | grep "$input" | awk '{print $2}')"
 	[ -z "$title" ] && printf "Invalid response." && return 1
-	[ -n "$2" ] && printf "Are you sure you want to %s the \`%s\` account?\\n" "$1" "$title" && read -r input && echo "$input" | grep -i "y\(es\)*" >/dev/null
-}
+	return 0 ;}
 
 delete() { sed -i "/IMAPAccount $title/,/# End profile/d" "$mbsyncrc"
 	rm -rf "${accdir:?}/${title:?}" "$creddir/$title.gpg" "$accdir/$title.muttrc"
 	sed -i "/$title.muttrc/d" "$muttdir/personal.muttrc"
-	# Delete from the line matching the account name, until the next account or empty line
-	sed -i "/account $title/,/^\(\s*$\|account\)/d" "$HOME/.config/msmtp/config";}
+	sed -i "/account $title/,/^\(\s*$\|account\)/d" "$HOME/.config/msmtp/config"
+	confirm "delete the local mail repository as well?" && rm -rf "${maildir:?}/${title:?}"
+	}
 
 choosecron() { ! pgrep crond >/dev/null && echo "No cron manager running. Install/enable one and then select this option again." && return 1
 	if crontab -l | grep mailsync >/dev/null; then
@@ -327,14 +318,13 @@ choosecron() { ! pgrep crond >/dev/null && echo "No cron manager running. Instal
 	fi
 }
 
-cont() { [ -n "$1" ] && printf "%s\\n" "$1"
-	printf "Press Enter to continue.\\n"
+cont() { printf "Press Enter to continue.\\n"
 	stty -echo
 	read -r null
-	stty echo
-}
+	stty echo ; }
 
 addtype() { \
+	! command -v mbsync >/dev/null && printf "You must have the \`mbsync\` command to add an account.\\nIt syncs mail and detects remote mailboxes.\\nYou can typically get it by installing \`isync\`.\\n" && return 1
 	while : ; do
 		echo "Do you want to keep your mail for this account offline with mbsync? [yes/no]"
 		read -r offnot
@@ -368,7 +358,6 @@ What would you like \033[32mmutt-wizard\033[0m to do?
 	5 Change GPG key pair used for encryption
 	6 Delete all account data
 	7 Enable/disable autosync
-	9 Edit this script
 	0 Exit
 Input a number to continue or press ctrl-c.\\n"
 	printf "\033[36m\t"
@@ -377,12 +366,11 @@ Input a number to continue or press ctrl-c.\\n"
 	case "$choice" in
 		1) addtype ;;
 		2) pick finalize && finalize ;;
-		3) pick "change the password of" yes && getpass ;;
-		4) pick delete yes && delete ;;
+		3) pick "change the password of" && confirm "change the password of" && getpass ;;
+		4) pick delete && confirm "delete the \`$title\` profile" && delete ;;
 		5) askgpg ;;
-		6) wipe && printf "Account data purged." ;;
+		6) confirm "delete all account data" && wipe && rm -ri "$mbsyncrc" "$accdir" "$creddir" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged." ;;
 		7) choosecron ;;
-		9) "$EDITOR" "$0"; exit ;;
 		0) break ;;
 		*) printf "Invalid input.\\n"
 	esac

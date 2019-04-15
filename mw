@@ -118,13 +118,11 @@ fi
 }
 
 addaccount() { \
-	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/mbsync\\n\\nEmail: "
-	printf "\033[36m\t"
+	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/mbsync\\n\\nEmail: \033[36m\t"
 	read -r fulladdr
 	printf "\033[0m"
 	while ! echo "$fulladdr" | grep "$emailre" >/dev/null; do
-		printf "That is not a valid \033[31memail address\033[0m, please retype the desired email.\\n\\nEmail: "
-		printf "\033[36m\t"
+		printf "That is not a valid \033[31memail address\033[0m, please retype the desired email.\\n\\nEmail: \033[36m\t"
 		read -r fulladdr
 		printf "\033[0m"
 	done
@@ -133,23 +131,15 @@ addaccount() { \
 	serverinfo="$(grep "$domain" "$muttdir/domains.csv")"
 	if [ -z "$serverinfo" ]; then
 		printf "Your email domain is not in mutt-wizard's database yet.\\nmutt-wizard will still autoconfigure everything, but you will have to manually type in your service's IMAP and SMTP server information.\\nYou can usually quickly find this by internet searching for it.\\n"
-		printf "Insert the IMAP server for your email provider (excluding the port number)\\n"
-		printf "\033[36m\t"
+		printf "Insert the IMAP server for your email provider (excluding the port number)\\n\033[36m\t"
 		read -r imap
-		printf "\033[0m"
-		printf "What is your server's IMAP port number? (Usually something like 993)\\n"
-		printf "\033[36m\t"
+		printf "\033[0mWhat is your server's IMAP port number? (Usually something like 993)\\n\033[36m\t"
 		read -r iport
-		printf "\033[0m"
-		printf "Insert the SMTP server for your email provider (excluding the port number)\\n"
-		printf "\033[36m\t"
+		printf "\033[0mInsert the SMTP server for your email provider (excluding the port number)\\n\033[36m\t"
 		read -r smtp
-		printf "\033[0m"
-		printf "What is your server's SMTP port number? (Usually 587 or 465)\\n"
-		printf "\033[36m\t"
+		printf "\033[0mWhat is your server's SMTP port number? (Usually 587 or 465)\\n\033[36m\t"
 		read -r sport
-		printf "\033[0m"
-		printf "\\nGreat! If you want to be helpful, copy the line below and you can add it to the \`domains.csv\` file on Github.\\nThis will make things easier for others who use your email provider.\\n\\n%s,%s,%s,%s,%s\\n\\nAlthough be sure to test to see if these settings work first! ;-)\\n" "$domain" "$imap" "$iport" "$smtp" "$sport"
+		printf "\033[0m\\nGreat! If you want to be helpful, copy the line below and you can add it to the \`domains.csv\` file on Github.\\nThis will make things easier for others who use your email provider.\\n\\n%s,%s,%s,%s,%s\\n\\nAlthough be sure to test to see if these settings work first! ;-)\\n" "$domain" "$imap" "$iport" "$smtp" "$sport"
 	else
 		IFS=, read -r service imap iport smtp sport <<EOF
 $serverinfo
@@ -162,13 +152,11 @@ EOF
 	printf "Enter a short, \033[36mone-word identifier\033[0m for this email account that will distinguish them from any other accounts you add.\\n\tAccount name: "
 	read -r title
 	while ! echo "$title" | grep "$namere" >/dev/null; do
-		printf "\033[31mTry again\033[0m. Pick a nickname that is one word only including lowercase letters and _ or -.\\n\tAccount name: "
-		printf "\033[36m\t"
+		printf "\033[31mTry again\033[0m. Pick a nickname that is one word only including lowercase letters and _ or -.\\n\tAccount name: \033[36m\t"
 		read -r title
 		printf "\033[0m"
 	done
-	printf "If your account has a special username different from your address, insert it now. Otherwise leave this prompt totally blank.\\n\tLogin(?): "
-	printf "\033[36m\t"
+	printf "If your account has a special username different from your address, insert it now. Otherwise leave this prompt totally blank.\\n\tLogin(?): \033[36m\t"
 	read -r login
 	printf "\033[0m"
 	[ -z "$login" ] && login="$fulladdr"
@@ -203,13 +191,11 @@ getpass() { \
 }
 
 askgpg() { \
-	printf "To safely encrypt passwords, mutt-wizard requires that you have a GPG public/private key pair.\\n\\nPlease input the email address of your GPG key pair below.\\nEmail: "
-	printf "\033[36m\t"
+	printf "To safely encrypt passwords, mutt-wizard requires that you have a GPG public/private key pair.\\n\\nPlease input the email address of your GPG key pair below.\\nEmail: \033[36m\t"
 	read -r gpgemail
 	printf "\033[0m"
 	while ! echo "$gpgemail" | grep "$emailre" >/dev/null; do
-		printf "That is not a valid email address. Please try again.\\nEmail: "
-		printf "\033[36m\t"
+		printf "That is not a valid email address. Please try again.\\nEmail: \033[36m\t"
 		read -r gpgemail
 		printf "\033[0m"
 	done
@@ -308,8 +294,7 @@ choosecron() { ! pgrep crond >/dev/null && echo "No cron manager running. Instal
 		read -r minnum
 		printf "\033[0m"
 		while ! echo "$minnum" | grep "^[0-9]\+$" >/dev/null; do
-			printf "That doesn't look like a number. How many minutes between each mail sync?"
-			printf "\033[36m\t"
+			printf "That doesn't look like a number. How many minutes between each mail sync?\\n\033[36m\t"
 			read -r minnum
 			printf "\033[0m"
 		done
@@ -351,7 +336,7 @@ EOF
 	printf "\033[0mMade and maintained by Luke Smith <https://lukesmith.xyz>
 
 What would you like \033[32mmutt-wizard\033[0m to do?
-	\033[31m1 Add an email account\033[0m
+	1 Add an email account
 	2 Autodetect mailboxes
 	3 Change an account's password
 	4 Remove an account

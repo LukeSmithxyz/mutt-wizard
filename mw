@@ -53,6 +53,7 @@ Path ~/.local/share/mail/$title/
 Inbox ~/.local/share/mail/$title/INBOX
 
 Channel $title
+Expunge Both
 Master :$title-remote:
 Slave :$title-local:
 Patterns * !\"[Gmail]/All Mail\"

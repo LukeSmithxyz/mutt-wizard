@@ -336,9 +336,8 @@ EOF
 
 What would you like \033[32mmutt-wizard\033[0m to do?
 	1 Add an email account
-	2 Autodetect mailboxes
-	3 Change an account's password
-	4 Remove an account
+	2 Change an account's password
+	3 Remove an account
 	5 Change GPG key pair used for encryption
 	6 Delete all account data
 	7 Enable/disable autosync
@@ -349,9 +348,8 @@ Input a number to continue or press ctrl-c.\\n"
 	printf "\033[0m"
 	case "$choice" in
 		1) addtype ;;
-		2) pick finalize && finalize ;;
-		3) pick "change the password of" && confirm "change the password of" && getpass ;;
-		4) pick delete && confirm "delete the \`$title\` profile" && delete ;;
+		2) pick "change the password of" && confirm "change the password of" && getpass ;;
+		3) pick delete && confirm "delete the \`$title\` profile" && delete ;;
 		5) askgpg ;;
 		6) confirm "delete all account data" && wipe && rm -ri "$mbsyncrc" "$accdir" "$creddir" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged." ;;
 		7) choosecron ;;

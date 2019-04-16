@@ -169,9 +169,13 @@ EOF
 	[ ! -f "$HOME/.config/msmtp/config" ] && echo "$msmtp_header" > "$HOME/.config/msmtp/config"
 	echo "$msmtp_profile" >> "$HOME/.config/msmtp/config"
 	echo "$mutt_profile" > "$accdir/$title.muttrc"
+	echo "$mbsync_profile" >> "$mbsyncrc"
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$title.muttrc<enter><change-folder>!<enter>;<check-stats>'" >> "$muttdir/personal.muttrc"
 	! grep "^source.*.muttrc" "$muttdir/personal.muttrc" >/dev/null && echo "source $accdir/$title.muttrc" >> "$muttdir/personal.muttrc"
-	[ "$accounttype" = "offline" ] && echo "$mbsync_profile" >> "$mbsyncrc" && trysync && finalize
+	if [ "$accounttype" = "offline" ]; then
+		trysync && finalize
+		sed -i "/IMAPAccount $title$/,/# End profile/d" "$mbsyncrc"
+	fi
 }
 
 getpass() { \

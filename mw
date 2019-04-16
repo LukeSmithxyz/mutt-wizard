@@ -273,11 +273,11 @@ pick() { numbered="$(ls $accdir/*muttrc | sed "s/.*\///;s/\..*//" | nl)"
 	[ -z "$title" ] && printf "Invalid response." && return 1
 	return 0 ;}
 
-delete() { sed -i "/IMAPAccount $title/,/# End profile/d" "$mbsyncrc"
+delete() { sed -i "/IMAPAccount $title$/,/# End profile/d" "$mbsyncrc"
 	rm -rf "${accdir:?}/${title:?}" "$creddir/$title.gpg" "$accdir/$title.muttrc"
 	sed -i "/$title.muttrc/d" "$muttdir/personal.muttrc"
 	sed -i "/account $title/,/^\(\s*$\|account\)/d" "$HOME/.config/msmtp/config"
-	confirm "delete the local mail repository as well?" && rm -rf "${maildir:?}/${title:?}"
+	#confirm "delete the local mail repository as well?" && rm -rf "${maildir:?}/${title:?}"
 	}
 
 choosecron() { ! pgrep crond >/dev/null && echo "No cron manager running. Install/enable one and then select this option again." && return 1

@@ -1,11 +1,5 @@
 #!/usr/bin/env sh
-# This script will run mbsync and check
-# for new email if there is an internet connection.
-#
-# If it detects new mail, it uses mpv to play a
-# notification sound: notify.opus
-#
-# I have this run as a cronjob every 5 minutes.
+# Sync mail and give notification if there is new mail.
 
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || exit

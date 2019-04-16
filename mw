@@ -36,6 +36,30 @@ from $login
 user $login
 passwordeval \"$GPG -d --quiet --for-your-eyes-only --no-tty $creddir/$title.gpg | sed -e '\$a\\'\"
 "
+mbsync_profile="IMAPAccount $title
+Host $imap
+User $login
+Port  $iport
+PassCmd \"gpg -q --for-your-eyes-only --no-tty -d ~/.local/share/muttwizard/$title.gpg\"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore $title-remote
+Account $title
+
+MaildirStore $title-local
+Subfolders Verbatim
+Path ~/.local/share/mail/$title/
+Inbox ~/.local/share/mail/$title/INBOX
+
+Channel $title
+Master :$title-remote:
+Slave :$title-local:
+Patterns * !\"[Gmail]/All Mail\"
+
+Create Both
+SyncState *
+# End profile"
 
 if [ "$accounttype" = "offline" ]; then
 mutt_profile="# vim: filetype=neomuttrc
@@ -63,30 +87,6 @@ bind index gg first-entry
 unmailboxes *
 set imap_check_subscribed
 "
-mbsync_profile="IMAPAccount $title
-Host $imap
-User $login
-Port  $iport
-PassCmd \"gpg -q --for-your-eyes-only --no-tty -d ~/.local/share/muttwizard/$title.gpg\"
-SSLType IMAPS
-CertificateFile /etc/ssl/certs/ca-certificates.crt
-
-IMAPStore $title-remote
-Account $title
-
-MaildirStore $title-local
-Subfolders Verbatim
-Path ~/.local/share/mail/$title/
-Inbox ~/.local/share/mail/$title/INBOX
-
-Channel $title
-Master :$title-remote:
-Slave :$title-local:
-Patterns * !\"[Gmail]/All Mail\"
-
-Create Both
-SyncState *
-# End profile"
 else
 mutt_profile="# vim: filetype=neomuttrc
 # muttrc file for account $title

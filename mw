@@ -93,8 +93,8 @@ mutt_profile="# vim: filetype=neomuttrc
 set realname = \"$realname\"
 set from = \"$fulladdr\"
 set sendmail = \"/usr/bin/msmtp -a $title\"
-set folder = \"imaps://$imap:$iport\"
-set imap_user = $login
+set folder = \"imaps://$fulladdr@$imap:$iport\"
+set imap_user = \"$login\"
 set header_cache = $accdir/$title/cache/headers
 set message_cachedir = $accdir/$title/cache/bodies
 set certificate_file = $accdir/$title/certificates
@@ -172,10 +172,8 @@ EOF
 	echo "$mbsync_profile" >> "$mbsyncrc"
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$title.muttrc<enter><change-folder>!<enter>;<check-stats>'" >> "$muttdir/personal.muttrc"
 	! grep "^source.*.muttrc" "$muttdir/personal.muttrc" >/dev/null && echo "source $accdir/$title.muttrc" >> "$muttdir/personal.muttrc"
-	if [ "$accounttype" = "offline" ]; then
-		trysync && finalize
-		sed -i "/IMAPAccount $title$/,/# End profile/d" "$mbsyncrc"
-	fi
+	trysync && finalize
+	[ "$accounttype" = "offline" ] && sed -i "/IMAPAccount $title$/,/# End profile/d" "$mbsyncrc"
 }
 
 getpass() { \

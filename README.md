@@ -20,7 +20,7 @@ I maintain mutt-wizard for GNU/Linux, but individual contributors have also made
 ## Install and Use
 
 ```
-git clone https://github.com/LukeSmithxyz/mutt-wizard ~/.config/mutt
+git clone https://gitlab.com/LukeSmithxyz/mutt-wizard ~/.config/mutt
 ```
 
 Yes you have to put the whole repo in the mutt directory (`~/.config/mutt/`).

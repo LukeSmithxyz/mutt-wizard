@@ -174,7 +174,7 @@ EOF
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$title.muttrc<enter><change-folder>!<enter>;<check-stats>'" >> "$muttdir/personal.muttrc"
 	! grep "^source.*.muttrc" "$muttdir/personal.muttrc" >/dev/null && echo "source $accdir/$title.muttrc" >> "$muttdir/personal.muttrc"
 	trysync && finalize
-	[ "$accounttype" = "offline" ] && sed -i "/IMAPAccount $title$/,/# End profile/d" "$mbsyncrc"
+	[ "$accounttype" = "offline" ] || sed -i "/IMAPAccount $title$/,/# End profile/d" "$mbsyncrc"
 }
 
 getpass() { \

@@ -31,7 +31,7 @@ pkill -RTMIN+12 i3blocks
 for account in $(ls ~/.mail)
 do
 	#List unread messages newer than last mailsync and count them
-	newcount=$(find ~/.mail/"$account"/INBOX/new/ -type f -newer ~/.config/mutt/etc/.mailsynclastrun 2> /dev/null | wc -l)
+	newcount=$(find ~/.mail/"$account"/INBOX/new/ ~/.mail/"$account"/inbox/new/ ~/.mail/"$account"/Inbox/new/ -type f -newer ~/.config/mutt/etc/.mailsynclastrun 2> /dev/null | wc -l)
 	if [ "$newcount" -gt "0" ]
 	then
 		notify "$account" "$newcount" &

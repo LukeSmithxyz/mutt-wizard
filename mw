@@ -26,16 +26,13 @@ port $sport
 from $login
 user $login
 passwordeval \"pass mutt-wizard-$title\""
-mbsync_profile="IMAPAccount $title
+mbsync_profile="IMAPStore $title-remote
 Host $imap
-User $login
 Port  $iport
+User $login
 PassCmd \"pass mutt-wizard-$title\"
 SSLType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
-
-IMAPStore $title-remote
-Account $title
 
 MaildirStore $title-local
 Subfolders Verbatim
@@ -47,7 +44,6 @@ Expunge Both
 Master :$title-remote:
 Slave :$title-local:
 Patterns * !\"[Gmail]/All Mail\"
-
 Create Both
 SyncState *
 # End profile"
@@ -169,7 +165,7 @@ EOF
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$title.muttrc<enter><change-folder>!<enter>;<check-stats>'" >> "$muttdir/personal.muttrc"
 	! grep "^source.*.muttrc" "$muttdir/personal.muttrc" >/dev/null && echo "source $accdir/$title.muttrc" >> "$muttdir/personal.muttrc"
 	trysync && finalize
-	[ "$accounttype" = "offline" ] || sed -i "/IMAPAccount $title$/,/# End profile/d" "$mbsyncrc"
+	[ "$accounttype" = "offline" ] || sed -i "/IMAPStore $title$/,/# End profile/d" "$mbsyncrc"
 }
 
 getpass() { pass rm -f "mutt-wizard-$title" 2>/dev/null ; pass insert "mutt-wizard-$title" ;}

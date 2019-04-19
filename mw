@@ -8,12 +8,7 @@ emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
 mbsyncrc="$HOME/.mbsyncrc"
 [ ! -f "$muttdir/domains.csv" ] || [ ! -d "$bindir" ] && printf "Read the README. Be sure to put the repo in the right place before running.\\n" && exit 1
 tmpdir="$(mktemp -d)"
-
-# Get certificate location depending on OS. Linux is elsewhere condition.
-case "$(uname)" in
-	"Darwin") sslcert="/usr/local/etc/openssl/cert.pem" ;;
-	*) sslcert="/etc/ssl/certs/ca-certificates.crt" ;;
-esac
+sslcert="/etc/ssl/certs/ca-certificates.crt"
 
 getprofiles() { \
 	unset msmtp_header msmtp_profile mutt_profile mbsync_profile

@@ -15,8 +15,6 @@ Specifically, this wizard:
 - Can automatically set mail updates as often as you want to sync your mail and update you when new mail arrives
 - Provides sensible defaults and an attractive appearance for the neomutt email client
 
-I maintain mutt-wizard for GNU/Linux, but individual contributors have also made it compatible with Mac.
-
 ## Install and Use
 
 ```

@@ -58,8 +58,6 @@ set folder = \"$maildir/$title\"
 set header_cache = $accdir/$title/cache/headers
 set message_cachedir = $accdir/$title/cache/bodies
 set certificate_file = $accdir/$title/certificates
-set imap_pass = \`pass mutt-wizard-$title\`
-set smtp_pass = \`pass mutt-wizard-$title\`
 
 alias me $realname <$fulladdr>
 
@@ -86,7 +84,8 @@ set imap_user = \"$login\"
 set header_cache = $accdir/$title/cache/headers
 set message_cachedir = $accdir/$title/cache/bodies
 set certificate_file = $accdir/$title/certificates
-source \"$bindir/getmuttpass $title |\"
+set imap_pass = \`pass mutt-wizard-$title\`
+set smtp_pass = \`pass mutt-wizard-$title\`
 
 alias me $realname <$fulladdr>
 

@@ -299,9 +299,8 @@ What would you like \033[32mmutt-wizard\033[0m to do?
 	1 Add an email account
 	2 Change an account's password
 	3 Remove an account
-	4 Change GPG key pair used for encryption
-	5 Delete all account data
-	6 Enable/disable autosync
+	4 Purge all account data
+	5 Enable/disable autosync
 	0 Exit
 Input a number to continue or press ctrl-c.\\n"
 	printf "\033[36m\t"
@@ -311,9 +310,8 @@ Input a number to continue or press ctrl-c.\\n"
 		1) addtype ;;
 		2) pick "change the password of" && confirm "change the password of" && getpass ;;
 		3) pick delete && confirm "delete the \`$title\` profile" && delete ;;
-		4) askgpg ;;
-		5) confirm "delete all account data" && rm -ri "$mbsyncrc" "$accdir" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged." ;;
-		6) choosecron ;;
+		4) confirm "delete all account data" && rm -ri "$mbsyncrc" "$accdir" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged." ;;
+		5) choosecron ;;
 		0) break ;;
 		*) printf "Invalid input.\\n"
 	esac

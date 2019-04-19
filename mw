@@ -47,7 +47,8 @@ Slave :$title-local:
 Patterns * !\"[Gmail]/All Mail\"
 Create Both
 SyncState *
-# End profile"
+# End profile
+"
 
 if [ "$accounttype" = "offline" ]; then
 mutt_profile="# vim: filetype=neomuttrc

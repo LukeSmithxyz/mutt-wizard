@@ -138,6 +138,10 @@ addaccount() { \
 		IFS=, read -r service imap iport smtp sport <<EOF
 $serverinfo
 EOF
+	case "$service" in
+		gmail.com) printf "\033[31mREMEMBER: Gmail users must enable \"less secure\" (third-party) applications first for the sync to work:\\nhttps://support.google.com/accounts/answer/6010255\\n\033[0m" ;;
+		protonmail.*) printf "\033[31mREMEMBER: Protonmail users must install and configure Protonmail Bridge first for the sync to work:\\nhttps://protonmail.com/bridge/\\n\033[0m" ;;
+	esac
 	printf "\\n\033[3;33mCongrats!\033[0m Server info has automatically be found, so you won't have to look anything up!\\n\t\033[1mIMAP server\033[0m: %s\\n\t\033[1mIMAP port\033[0m: %s\\n\t\033[1mSMTP server\033[0m: %s\\n\t\033[1mSMTP port\033[0m: %s\\nThis data will be used by the wizard.\\n" "$imap" "$iport" "$smtp" "$sport"
 	fi
 	cont

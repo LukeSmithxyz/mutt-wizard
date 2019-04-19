@@ -216,7 +216,7 @@ finalize() { \
 	grep -i -m 1 spam "$tmpdir/title_boxes" | formatShortcut S spam "$title"
 	grep -i -m 1 junk "$tmpdir/title_boxes" | formatShortcut j junk "$title"
 	grep -i -m 1 archive "$tmpdir/title_boxes" | formatShortcut a archive "$title"
-	printf "All done.\\n"
+	printf "All done.\\n\033[33mYou should now be able to run \`\033[32mmbsync $title\033[33m\` to begin to download your mail.\033[0m\\n"
 }
 
 confirm() { printf "Are you \033[31;1mreally\033[0m sure you want to %s?\\n\t" "$@" && read -r input && ! echo "$input" | grep -i "y\(es\)*" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1

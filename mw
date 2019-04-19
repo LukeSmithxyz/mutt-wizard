@@ -311,7 +311,7 @@ Input a number to continue or press ctrl-c.\\n"
 		1) addtype ;;
 		2) pick "change the password of" && confirm "change the password of" && getpass ;;
 		3) pick delete && confirm "delete the \`$title\` profile" && delete ;;
-		4) confirm "delete all account data" && rm -ri "$mbsyncrc" "$accdir" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged." ;;
+		4) confirm "delete all account data" && rm -rf "$mbsyncrc" "$accdir" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged." ;;
 		5) choosecron ;;
 		0) break ;;
 		*) printf "Invalid input.\\n"

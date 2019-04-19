@@ -188,6 +188,7 @@ trysync() { \
 	else
 		printf "\033[31m\033[31mSync not successful.\033[0m Try running \`mbsync %s\` manually after double-checking your password and server settings.\\nThen select to finalize the account.\\n" "$title"; return 1
 	fi
+	[ "$accounttype" = "online" ] && sed -i "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc"
 }
 
 finalize() { \

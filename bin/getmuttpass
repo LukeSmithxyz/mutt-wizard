@@ -1,5 +1,0 @@
-#!/bin/bash
-GPG="gpg"; command -v gpg >/dev/null || GPG="gpg2"
-pass=$(printf '%q' "$("$GPG" --decrypt --quiet "$HOME/.local/share/muttwizard/$1.gpg")")
-echo "set smtp_pass=\"$pass\""
-echo "set imap_pass=\"$pass\""

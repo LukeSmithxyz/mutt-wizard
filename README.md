@@ -31,6 +31,7 @@ Install these required programs:
 - `neomutt` - the email client.
 - `isync` - downloads and syncs the mail.
 - `msmtp` - sends the email.
+- `pass` - safely encrypts passwords
 
 You also need a GPG key pair to encrypt passwords.
 If you don't know what that is, just run `gpg --full-gen-key` (or `gpg2 --full-gen-key`) to get one.

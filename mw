@@ -20,14 +20,12 @@ tls_trust_file	$sslcert
 logfile	~/.config/msmtp/msmtp.log
 "
 msmtp_profile="
-
 account $title
 host $smtp
 port $sport
 from $login
 user $login
-passwordeval \"pass mutt-wizard-$title\"
-"
+passwordeval \"pass mutt-wizard-$title\""
 mbsync_profile="IMAPAccount $title
 Host $imap
 User $login

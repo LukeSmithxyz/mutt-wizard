@@ -259,7 +259,7 @@ choosecron() { ! pgrep crond >/dev/null && echo "No cron manager running. Instal
 			read -r minnum
 			printf "\033[0m"
 		done
-		(crontab -l; echo "*/$minnum * * * * export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus; export DISPLAY=:0; . \$HOME/.profile; $muttdir/bin/mailsync -f INBOX") | crontab - &&
+		(crontab -l; echo "*/$minnum * * * * export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus; export DISPLAY=:0; . \$HOME/.profile; $muttdir/bin/mailsync") | crontab - &&
 			echo "Cronjob added. Mail will sync every $minnum minutes. Be sure you have your cron manager running."
 	fi
 }

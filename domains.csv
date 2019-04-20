@@ -96,6 +96,7 @@ iname.com,imap.mail.com,995,smtp.mail.com,587
 insiberia.net,mail.autistici.org,993,smtp.autistici.org,465
 insicuri.net,mail.autistici.org,993,smtp.autistici.org,465
 inventati.org,mail.autistici.org,993,smtp.autistici.org,465
+kipras.org,mail.kipras.org,993,mail.kipras.org,587
 krutt.org,mail.autistici.org,993,smtp.autistici.org,465
 lavabit.com,lavabit.com,993,lavabit.com,587
 linuxmail.org,imap.mail.com,995,smtp.mail.com,587

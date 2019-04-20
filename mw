@@ -23,13 +23,13 @@ msmtp_profile="
 account $title
 host $smtp
 port $sport
-from $login
-user $login
+from $fulladdr
+user $fulladdr
 passwordeval \"pass mutt-wizard-$title\""
 mbsync_profile="IMAPStore $title-remote
 Host $imap
 Port  $iport
-User $login
+User $fulladdr
 PassCmd \"pass mutt-wizard-$title\"
 SSLType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
@@ -82,7 +82,7 @@ set realname = \"$realname\"
 set from = \"$fulladdr\"
 set sendmail = \"/usr/bin/msmtp -a $title\"
 set folder = \"imaps://$fulladdr@$imap:$iport\"
-set imap_user = \"$login\"
+set imap_user = \"$fulladdr\"
 set header_cache = $accdir/$title/cache/headers
 set message_cachedir = $accdir/$title/cache/bodies
 set certificate_file = $accdir/$title/certificates
@@ -148,10 +148,6 @@ EOF
 		read -r title
 		printf "\033[0m"
 	done
-	printf "If your account has a special username different from your address, insert it now. Otherwise leave this prompt totally blank.\\n\tLogin(?): \033[36m\t"
-	read -r login
-	printf "\033[0m"
-	[ -z "$login" ] && login="$fulladdr"
 	tmpdir="$(mktemp -d)"
 	grep "i[0-9]" "$muttdir/personal.muttrc" 2>/dev/null | awk '{print $3}' | sed -e 's/i//g' > "$tmpdir/mutt_used"
 	seq 1 9 > "$tmpdir/mutt_all"

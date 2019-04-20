@@ -108,7 +108,7 @@ fi
 }
 
 addaccount() { \
-	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/mbsync\\n\\nEmail: \033[36m\t"
+	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/mbsync\\n\tEmail: \033[36m"
 	read -r fulladdr
 	printf "\033[0m"
 	while ! echo "$fulladdr" | grep "$emailre" >/dev/null; do
@@ -261,7 +261,7 @@ choosecron() { ! pgrep crond >/dev/null && echo "No cron manager running. Instal
 
 addtype() { ! command -v mbsync >/dev/null && printf "You must have the \`mbsync\` command to add an account.\\nIt syncs mail and detects remote mailboxes.\\nYou can typically get it by installing \`isync\`.\\n" && return 1
 	while : ; do
-		echo "Do you want to keep your mail for this account offline with mbsync? [yes/no]"
+		printf "Do you want to keep your mail for this account offline with mbsync? [yes/no]\\n\t"
 		read -r offnot
 		case "$offnot" in
 			[Yy]es) accounttype="offline" && break ;;

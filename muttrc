@@ -43,6 +43,7 @@ bind index \031 previous-undeleted # Mouse wheel
 bind index \005 next-undeleted # Mouse wheel
 bind pager \031 previous-line # Mouse wheel
 bind pager \005 next-line # Mouse wheel
+macro index,pager a "|abook --add-email\n" 'add sender to abook'
 macro index,pager S <sync-mailbox>
 set query_command= "abook --mutt-query '%s'"
 bind editor        <Tab> complete-query

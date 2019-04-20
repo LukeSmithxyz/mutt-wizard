@@ -8,7 +8,7 @@ Get this great stuff without effort:
 Specifically, this wizard:
 
 - Determines your email server's IMAP and SMTP servers and ports
-- Creates dotfiles for `neomutt`, `isync`, and `msmtp` appropirate for your email address
+- Creates dotfiles for `neomutt`, `isync`, and `msmtp` appropriate for your email address
 - Encrypts and stores locally your password for easy remote access, accessible only by your GPG key
 - Handles as many as nine separate email accounts automatically
 - Auto-creates bindings to switch between accounts or between mailboxes

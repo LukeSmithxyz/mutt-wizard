@@ -130,6 +130,7 @@ runbox.com,mail.runbox.com,993,mail.runbox.com,587
 rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
 stronzi.org,mail.autistici.org,993,smtp.autistici.org,465
+stud.tu-darmstadt.de,imap.stud.tu-darmstadt.de,993,smtp.tu-darmstadt.de,465
 subvertising.org,mail.autistici.org,993,smtp.autistici.org,465
 t-online.de,secureimap.t-online.de,993,securesmtp.t-online.de,465
 techie.com,imap.mail.com,995,smtp.mail.com,587

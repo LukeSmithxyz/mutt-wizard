@@ -71,6 +71,7 @@ fastmail.fm,imap.fastmail.com,993,smtp.fastmail.com,465
 firemail.cc,mail.cock.li,993,mail.cock.li,587
 forthnet.gr,mail.forthnet.gr,993,smtp-auth.forthnet.gr,465
 fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
+fsu-jena,exchange.uni-jena.de,993,smtp.uni-jena.de,587
 getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
 gmail.com,imap.gmail.com,993,smtp.gmail.com,587
 gmx.com,imap.gmx.net,993,mail.gmx.net,587

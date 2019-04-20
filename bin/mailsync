@@ -10,7 +10,7 @@ export DISPLAY=:0.0
 if [ "$(uname)" = "Darwin" ]; then
 	notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 else
-	notify() { paplay "$HOME/.config/mutt/bin/notify.ogg" & notify-send "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account." ;}
+	notify() { notify-send "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account." ;}
 fi
 
 echo " 🔃" > /tmp/imapsyncicon

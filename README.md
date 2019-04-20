@@ -51,11 +51,12 @@ To give you an example of the interface, here's an idea:
 - `j`/`k` and `d`/`u` - vim-like bindings to go down and up (or `d`/`u` to go down/up a page).
 - `Enter` - read mail
 - `r` - reply to highlighted mail
-- `R` - replay all to highlighted mail
+- `R` - reply all to highlighted mail
 - `v` - view attachments to select and open them `s` to save, `Enter` to open.
 - `gs`,`gi`,`ga`,`gd`,`gS` - Press `g` followed by another letter to change mailbox: `s`ent, `i`nbox, `a`rchive, `d`rafts, `S`pam, etc.
 - `M` and `C` - For `M`ove and `C`opy: follow them with one of the mailbox letters above, i.e. `MS` means "move to Spam".
 - `i#` - Press `i` followed by a number 1-9 to go to a different account. If you add 9 accounts via mutt-wizard, they will each be assigned a number.
+- `a` to add address/person to abook and `Tab` while typing address to complete one from book.
 - `?` - see all keyboard shortcuts
 
 
@@ -67,7 +68,7 @@ To give you an example of the interface, here's an idea:
 - More elegant attachment handling. Image/video/pdf attachments without relying on the neomutt instance.
 - abook integration by default.
 - The messy template files have been removed and are now a part of the script itself.
-- Optimal XDG standards compliance, moving msmtp configs to `~/.config/`, moving mail to `~/.local/share/mail/` and moving mutt-wizard files to `~/.local/share/muttwizard/`. isync/mbsync still uses home for default though as XDG compliance is not built into them.
+- msmtp configs moved to `~/.config/` and mail default location moved to `~/.local/share/mail/`, reducing mess in `~`.
 - `accounts/` hold account data and `bin/` holds script run by or for mutt. All other directories have been disintegrated.
 - `pass` is used as a password manager instead of separately saving passwords.
 - Script is POSIX sh compliant.

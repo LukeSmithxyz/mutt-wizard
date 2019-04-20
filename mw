@@ -9,7 +9,6 @@ namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
 mbsyncrc="$HOME/.mbsyncrc"
 sslcert="/etc/ssl/certs/ca-certificates.crt"
-tmpdir="$(mktemp -d)"
 
 getprofiles() { \
 	unset msmtp_header msmtp_profile mutt_profile mbsync_profile
@@ -153,6 +152,7 @@ EOF
 	read -r login
 	printf "\033[0m"
 	[ -z "$login" ] && login="$fulladdr"
+	tmpdir="$(mktemp -d)"
 	grep "i[0-9]" "$muttdir/personal.muttrc" 2>/dev/null | awk '{print $3}' | sed -e 's/i//g' > "$tmpdir/mutt_used"
 	seq 1 9 > "$tmpdir/mutt_all"
 	idnum=$(diff "$tmpdir/mutt_all" "$tmpdir/mutt_used" | sed -n 2p | awk '{print $2}')

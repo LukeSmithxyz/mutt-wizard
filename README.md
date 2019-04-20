@@ -1,6 +1,6 @@
 # mutt-wizard
 
-Get all this great stuff without effort:
+Get this great stuff without effort:
 
 - A full-featured and autoconfigured email client on the terminal with neomutt
 - Mail stored offline so you can view and write email while away from internet and keep backups
@@ -14,11 +14,14 @@ Specifically, this wizard:
 - Auto-creates bindings to switch between accounts or between mailboxes
 - Can automatically set mail updates as often as you want to sync your mail and update you when new mail arrives
 - Provides sensible defaults and an attractive appearance for the neomutt email client
+- If mutt-wizard doesn't know your server's IMAP/SMTP info by default, it will prompt you for them and will put them in all the right places.
 
 ## Install and Use
 
 ```
 git clone https://gitlab.com/LukeSmithxyz/mutt-wizard ~/.config/mutt
+cd ~/.config/mutt
+./mw # Run the mutt-wizard
 ```
 
 Yes you have to put the whole repo in the mutt directory (`~/.config/mutt/`).
@@ -27,9 +30,9 @@ Just backup or delete any previous mutt configs (or msmtp or mbsync configs if y
 Install these required programs:
 
 - `neomutt` - the email client.
-- `isync` - downloads and syncs the mail.
+- `isync` - downloads and syncs the mail. (required at install)
 - `msmtp` - sends the email.
-- `pass` - safely encrypts passwords
+- `pass` - safely encrypts passwords (required at install)
 
 You also need a GPG key pair to encrypt passwords.
 If you don't know what that is, just run `gpg --full-gen-key` (or `gpg2 --full-gen-key`) to get one.
@@ -66,16 +69,16 @@ To give you an example of the interface, here's an idea:
 - The messy template files have been removed and are now a part of the script itself.
 - Optimal XDG standards compliance, moving msmtp configs to `~/.config/`, moving mail to `~/.local/share/mail/` and moving mutt-wizard files to `~/.local/share/muttwizard/`. isync/mbsync still uses home for default though as XDG compliance is not built into them.
 - `accounts/` hold account data and `bin/` holds script run by or for mutt. All other directories have been disintegrated.
-- Better handling of different gpg versions.
+- `pass` is used as a password manager instead of separately saving passwords.
 - Script is POSIX sh compliant.
 - Error handling for the many people who don't read or follow directions.
 
 ## Watch our for these things:
 
 - For Gmail accounts, remember also to enable third-party ("""less secure""") applications before attempting installation.
-- Check the ProtonMail issue on Github if you are a Protonmail user. ProtonMail recently allows IMAP usage with their Bridge program for paid users. I don't have this, so I can't bugtest on it, but many users have gotten it working. Either way, it requires a little more work than just using the wizard.
-- Don't expect mutt-wizard to work out the box on a university email. Universities often have special IMAP policies and server settings. You might be lucky, but you might have to changes some settings in the mbsyncrc config file to get it to work properly with a university email.
-- If you use an email server whose mailboxes are not in English, mutt-wizard might not be able to guess which is which, so you may have to manually set your Inbox, Sent, Trash, Drafts, etc. in your mutt config file.
+- Protonmail accounts will require you to set up "Protonmail Bridge" to access PM's IMAP and SMTP servers. Configure that before running mutt-wizard.
+- If you have a university email, there might be other hurdles or two-factor authentication you have to jump through. Some, for example, will want you to create a separate IMAP password, etc.
+- If you use an email server whose mailboxes are not in English, mutt-wizard might not be able to guess which is which, so you may have to manually set your Inbox, Sent, Trash, Drafts, etc. in your mutt config file. Do this after running the wizard in `accounts/NAME.muttrc`.
 
 ## Help the Project!
 
@@ -86,3 +89,10 @@ To give you an example of the interface, here's an idea:
 See Luke's website [here](https://lukesmith.xyz). Email him at [luke@lukesmith.xyz](mailto:luke@lukesmith.xyz).
 
 mutt-wizard is free/libre software, licensed under the GPLv3.
+
+## Details for Tinkerers
+
+- The `muttrc` file is for universal settings.
+- `personal.muttrc`, called by the `muttrc`, is the place where user-specific settings are set, and the wizard automatically adds the macros for switching between accounts here. If you want to contribute to mutt-wizard, you should put your universal personal settings here and have git ignore it. For example, I put my gpg settings here and personal aliases here.
+- Accounts are generated in `accounts/`. If I create an account named `luke`, for example, `accounts/luke.muttrc` will hold that account's unique settings and `accounts/luke/` will hold headers and cache files.
+- `bin/` holds the `mailsync` script and other scripts and tools the wizard uses. I make a link with `ln` to this `mailsync` file in my `$PATH` so I can run it from wherever.

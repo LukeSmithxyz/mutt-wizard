@@ -167,7 +167,6 @@ EOF
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$title.muttrc<enter><change-folder>!<enter>;<check-stats>' \"switch to $fulladdr\"" >> "$muttdir/personal.muttrc"
 	! grep "^source.*.muttrc" "$muttdir/personal.muttrc" >/dev/null && echo "source $accdir/$title.muttrc" >> "$muttdir/personal.muttrc"
 	trysync && finalize
-	[ "$accounttype" = "offline" ] || sed -i "/IMAPStore $title$/,/# End profile/d" "$mbsyncrc"
 }
 
 getpass() { pass rm -f "mutt-wizard-$title" 2>/dev/null ; pass insert "mutt-wizard-$title" ;}
@@ -179,16 +178,14 @@ formatShortcut() { \
 	done ;}
 
 trysync() { ! ping -q -c 1 1.1.1.1 > /dev/null && printf "No internet connection detected.\\nTry rerunning \`mbsync %s\` manually when connection is established, then select the option to detect mailboxes and finalize installation.\\n" "$title" && return 1
-	printf "\033[32mYou must have an internet connection to continue.\033[0m\\nmutt-wizard will run mbsync briefly to (1) ensure that login details are functional and (2) allow mbsync to tell us what mailboxes your email account has.\\nAfter around 15 seconds, mutt-wizard will kill the process and continue.\\nYou can run mbsync manually to finish the mail sync later.\\n"
-	cont
 	mkdir -p "$maildir/$title"
 	if mailboxes="$(mbsync -l "$title")" >/dev/null 2>&1; then
+		[ "$accounttype" = "online" ] && sed -i "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc"
 		printf "\033[32mMailboxes detected.\033[0m\\n"
 		echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$title/{}"
 	else
 		printf "\033[31m\033[31mSync not successful.\033[0m Try running \`mbsync %s\` manually after double-checking your password and server settings.\\nThen select to finalize the account.\\n" "$title"; return 1
 	fi
-	[ "$accounttype" = "online" ] && sed -i "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc"
 }
 
 finalize() { \

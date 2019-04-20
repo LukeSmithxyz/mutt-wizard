@@ -1,73 +1,58 @@
 # vim: filetype=neomuttrc
 # This is the general mutt config which has the settings that all accounts use.
+set mailcap_path = ~/.config/mutt/bin/mailcap
+set date_format="%y/%m/%d %I:%M"
+set index_format="%2C %zs %?X?A& ? %D %-15.15F %s (%-4.4c)"
+set sort = 'reverse-date'
+set smtp_authenticators = 'gssapi:login'
+set query_command = "abook --mutt-query '%s'"
+set rfc2047_parameters = yes
+set sleep_time = 0		# Pause 0 seconds for informational messages
+set markers = no		# Disables the `+` displayed at line wraps
+set mark_old = no		# Unread mail stay unread until read
+set mime_forward = yes		# attachments are forwarded with mail
+set wait_key = no		# mutt won't ask "press key to continue"
+set fast_reply			# skip to compose when replying
+set fcc_attach			# save attachments with the body
+set forward_format = "Fwd: %s"	# format of subject when forwarding
+set forward_quote		# include message in forwards
+set reverse_name		# reply as whomever it was to
+set include			# include message in replies
+auto_view text/html		# automatically show html (mailcap uses w3m)
+auto_view application/pgp-encrypted
+alternative_order text/plain text/enriched text/html
 bind index,pager i noop
 bind index,pager g noop
 bind index \Cf noop
 source personal.muttrc
-set sleep_time = 0
-set sort = 'reverse-date'
-set editor = $EDITOR
-#set copy = no
-set timeout = "5"
-set mail_check = "10"
-set mailcap_path = ~/.config/mutt/bin/mailcap
-set date_format="%y/%m/%d %I:%M"
-set index_format="%2C %zs %?X?A& ? %D %-15.15F %s (%-4.4c)"
-set markers = no
-set mark_old = no
-set mime_forward = yes
-set smtp_authenticators = 'gssapi:login'
-set wait_key = no
-auto_view text/html
-auto_view application/pgp-encrypted
-alternative_order text/plain text/enriched text/html
-set rfc2047_parameters = yes
 
-# General remappings
+# General rebindings
+bind attach <return> view-mailcap
 bind editor <space> noop
 bind index G last-entry
 bind index gg first-entry
 bind pager j next-line
 bind pager k previous-line
+bind index D delete-message
+bind index U undelete-message
 bind browser h goto-parent
 bind browser l select-entry
 bind pager,browser gg top-page
 bind pager,browser G bottom-page
 bind index,browser d half-down
 bind index,browser u half-up
-bind index D delete-message
-bind index U undelete-message
-bind index,browser F search
+bind index,pager S sync-mailbox
 bind index,pager R group-reply
-bind index \031 previous-undeleted # Mouse wheel
-bind index \005 next-undeleted # Mouse wheel
-bind pager \031 previous-line # Mouse wheel
-bind pager \005 next-line # Mouse wheel
+bind index \031 previous-undeleted	# Mouse wheel
+bind index \005 next-undeleted		# Mouse wheel
+bind pager \031 previous-line		# Mouse wheel
+bind pager \005 next-line		# Mouse wheel
+bind editor <Tab> complete-query
+
 macro index,pager a "|abook --add-email\n" 'add sender to abook'
-macro index,pager S <sync-mailbox>
-set query_command= "abook --mutt-query '%s'"
-bind editor        <Tab> complete-query
-
-# View attachments properly.
-bind attach <return> view-mailcap
-set fast_reply           # skip to compose when replying
-set fcc_attach           # save attachments with the body
-unset mime_forward       # forward attachments as part of body
-set forward_format = "Fwd: %s"       # format of subject when forwarding
-set forward_decode                   # decode when forwarding
-set forward_quote                    # include message in forwards
-set reverse_name                     # reply as whomever it was to
-set include                          # include message in replies
-
-#Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
-
-#sync email
-macro index O "<shell-escape>$HOME/.config/mutt/bin/mailsync<enter>" "run offlineimap to sync all mail"
-macro index o "<shell-escape>$HOME/.config/mutt/bin/mailsync -qf INBOX<enter>" "run offlineimap to sync inbox"
-
-# Notmuch searching
-macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" "show only messages matching a notmuch pattern"
+macro index O "<shell-escape>$HOME/.config/mutt/bin/mailsync -Va<enter>" "run offlineimap to sync all mail"
+macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>read -p 'Enter a search term to find with notmuch: ' x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" "show only messages matching a notmuch pattern"
 macro index A "<limit>all\n" "show all messages (undo limit)"
 
 # Sidebar mappings
@@ -90,17 +75,12 @@ color index_author red default '.*'
 color index_number blue default
 color index_subject cyan default '.*'
 
-# For new mail:
+# New mail is boldened:
 color index brightyellow black "~N"
 color index_author brightred black "~N"
 color index_subject brightcyan black "~N"
 
-# Header colors:
-color header blue default ".*"
-color header brightmagenta default "^(From)"
-color header brightcyan default "^(Subject)"
-color header brightwhite default "^(CC|BCC)"
-
+# Other colors and aesthetic settings:
 mono bold bold
 mono underline underline
 mono indicator reverse
@@ -131,6 +111,11 @@ color bold black default
 color underline black default
 color normal default default
 
+# Regex highlighting:
+color header blue default ".*"
+color header brightmagenta default "^(From)"
+color header brightcyan default "^(Subject)"
+color header brightwhite default "^(CC|BCC)"
 color body brightred default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+" # Email addresses
 color body brightblue default "(https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+" # URL
 color body green default "\`[^\`]*\`" # Green text between ` and `

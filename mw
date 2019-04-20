@@ -140,7 +140,6 @@ EOF
 		protonmail.*) printf "\033[31mREMEMBER: Protonmail users must install and configure Protonmail Bridge first for the sync to work:\\nhttps://protonmail.com/bridge/\\n\033[0m" ;;
 	esac
 	fi
-	cont
 	printf "Enter the \033[35mfull name\033[0m you want to be identified by on this account.\\n\tReal name: "
 	read -r realname
 	printf "Enter a short, \033[36mone-word identifier\033[0m for this email account that will distinguish them from any other accounts you add.\\n\tAccount name: "
@@ -260,11 +259,6 @@ choosecron() { ! pgrep crond >/dev/null && echo "No cron manager running. Instal
 			echo "Cronjob added. Mail will sync every $minnum minutes. Be sure you have your cron manager running."
 	fi ;}
 
-cont() { printf "Press Enter to continue.\\n"
-	stty -echo
-	read -r
-	stty echo ; }
-
 addtype() { ! command -v mbsync >/dev/null && printf "You must have the \`mbsync\` command to add an account.\\nIt syncs mail and detects remote mailboxes.\\nYou can typically get it by installing \`isync\`.\\n" && return 1
 	while : ; do
 		echo "Do you want to keep your mail for this account offline with mbsync? [yes/no]"
@@ -308,7 +302,10 @@ Input a number to continue or press ctrl-c.\\n"
 		0) break ;;
 		*) printf "Invalid input.\\n"
 	esac
-	cont
+	printf "Press Enter to continue.\\n"
+	stty -echo
+	read -r null
+	stty echo
 done ;}
 
 main

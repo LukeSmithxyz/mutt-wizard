@@ -38,6 +38,7 @@ MaildirStore $title-local
 Subfolders Verbatim
 Path ~/.local/share/mail/$title/
 Inbox ~/.local/share/mail/$title/INBOX
+Flatten .
 
 Channel $title
 Expunge Both
@@ -180,12 +181,13 @@ formatShortcut() { \
 
 trysync() { ! ping -q -c 1 1.1.1.1 > /dev/null && printf "No internet connection detected.\\nTry rerunning \`mbsync %s\` manually when connection is established, then select the option to detect mailboxes and finalize installation.\\n" "$title" && return 1
 	mkdir -p "$maildir/$title"
-	if mailboxes="$(mbsync -l "$title")" >/dev/null 2>&1; then
+	if mailboxes="$(mbsync -l "$title" | sed 's/\//./')" >/dev/null 2>&1; then
 		[ "$accounttype" = "online" ] && sed -i "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc"
 		printf "\033[32mMailboxes detected.\033[0m\\n"
 		echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$title/{}"
 	else
-		printf "\033[31m\033[31mSync not successful.\033[0m Try running \`mbsync %s\` manually after double-checking your password and server settings.\\nThen select to finalize the account.\\n" "$title"; return 1
+		printf "\033[31m\033[31mLog-on not successful.\033[0m\\nIt seems that either you inputted the wrong password or sever settings, or there are other requirements for your account out of the control of mutt-wizard.\\n"
+		delete "$title"; return 1
 	fi
 }
 

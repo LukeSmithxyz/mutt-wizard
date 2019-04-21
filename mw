@@ -56,16 +56,12 @@ mutt_profile="# vim: filetype=neomuttrc
 set realname = \"$realname\"
 set from = \"$fulladdr\"
 set sendmail = \"/usr/bin/msmtp -a $title\"
+alias me $realname <$fulladdr>
 set folder = \"$maildir/$title\"
 set header_cache = $accdir/$title/cache/headers
 set message_cachedir = $accdir/$title/cache/bodies
 set certificate_file = $accdir/$title/certificates
-
-alias me $realname <$fulladdr>
-
 set mbox_type = Maildir
-set ssl_starttls = yes
-set ssl_force_tls = yes
 
 bind index,pager gg noop
 bind index,pager g noop
@@ -74,7 +70,6 @@ bind index,pager C noop
 bind index gg first-entry
 macro index o \"<shell-escape>$HOME/.config/mutt/bin/mailsync -V $title<enter>\" \"run mbsync to sync $title\"
 unmailboxes *
-set imap_check_subscribed
 "
 else
 mutt_profile="# vim: filetype=neomuttrc
@@ -82,14 +77,13 @@ mutt_profile="# vim: filetype=neomuttrc
 set realname = \"$realname\"
 set from = \"$fulladdr\"
 set sendmail = \"/usr/bin/msmtp -a $title\"
+alias me $realname <$fulladdr>
 set folder = \"imaps://$fulladdr@$imap:$iport\"
 set imap_user = \"$login\"
 set header_cache = $accdir/$title/cache/headers
 set message_cachedir = $accdir/$title/cache/bodies
 set certificate_file = $accdir/$title/certificates
 set imap_pass = \`pass mutt-wizard-$title\`
-
-alias me $realname <$fulladdr>
 
 set mbox_type = Maildir
 set ssl_starttls = yes

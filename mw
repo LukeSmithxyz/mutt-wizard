@@ -23,7 +23,7 @@ msmtp_profile="
 account $title
 host $smtp
 port $sport
-from $login
+from $fulladdr
 user $login
 passwordeval \"pass mutt-wizard-$title\""
 mbsync_profile="IMAPStore $title-remote

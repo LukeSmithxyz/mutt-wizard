@@ -49,16 +49,16 @@ To give you an example of the interface, here's an idea:
 
 - `m` - send mail (uses your default `$EDITOR` to write)
 - `j`/`k` and `d`/`u` - vim-like bindings to go down and up (or `d`/`u` to go down/up a page).
-- `Enter` - read mail
-- `r` - reply to highlighted mail
-- `R` - reply all to highlighted mail
-- `v` - view attachments to select and open them `s` to save, `Enter` to open.
+- `l` - open mail, or attachment page or attachment
+- `h` - the opposite of `l`
+- `r`/`R` - reply/reply all to highlighted mail
+- `s` - save selected mail or selected attachment
 - `gs`,`gi`,`ga`,`gd`,`gS` - Press `g` followed by another letter to change mailbox: `s`ent, `i`nbox, `a`rchive, `d`rafts, `S`pam, etc.
 - `M` and `C` - For `M`ove and `C`opy: follow them with one of the mailbox letters above, i.e. `MS` means "move to Spam".
 - `i#` - Press `i` followed by a number 1-9 to go to a different account. If you add 9 accounts via mutt-wizard, they will each be assigned a number.
 - `a` to add address/person to abook and `Tab` while typing address to complete one from book.
 - `?` - see all keyboard shortcuts
-
+- `ctrl-j`/`ctrl-k` - move up and down in sidebar, `ctrl-o` opens mailbox
 
 ## New stuff and improvements since the original release
 

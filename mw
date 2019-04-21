@@ -169,7 +169,7 @@ EOF
 }
 
 getpass() { pass rm -f "mutt-wizard-$title" >/dev/null 2>&1
-	while ! pass ls | grep -o " mutt-wizard-$title$" >/dev/null 2>&1;do
+	while ! pass ls | grep -o "mutt-wizard-$title$" >/dev/null 2>&1;do
 	pass insert "mutt-wizard-$title"; done;}
 
 formatShortcut() { \

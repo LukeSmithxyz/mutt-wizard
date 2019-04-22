@@ -279,11 +279,11 @@ case "$1" in
 	add) asktype && askinfo && tryconnect && finalize ;;
 	pass) pick "change the password of" && getpass ;;
 	delete) pick delete && confirm "delete the \`$title\` profile" && delete ;;
-	purge) confirm "delete all account data" && rm -rf "$mbsyncrc" "$accdir" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged." ;;
+	purge) confirm "delete all account data" && rm -rf "$mbsyncrc" "$accdir" "$HOME/.config/msmtp" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged." ;;
 	cron) choosecron ;;
 	*) cat << EOF
 mw: mutt-wizard, auto-configure email accounts for mutt
-and
+including downloadable mail with \`isync\`.
 
 Allowed options:
   init		Run once and first to copy required files
@@ -293,6 +293,9 @@ Allowed options:
   purge		Delete all accounts and settings
   cron		Enable or disable an autosync via cronjob
   all else	Print this message
+
+NOTE: Once at least one account is added, you can run
+\`mbsync -a\` to begin downloading mail.
 EOF
 esac
 

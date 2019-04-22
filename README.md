@@ -93,7 +93,7 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 - The critical `mutt`/`neomutt` files are in `~/.config/mutt/`.
 - Put whatever global settings you want in `muttrc`. mutt-wizard will add some lines to this file which you shouldn't remove unless you know what you're doing, but you can move them up/down over your personal config lines if you need to. If you get binding conflict errors in mutt, you might need to do this.
 - Each of the accounts that mutt-wizard generates will have custom settings set in a separate file in `accounts/`. You can edit these freely if you want to tinker with settings specific to an account.
-- Don't modify the `mutt-wizard.muttrc` file as it is the system default and will be overwritten on update. If you don't like any settings set there, you can override them in your `muttrc`.
+- In `/usr/share/mutt-wizard` are several global config files, including `mutt-wizard`'s default settings. You can overwride this in your `muttrc` if you wish.
 
 ## Watch our for these things:
 

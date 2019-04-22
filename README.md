@@ -101,6 +101,5 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 
 ## Details for Tinkerers
 
-- The `muttrc` file is for universal settings.
 - `personal.muttrc`, called by the `muttrc`, is the place where user-specific settings are set, and the wizard automatically adds the macros for switching between accounts here. If you want to contribute to mutt-wizard, you should put your universal personal settings here and have git ignore it. For example, I put my gpg settings here and personal aliases here.
 - Accounts are generated in `accounts/`. If I create an account named `luke`, for example, `accounts/luke.muttrc` will hold that account's unique settings and `accounts/luke/` will hold headers and cache files.

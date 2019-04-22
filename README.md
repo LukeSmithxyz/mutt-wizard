@@ -19,10 +19,12 @@ Specifically, this wizard:
 ## Install and Use
 
 ```
-git clone https://github.com/LukeSmithxyz/mutt-wizard ~/.config/mutt
-cd ~/.config/mutt
+git clone https://github.com/LukeSmithxyz/mutt-wizard
+cd mutt-wizard
 sudo make install
 ```
+
+The mutt-wizard is run with the command `mw`. It also installs the `mailsync` command.
 
 Install these required programs:
 

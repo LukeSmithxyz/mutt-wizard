@@ -265,14 +265,12 @@ asktype() { while : ; do
 			*) echo "Write out either yes or no completely. Try again or press ctrl-c to quit." ;;
 		esac; done ;}
 
-init() { \
-	echo "Initializing a mutt-wizard configuration..."
-	[ -f "$muttdir/muttrc" ] && echo "There is already a preexisting config. Purge the previous to reinit." && return 1
+init() { echo "Initializing a mutt-wizard configuration..."
+	[ -f "$accdir" ] && echo "There is already a preexisting config. Purge the previous to reinit." && return 1
 	mkdir -p "$muttdir" "$accdir"
 	cp -v "$muttshare/mailcap" "$muttdir"
 	cp -v "$muttshare/muttrc" "$muttdir"
 }
-
 
 case "$1" in
 	init) init ;;

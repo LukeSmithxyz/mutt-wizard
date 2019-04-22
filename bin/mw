@@ -220,7 +220,7 @@ pick() { printf "Select an accounts to %s:\\n" "$1"
 	return 0 ;}
 
 delete() { sed -i "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc"
-	rm -rf "${accdir:?}/${title:?}" "$accdir/[1-9]-$title.muttrc"
+	rm -rf "${cachedir:?}/${title:?}" "$accdir/"[1-9]"-$title.muttrc"
 	sed -i "/[0-9]-$title.muttrc/d" "$muttrc"
 	sed -i "/account $title/,/^\(\s*$\|account\)/d" "$HOME/.config/msmtp/config"
 	}

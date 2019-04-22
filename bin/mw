@@ -12,6 +12,9 @@ sslcert="/etc/ssl/certs/ca-certificates.crt"
 mwconfig="$muttdir/mutt-wizard.muttrc"
 muttrc="$muttdir/muttrc"
 
+getaccounts() { accounts="$(find "$accdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /g;s/\..*//" | sort -n)" ;}
+list() { getaccounts && echo "$accounts" ;}
+
 getprofiles() { \
 	unset msmtp_header msmtp_profile mutt_profile mbsync_profile
 	printf "Creating profiles for \`%s\`..." "$title"
@@ -148,7 +151,7 @@ EOF
 	read -r login
 	printf "\033[0m"
 	[ -z "$login" ] && login="$fulladdr"
-	accounts="$(find "$accdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /g;s/\..*//" | sort -n)"
+	getaccounts
 	for x in $(seq 1 9); do echo "$accounts" | grep "$x" || { export idnum="$x"; break ;}; done
 	getpass
 	getprofiles
@@ -214,18 +217,11 @@ confirm() { printf "Do you want to to %s? [y/N]\\n\t" "$@" && read -r input && !
 	printf "Are you really, really sure you want to %s?\\n\t" "$@" && read -r input && ! echo "$input" | grep -i "^y$\|^yes$" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1
 	return 0 ;}
 
-list() { numbered="$(find "$accdir" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | nl)"
-	echo "$numbered"
-	[ "$(echo "$numbered" | wc -l)" = 0 ] && printf "No configured accounts.\\n" && return 1
-}
-
 pick() { printf "Select an accounts to %s:\\n" "$1"
 	list
-	printf "\033[36m\t"
 	read -r input
-	printf "\033[0m"
 	[ -z "$input" ] && return 1
-	title="$(echo "$numbered" | grep "$input" | awk '{print $2}')"
+	title="$(echo "$accounts" | grep "$input" | awk '{print $2}')"
 	[ -z "$title" ] && printf "Invalid response." && return 1
 	return 0 ;}
 

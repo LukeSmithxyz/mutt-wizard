@@ -142,8 +142,8 @@ EOF
 	read -r realname
 	printf "Enter a short, \033[36mone-word identifier\033[0m for this email account that will distinguish them from any other accounts you add.\\n\tAccount name: "
 	read -r title
-	while ! echo "$title" | grep "$namere" >/dev/null; do
-		printf "\033[31mTry again\033[0m. Pick a nickname that is one word only including lowercase letters and _ or -.\\n\tAccount name: \033[36m\t"
+	while ! echo "$title" | grep "$namere" >/dev/null || ls "$accdir"/[0-9]"-$title.muttrc" >/dev/null 2>&1; do
+		printf "\033[31mTry again\033[0m. Pick a nickname that is one word only including lowercase letters and _ or - and that you have \033[1mnot\033[0m used before.\\n\tAccount name: \033[36m\t"
 		read -r title
 		printf "\033[0m"
 	done

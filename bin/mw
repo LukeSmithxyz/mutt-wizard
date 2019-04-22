@@ -1,7 +1,5 @@
 #!/bin/sh
 muttdir="$HOME/.config/mutt"		# Main mutt config location
-bindir="$HOME/.config/mutt/bin"		# Location of scripts run by mutt or the wizard
-[ ! -f "$muttdir/domains.csv" ] || [ ! -d "$bindir" ] && printf "Read the README. Be sure to put the repo in the right place before running.\\n" && exit 1
 [ ! -f "$HOME/.password-store/.gpg-id" ] && printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`gpg --full-gen-key\` first.\\n" && exit
 accdir="$muttdir/accounts"		# Directory for account settings
 maildir="$HOME/.local/share/mail"	# Location of mail storage

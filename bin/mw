@@ -13,7 +13,7 @@ mwconfig="$muttdir/mutt-wizard.muttrc"
 muttrc="$muttdir/muttrc"
 
 getaccounts() { accounts="$(find "$accdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /g;s/\..*//" | sort -n)" ;}
-list() { getaccounts && echo "$accounts" ;}
+list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" ;}
 
 getprofiles() { \
 	unset msmtp_header msmtp_profile mutt_profile mbsync_profile

@@ -25,10 +25,10 @@ pkill -RTMIN+12 i3blocks
 for account in "$HOME/.local/share/mail/"*
 do
 	acc="$(echo "$account" | sed "s/.*\///")"
-	newcount=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$HOME/.config/mutt/bin/.mailsynclastrun" 2> /dev/null | wc -l)
+	newcount=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$HOME/.config/mutt/.mailsynclastrun" 2> /dev/null | wc -l)
 	[ "$newcount" -gt "0" ] && notify "$acc" "$newcount" &
 done
 notmuch new 2>/dev/null
 
 #Create a touch file that indicates the time of the last run of mailsync
-touch "$HOME/.config/mutt/bin/.mailsynclastrun"
+touch "$HOME/.config/mutt/,mailsynclastrun"

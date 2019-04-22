@@ -150,11 +150,11 @@ EOF
 	read -r login
 	printf "\033[0m"
 	[ -z "$login" ] && login="$fulladdr"
-	getaccounts
-	for x in $(seq 1 9); do echo "$accounts" | grep "$x" || { export idnum="$x"; break ;}; done
 	getpass
 	getprofiles
 	mkdir -p "$muttdir" "$accdir/$title" "$cachedir/mutt-wizard/$title/cache/bodies" "$HOME/.config/msmtp"
+	getaccounts
+	for x in $(seq 1 9); do echo "$accounts" | grep "$x" >/dev/null 2>&1 || { export idnum="$x"; break ;}; done
 	[ ! -f "$HOME/.config/msmtp/config" ] && echo "$msmtp_header" > "$HOME/.config/msmtp/config"
 	echo "$msmtp_profile" >> "$HOME/.config/msmtp/config"
 	echo "$mutt_profile" > "$accdir/$idnum-$title.muttrc"

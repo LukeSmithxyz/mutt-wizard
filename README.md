@@ -77,6 +77,7 @@ To give you an example of the interface, here's an idea:
 - `pass` is used as a password manager instead of separately saving passwords.
 - Script is POSIX sh compliant.
 - Error handling for the many people who don't read or follow directions. Less errors generally.
+- Addition of a manual `man mw`
 
 ## Help the Project!
 

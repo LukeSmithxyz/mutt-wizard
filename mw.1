@@ -1,0 +1,64 @@
+.TH MW 1 st\-VERSION
+.SH NAME
+mw \- mutt-wizard \- autoconfigure email accounts for neomutt and isync
+.SH SYNOPSIS
+.B mw
+<command>
+.SH DESCRIPTION
+.B mw
+takes a user email account and sets up a terminal-based email interface with it for
+.B neomutt.
+This can include offline email with
+.B isync/mbsync
+and configs for
+.B msmtp
+for sending mail, and also passwords automatically encrypted and stored with
+.B pass.
+.SH COAMMANDS
+.TP
+.B init
+set up initial files and directories (must be run once first)
+.TP
+.B add
+configure an email account
+.TP
+.B ls
+list all email accounts configured by mutt-wizard
+.TP
+.B delete
+delete the configuration files for an already configured email account
+.TP
+.B purge
+totally purge all local mutt-wizard accounts
+.TP
+.B cron
+toggle a cronjob that will automatically sync mail with
+.B mailsync
+every few minutes
+.SH DETAILS
+.TP
+.B Mail location
+If the user chooses to keep offline email with
+.B isync,
+it will be kept in
+.I ~/.local/share/mail/
+and if he wants to use
+.B notmuch
+to index and search his mail, he should give this directory location to
+.B notmuch
+when he first runs
+.B notmuch setup.
+.TP
+.B muttrc files
+mutt-wizard will create a muttrc file for each created account holding account-specific details. These will appear in
+.I ~/.config/mutt/accounts/
+and can be edited by the user if needbe.
+.SH AUTHORS
+Written by Luke Smith <luke@lukesmith.xyz>.
+.SH LICENSE
+GPLv3
+.SH SEE ALSO
+.BR neomutt (1),
+.BR neomuttrc (1)
+.BR mbsync (1),
+.BR msmtp (1),

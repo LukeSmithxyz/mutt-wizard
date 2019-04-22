@@ -1,6 +1,7 @@
 .POSIX:
 
 PREFIX = /usr/local
+MANPREFIX = $(PREFIX)/share/man
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -14,8 +15,9 @@ install:
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/mailsync
 	mkdir -p /usr/share/mutt-wizard
 	cp -f mailcap /usr/share/mutt-wizard
-	cp -f muttrc /usr/share/mutt-wizard
+	cp -f mutt-wizard.muttrc /usr/share/mutt-wizard
 	cp -f domains.csv /usr/share/mutt-wizard
+	cp -f mw.1 $(DESTDIR)$(MANPREFIX)/man1/mw.1
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/mw

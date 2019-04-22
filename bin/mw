@@ -64,8 +64,8 @@ set from = \"$fulladdr\"
 set sendmail = \"/usr/bin/msmtp -a $title\"
 alias me $realname <$fulladdr>
 set folder = \"$maildir/$title\"
-set header_cache = $accdir/$title/cache/headers
-set message_cachedir = $accdir/$title/cache/bodies
+set header_cache = $cachedir/$title/cache/headers
+set message_cachedir = $cachedir/$title/cache/bodies
 set mbox_type = Maildir
 
 bind index,pager gg noop
@@ -85,8 +85,8 @@ set sendmail = \"/usr/bin/msmtp -a $title\"
 alias me $realname <$fulladdr>
 set folder = \"imaps://$fulladdr@$imap:$iport\"
 set imap_user = \"$login\"
-set header_cache = $accdir/$title/cache/headers
-set message_cachedir = $accdir/$title/cache/bodies
+set header_cache = $cachedir/$title/cache/headers
+set message_cachedir = $cachedir/$title/cache/bodies
 set imap_pass = \`pass mutt-wizard-$title\`
 
 set mbox_type = Maildir

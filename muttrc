@@ -1,6 +1,6 @@
 # vim: filetype=neomuttrc
 # This is the general mutt config which has the settings that all accounts use.
-set mailcap_path = mailcap
+set mailcap_path = ~/.config/mutt/mailcap
 set date_format="%y/%m/%d %I:%M%p"
 set index_format="%2C %zs %?X?A& ? %D %-15.15F %s (%-4.4c)"
 set sort = 'reverse-date'

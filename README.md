@@ -21,11 +21,8 @@ Specifically, this wizard:
 ```
 git clone https://github.com/LukeSmithxyz/mutt-wizard ~/.config/mutt
 cd ~/.config/mutt
-./mw # Run the mutt-wizard
+sudo make install
 ```
-
-Yes you have to put the whole repo in the mutt directory (`~/.config/mutt/`).
-Just backup or delete any previous mutt configs (or msmtp or mbsync configs if you have them; if you don't know, you don't have them).
 
 Install these required programs:
 
@@ -42,6 +39,15 @@ You might also want some good optional stuff:
 - `notmuch` - index and search mail. Install it and run `notmuch setup`, tell it that your mail is in `~/.local/share/mail/`. You can run it in mutt with `ctrl-f`. Run `notmuch new` to process new mail, although the included `mailsync` script does this for you.
 - `abook` - a terminal-based address book. Pressing tab while typing an address to send mail to will suggest contacts that are in your abook.
 - A cron manager - if you want to enable the auto-sync feature.
+
+## Running mutt-wizard (`mw`)
+
+- `mw add` -- add a new email account
+- `mw ls` -- list existing accounts
+- `mw pass` -- revise an account's password
+- `mw delete` -- deleted an added account
+- `mw purge` -- delete all accounts and settings
+- `mw cron` -- toggle/configure a cronjob to sync mail
 
 ## User interface
 
@@ -96,4 +102,3 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 - The `muttrc` file is for universal settings.
 - `personal.muttrc`, called by the `muttrc`, is the place where user-specific settings are set, and the wizard automatically adds the macros for switching between accounts here. If you want to contribute to mutt-wizard, you should put your universal personal settings here and have git ignore it. For example, I put my gpg settings here and personal aliases here.
 - Accounts are generated in `accounts/`. If I create an account named `luke`, for example, `accounts/luke.muttrc` will hold that account's unique settings and `accounts/luke/` will hold headers and cache files.
-- `bin/` holds the `mailsync` script and other scripts and tools the wizard uses. I make a link with `ln` to this `mailsync` file in my `$PATH` so I can run it from wherever.

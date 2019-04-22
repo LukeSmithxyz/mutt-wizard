@@ -213,8 +213,11 @@ confirm() { printf "Do you want to to %s? [y/N]\\n\t" "$@" && read -r input && !
 	printf "Are you really, really sure you want to %s?\\n\t" "$@" && read -r input && ! echo "$input" | grep -i "^y$\|^yes$" >/dev/null && printf "That doesn't seem like a yes to me.\\n\\n" && return 1
 	return 0 ;}
 
-pick() { numbered="$(find "$accdir" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | nl)"
-	[ "$(echo "$numbered" | wc -w)" = 0 ]  && printf "No accounts to choose from.\\n" && return 1
+list() { numbered="$(find "$accdir" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" 2>/dev/null | nl)"
+	[ "$(echo "$numbered" | wc -w)" = 0 ]  && printf "No configured accounts.\\n" && return 1
+}
+
+pick() { list
 	printf "Select an accounts to %s:\\n" "$1"
 	echo "$numbered"
 	printf "\033[36m\t"
@@ -263,19 +266,34 @@ asktype() { while : ; do
 
 init() { \
 	echo "Initializing a mutt-wizard configuration..."
-	[ -f "$muttdir/muttrc" ] && echo "There is already a preexisting config." && return 1
+	[ -f "$muttdir/muttrc" ] && echo "There is already a preexisting config. Purge the previous to reinit." && return 1
+	mkdir -p "$muttdir" "$accdir"
 	cp -v "$muttshare/mailcap" "$muttdir"
 	cp -v "$muttshare/muttrc" "$muttdir"
 }
 
+
 case "$1" in
 	init) init ;;
-	new) asktype && askinfo && tryconnect && finalize ;;
-	passedit) pick "change the password of" && confirm "change \`$title\`'s password" && getpass ;;
+	ls) list ;;
+	add) asktype && askinfo && tryconnect && finalize ;;
+	pass) pick "change the password of" && getpass ;;
 	delete) pick delete && confirm "delete the \`$title\` profile" && delete ;;
 	purge) confirm "delete all account data" && rm -rf "$mbsyncrc" "$accdir" "$muttdir/personal.muttrc" && echo "All configs and account settings have been purged." ;;
 	cron) choosecron ;;
-	*) printf "Invalid input.\\n"
+	*) cat << EOF
+mw: mutt-wizard, auto-configure email accounts for mutt
+and
+
+Allowed options:
+  init		Run once and first to copy required files
+  add		Add and autoconfigure an email address (9 max.)
+  ls		List configured accounts
+  delete	Pick an account to delete
+  purge		Delete all accounts and settings
+  cron		Enable or disable an autosync via cronjob
+  all else	Print this message
+EOF
 esac
 
 rm -rf "$tmpdir"

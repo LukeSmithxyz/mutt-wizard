@@ -14,6 +14,7 @@ install:
 	cp -f bin/mailsync $(DESTDIR)$(PREFIX)/bin
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/mailsync
 	mkdir -p $(DESTDIR)$(PREFIX)/share/mutt-wizard
+	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
 	cp -f mailcap $(DESTDIR)$(PREFIX)/share/mutt-wizard
 	cp -f mutt-wizard.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard
 	cp -f domains.csv $(DESTDIR)$(PREFIX)/share/mutt-wizard

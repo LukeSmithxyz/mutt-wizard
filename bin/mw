@@ -152,7 +152,7 @@ EOF
 	[ -z "$login" ] && login="$fulladdr"
 	getpass
 	getprofiles
-	mkdir -p "$muttdir" "$cachedir/$title/bodies" "$HOME/.config/msmtp"
+	mkdir -p "$muttdir" "$accdir" "$cachedir/$title/bodies" "$HOME/.config/msmtp"
 	getaccounts
 	for x in $(seq 1 9); do echo "$accounts" | grep "$x" >/dev/null 2>&1 || { export idnum="$x"; break ;}; done
 	[ ! -f "$HOME/.config/msmtp/config" ] && echo "$msmtp_header" > "$HOME/.config/msmtp/config"

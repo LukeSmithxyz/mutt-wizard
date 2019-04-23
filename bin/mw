@@ -13,7 +13,7 @@ mwconfig="/usr/share/mutt-wizard/mutt-wizard.muttrc"
 cachedir="$HOME/.cache/mutt-wizard"
 muttrc="$muttdir/muttrc"
 
-getaccounts() { accounts="$(find "$accdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /g;s/\..*//" | sort -n)" ;}
+getaccounts() { accounts="$(find "$accdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /;s/\..*//" | sort -n)" ;}
 list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" ;}
 
 getprofiles() { \

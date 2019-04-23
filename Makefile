@@ -13,10 +13,10 @@ install:
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/muttimage
 	cp -f bin/mailsync $(DESTDIR)$(PREFIX)/bin
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/mailsync
-	mkdir -p /usr/share/mutt-wizard
-	cp -f mailcap /usr/share/mutt-wizard
-	cp -f mutt-wizard.muttrc /usr/share/mutt-wizard
-	cp -f domains.csv /usr/share/mutt-wizard
+	mkdir -p $(DESTDIR)$(PREFIX)/share/mutt-wizard
+	cp -f mailcap $(DESTDIR)$(PREFIX)/share/mutt-wizard
+	cp -f mutt-wizard.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard
+	cp -f domains.csv $(DESTDIR)$(PREFIX)/share/mutt-wizard
 	cp -f mw.1 $(DESTDIR)$(MANPREFIX)/man1/mw.1
 
 uninstall:
@@ -24,6 +24,6 @@ uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/mailsync
 	rm -f $(DESTDIR)$(PREFIX)/bin/openfile
 	rm -f $(DESTDIR)$(PREFIX)/bin/muttimage
-	rm -rf /usr/share/mutt-wizard
+	rm -rf $(DESTDIR)$(PREFIX)/share/mutt-wizard
 
 .PHONY: install uninstall

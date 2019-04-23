@@ -1,6 +1,6 @@
 .POSIX:
 
-PREFIX = /usr/local
+PREFIX = /usr
 MANPREFIX = $(PREFIX)/share/man
 
 install:

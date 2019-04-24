@@ -227,7 +227,7 @@ delete() { sed -i "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc"
 	sed -i "/account $title/,/^\(\s*$\|account\)/d" "$HOME/.config/msmtp/config"
 	}
 
-choosecron() { ! pgrep crond >/dev/null && echo "No cron manager running. Install/enable one and then select this option again." && return 1
+choosecron() { ! pgrep -x cron\|crond >/dev/null && echo "No cron manager running. Install/enable one and then select this option again." && return 1
 	if crontab -l | grep mailsync >/dev/null; then
 		echo "Active mail sync cronjob detected. Do you want to remove it?"
 		printf "\033[36m\t"

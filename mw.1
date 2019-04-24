@@ -31,25 +31,24 @@ totally purge all local mutt-wizard accounts
 .B cron
 toggle a cronjob that will automatically sync mail with
 .B mailsync
-every few minutes
+as often as you wish
 .SH DETAILS
 .TP
 .B Mail location
 If the user chooses to keep offline email with
 .B isync,
 it will be kept in
-.I ~/.local/share/mail/
-and if he wants to use
+.I ~/.local/share/mail/.
 .B notmuch
-to index and search his mail, he should give this directory location to
-.B notmuch
-when he first runs
+can be used to index and search this mail by giving this directory when first running
 .B notmuch setup.
 .TP
 .B muttrc files
 mutt-wizard will create a muttrc file for each created account holding account-specific details. These will appear in
 .I ~/.config/mutt/accounts/
-and can be edited by the user if needbe.
+and can be edited by the user if needbe. Note that the mutt-wizard will also source these files and create the bindings to switch between them, and these will appear in your default
+.I ~/.config/mutt/muttrc
+file.
 .TP
 .B Mail deletion
 Neither
@@ -57,8 +56,148 @@ Neither
 or
 .B purge
 will delete downloaded mail for for safety (and time)'s sake. If you want to delete downloaded mail, do so manually by removing it from the directory above.
+.TP
+.B Default settings
+The mutt-wizard has many default settings that focus on making it aesthetically pleasing and supplying more vim-like bindings. These can be found in
+.I /usr/share/mutt-wizard/mutt-wizard.muttrc
+and the default mailcap file can be found in
+.I
+/usr/share/mutt-wizard/mailcap.
+Any of these settings can be overwritten in
+.I ~/.config/mutt/muttrc,
+but be mindful that your overriding binds should appear after the
+.I
+mutt-wizard.muttrc
+file is sourced.
+.TP
+.B Detecting server settings
+mutt-wizard has a repository of email services and their server information kept in
+.I /usr/share/mutt-wizard/domains.csv
+which is used to automatically configure email settings.
+If your email provider is not found there, it will prompt you to input your email service's IMAP and SMTP server information which can usually be found by searching online.
+
+If you would like to help develop mutt-wizard for others, you are invited to add this service information to
+.I domains.csv
+on mutt-wizard's Github <https://github.com/lukesmithxyz/mutt-wizard> or Gitlab <https://gitlab.com/lukesmithxyz/mutt-wizard> pages.
+.TP
+.B Gmail accounts
+Google will require you to allow "less-secure" (third party) applications or use two-factor authentication in order to access their IMAP servers to download your mail. If you use Gmail, be sure to handle this before running mutt-wizard <https://support.google.com/accounts/answer/6010255>.
+.B Protonmail accounts
+Protonmail users must use the Protonmail Bridge <https://protonmail.com/bridge/> to access their IMAP and SMTP servers. This too should be configured before running mutt-wizard.
+.B Enterprise and university accounts
+Many universities and businesses might host their domain's email via Google or another service. This often requires a special IMAP/SMTP-specific password that you must generate and use. Again, mutt-wizard can handle these systems, but only once they've been set up.
+.SH MUTT-WIZARD'S NEOMUTT CONFIGURATION
+Here is a list of not only mutt-wizard's particular defaults, but what you need to get the most out of email accounts configured with mutt-wizard.
+.TP
+.B Color
+The mutt-wizard's default settings add color to messages in the index and color mail details to make them easier to see. New mail, in addition to being marked by the typical N, will also be bold.
+.TP
+.B Movement with h/j/k/l
+Use vim keys to move down
+.I j
+or up
+.I k
+in mail, while
+.I l
+opens mail, then the attachment view, then an attachment, while
+.I h
+is the reverse.
+While mail is open, go to next or previous mail with
+.I J
+and
+.I K.
+In the mail index,
+.I d
+and
+.I u
+go down and up by a half page and
+.I gg
+and
+.I G
+go to the very top and very bottom.
+.TP
+.B Search mail
+If you have
+.B notmuch
+configured with your proper mail directory (see above), you may run
+.I ctrl-f
+to search for mail containing any given sequence.
+Even without notmuch,
+.I L
+limits mail, showing only those with the given sequence in the subject while
+.I A
+shows all mail (same as limiting to "all").
+.TP
+.B Deleting mail
+.I D
+deletes mail, while
+.I U
+undeletes it (type in mail number to get to deleted mail). Note that
+.I S
+saves your mailbox, finalizing deletion. If you have a
+.I Trash
+box, deleted mail is moved there. If you want it to skip that and simply be deleted, comment out or remove the
+.I set trash
+line in that account's muttrc.
+.TP
+.B Send mail
+.I m
+creates a new mail message;
+.I r
+replies to the selected message;
+.I R
+replies all to the selected message and
+.I f
+fowards the selected message.
+.TP
+.B Compose mail screen
+Once you write mail and save the buffer you will be brought to the compose screen. Press
+.I a
+to add attachments, use
+.I s/t/c/b/d
+to change the subject/to/CC/BCC/description. Press
+.I S
+to change the signature/encryption. Press
+.I y
+to send the mail.
+.TP
+.B Saving and autocompleting email addresses with abook
+Install the optional dependency abook and you will be able to save the sender's email address with
+.I a.
+Once this is done, when you are typing in any email/contact prompt, you may press
+.I Tab
+to find contacts matching your input. Although abook is often used with mutt, it is also a useful program in its own right.
+.TP
+.B Switching and moving mail between mailboxes
+The
+.I g
+key can be paired with several other keys to automatically move to another mailbox: gi: Inbox; gs: Sent; gd: Drafts; ga: Archive; gS: Spam; gj: Junk; gt: Trash. These bindings will only be present for accounts that have the boxes in question. Instead of
+.I g,
+you can also press
+.I C
+to copy mail or
+.I M
+to move mail to the same boxes.
+.TP
+.B Switching between accounts
+mutt-wizard can configure as many as nine accounts each numbered by the lowest available number when configured. Press
+.I i
+followed by an account's number to change to that account: i2, i5, etc.
+.TP
+.B Sidebar
+mutt-wizard enables the sidebar by default which displays your account's boxes with mail tallies.
+.I B
+will toggle the sidebar. Move up and down in it with
+.I ctrl-k/j.
+Open a box with
+.I ctrl-o.
+.TP
+.B More information
+Remember that you can press
+.I ?
+at any time in neomutt to get a list of all key-bindings and functions. This list can also vary for different context menus.
 .SH AUTHORS
-Written by Luke Smith <luke@lukesmith.xyz>.
+Written by Luke Smith <luke@lukesmith.xyz> originally in 2018.
 .SH LICENSE
 GPLv3
 .SH SEE ALSO
@@ -66,3 +205,5 @@ GPLv3
 .BR neomuttrc (1)
 .BR mbsync (1),
 .BR msmtp (1),
+.BR notmuch (1),
+.BR abook (1)

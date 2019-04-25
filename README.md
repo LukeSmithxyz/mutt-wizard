@@ -98,7 +98,7 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 - Each of the accounts that mutt-wizard generates will have custom settings set in a separate file in `accounts/`. You can edit these freely if you want to tinker with settings specific to an account.
 - In `/usr/share/mutt-wizard` are several global config files, including `mutt-wizard`'s default settings. You can overwride this in your `muttrc` if you wish.
 
-## Watch our for these things:
+## Watch out for these things:
 
 - For Gmail accounts, remember also to enable third-party ("""less secure""") applications before attempting installation.
 - Protonmail accounts will require you to set up "Protonmail Bridge" to access PM's IMAP and SMTP servers. Configure that before running mutt-wizard.

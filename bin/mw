@@ -38,7 +38,7 @@ Port  $iport
 User $login
 PassCmd \"pass mutt-wizard-$title\"
 SSLType IMAPS
-CertificateFile /etc/ssl/certs/ca-certificates.crt
+CertificateFile $sslcert
 
 MaildirStore $title-local
 Subfolders Verbatim

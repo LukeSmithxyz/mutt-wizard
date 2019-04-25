@@ -8,10 +8,14 @@ namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
 muttshare="/usr/share/mutt-wizard"
 mbsyncrc="$HOME/.mbsyncrc"
-sslcert="/etc/ssl/certs/ca-certificates.crt"
 mwconfig="/usr/share/mutt-wizard/mutt-wizard.muttrc"
 cachedir="$HOME/.cache/mutt-wizard"
 muttrc="$muttdir/muttrc"
+
+for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
+do
+	[ -f "$x" ] && sslcert="$x" && break
+done || { echo "CA Certificate not found. Please install one or link it to /etc/ssl/certs/ca-certificates.crt" && exit 1 ;}
 
 getaccounts() { accounts="$(find "$accdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /;s/\..*//" | sort -n)" ;}
 list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" ;}

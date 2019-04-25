@@ -1,4 +1,5 @@
 ADDRESS,IMAP,imap port,SMTP,smtp port
+netcourrier.com,mail.netcourrier.com,993,mail.netcourrier.com,465
 420blaze.it,mail.cock.li,993,mail.cock.li,587
 8chan.co,mail.cock.li,993,mail.cock.li,587
 aaathats3as.com,mail.cock.li,993,mail.cock.li,587

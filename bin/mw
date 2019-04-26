@@ -185,7 +185,7 @@ tryconnect() { mkdir -p "$maildir/$title"
 		echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$title/{}"
 		return 0
 	else
-		printf "\033[31m\033[31mLog-on not successful.\033[0m\\nIt seems that either you inputted the wrong password or sever settings, or there are other requirements for your account out of the control of mutt-wizard.\\n"
+		printf "\033[31m\033[31mLog-on not successful.\033[0m\\nIt seems that either you inputted the wrong password or server settings, or there are other requirements for your account out of the control of mutt-wizard.\\n"
 		return 1
 	fi ;}
 

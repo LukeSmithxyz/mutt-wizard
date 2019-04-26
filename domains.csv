@@ -122,6 +122,7 @@ nigge.rs,mail.cock.li,993,mail.cock.li,587
 nuke.africa,mail.cock.li,993,mail.cock.li,587
 onenetbeyond.org,mail.autistici.org,993,smtp.autistici.org,465
 online.de,imap.1und1.de,993,smtp.1und1.de,465
+orange.fr,imap.orange.fr,993,smtp.orange.fr,465
 outlook.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 outlook.de,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 paranoici.org,mail.autistici.org,993,smtp.autistici.org,465
@@ -152,11 +153,13 @@ usa.com,imap.mail.com,993,smtp.mail.com,587
 uymail.com,imap.mail.com,993,smtp.mail.com,587
 vt.edu,imap.gmail.com,993,smtp.gmail.com,587
 waifu.club,mail.cock.li,993,mail.cock.li,587
+wanadoo.fr,imap.orange.fr,993,smtp.orange.fr,465
 wants.dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 wants.dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
 web.de,imap.web.de,993,smtp.web.de,587
 writeme.com,imap.mail.com,993,smtp.mail.com,587
 ya.ru,imap.yandex.com,993,smtp.yandex.com,587
+yahoo.fr,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,587
 yahoo.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,587
 yandex.by,imap.yandex.com,993,smtp.yandex.com,587
 yandex.com,imap.yandex.com,993,smtp.yandex.com,587
@@ -165,3 +168,4 @@ yandex.net,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
+

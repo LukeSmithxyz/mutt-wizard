@@ -1,4 +1,4 @@
-text/plain; vim %s ;
+text/plain; $EDITOR %s ;
 text/html; openfile %s ;
 text/html; w3m -I %{charset} -T text/html; copiousoutput;
 image/*; muttimage %s ; copiousoutput

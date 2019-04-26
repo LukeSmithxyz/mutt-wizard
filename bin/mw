@@ -11,6 +11,7 @@ mbsyncrc="$HOME/.mbsyncrc"
 mwconfig="$muttshare/mutt-wizard.muttrc"
 cachedir="$HOME/.cache/mutt-wizard"
 muttrc="$muttdir/muttrc"
+ssltype="IMAPS"				# This is later changed to `None` later in the script if using Protonmail
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
 do
@@ -29,19 +30,19 @@ tls	on
 tls_trust_file	$sslcert
 logfile	~/.config/msmtp/msmtp.log
 "
-msmtp_profile="
-account $title
+msmtp_profile="account $title
 host $smtp
 port $sport
 from $fulladdr
 user $login
-passwordeval \"pass mutt-wizard-$title\""
+passwordeval \"pass mutt-wizard-$title\"
+"
 mbsync_profile="IMAPStore $title-remote
 Host $imap
 Port  $iport
 User $login
 PassCmd \"pass mutt-wizard-$title\"
-SSLType IMAPS
+SSLType $ssltype
 CertificateFile $sslcert
 
 MaildirStore $title-local
@@ -138,7 +139,7 @@ EOF
 	printf "\\n\033[3;33mCongrats!\033[0m Server info has automatically be found, so you won't have to look anything up!\\n\t\033[1mIMAP server\033[0m: %s\\n\t\033[1mIMAP port\033[0m: %s\\n\t\033[1mSMTP server\033[0m: %s\\n\t\033[1mSMTP port\033[0m: %s\\nThis data will be used by the wizard.\\n" "$imap" "$iport" "$smtp" "$sport"
 	case "$service" in
 		gmail.com) printf "\033[31mREMEMBER: Gmail users must enable \"less secure\" (third-party) applications first for the sync to work:\\nhttps://support.google.com/accounts/answer/6010255\\n\033[0m" ;;
-		protonmail.*) printf "\033[31mREMEMBER: Protonmail users must install and configure Protonmail Bridge first for the sync to work:\\nhttps://protonmail.com/bridge/\\n\033[0m" ;;
+		protonmail.*) printf "\033[31mREMEMBER: Protonmail users must install and configure Protonmail Bridge first for the sync to work:\\nhttps://protonmail.com/bridge/\\n\033[0m" && ssltype="None" ;;
 	esac
 	fi
 	printf "Enter the \033[35mfull name\033[0m you want to be identified by on this account.\\n\tReal name: "

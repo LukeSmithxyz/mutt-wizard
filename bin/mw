@@ -8,7 +8,7 @@ namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
 muttshare="/usr/share/mutt-wizard"
 mbsyncrc="$HOME/.mbsyncrc"
-mwconfig="/usr/share/mutt-wizard/mutt-wizard.muttrc"
+mwconfig="$muttshare/mutt-wizard.muttrc"
 cachedir="$HOME/.cache/mutt-wizard"
 muttrc="$muttdir/muttrc"
 

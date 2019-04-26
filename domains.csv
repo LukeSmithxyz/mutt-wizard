@@ -1,5 +1,4 @@
 ADDRESS,IMAP,imap port,SMTP,smtp port
-netcourrier.com,mail.netcourrier.com,993,mail.netcourrier.com,465
 420blaze.it,mail.cock.li,993,mail.cock.li,587
 8chan.co,mail.cock.li,993,mail.cock.li,587
 aaathats3as.com,mail.cock.li,993,mail.cock.li,587
@@ -118,6 +117,7 @@ muny.us,mail.muny.us,993,mail.muny.us,465
 myself.com,imap.mail.com,993,smtp.mail.com,587
 narod.ru,imap.yandex.com,993,smtp.yandex.com,587
 national.shitposting.agency,mail.cock.li,993,mail.cock.li,587
+netcourrier.com,mail.netcourrier.com,993,mail.netcourrier.com,465
 nigge.rs,mail.cock.li,993,mail.cock.li,587
 nuke.africa,mail.cock.li,993,mail.cock.li,587
 onenetbeyond.org,mail.autistici.org,993,smtp.autistici.org,465

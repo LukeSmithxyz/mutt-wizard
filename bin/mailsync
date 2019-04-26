@@ -3,6 +3,7 @@
 
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || exit
+pgrep -x mbsync >/dev/null && echo "mbsync already running." && exit
 
 export DISPLAY=:0.0
 

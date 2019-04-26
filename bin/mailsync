@@ -3,7 +3,6 @@
 
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || exit
-pgrep -x mbsync >/dev/null && echo "mbsync already running." && exit
 command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotify-send\` should be installed for pop-up mail notifications with this script."
 
 export DISPLAY=:0.0

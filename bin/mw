@@ -182,7 +182,7 @@ formatShortcut() { \
 
 tryconnect() { mkdir -p "$maildir/$title"
 	if mailboxes="$(mbsync -l "$title" | sed 's/\//./')" >/dev/null 2>&1 && [ -n "$mailboxes" ]; then
-		[ "$accounttype" = "online" ] && sed -ibu "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc" ; rm -f "$mbsync"bu
+		[ "$accounttype" = "online" ] && sed -ibu "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc" ; rm -f "$mbsyncrc"bu
 		printf "\033[32mMailboxes detected.\033[0m\\n"
 		echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$title/{}"
 		return 0

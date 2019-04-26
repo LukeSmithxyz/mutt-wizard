@@ -52,6 +52,7 @@ The mutt-wizard is run with the command `mw`. It also installs the `mailsync` co
 
 - `w3m` - view HTML email and images in neomutt.
 - `notmuch` - index and search mail. Install it and run `notmuch setup`, tell it that your mail is in `~/.local/share/mail/`. You can run it in mutt with `ctrl-f`. Run `notmuch new` to process new mail, although the included `mailsync` script does this for you.
+- `libnotify`/`libnotify-bin` - allows notifications when syncthing mail with `mailsync`
 - `abook` - a terminal-based address book. Pressing tab while typing an address to send mail to will suggest contacts that are in your abook.
 - A cron manager - if you want to enable the auto-sync feature.
 - `pam-gnupg` - this is a more general program that I use. It automatically logs you into your GPG key on login so you will never need to input your password once logged on to your system. Check the repo and directions out [here](https://github.com/cruegge/pam-gnupg).

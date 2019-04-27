@@ -58,6 +58,7 @@ Slave :$title-local:
 Patterns * !\"[Gmail]/All Mail\"
 Create Both
 SyncState *
+MaxMessages $maxmes
 # End profile
 "
 
@@ -136,7 +137,7 @@ askinfo() { \
 		IFS=, read -r service imap iport smtp sport <<EOF
 $serverinfo
 EOF
-	printf "\\n\033[3;33mCongrats!\033[0m Server info has automatically be found, so you won't have to look anything up!\\n\t\033[1mIMAP server\033[0m: %s\\n\t\033[1mIMAP port\033[0m: %s\\n\t\033[1mSMTP server\033[0m: %s\\n\t\033[1mSMTP port\033[0m: %s\\nThis data will be used by the wizard.\\n" "$imap" "$iport" "$smtp" "$sport"
+	printf "\\n\033[3;33mCongrats!\033[0m Server info has automatically been found, so you won't have to look anything up!\\n\t\033[1mIMAP server\033[0m: %s\\n\t\033[1mIMAP port\033[0m: %s\\n\t\033[1mSMTP server\033[0m: %s\\n\t\033[1mSMTP port\033[0m: %s\\nThis data will be used by the wizard.\\n" "$imap" "$iport" "$smtp" "$sport"
 	case "$service" in
 		gmail.com) printf "\033[31mREMEMBER: Gmail users must enable \"less secure\" (third-party) applications first for the sync to work:\\nhttps://support.google.com/accounts/answer/6010255\\n\033[0m" ;;
 		protonmail.*) printf "\033[31mREMEMBER: Protonmail users must install and configure Protonmail Bridge first for the sync to work:\\nhttps://protonmail.com/bridge/\\n\033[0m" && ssltype="None" ;;
@@ -155,6 +156,8 @@ EOF
 	read -r login
 	printf "\033[0m"
 	[ -z "$login" ] && login="$fulladdr"
+	[ "$accounttype" = "offline" ] && printf "If you want to limit the number of messages kept offline to a number, enter that number below. If you do not want to limit your mail and would like \`mbsync\` to sync all mail, press enter without typing a number.\\n\t" && read -r maxmes
+	echo "$maxmes" | grep "[1-9]" >/dev/null || maxmes="0"
 	getpass
 	getprofiles
 	mkdir -p "$muttdir" "$accdir" "$cachedir/$title/bodies" "$HOME/.config/msmtp"

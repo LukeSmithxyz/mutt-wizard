@@ -73,8 +73,8 @@ To give you an example of the interface, here's an idea:
 - `i#` - Press `i` followed by a number 1-9 to go to a different account. If you add 9 accounts via mutt-wizard, they will each be assigned a number.
 - `a` to add address/person to abook and `Tab` while typing address to complete one from book.
 - `?` - see all keyboard shortcuts
-- `ctrl-j`/`ctrl-k` - move up and down in sidebar, `ctrl-o` opens mailbox
-
+- `ctrl-j`/`ctrl-k` - move up and down in sidebar, `ctrl-o` opens mailbox.
+- `ctrl-b` - open a menu to select a url you want to open in you browser.
 ## New stuff and improvements since the original release
 
 - `isync`/`mbsync` has replaced `offlineimap` as the backend. Offlineimap was error-prone, bloated, used obsolete Python 2 modules and required separate steps to install the system.

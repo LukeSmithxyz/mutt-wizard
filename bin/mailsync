@@ -18,7 +18,9 @@ echo " 🔃" > /tmp/imapsyncicon
 pkill -RTMIN+12 i3blocks
 
 # Run mbsync. You can feed this script different settings.
-mbsync -a "$@"
+accounts=$(ls "$HOME/.local/share/mail" | grep """$@")
+echo "$accounts" | xargs --max-procs=4 -n 1 -I account mbsync -V account
+
 rm -f /tmp/imapsyncicon
 pkill -RTMIN+12 i3blocks
 

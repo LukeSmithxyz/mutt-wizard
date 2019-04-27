@@ -137,6 +137,7 @@ opoczta.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 orange.fr,imap.orange.fr,993,smtp.orange.fr,465
 outlook.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 outlook.de,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+outlook.at,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 paranoici.org,mail.autistici.org,993,smtp.autistici.org,465
 poczta.fm,poczta.interia.pl,143,poczta.interia.pl,465
 poczta.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465

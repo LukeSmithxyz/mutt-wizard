@@ -47,6 +47,7 @@ The mutt-wizard is run with the command `mw`. It also installs the `mailsync` co
 - `isync` - downloads and syncs the mail. (required at install)
 - `msmtp` - sends the email.
 - `pass` - safely encrypts passwords (required at install)
+- `urlview` - outputs urls in mail to browser.
 
 ### Optional
 

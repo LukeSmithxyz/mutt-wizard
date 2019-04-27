@@ -76,6 +76,7 @@ fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
 fsu-jena,exchange.uni-jena.de,993,smtp.uni-jena.de,587
 getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
 gmail.com,imap.gmail.com,993,smtp.gmail.com,587
+gmx.at,imap.gmx.net,993,mail.gmx.net,587
 gmx.com,imap.gmx.net,993,mail.gmx.net,587
 gmx.de,imap.gmx.net,993,mail.gmx.net,587
 gmx.eu,imap.gmx.net,993,mail.gmx.net,587

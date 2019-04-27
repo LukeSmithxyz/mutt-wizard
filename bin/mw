@@ -58,6 +58,7 @@ Slave :$title-local:
 Patterns * !\"[Gmail]/All Mail\"
 Create Both
 SyncState *
+MaxMessages $maxmes
 # End profile
 "
 
@@ -155,6 +156,8 @@ EOF
 	read -r login
 	printf "\033[0m"
 	[ -z "$login" ] && login="$fulladdr"
+	[ "$accounttype" = "offline" ] && printf "If you want to limit the number of messages kept offline to a number, enter that number below. If you do not want to limit your mail and would like \`mbsync\` to sync all mail, press enter without typing a number.\\n\t" && read -r maxmes
+	echo "$maxmes" | grep "[1-9]" >/dev/null || maxmes="0"
 	getpass
 	getprofiles
 	mkdir -p "$muttdir" "$accdir" "$cachedir/$title/bodies" "$HOME/.config/msmtp"

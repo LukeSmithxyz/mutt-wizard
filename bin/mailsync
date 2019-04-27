@@ -14,12 +14,12 @@ else
 	notify() { notify-send "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account." ;}
 fi
 
-echo " 🔃" > /tmp/imapsyncicon
+echo " 🔃" > /tmp/imapsyncicon_$USER
 pkill -RTMIN+12 i3blocks
 
 # Run mbsync. You can feed this script different settings.
 mbsync -a "$@"
-rm -f /tmp/imapsyncicon
+rm -f /tmp/imapsyncicon_$USER
 pkill -RTMIN+12 i3blocks
 
 # Check all accounts/mailboxes for new mail. Notify if there is new content.

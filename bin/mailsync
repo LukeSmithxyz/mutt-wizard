@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 # Sync mail and give notification if there is new mail.
 
+# Run only if user logged in (prevent cron errors)
+w | grep "^$USER\W" >/dev/null || exit
+
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || exit
 command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotify-send\` should be installed for pop-up mail notifications with this script."

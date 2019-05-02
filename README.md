@@ -49,6 +49,8 @@ The mutt-wizard is run with the command `mw`. It also installs the `mailsync` co
 - `pass` - safely encrypts passwords (required at install)
 - `urlview` - outputs urls in mail to browser.
 
+There's a chance of errors if you use a slow-release distro like Ubuntu, Debian or Mint. If you get errors in `neomutt`, install the most recent version manually or manually remove the offending lines in the config in `/usr/share/mutt-wizard/mutt-wizard.muttrc`.
+
 ### Optional
 
 - `w3m` - view HTML email and images in neomutt.

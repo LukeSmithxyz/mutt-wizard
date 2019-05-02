@@ -112,3 +112,10 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 - Protonmail accounts will require you to set up "Protonmail Bridge" to access PM's IMAP and SMTP servers. Configure that before running mutt-wizard.
 - If you have a university email, or enterprise-hosted email for work, there might be other hurdles or two-factor authentication you have to jump through. Some, for example, will want you to create a separate IMAP password, etc.
 - If you use an email server whose mailboxes are not in English, mutt-wizard might not be able to guess which is which, so you may have to manually set your Inbox, Sent, Trash, Drafts, etc. in your mutt config file. Do this after running the wizard in `accounts/NAME.muttrc`.
+
+## To-do
+
+- Add Mac OS/BSD compatibility
+- Out-of-the-box compatibility with Protonmail Bridge
+- Option to ignore `domains.csv` (for troubleshooting)
+- Option to keep configuration for accounts that failed to connect (maybe)

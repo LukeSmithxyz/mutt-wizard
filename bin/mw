@@ -11,6 +11,7 @@ mbsyncrc="$HOME/.mbsyncrc"
 mwconfig="$muttshare/mutt-wizard.muttrc"
 cachedir="$HOME/.cache/mutt-wizard"
 muttrc="$muttdir/muttrc"
+msmtprc="$HOME/.config/msmtp/config"
 ssltype="IMAPS"				# This is later changed to `None` later in the script if using Protonmail
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
@@ -163,8 +164,8 @@ EOF
 	mkdir -p "$muttdir" "$accdir" "$cachedir/$title/bodies" "$HOME/.config/msmtp"
 	getaccounts
 	for x in $(seq 1 9); do echo "$accounts" | grep "$x" >/dev/null 2>&1 || { export idnum="$x"; break ;}; done
-	[ ! -f "$HOME/.config/msmtp/config" ] && echo "$msmtp_header" > "$HOME/.config/msmtp/config"
-	echo "$msmtp_profile" >> "$HOME/.config/msmtp/config"
+	[ ! -f "$msmtprc" ] && echo "$msmtp_header" > "$msmtprc"
+	echo "$msmtp_profile" >> "$msmtprc"
 	case "$service" in
 		protonmail.*) protonfinger || return 1 ;;
 	esac
@@ -179,7 +180,7 @@ EOF
 
 protonfinger() { printf "Getting Protonmail bridge fingerprint...\\n"
 	fingerprint="$(msmtp --serverinfo --tls --tls-certcheck=off -a "$title")" || return 1
-	sed -ibu "s/account $title/&\ntls_fingerprint $fingerprint/" "$HOME/.config/msmtp/config"
+	sed -ibu "s/account $title/&\ntls_fingerprint $fingerprint/" "$msmtprc" ; rm -f "$msmtprc"bu
 }
 
 getpass() { while : ; do pass rm -f "mutt-wizard-$title" >/dev/null 2>&1
@@ -241,7 +242,7 @@ pick() { printf "Select an accounts to %s:\\n" "$1"
 delete() { sed -ibu "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc" ; rm -rf "$mbsyncrc"bu
 	rm -rf "${cachedir:?}/${title:?}" "$accdir/"[1-9]"-$title.muttrc"
 	sed -ibu "/[0-9]-$title.muttrc/d" "$muttrc" ; rm -f "$muttrc"bu
-	sed -ibu "/account $title/,/^\(\s*$\|account\)/d" "$HOME/.config/msmtp/config"; rm -f "$HOME/.config/msmtp/configbu"
+	sed -ibu "/account $title/,/^\(\s*$\|account\)/d" "$msmtprc"; rm -f "$msmtprc"bu
 	}
 
 choosecron() { ! pgrep cron >/dev/null && echo "No cron manager running. Install/enable one and then select this option again." && return 1

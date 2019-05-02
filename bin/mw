@@ -224,6 +224,7 @@ finalize() { \
 	echo "$boxes" | grep -i junk | head -n 1 | formatShortcut j junk
 	echo "$boxes" | grep -i archive | head -n 1 | formatShortcut a archive
 	[ "$accounttype" = "offline" ] && printf "All done.\\n\033[33mYou should now be able to run \`\033[32mmbsync %s\033[33m\` to begin to download your mail.\033[0m\\n" "$title"
+	command -V urlview >/dev/null 2>&1 && [ ! -f "$HOME/.urlview" ] && echo "COMMAND \$BROWSER" > "$HOME/.urlview"
 	return 0
 }
 

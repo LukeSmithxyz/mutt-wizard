@@ -10,9 +10,9 @@ install:
 		chmod 755 $(DESTDIR)$(PREFIX)/$$script; \
 	done
 	mkdir -p $(DESTDIR)$(PREFIX)/share/mutt-wizard
-	cp -f mailcap $(DESTDIR)$(PREFIX)/share/mutt-wizard
-	cp -f mutt-wizard.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard
-	cp -f domains.csv $(DESTDIR)$(PREFIX)/share/mutt-wizard
+	for shared in share/*; do \
+		cp -f $$shared $(DESTDIR)$(PREFIX)/share/mutt-wizard; \
+	done
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
 	cp -f mw.1 $(DESTDIR)$(MANPREFIX)/man1/mw.1
 

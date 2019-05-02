@@ -108,10 +108,10 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 
 ## Watch out for these things:
 
-- For Gmail accounts, remember also to enable third-party ("""less secure""") applications before attempting installation.
+- For Gmail accounts, remember also to enable third-party ("""less secure""") applications before attempting installation. You might also need to manually "Enable IMAP" in the settings.
 - Protonmail accounts will require you to set up "Protonmail Bridge" to access PM's IMAP and SMTP servers. Configure that before running mutt-wizard.
 - If you have a university email, or enterprise-hosted email for work, there might be other hurdles or two-factor authentication you have to jump through. Some, for example, will want you to create a separate IMAP password, etc.
-- If you use an email server whose mailboxes are not in English, mutt-wizard might not be able to guess which is which, so you may have to manually set your Inbox, Sent, Trash, Drafts, etc. in your mutt config file. Do this after running the wizard in `accounts/NAME.muttrc`.
+ - `isync` is not fully UTF-8 compatible, so non-Latin characters may be garbled (although sync should succeed). `mw` will also not autocreate mailbox shortcuts since it is looking for English mailbox names. I strongly recommend you to set your email language to English on your mail server to avoid these problems.
 
 ## To-do
 

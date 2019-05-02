@@ -166,6 +166,7 @@ EOF
 	for x in $(seq 1 9); do echo "$accounts" | grep "$x" >/dev/null 2>&1 || { export idnum="$x"; break ;}; done
 	[ ! -f "$msmtprc" ] && echo "$msmtp_header" > "$msmtprc"
 	echo "$msmtp_profile" >> "$msmtprc"
+	command -V apt-get >/dev/null 2>&1 && ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
 	case "$service" in
 		protonmail.ch|protonmail.com|pm.me) protonfinger || return 1 ;;
 	esac

@@ -1,6 +1,11 @@
 .POSIX:
 
-PREFIX = /usr
+OS = $(shell uname -s)
+ifeq ($(OS), Darwin)
+  PREFIX = /usr/local
+else
+  PREFIX = /usr
+endif
 MANPREFIX = $(PREFIX)/share/man
 
 install:

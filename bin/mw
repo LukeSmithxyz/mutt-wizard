@@ -1,13 +1,19 @@
 #!/bin/sh
 command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
-! "$GPG" --list-secret-keys "<$(cat "$HOME/.password-store/.gpg-id")>" >/dev/null 2>&1 && printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`gpg --full-gen-key\` first.\\n" && exit
+! "$GPG" --list-secret-keys $(cat "$HOME/.password-store/.gpg-id") >/dev/null 2>&1 && printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`gpg --full-gen-key\` first.\\n" && exit
 ! command -v mbsync >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  prefix="/usr/local"
+else
+  prefix="/usr"
+fi
 muttdir="$HOME/.config/mutt"		# Main mutt config location
 accdir="$muttdir/accounts"		# Directory for account settings
 maildir="$HOME/.local/share/mail"	# Location of mail storage
 namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
-muttshare="/usr/share/mutt-wizard"
+muttshare="$prefix/share/mutt-wizard"
 mbsyncrc="$HOME/.mbsyncrc"
 mwconfig="$muttshare/mutt-wizard.muttrc"
 cachedir="$HOME/.cache/mutt-wizard"
@@ -15,7 +21,7 @@ muttrc="$muttdir/muttrc"
 msmtprc="$HOME/.config/msmtp/config"
 ssltype="IMAPS"				# This is later changed to `None` later in the script if using Protonmail
 
-for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
+for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem"
 do
 	[ -f "$x" ] && sslcert="$x" && break
 done || { echo "CA Certificate not found. Please install one or link it to /etc/ssl/certs/ca-certificates.crt" && exit 1 ;}
@@ -89,7 +95,7 @@ mutt_profile="# vim: filetype=neomuttrc
 # muttrc file for account $title
 set realname = \"$realname\"
 set from = \"$fulladdr\"
-set sendmail = \"/usr/bin/msmtp -a $title\"
+set sendmail = \"$prefix/bin/msmtp -a $title\"
 alias me $realname <$fulladdr>
 set folder = \"imaps://$fulladdr@$imap:$iport\"
 set imap_user = \"$login\"

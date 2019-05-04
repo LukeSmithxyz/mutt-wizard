@@ -1,5 +1,6 @@
 #!/bin/sh
-[ ! -f "$HOME/.password-store/.gpg-id" ] && printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`gpg --full-gen-key\` first.\\n" && exit
+command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
+! gpg --list-secret-keys "<$(cat "$HOME/.password-store/.gpg-id")>" >/dev/null 2>&1 && printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`gpg --full-gen-key\` first.\\n" && exit
 ! command -v mbsync >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
 muttdir="$HOME/.config/mutt"		# Main mutt config location
 accdir="$muttdir/accounts"		# Directory for account settings

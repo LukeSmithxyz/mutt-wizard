@@ -182,7 +182,7 @@ EOF
 
 protonfinger() { printf "Getting Protonmail bridge fingerprint...\\n"
 	fingerprint="$(msmtp --serverinfo --tls --tls-certcheck=off -a "$title")" || return 1
-	sed -ibu "s/account $title/&\ntls_fingerprint $fingerprint/" "$msmtprc" ; rm -f "$msmtprc"bu
+	sed -ibu "s/account $title/&\ntls_trust_file\ntls_fingerprint $fingerprint/" "$msmtprc" ; rm -f "$msmtprc"bu
 }
 
 getpass() { while : ; do pass rm -f "mutt-wizard-$title" >/dev/null 2>&1

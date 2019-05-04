@@ -32,6 +32,24 @@ User of Arch-based distros can also install mutt-wizard from the AUR as [mutt-wi
 rm -rf ~/.config/mutt ~/.msmtprc ~/.config/msmtp ~/.offlineimap ~/.offlineimaprc ~/.config/offlineimap ~/.mbsyncrc
 ```
 
+*NOTE:* If you are using gpg2, you will have to use a symlink to associate gpg2 with gpg. You can check your gpg version with:
+
+```
+gpg --version
+```
+
+or
+
+```
+gpg2 --version
+```
+
+and then use:
+
+```
+sudo ln -s /usr/bin/gpg2 /usr/bin/gpg
+```
+
 The mutt-wizard is run with the command `mw`. It also installs the `mailsync` command. Once everything is setup, you'll use `neomutt` to access your mail.
 
 - `mw add` -- add a new email account

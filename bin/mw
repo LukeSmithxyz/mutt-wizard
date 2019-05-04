@@ -2,12 +2,18 @@
 command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 ! "$GPG" --list-secret-keys "<$(cat "$HOME/.password-store/.gpg-id")>" >/dev/null 2>&1 && printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`gpg --full-gen-key\` first.\\n" && exit
 ! command -v mbsync >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  prefix="/usr/local"
+else
+  prefix="/usr"
+fi
 muttdir="$HOME/.config/mutt"		# Main mutt config location
 accdir="$muttdir/accounts"		# Directory for account settings
 maildir="$HOME/.local/share/mail"	# Location of mail storage
 namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
-muttshare="/usr/share/mutt-wizard"
+muttshare="$prefix/share/mutt-wizard"
 mbsyncrc="$HOME/.mbsyncrc"
 mwconfig="$muttshare/mutt-wizard.muttrc"
 cachedir="$HOME/.cache/mutt-wizard"
@@ -89,7 +95,7 @@ mutt_profile="# vim: filetype=neomuttrc
 # muttrc file for account $title
 set realname = \"$realname\"
 set from = \"$fulladdr\"
-set sendmail = \"/usr/bin/msmtp -a $title\"
+set sendmail = \"$prefix/bin/msmtp -a $title\"
 alias me $realname <$fulladdr>
 set folder = \"imaps://$fulladdr@$imap:$iport\"
 set imap_user = \"$login\"

@@ -47,7 +47,6 @@ The mutt-wizard is run with the command `mw`. It also installs the `mailsync` co
 - `isync` - downloads and syncs the mail. (required at install)
 - `msmtp` - sends the email.
 - `pass` - safely encrypts passwords (required at install)
-- `urlview` - outputs urls in mail to browser.
 
 There's a chance of errors if you use a slow-release distro like Ubuntu, Debian or Mint. If you get errors in `neomutt`, install the most recent version manually or manually remove the offending lines in the config in `/usr/share/mutt-wizard/mutt-wizard.muttrc`.
 
@@ -59,6 +58,7 @@ There's a chance of errors if you use a slow-release distro like Ubuntu, Debian 
 - `abook` - a terminal-based address book. Pressing tab while typing an address to send mail to will suggest contacts that are in your abook.
 - A cron manager - if you want to enable the auto-sync feature.
 - `pam-gnupg` - this is a more general program that I use. It automatically logs you into your GPG key on login so you will never need to input your password once logged on to your system. Check the repo and directions out [here](https://github.com/cruegge/pam-gnupg).
+- `urlview` - outputs urls in mail to browser.
 
 ## Neomutt user interface
 

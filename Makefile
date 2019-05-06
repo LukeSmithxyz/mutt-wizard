@@ -18,7 +18,7 @@ install:
 	for shared in share/*; do \
 		cp -f $$shared $(DESTDIR)$(PREFIX)/share/mutt-wizard; \
 	done
-	if [[ "$(OS)" == "Darwin" ]]; then \
+	if [ "$(OS)" = "Darwin" ]; then \
 		sed -iba 's/\/usr\//\/usr\/local\//' $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrc; \
 		rm $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrcba; \
 	fi

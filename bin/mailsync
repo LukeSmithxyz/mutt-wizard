@@ -2,7 +2,7 @@
 # Sync mail and give notification if there is new mail.
 
 # Run only if user logged in (prevent cron errors)
-w | grep "^$USER\W" >/dev/null || exit
+pgrep -cu "$USER" >/dev/null || exit
 
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || exit

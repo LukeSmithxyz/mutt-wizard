@@ -148,6 +148,7 @@ poczta.fm,poczta.interia.pl,993,poczta.interia.pl,465
 poczta.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 post.com,imap.mail.com,993,smtp.mail.com,587
 posteo.de,posteo.de,993,posteo.de,587
+posteo.net,posteo.de,993,posteo.de,587
 privacyrequired.com,mail.autistici.org,993,smtp.autistici.org,465
 prokonto.pl,poczta.o2.pl,993,poczta.o2.pl,465
 protonmail.ch,127.0.0.1,1143,127.0.0.1,1025

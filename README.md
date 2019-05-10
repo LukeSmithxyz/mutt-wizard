@@ -48,6 +48,8 @@ The mutt-wizard is run with the command `mw`. It also installs the `mailsync` co
 - `msmtp` - sends the email.
 - `pass` - safely encrypts passwords (required at install)
 
+There's a chance of errors if you use a slow-release distro like Ubuntu, Debian or Mint. If you get errors in `neomutt`, install the most recent version manually or manually remove the offending lines in the config in `/usr/share/mutt-wizard/mutt-wizard.muttrc`.
+
 ### Optional
 
 - `w3m` - view HTML email and images in neomutt.
@@ -56,6 +58,7 @@ The mutt-wizard is run with the command `mw`. It also installs the `mailsync` co
 - `abook` - a terminal-based address book. Pressing tab while typing an address to send mail to will suggest contacts that are in your abook.
 - A cron manager - if you want to enable the auto-sync feature.
 - `pam-gnupg` - this is a more general program that I use. It automatically logs you into your GPG key on login so you will never need to input your password once logged on to your system. Check the repo and directions out [here](https://github.com/cruegge/pam-gnupg).
+- `urlview` - outputs urls in mail to browser.
 
 ## Neomutt user interface
 
@@ -72,8 +75,8 @@ To give you an example of the interface, here's an idea:
 - `i#` - Press `i` followed by a number 1-9 to go to a different account. If you add 9 accounts via mutt-wizard, they will each be assigned a number.
 - `a` to add address/person to abook and `Tab` while typing address to complete one from book.
 - `?` - see all keyboard shortcuts
-- `ctrl-j`/`ctrl-k` - move up and down in sidebar, `ctrl-o` opens mailbox
-
+- `ctrl-j`/`ctrl-k` - move up and down in sidebar, `ctrl-o` opens mailbox.
+- `ctrl-b` - open a menu to select a url you want to open in you browser.
 ## New stuff and improvements since the original release
 
 - `isync`/`mbsync` has replaced `offlineimap` as the backend. Offlineimap was error-prone, bloated, used obsolete Python 2 modules and required separate steps to install the system.
@@ -108,7 +111,14 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 
 ## Watch out for these things:
 
-- For Gmail accounts, remember also to enable third-party ("""less secure""") applications before attempting installation.
+- For Gmail accounts, remember also to enable third-party ("""less secure""") applications before attempting installation. You might also need to manually "Enable IMAP" in the settings.
 - Protonmail accounts will require you to set up "Protonmail Bridge" to access PM's IMAP and SMTP servers. Configure that before running mutt-wizard.
 - If you have a university email, or enterprise-hosted email for work, there might be other hurdles or two-factor authentication you have to jump through. Some, for example, will want you to create a separate IMAP password, etc.
-- If you use an email server whose mailboxes are not in English, mutt-wizard might not be able to guess which is which, so you may have to manually set your Inbox, Sent, Trash, Drafts, etc. in your mutt config file. Do this after running the wizard in `accounts/NAME.muttrc`.
+ - `isync` is not fully UTF-8 compatible, so non-Latin characters may be garbled (although sync should succeed). `mw` will also not autocreate mailbox shortcuts since it is looking for English mailbox names. I strongly recommend you to set your email language to English on your mail server to avoid these problems.
+
+## To-do
+
+- Add Mac OS/BSD compatibility
+- Out-of-the-box compatibility with Protonmail Bridge
+- Option to ignore `domains.csv` (for troubleshooting)
+- Option to keep configuration for accounts that failed to connect (maybe)

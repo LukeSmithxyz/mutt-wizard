@@ -9,6 +9,7 @@ airmail.cc,mail.cock.li,993,mail.cock.li,587
 allergist.com,imap.mail.com,993,smtp.mail.com,587
 alumni.com,imap.mail.com,993,smtp.mail.com,587
 alumnidirector.com,imap.mail.com,993,smtp.mail.com,587
+alunos.utfpr.edu.br,imap.gmail.com,993,smtp.gmail.com,587
 anche.no,mail.autistici.org,993,smtp.autistici.org,465
 angelic.com,imap.mail.com,993,smtp.mail.com,587
 aol.com,imap.aol.com,993,smtp.aol.com,465
@@ -37,6 +38,7 @@ cash4u.com,imap.mail.com,993,smtp.mail.com,587
 cheerful.com,imap.mail.com,993,smtp.mail.com,587
 chef.net,imap.mail.com,993,smtp.mail.com,587
 chemist.com,imap.mail.com,993,smtp.mail.com,587
+chrissx.ga,chrissx.ga,993,chrissx.ga,25
 clerk.com,imap.mail.com,993,smtp.mail.com,587
 clubmember.org,imap.mail.com,993,smtp.mail.com,587
 cocaine.ninja,mail.cock.li,993,mail.cock.li,587
@@ -62,7 +64,7 @@ disroot.org,disroot.org,993,disroot.org,587
 distruzione.org,mail.autistici.org,993,smtp.autistici.org,465
 dr.com,imap.mail.com,993,smtp.mail.com,587
 duke.edu,outlook.office365.com,993,smtp.office365.com,587
-email.arizona.edu,mail.catnet.arizona.edu,993,smtpgate.email.arizona.edu,587
+email.arizona.edu,imap.gmail.com,993,smtp.gmail.com,587
 email.com,imap.mail.com,993,smtp.mail.com,587
 engineer.com,imap.mail.com,993,smtp.mail.com,587
 erciyes.edu.tr,posta.erciyes.edu.tr,993,smtp.erciyes.edu.tr,587
@@ -75,6 +77,7 @@ fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
 fsu-jena,exchange.uni-jena.de,993,smtp.uni-jena.de,587
 getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
 gmail.com,imap.gmail.com,993,smtp.gmail.com,587
+gmx.at,imap.gmx.net,993,mail.gmx.net,587
 gmx.com,imap.gmx.net,993,mail.gmx.net,587
 gmx.de,imap.gmx.net,993,mail.gmx.net,587
 gmx.eu,imap.gmx.net,993,mail.gmx.net,587
@@ -99,8 +102,9 @@ illinois.edu, imap.gmail.com,993,smtp.gmail.com,465
 iname.com,imap.mail.com,993,smtp.mail.com,587
 insiberia.net,mail.autistici.org,993,smtp.autistici.org,465
 insicuri.net,mail.autistici.org,993,smtp.autistici.org,465
-interia.eu,poczta.interia.pl,143,poczta.interia.pl,465
-interia.pl,poczta.interia.pl,143,poczta.interia.pl,465
+interia.eu,poczta.interia.pl,993,poczta.interia.pl,465
+interia.pl,poczta.interia.pl,993,poczta.interia.pl,465
+interactio.io,imap.gmail.com,993,smtp.gmail.com,587
 inventati.org,mail.autistici.org,993,smtp.autistici.org,465
 kipras.org,mail.kipras.org,993,mail.kipras.org,587
 krutt.org,mail.autistici.org,993,smtp.autistici.org,465
@@ -125,7 +129,9 @@ national.shitposting.agency,mail.cock.li,993,mail.cock.li,587
 netcourrier.com,mail.netcourrier.com,993,mail.netcourrier.com,465
 nigge.rs,mail.cock.li,993,mail.cock.li,587
 nuke.africa,mail.cock.li,993,mail.cock.li,587
+nyu.edu,imap.gmail.com,993,smtp.gmail.com,587
 o2.pl,poczta.o2.pl,993,poczta.o2.pl,465
+one.com,imap.one.com,993,send.one.com,465
 onenetbeyond.org,mail.autistici.org,993,smtp.autistici.org,465
 onet.com.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 onet.eu,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
@@ -136,11 +142,14 @@ opoczta.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 orange.fr,imap.orange.fr,993,smtp.orange.fr,465
 outlook.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 outlook.de,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+outlook.at,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 paranoici.org,mail.autistici.org,993,smtp.autistici.org,465
-poczta.fm,poczta.interia.pl,143,poczta.interia.pl,465
+pm.me,127.0.0.1,1143,127.0.0.1,1025
+poczta.fm,poczta.interia.pl,993,poczta.interia.pl,465
 poczta.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 post.com,imap.mail.com,993,smtp.mail.com,587
 posteo.de,posteo.de,993,posteo.de,587
+posteo.net,posteo.de,993,posteo.de,587
 privacyrequired.com,mail.autistici.org,993,smtp.autistici.org,465
 prokonto.pl,poczta.o2.pl,993,poczta.o2.pl,465
 protonmail.ch,127.0.0.1,1143,127.0.0.1,1025
@@ -150,9 +159,13 @@ redchan.it,mail.cock.li,993,mail.cock.li,587
 runbox.com,mail.runbox.com,993,mail.runbox.com,587
 rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
+southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 spoko.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 stronzi.org,mail.autistici.org,993,smtp.autistici.org,465
 stud.tu-darmstadt.de,imap.stud.tu-darmstadt.de,993,smtp.tu-darmstadt.de,465
+stud.uis.no,outlook.office365.com,993,smtp.office365.com,587
+students.southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
+studserv.uni-leipzig.de,studserv.uni-leipzig.de,993,studserv.uni-leipzig.de,25
 subvertising.org,mail.autistici.org,993,smtp.autistici.org,465
 t-online.de,secureimap.t-online.de,993,securesmtp.t-online.de,465
 techie.com,imap.mail.com,993,smtp.mail.com,587
@@ -162,6 +175,7 @@ tfwno.gf,mail.cock.li,993,mail.cock.li,587
 tlen.pl,poczta.o2.pl,993,poczta.o2.pl,465
 tu-harburg.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
 tuhh.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
+txstate.edu,outlook.office365.com,993,smtp.office365.com,587
 uach.mx,imap.gmail.com,993,smtp.gmail.com,587
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587
 uqtr.ca,outlook.office365.com,993,smtp.office365.com,587

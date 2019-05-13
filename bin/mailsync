@@ -3,6 +3,8 @@
 
 # Run only if user logged in (prevent cron errors)
 pgrep -cu "$USER" >/dev/null || exit
+# Run only if not already running in other instance
+[ $(pgrep -xf "sh /usr/bin/mailsync" | wc -l) -eq 2 ] || exit
 
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || exit

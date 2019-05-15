@@ -1,6 +1,10 @@
 #!/bin/sh
 command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
-! "$GPG" --list-secret-keys $(cat "$HOME/.password-store/.gpg-id") >/dev/null 2>&1 && printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`$GPG --full-gen-key\` first.\\n" && exit
+[ -r "$HOME/.password-store/.gpg-id" ] &&
+    "$GPG" --list-secret-keys $(cat "$HOME/.password-store/.gpg-id") >/dev/null 2>&1 || {
+        printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`$GPG --full-gen-key\` first.\\n"
+        exit
+    }
 ! command -v mbsync >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
 
 if [[ "$OSTYPE" == "darwin"* ]]; then

@@ -7,7 +7,7 @@ command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
     }
 ! command -v mbsync >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
+if [ "$OSTYPE" = "darwin" ]; then
   prefix="/usr/local"
 else
   prefix="/usr"

@@ -56,6 +56,7 @@ counsellor.com,imap.mail.com,993,smtp.mail.com,587
 cryptolab.net,mail.autistici.org,993,smtp.autistici.org,465
 cumallover.me,mail.cock.li,993,mail.cock.li,587
 cyberservices.com,imap.mail.com,993,smtp.mail.com,587
+datentopf.org,mail.datentopf.org,993,mail.datentopf.org,587
 deliveryman.com,imap.mail.com,993,smtp.mail.com,587
 dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
@@ -100,6 +101,7 @@ hotmail.fr,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 hushmail.com,imap.hushmail.com,993,smtp.hushmail.com,465
 illinois.edu, imap.gmail.com,993,smtp.gmail.com,465
 iname.com,imap.mail.com,993,smtp.mail.com,587
+inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 insiberia.net,mail.autistici.org,993,smtp.autistici.org,465
 insicuri.net,mail.autistici.org,993,smtp.autistici.org,465
 interia.eu,poczta.interia.pl,993,poczta.interia.pl,465
@@ -159,6 +161,7 @@ redchan.it,mail.cock.li,993,mail.cock.li,587
 runbox.com,mail.runbox.com,993,mail.runbox.com,587
 rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
+smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 spoko.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 stronzi.org,mail.autistici.org,993,smtp.autistici.org,465

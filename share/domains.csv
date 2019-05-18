@@ -7,6 +7,7 @@ activist.com,imap.mail.com,993,smtp.mail.com,587
 adexec.com,imap.mail.com,993,smtp.mail.com,587
 airmail.cc,mail.cock.li,993,mail.cock.li,587
 allergist.com,imap.mail.com,993,smtp.mail.com,587
+alumni.bits-pilani.ac.in,imap.gmail.com,993,smtp.gmail.com,465
 alumni.com,imap.mail.com,993,smtp.mail.com,587
 alumnidirector.com,imap.mail.com,993,smtp.mail.com,587
 alunos.utfpr.edu.br,imap.gmail.com,993,smtp.gmail.com,587
@@ -183,6 +184,7 @@ uach.mx,imap.gmail.com,993,smtp.gmail.com,587
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587
 uqtr.ca,outlook.office365.com,993,smtp.office365.com,587
 usa.com,imap.mail.com,993,smtp.mail.com,587
+uw.edu,imap.gmail.com,993,smtp.gmail.com,465
 uymail.com,imap.mail.com,993,smtp.mail.com,587
 vip.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 vp.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465

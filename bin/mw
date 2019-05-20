@@ -216,7 +216,7 @@ tryconnect() { mkdir -p "$maildir/$title"
 	fi ;}
 
 finalize() { \
-	boxes="$(find "$maildir/$title/" -mindepth 1 -maxdepth 1 | sed "s/^.*\//=/")"
+	boxes="$(find "$maildir/$title/" -mindepth 1 -maxdepth 1 | sed "s/\ /\\\ /g;s/^.*\//=/")"
 	[ -z "$boxes" ] && printf "\033[31mNo local mailboxes have been detected for %s.\033[0m\\nThis means that mbsync has not been successfully run.\\nRun mbsync, and if it has an error, be sure to check your password and server settings manually if needbe.\\n" "$title" && return
 	printf "Setting default mailboxes for your Inbox, Sent, Drafts and Trash in mutt...\\n"
 	spoolfile=$(echo "$boxes" | grep -i -m 1 inbox | sed 's/=/+/g')

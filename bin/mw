@@ -7,11 +7,11 @@ command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
     }
 ! command -v mbsync >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
 
-if [ "$OSTYPE" = "darwin" ]; then
-  prefix="/usr/local"
-else
-  prefix="/usr"
-fi
+case "$(uname)" in
+	Linux) prefix="/usr" ;;
+	*)  prefix="/usr/local" ;;
+esac
+
 muttdir="$HOME/.config/mutt"		# Main mutt config location
 accdir="$muttdir/accounts"		# Directory for account settings
 maildir="$HOME/.local/share/mail"	# Location of mail storage

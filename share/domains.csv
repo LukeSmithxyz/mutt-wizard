@@ -187,7 +187,7 @@ usa.com,imap.mail.com,993,smtp.mail.com,587
 uw.edu,imap.gmail.com,993,smtp.gmail.com,465
 uymail.com,imap.mail.com,993,smtp.mail.com,587
 vip.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
-vivaldi.net,mail.vivaldi.net,993,mail.vivaldi.net,465
+vivaldi.net,imap.vivaldi.net,993,smtp.vivaldi.net,587
 vp.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 vt.edu,imap.gmail.com,993,smtp.gmail.com,587
 waifu.club,mail.cock.li,993,mail.cock.li,587

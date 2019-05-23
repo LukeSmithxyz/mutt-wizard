@@ -150,6 +150,8 @@ paranoici.org,mail.autistici.org,993,smtp.autistici.org,465
 pm.me,127.0.0.1,1143,127.0.0.1,1025
 poczta.fm,poczta.interia.pl,993,poczta.interia.pl,465
 poczta.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
+polimi.it,outlook.office365.com,993,smtp.office365.com,587
+mail.polimi.it,outlook.office365.com,993,smtp.office365.com,587
 post.com,imap.mail.com,993,smtp.mail.com,587
 posteo.de,posteo.de,993,posteo.de,587
 posteo.net,posteo.de,993,posteo.de,587

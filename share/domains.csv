@@ -42,6 +42,8 @@ chemist.com,imap.mail.com,993,smtp.mail.com,587
 chrissx.ga,chrissx.ga,993,chrissx.ga,25
 clerk.com,imap.mail.com,993,smtp.mail.com,587
 clubmember.org,imap.mail.com,993,smtp.mail.com,587
+cmail.carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 cocaine.ninja,mail.cock.li,993,mail.cock.li,587
 cock.email,mail.cock.li,993,mail.cock.li,587
 cock.li,mail.cock.li,993,mail.cock.li,587

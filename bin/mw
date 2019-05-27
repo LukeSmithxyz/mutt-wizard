@@ -54,6 +54,7 @@ Host $imap
 Port  $iport
 User $login
 PassCmd \"pass mutt-wizard-$title\"
+AuthMechs LOGIN
 SSLType $ssltype
 CertificateFile $sslcert
 

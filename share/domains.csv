@@ -42,6 +42,8 @@ chemist.com,imap.mail.com,993,smtp.mail.com,587
 chrissx.ga,chrissx.ga,993,chrissx.ga,25
 clerk.com,imap.mail.com,993,smtp.mail.com,587
 clubmember.org,imap.mail.com,993,smtp.mail.com,587
+cmail.carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 cocaine.ninja,mail.cock.li,993,mail.cock.li,587
 cock.email,mail.cock.li,993,mail.cock.li,587
 cock.li,mail.cock.li,993,mail.cock.li,587
@@ -138,7 +140,7 @@ one.com,imap.one.com,993,send.one.com,465
 onenetbeyond.org,mail.autistici.org,993,smtp.autistici.org,465
 onet.com.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 onet.eu,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
-onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
+onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,587
 online.de,imap.1und1.de,993,smtp.1und1.de,465
 op.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 opoczta.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
@@ -150,6 +152,8 @@ paranoici.org,mail.autistici.org,993,smtp.autistici.org,465
 pm.me,127.0.0.1,1143,127.0.0.1,1025
 poczta.fm,poczta.interia.pl,993,poczta.interia.pl,465
 poczta.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
+polimi.it,outlook.office365.com,993,smtp.office365.com,587
+mail.polimi.it,outlook.office365.com,993,smtp.office365.com,587
 post.com,imap.mail.com,993,smtp.mail.com,587
 posteo.de,posteo.de,993,posteo.de,587
 posteo.net,posteo.de,993,posteo.de,587
@@ -168,6 +172,7 @@ spoko.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 stronzi.org,mail.autistici.org,993,smtp.autistici.org,465
 stud.tu-darmstadt.de,imap.stud.tu-darmstadt.de,993,smtp.tu-darmstadt.de,465
 stud.uis.no,outlook.office365.com,993,smtp.office365.com,587
+student.rmit.edu.au,outlook.office365.com,993,smtp.office365.com,587
 students.southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 studserv.uni-leipzig.de,studserv.uni-leipzig.de,993,studserv.uni-leipzig.de,25
 subvertising.org,mail.autistici.org,993,smtp.autistici.org,465
@@ -187,6 +192,7 @@ usa.com,imap.mail.com,993,smtp.mail.com,587
 uw.edu,imap.gmail.com,993,smtp.gmail.com,465
 uymail.com,imap.mail.com,993,smtp.mail.com,587
 vip.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
+vivaldi.net,imap.vivaldi.net,993,smtp.vivaldi.net,587
 vp.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 vt.edu,imap.gmail.com,993,smtp.gmail.com,587
 waifu.club,mail.cock.li,993,mail.cock.li,587

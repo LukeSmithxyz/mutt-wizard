@@ -28,13 +28,9 @@ syncandnotify() {
     if [ "$newcount" -gt "0" ]; then
         notify "$acc" "$newcount" &
         for file in $new; do
-            # Extract subject and sender from mail (room for improvement).
-            subject=$(grep "^Subject: " "$file" | sed 's/Subject: //' | head -n4)
-            from=$(grep "^From: " "$file" | awk '{ $1=""; $NF=""; print $0 }' | tr -d "\"\'\<\>" | sed 's/^ \(.*\) $/\1/')
-            substring="=?"
-            # Some html emails contain weird Subject and/or Sender formatting, in which case the html tag content is used (room for improvement).
-            [ "${subject#*$substring}" != "$subject" ] && subject=$(tr '\n' ' ' < "$file" | sed 's/.*<title>\(.*\)<\/title>.*/\1/')
-            [ "${from#*$substring}" != "$from" ] && from=$(grep ^"From: " "$file" | sed 's/.*<\(.*\)>.*/\1/')
+            # Extract subject and sender from mail.
+            from=$(grep "^From: " "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; $NF=""; print $0 }' | tr -d "\"\'\<\>" | sed 's/^ \(.*\) $/\1/')
+            subject=$(grep "^Subject: " "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/Subject: //')
             notify-send "📧$from:" "$subject" &
         done
     fi

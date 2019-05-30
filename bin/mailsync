@@ -40,7 +40,7 @@ syncandnotify() {
     fi
 }
 
-# Run
+# Sync accounts passed as argument or all.
 if [ "$#" -eq "0" ]; then
     accounts="$(ls "$HOME/.local/share/mail")"
 else

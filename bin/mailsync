@@ -2,9 +2,9 @@
 # Sync mail and give notification if there is new mail.
 
 # Run only if user logged in (prevent cron errors)
-pgrep -cu "$USER" >/dev/null || exit
+pgrep -u "$USER" >/dev/null || exit
 # Run only if not already running in other instance
-[ $(pgrep -xf "sh /usr/bin/mailsync" | wc -l) -eq 2 ] || exit
+[ "$(pgrep -xf "sh /usr/bin/mailsync.*" | wc -l)" -eq 2 ] || exit
 
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || exit
@@ -14,31 +14,52 @@ export DISPLAY=:0.0
 
 # Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" = "Darwin" ]; then
-	notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
+    notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 else
-	notify() { notify-send "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account." ;}
+    notify() { notify-send "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account." ;}
 fi
 
-echo " 🔃" > /tmp/imapsyncicon_$USER
-pkill -RTMIN+12 i3blocks
+# Check account for new mail. Notify if there is new content.
+syncandnotify() {
+    acc="$(echo "$account" | sed "s/.*\///")"
+    mbsync "$acc"
+    new=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$HOME/.config/mutt/.mailsynclastrun" 2> /dev/null)
+    newcount=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$HOME/.config/mutt/.mailsynclastrun" 2> /dev/null | wc -l)
+    if [ "$newcount" -gt "0" ]; then
+        notify "$acc" "$newcount" &
+        for file in $new; do
+            # Extract subject and sender from mail (room for improvement).
+            subject=$(grep "^Subject: " "$file" | sed 's/Subject: //' | head -n4)
+            from=$(grep "^From: " "$file" | awk '{ $1=""; $NF=""; print $0 }' | tr -d "\"\'\<\>" | sed 's/^ \(.*\) $/\1/')
+            substring="=?"
+            # Some html emails contain weird Subject and/or Sender formatting, in which case the html tag content is used (room for improvement).
+            [ "${subject#*$substring}" != "$subject" ] && subject=$(tr '\n' ' ' < "$file" | sed 's/.*<title>\(.*\)<\/title>.*/\1/')
+            [ "${from#*$substring}" != "$from" ] && from=$(grep ^"From: " "$file" | sed 's/.*<\(.*\)>.*/\1/')
+            notify-send "📧$from:" "$subject" &
+        done
+    fi
+}
 
-# Run mbsync. You can feed this script different settings.
-if [ $# -eq 0 ]; then
-	mbsync -a
+# Run
+if [ "$#" -eq "0" ]; then
+    accounts="$(ls "$HOME/.local/share/mail")"
 else
-	mbsync "$@"
+    accounts=$*
 fi
 
-rm -f /tmp/imapsyncicon_$USER
-pkill -RTMIN+12 i3blocks
+echo " 🔃" > /tmp/imapsyncicon_"$USER"
+pkill -RTMIN+12 i3blocks >/dev/null 2>&1
 
-# Check all accounts/mailboxes for new mail. Notify if there is new content.
-for account in "$HOME/.local/share/mail/"*
+# Parallelize multiple accounts
+for account in $accounts
 do
-	acc="$(echo "$account" | sed "s/.*\///")"
-	newcount=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$HOME/.config/mutt/.mailsynclastrun" 2> /dev/null | wc -l)
-	[ "$newcount" -gt "0" ] && notify "$acc" "$newcount" &
+    syncandnotify &
 done
+
+wait
+rm -f /tmp/imapsyncicon_"$USER"
+pkill -RTMIN+12 i3blocks >/dev/null 2>&1
+
 notmuch new 2>/dev/null
 
 #Create a touch file that indicates the time of the last run of mailsync

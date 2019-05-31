@@ -90,6 +90,7 @@ gmx.eu,imap.gmx.net,993,mail.gmx.net,587
 gmx.info,imap.gmx.net,993,mail.gmx.net,587
 gmx.net,imap.gmx.net,993,mail.gmx.net,587
 gmx.org,imap.gmx.net,993,mail.gmx.net,587
+gmx.fr,imap.gmx.com,993,mail.gmx.com,587
 go2.pl,poczta.o2.pl,993,poczta.o2.pl,465
 goat.si,mail.cock.li,993,mail.cock.li,587
 googlemail.com,imap.googlemail.com,993,smtp.googlemail.com,587

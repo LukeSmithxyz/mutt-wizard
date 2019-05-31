@@ -118,7 +118,6 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 
 ## To-do
 
-- Add Mac OS/BSD compatibility
-- Out-of-the-box compatibility with Protonmail Bridge
-- Option to ignore `domains.csv` (for troubleshooting)
+- Add ~~Mac OS~~/BSD compatibility (the script is confired to work for Mac OS now)
+- ~~Out-of-the-box compatibility with Protonmail Bridge~~ (I believe this is done, but more bug-testing is welcome since I don't have PM)
 - Option to keep configuration for accounts that failed to connect (maybe)

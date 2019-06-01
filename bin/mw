@@ -48,6 +48,7 @@ port $sport
 from $fulladdr
 user $login
 passwordeval \"pass mutt-wizard-$title\"
+$starttlsoff
 "
 mbsync_profile="IMAPStore $title-remote
 Host $imap
@@ -154,6 +155,7 @@ EOF
 		gmail.com) printf "\033[31mREMEMBER: Gmail users must enable \"less secure\" (third-party) applications first for the sync to work:\\nhttps://support.google.com/accounts/answer/6010255\\n\033[0m" ;;
 		protonmail.ch|protonmail.com|pm.me) printf "\033[31mREMEMBER: Protonmail users must install and configure Protonmail Bridge first for the sync to work:\\nhttps://protonmail.com/bridge/\\n\033[0m" && ssltype="None" ;;
 	esac
+	[ "$sport" = 465 ] && starttlsoff="tls_starttls off"
 	fi
 	printf "Enter the \033[35mfull name\033[0m you want to be identified by on this account.\\n\tReal name: "
 	read -r realname

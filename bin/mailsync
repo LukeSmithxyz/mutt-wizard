@@ -28,9 +28,9 @@ syncandnotify() {
     if [ "$newcount" -gt "0" ]; then
         notify "$acc" "$newcount" &
         for file in $new; do
-            # Extract subject and sender from mail.
-            from=$(grep "^From: " "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if ($NF>=3)$NF=""; print $0 }' | tr -d "\"\'\<\>" | sed 's/^ \(.*\) $/\1/')
-            subject=$(sed -n '/^Subject: /,/^.*:/p' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | head -n-1)
+            # Extract subject and sender from mail.            
+            from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
+            subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: /' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
             notify-send "📧$from:" "$subject" &
         done
     fi

@@ -27,25 +27,35 @@ syncandnotify() {
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
     if [ "$newcount" -gt "0" ]; then
         notify "$acc" "$newcount" &
-        for file in $new; do
-            # Extract subject and sender from mail.            
-            from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
-            subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n-1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
-            notify-send "📧$from:" "$subject" &
-        done
+        if [ "$preview" = true ]; then
+            for file in $new; do
+                # Extract subject and sender from mail.
+                from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
+                subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n-1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
+                notify-send "📧$from:" "$subject" &
+            done
+        fi
     fi
 }
-
-# Sync accounts passed as argument or all.
-if [ "$#" -eq "0" ]; then
-    accounts="$(ls "$HOME/.local/share/mail")"
-else
-    accounts=$*
-fi
 
 echo " 🔃" > /tmp/imapsyncicon_"$USER"
 pkill -RTMIN+12 i3blocks >/dev/null 2>&1
 
+# Parse arguments
+accounts=""
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -p|--preview)
+            preview=true
+            shift ;;
+        *)
+            accounts="${accounts:+${accounts} }$1"
+            shift ;;
+    esac
+done
+
+# If no accounts are passed sync all accounts
+[ -z "$accounts" ] && accounts="$(ls "$HOME/.local/share/mail")"
 # Parallelize multiple accounts
 for account in $accounts
 do

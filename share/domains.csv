@@ -124,7 +124,7 @@ loves.dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
 lukesmith.xyz,mail.lukesmith.xyz,993,mail.lukesmith.xyz,587
 mail.com,imap.mail.com,993,smtp.mail.com,587
 mail.ru,imap.mail.ru,993,smtp.mail.ru,465
-mailbox.org,imap.mailbox.org,993,smtps.mailbox.org,465
+mailbox.org,imap.mailbox.org,993,smtp.mailbox.org,587
 memeware.net,mail.cock.li,993,mail.cock.li,587
 ml1.net,imap.fastmail.com,993,smtp.fastmail.com,465
 mortemale.org,mail.autistici.org,993,smtp.autistici.org,465

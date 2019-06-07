@@ -316,7 +316,7 @@ synchronize_flags=true
 gpg_path=$GPG"
 	echo "$nmbasic" > "$NOTMUCH_CONFIG" ;}
 
-trap 'echo -e "\033[0m\n"' INT
+trap 'echo -e "\033[0m\n"; exit' STOP INT ABRT KILL
 
 case "$1" in
 	ls) list ;;

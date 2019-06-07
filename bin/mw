@@ -13,6 +13,63 @@ case "$(uname)" in
 	*)  prefix="/usr/local" ;;
 esac
 
+usage() {
+	cat << EOF
+usage: $0 [options] <command>
+
+mw: mutt-wizard, auto-configure email accounts for mutt
+including downloadable mail with \`isync\`.
+
+Options:
+  -p | --prefix <PATH>  Path where share dir may be expected.
+  -h | --help           This message
+
+Commands:
+  add                   Add and autoconfigure an email address (9 max.)
+  ls                    List configured accounts
+  delete                Pick an account to delete
+  purge                 Delete all accounts and settings
+  cron                  Enable or disable an autosync via cronjob
+
+NOTE: Once at least one account is added, you can run
+\`mbsync -a\` to begin downloading mail.
+EOF
+}
+
+
+is_ls=false
+is_add=false
+is_pass=false
+is_delete=false
+is_purge=false
+is_cron=false
+
+[[ $# -eq 0 ]] && usage && exit 1
+
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		ls) is_ls=true ;;
+		add) is_add=true ;;
+		pass) is_pass=true ;;
+		delete) is_deletee=true ;;
+		purge) is_purge=true ;;
+		cron) is_cron=true ;;
+		-p | --prefix)
+			[[ -z "$2" ]] && usage && exit 1
+			prefix=$2
+			shift 1
+			;;
+		-h | --help)
+			usage
+			exit 0
+			;;
+		*)
+			usage
+			exit 1
+	esac
+	shift 1
+done
+
 muttdir="$HOME/.config/mutt"		# Main mutt config location
 accdir="$muttdir/accounts"		# Directory for account settings
 maildir="$HOME/.local/share/mail"	# Location of mail storage
@@ -318,26 +375,25 @@ gpg_path=$GPG"
 
 trap 'echo -e "\033[0m\n"' INT
 
-case "$1" in
-	ls) list ;;
-	add) asktype && askinfo && tryconnect && finalize || delete ;;
-	pass) pick "change the password of" && getpass ;;
-	delete) pick delete && confirm "delete the \`$title\` profile" && delete ;;
-	purge) purge ;;
-	cron) choosecron ;;
-	*) cat << EOF
-mw: mutt-wizard, auto-configure email accounts for mutt
-including downloadable mail with \`isync\`.
+if $is_ls ; then
+	list
 
-Allowed options:
-  add		Add and autoconfigure an email address (9 max.)
-  ls		List configured accounts
-  delete	Pick an account to delete
-  purge		Delete all accounts and settings
-  cron		Enable or disable an autosync via cronjob
-  all else	Print this message
+elif $is_add ; then
+	asktype && askinfo && tryconnect && finalize || delete
 
-NOTE: Once at least one account is added, you can run
-\`mbsync -a\` to begin downloading mail.
-EOF
-esac
+elif $is_pass ; then
+	pick "change the password of" && getpass
+
+elif $is_delete ; then
+	pick delete && confirm "delete the \`$title\` profile" && delete
+
+elif $is_purge ; then
+	purge
+
+elif $is_cron ; then
+	choosecron
+
+else
+	usage && exit 1
+fi
+

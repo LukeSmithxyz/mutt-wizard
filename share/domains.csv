@@ -214,4 +214,6 @@ yandex.net,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
+clarkson.edu,imap.gmail.com,993,smtp.gmail.com,587
+odu.edu,imap.gmail.com,993,smtp.gmail.com,587
 

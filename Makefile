@@ -29,7 +29,7 @@ install:
 
 uninstall:
 	for script in bin/*; do \
-		rm -f $(DESTDIR)$(PREFIX)/bin/$$script; \
+		rm -f $(DESTDIR)$(PREFIX)/$$script; \
 	done
 	rm -rf $(DESTDIR)$(PREFIX)/share/mutt-wizard
 

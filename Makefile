@@ -1,10 +1,8 @@
 .POSIX:
 
 OS = $(shell uname -s)
-ifeq ($(OS), Darwin)
+ifndef PREFIX
   PREFIX = /usr/local
-else
-  PREFIX = /usr
 endif
 MANPREFIX = $(PREFIX)/share/man
 
@@ -18,12 +16,16 @@ install:
 	for shared in share/*; do \
 		cp -f $$shared $(DESTDIR)$(PREFIX)/share/mutt-wizard; \
 	done
-	if [ "$(OS)" = "Darwin" ]; then \
-		sed -iba 's/\/usr\//\/usr\/local\//' $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrc; \
-		rm $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrcba; \
-	fi
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
 	cp -f mw.1 $(DESTDIR)$(MANPREFIX)/man1/mw.1
+	if [ "$(PREFIX)" ]; then \
+		sed -iba 's:/usr/local:$(PREFIX):' $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrc; \
+		sed -iba 's:/usr/local:$(PREFIX):' $(DESTDIR)$(PREFIX)/bin/mw; \
+		sed -iba 's:/usr/local:$(PREFIX):' $(DESTDIR)$(MANPREFIX)/man1/mw.1; \
+	fi
+	if [ "$(OS)" = "Darwin" ]; then \
+		rm $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrcba; \
+	fi
 
 uninstall:
 	for script in bin/*; do \

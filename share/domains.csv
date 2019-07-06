@@ -212,6 +212,7 @@ writeme.com,imap.mail.com,993,smtp.mail.com,587
 ya.ru,imap.yandex.com,993,smtp.yandex.com,587
 yahoo.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,587
 yahoo.fr,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,587
+yahoo.gr,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,587
 yandex.by,imap.yandex.com,993,smtp.yandex.com,587
 yandex.com,imap.yandex.com,993,smtp.yandex.com,587
 yandex.kz,imap.yandex.com,993,smtp.yandex.com,587

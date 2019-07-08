@@ -195,6 +195,7 @@ uach.mx,imap.gmail.com,993,smtp.gmail.com,587
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587
 uqtr.ca,outlook.office365.com,993,smtp.office365.com,587
 usa.com,imap.mail.com,993,smtp.mail.com,587
+utas.edu.au,outlook.office365.com,993,smtp.office365.com,587
 utdallas.edu,outlook.office365.com,993,smtp.office365.com,587
 uw.edu,imap.gmail.com,993,smtp.gmail.com,465
 uymail.com,imap.mail.com,993,smtp.mail.com,587

@@ -107,7 +107,7 @@ set folder = \"imaps://$fulladdr@$imap:$iport\"
 set imap_user = \"$login\"
 set header_cache = $cachedir/$title/headers
 set message_cachedir = $cachedir/$title/bodies
-set imap_pass = \`pass mutt-wizard-$title\`
+set imap_pass = \"\`pass mutt-wizard-$title\`\"
 
 set mbox_type = Maildir
 set ssl_starttls = yes

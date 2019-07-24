@@ -1,16 +1,19 @@
 #!/usr/bin/env sh
 # Sync mail and give notification if there is new mail.
 
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
+export DISPLAY=:0.0
+[ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
+
 # Run only if user logged in (prevent cron errors)
-pgrep -u "$USER" >/dev/null || exit
+pgrep -u "$USER" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
 # Run only if not already running in other instance
-pgrep -x mbsync >/dev/null && exit
+pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
 
 # Checks for internet connection and set notification script.
-ping -q -c 1 1.1.1.1 > /dev/null || exit
+ping -q -c 1 1.1.1.1 > /dev/null || { echo "No internet connection detected."; exit ;}
 command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotify-send\` should be installed for pop-up mail notifications with this script."
-
-export DISPLAY=:0.0
 
 # Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" = "Darwin" ]; then

@@ -45,6 +45,7 @@ bind index h noop
 bind index l display-message
 #bind browser h goto-parent
 macro browser h '<change-dir><kill-line>..<enter>' "Go to parent folder"
+bind index,pager H view-raw-message
 bind browser l select-entry
 bind pager,browser gg top-page
 bind pager,browser G bottom-page

@@ -75,6 +75,7 @@ eneco.com,outlook.office365.com,993,smtp.office365.com,587
 engineer.com,imap.mail.com,993,smtp.mail.com,587
 erciyes.edu.tr,posta.erciyes.edu.tr,993,smtp.erciyes.edu.tr,587
 ethancoe.com,mail.privateemail.com,993,mail.privateemail.com,465
+etu.upmc.fr,courriel.upmc.fr,993,smtps.upmc.fr,587
 europe.com,imap.mail.com,993,smtp.mail.com,587
 fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465
 fastmail.fm,imap.fastmail.com,993,smtp.fastmail.com,465
@@ -100,9 +101,13 @@ grrlz.net,mail.autistici.org,993,smtp.autistici.org,465
 hacari.com,mail.autistici.org,993,smtp.autistici.org,465
 hacari.net,mail.autistici.org,993,smtp.autistici.org,465
 hacari.org,mail.autistici.org,993,smtp.autistici.org,465
+hhu.de,mail.hhu.de,993,mail.hhu.de,465
 hitler.rocks,mail.cock.li,993,mail.cock.li,587
 horsefucker.org,mail.cock.li,993,mail.cock.li,587
 hostgator,gator4171.hostgator.com,993,gator4171.hostgator.com,587
+hotmail.be,outlook.office365.com,993,smtp.office365.com,587
+hotmail.ca,outlook.office365.com,993,smtp.office365.com,587
+hotmail.cl,outlook.office365.com,993,smtp.office365.com,587
 hotmail.co.id,outlook.office365.com,993,smtp.office365.com,587
 hotmail.co.il,outlook.office365.com,993,smtp.office365.com,587
 hotmail.co.in,outlook.office365.com,993,smtp.office365.com,587
@@ -119,9 +124,6 @@ hotmail.com.hk,outlook.office365.com,993,smtp.office365.com,587
 hotmail.com.tr,outlook.office365.com,993,smtp.office365.com,587
 hotmail.com.tw,outlook.office365.com,993,smtp.office365.com,587
 hotmail.com.vn,outlook.office365.com,993,smtp.office365.com,587
-hotmail.be,outlook.office365.com,993,smtp.office365.com,587
-hotmail.ca,outlook.office365.com,993,smtp.office365.com,587
-hotmail.cl,outlook.office365.com,993,smtp.office365.com,587
 hotmail.cz,outlook.office365.com,993,smtp.office365.com,587
 hotmail.de,outlook.office365.com,993,smtp.office365.com,587
 hotmail.dk,outlook.office365.com,993,smtp.office365.com,587
@@ -225,12 +227,13 @@ teknik.io,mail.teknik.io,993,mail.teknik.io,587
 telenet.be,imap.telenet.be,993,smtp.telenet.be,587
 tfwno.gf,mail.cock.li,993,mail.cock.li,587
 tlen.pl,poczta.o2.pl,993,poczta.o2.pl,465
+tquad.ai,imap.mail.eu-west-1.awsapps.com,993,smtp.mail.eu-west-1.awsapps.com,465
 tu-harburg.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
 tuhh.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
 txstate.edu,outlook.office365.com,993,smtp.office365.com,587
 uach.mx,imap.gmail.com,993,smtp.gmail.com,587
+uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587
-etu.upmc.fr,courriel.upmc.fr,993,smtps.upmc.fr,587
 uqtr.ca,outlook.office365.com,993,smtp.office365.com,587
 usa.com,imap.mail.com,993,smtp.mail.com,587
 utas.edu.au,outlook.office365.com,993,smtp.office365.com,587
@@ -259,6 +262,3 @@ yandex.net,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
-tquad.ai,imap.mail.eu-west-1.awsapps.com,993,smtp.mail.eu-west-1.awsapps.com,465
-hhu.de,mail.hhu.de,993,mail.hhu.de,465
-uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465

@@ -26,7 +26,7 @@ muttrc="$muttdir/muttrc"
 msmtprc="$HOME/.config/msmtp/config"
 ssltype="IMAPS"				# This is later changed to `None` later in the script if using Protonmail
 
-for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem"
+for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"
 do
 	[ -f "$x" ] && sslcert="$x" && break
 done || { echo "CA Certificate not found. Please install one or link it to /etc/ssl/certs/ca-certificates.crt" && exit 1 ;}
@@ -107,7 +107,7 @@ set folder = \"imaps://$fulladdr@$imap:$iport\"
 set imap_user = \"$login\"
 set header_cache = $cachedir/$title/headers
 set message_cachedir = $cachedir/$title/bodies
-set imap_pass = \`pass mutt-wizard-$title\`
+set imap_pass = \"\`pass mutt-wizard-$title\`\"
 
 set mbox_type = Maildir
 set ssl_starttls = yes
@@ -194,7 +194,7 @@ EOF
 }
 
 protonfinger() { printf "Getting Protonmail bridge fingerprint...\\n"
-	fingerprint="$(msmtp --serverinfo --tls --tls-certcheck=off -a "$title")" || return 1
+	fingerprint="$(msmtp --serverinfo --host=127.0.0.1 --port=1025 --tls --tls-certcheck=off)" || return 1
 	sed -ibu "s/account $title/&\ntls_trust_file\ntls_fingerprint $fingerprint/" "$msmtprc" ; rm -f "$msmtprc"bu
 }
 
@@ -316,7 +316,7 @@ synchronize_flags=true
 gpg_path=$GPG"
 	echo "$nmbasic" > "$NOTMUCH_CONFIG" ;}
 
-trap 'echo -e "\033[0m\n"' INT
+trap 'echo -e "\033[0m\n"; exit' STOP INT ABRT KILL
 
 case "$1" in
 	ls) list ;;

@@ -260,3 +260,5 @@ yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 tquad.ai,imap.mail.eu-west-1.awsapps.com,993,smtp.mail.eu-west-1.awsapps.com,465
+hhu.de,mail.hhu.de,993,mail.hhu.de,465
+uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Run notmuch with a search term and clean up the output.
+HFILE=$HOME"/.cache/notmuch_search_hist"
+SEARCH=$HOME"/.cache/notmuch_search_res" 
+if [ ! -e "$HFILE" ]; then
+    touch "$HFILE"
+fi 
+export HISTCONTROL=ignoreboth
+history -r "$HFILE"
+# Uncomment to use the Vi mode in readline:
+# set -o vi
+x="" 
+echo > $SEARCH
+
+
+echo "Enter a search term to find with notmuch:"
+read -e x 
+history -s "$x"
+
+notmuch search --output=messages "$x" > "$SEARCH"
+cat "$SEARCH"               |
+    sed 's/^id:\(.*\)/\1|/' | # remove the initial "id:"
+    sed 's/\+/\\+/'         | # replace "+" with "\+"
+    sed 's/\$/\\\$/'        | # replace "$" with "\$"
+    tr -d "\n"              | # remove newlines
+    sed 's/.$//'            | # remove the last redundant "|"
+    cat  > "$SEARCH"
+
+history -w "$HFILE"

@@ -154,6 +154,7 @@ interactio.io,imap.gmail.com,993,smtp.gmail.com,587
 interia.eu,poczta.interia.pl,993,poczta.interia.pl,465
 interia.pl,poczta.interia.pl,993,poczta.interia.pl,465
 inventati.org,mail.autistici.org,993,smtp.autistici.org,465
+itu.dk,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 kipras.org,mail.kipras.org,993,mail.kipras.org,587
 krutt.org,mail.autistici.org,993,smtp.autistici.org,465
 lavabit.com,lavabit.com,993,lavabit.com,587

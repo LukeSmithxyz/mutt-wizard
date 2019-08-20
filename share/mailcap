@@ -1,5 +1,5 @@
 text/plain; $EDITOR %s ;
-text/html; openfile %s ;
+text/html; openfile %s ; nametemplate=%s.html
 text/html; w3m -I %{charset} -T text/html; copiousoutput;
 image/*; muttimage %s ; copiousoutput
 video/*; setsid mpv --quiet %s &; copiousoutput

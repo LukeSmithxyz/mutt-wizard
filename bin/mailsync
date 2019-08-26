@@ -1,10 +1,27 @@
 #!/usr/bin/env sh
 # Sync mail and give notification if there is new mail.
 
+case "$(uname)" in
+	Linux) prefix="/usr" ;;
+	*)  prefix="/usr/local" ;;
+esac
+
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
 export DISPLAY=:0.0
-[ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
+if [[ -z $PASSWORD_STORE_DIR ]]; then
+    [ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
+fi
+maildir="${MAILDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/mail}"
+lastrun=${XDG_CACHE_HOME:-$HOME/.cache}/.mailsynclastrun
+if [[ -f $configdir/isync/mbsyncrc ]]; then
+      mbsyncrc="$configdir/isync/mbsyncrc"
+elif [[ -f $configdir/mbsync/mbsyncrc ]]; then
+      mbsyncrc="$configdir/mbsync/mbsyncrc"
+else
+      mbsyncrc="$HOME/.mbsyncrc"
+fi
+mbsyncbin="$prefix/bin/mbsync -c $mbsyncrc"
 
 # Run only if user logged in (prevent cron errors)
 pgrep -u "$USER" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
@@ -25,8 +42,8 @@ fi
 # Check account for new mail. Notify if there is new content.
 syncandnotify() {
     acc="$(echo "$account" | sed "s/.*\///")"
-    mbsync "$acc"
-    new=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$HOME/.config/mutt/.mailsynclastrun" 2> /dev/null)
+    $mbsyncbin "$acc"
+    new=$(find "$maildir/$acc/INBOX/new/" "$maildir/$acc/Inbox/new/" "$maildir/$acc/inbox/new/" -type f -newer "$lastrun" 2> /dev/null)
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
     if [ "$newcount" -gt "0" ]; then
         notify "$acc" "$newcount" &
@@ -41,7 +58,7 @@ syncandnotify() {
 
 # Sync accounts passed as argument or all.
 if [ "$#" -eq "0" ]; then
-    accounts="$(awk '/^Channel/ {print $2}' "$HOME/.mbsyncrc")"
+    accounts="$(awk '/^Channel/ {print $2}' "$mbsyncrc")"
 else
     accounts=$*
 fi
@@ -62,4 +79,4 @@ pkill -RTMIN+12 i3blocks >/dev/null 2>&1
 notmuch new 2>/dev/null
 
 #Create a touch file that indicates the time of the last run of mailsync
-touch "$HOME/.config/mutt/.mailsynclastrun"
+touch "$lastrun"

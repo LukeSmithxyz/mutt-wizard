@@ -77,6 +77,8 @@ To give you an example of the interface, here's an idea:
 - `?` - see all keyboard shortcuts
 - `ctrl-j`/`ctrl-k` - move up and down in sidebar, `ctrl-o` opens mailbox.
 - `ctrl-b` - open a menu to select a url you want to open in you browser.
+- `gm / gM` - call mutt-wizard's mailsync for one / all mail accounts
+
 ## New stuff and improvements since the original release
 
 - `isync`/`mbsync` has replaced `offlineimap` as the backend. Offlineimap was error-prone, bloated, used obsolete Python 2 modules and required separate steps to install the system.

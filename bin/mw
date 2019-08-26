@@ -1,30 +1,47 @@
 #!/bin/sh
-command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
-[ -z ${PASSWORD_STORE_DIR+x} ] && PASSWORD_STORE_DIR="$HOME/.password-store"
-[ -r "$PASSWORD_STORE_DIR/.gpg-id" ] &&
-    "$GPG" --list-secret-keys $(cat "$PASSWORD_STORE_DIR/.gpg-id") >/dev/null 2>&1 || {
-        printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`$GPG --full-gen-key\` first.\\n"
-        exit
-    }
-! command -v mbsync >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
 
 case "$(uname)" in
 	Linux) prefix="/usr" ;;
 	*)  prefix="/usr/local" ;;
 esac
 
-muttdir="$HOME/.config/mutt"		# Main mutt config location
-accdir="$muttdir/accounts"		# Directory for account settings
-maildir="$HOME/.local/share/mail"	# Location of mail storage
-namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
-emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
+command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
+[ -z $PASSWORD_STORE_DIR ] && PASSWORD_STORE_DIR="$HOME/.password-store"
+[ -r "$PASSWORD_STORE_DIR/.gpg-id" ] &&
+    "$GPG" --list-secret-keys $(cat "$PASSWORD_STORE_DIR/.gpg-id") >/dev/null 2>&1 || {
+        printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`$GPG --full-gen-key\` first.\\n"
+        exit
+    }
+! command -v $prefix/bin/mbsync >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
+
+
+configdir=${XDG_CONFIG_HOME:-$HOME/.config}
+# Main mutt config location
+muttdir="$configdir/mutt"
+# Directory for account settings
+accdir="$muttdir/accounts"
+# Location of mail storage
+maildir="${MAILDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/mail}"
+# Regex to ensure viable username
+namere="^[a-z_][a-z0-9_-]*$"
+# Regex to confirm valid email address
+emailre=".\+@.\+\\..\+"
 muttshare="$prefix/share/mutt-wizard"
-mbsyncrc="$HOME/.mbsyncrc"
+if [[ -f $configdir/isync/mbsyncrc ]]; then
+      mbsyncrc="$configdir/isync/mbsyncrc"
+elif [[ -f $configdir/mbsync/mbsyncrc ]]; then
+      mbsyncrc="$configdir/mbsync/mbsyncrc"
+else
+      mbsyncrc="$HOME/.mbsyncrc"
+fi
 mwconfig="$muttshare/mutt-wizard.muttrc"
-cachedir="$HOME/.cache/mutt-wizard"
+cachedir="${XDG_CACHE_HOME:-$HOME/.cache}/mutt-wizard"
 muttrc="$muttdir/muttrc"
-msmtprc="$HOME/.config/msmtp/config"
-ssltype="IMAPS"				# This is later changed to `None` later in the script if using Protonmail
+msmtprc="$configdir/msmtp/config"
+# This is later changed to `None` later in the script if using Protonmail
+ssltype="IMAPS"
+mbsyncbin="$prefix/bin/mbsync -c $mbsyncrc"
+msmtpbin="$prefix/bin/msmtp"
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"
 do
@@ -41,7 +58,7 @@ msmtp_header="defaults
 auth	on
 tls	on
 tls_trust_file	$sslcert
-logfile	~/.config/msmtp/msmtp.log
+logfile	${XDG_LOG_HOME:-$HOME}/msmtp.log
 "
 msmtp_profile="account $title
 host $smtp
@@ -81,19 +98,14 @@ mutt_profile="# vim: filetype=neomuttrc
 # muttrc file for account $title
 set realname = \"$realname\"
 set from = \"$fulladdr\"
-set sendmail = \"msmtp -a $title\"
+set sendmail = \"$msmtpbin -a $title\"
 alias me $realname <$fulladdr>
 set folder = \"$maildir/$title\"
 set header_cache = $cachedir/$title/headers
 set message_cachedir = $cachedir/$title/bodies
 set mbox_type = Maildir
 
-bind index,pager gg noop
-bind index,pager g noop
-bind index,pager M noop
-bind index,pager C noop
-bind index gg first-entry
-macro index o \"<shell-escape>mailsync -V $title<enter>\" \"run mbsync to sync $title\"
+macro index gm \"<shell-escape>mailsync -V $title<enter>\" \"sync mail $title\"
 unmailboxes *
 "
 else
@@ -101,7 +113,7 @@ mutt_profile="# vim: filetype=neomuttrc
 # muttrc file for account $title
 set realname = \"$realname\"
 set from = \"$fulladdr\"
-set sendmail = \"$prefix/bin/msmtp -a $title\"
+set sendmail = \"$msmtpbin -a $title\"
 alias me $realname <$fulladdr>
 set folder = \"imaps://$fulladdr@$imap:$iport\"
 set imap_user = \"$login\"
@@ -175,12 +187,12 @@ EOF
 	echo "$maxmes" | grep "[1-9]" >/dev/null || maxmes="0"
 	getpass
 	getprofiles
-	mkdir -p "$muttdir" "$accdir" "$cachedir/$title/bodies" "$HOME/.config/msmtp"
+	mkdir -p "$muttdir" "$accdir" "$cachedir/$title/bodies" "$configdir/msmtp"
 	getaccounts
 	for x in $(seq 1 9); do echo "$accounts" | grep "$x" >/dev/null 2>&1 || { export idnum="$x"; break ;}; done
 	[ ! -f "$msmtprc" ] && echo "$msmtp_header" > "$msmtprc"
 	echo "$msmtp_profile" >> "$msmtprc"
-	command -V apt-get >/dev/null 2>&1 && ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
+	command -V apt-get >/dev/null 2>&1 && ln -s "$msmtprc" "$msmtprc" 2>/dev/null
 	case "$service" in
 		protonmail.ch|protonmail.com|pm.me) protonfinger || return 1 ;;
 	esac
@@ -194,7 +206,7 @@ EOF
 }
 
 protonfinger() { printf "Getting Protonmail bridge fingerprint...\\n"
-	fingerprint="$(msmtp --serverinfo --host=127.0.0.1 --port=1025 --tls --tls-certcheck=off)" || return 1
+	fingerprint="$($msmtpbin --serverinfo --host=127.0.0.1 --port=1025 --tls --tls-certcheck=off)" || return 1
 	sed -ibu "s/account $title/&\ntls_trust_file\ntls_fingerprint $fingerprint/" "$msmtprc" ; rm -f "$msmtprc"bu
 }
 
@@ -208,7 +220,7 @@ formatShortcut() { \
 	done ;}
 
 tryconnect() { mkdir -p "$maildir/$title"
-	if mailboxes="$(mbsync -l "$title" | sed 's/\//./')" >/dev/null 2>&1 && [ -n "$mailboxes" ]; then
+	if mailboxes="$($mbsyncbin -l $title | sed 's/\//./')" >/dev/null 2>&1 && [ -n "$mailboxes" ]; then
 		[ "$accounttype" = "online" ] && sed -ibu "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc" ; rm -f "$mbsyncrc"bu
 		printf "\033[32mMailboxes detected.\033[0m\\n"
 		echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$title/{}"
@@ -278,7 +290,7 @@ choosecron() { ! pgrep cron >/dev/null && echo "No cron manager running. Install
 			read -r minnum
 			printf "\033[0m"
 		done
-		(crontab -l; echo "*/$minnum * * * * export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus; export DISPLAY=:0; . \$HOME/.profile; $(type mailsync | cut -d' ' -f3)") | crontab - &&
+		(crontab -l; echo "*/$minnum * * * * export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus; export DISPLAY=:0; $(type mailsync | cut -d' ' -f3)") | crontab - &&
 			echo "Cronjob added. Mail will sync every $minnum minutes. Be sure you have your cron manager running."
 	fi ;}
 
@@ -292,7 +304,7 @@ asktype() { while : ; do
 		esac; done ;}
 
 purge() { confirm "delete all account data" || exit
-	rm -rf "$mbsyncrc" "$accdir" "$HOME/.config/msmtp" "$cachedir"
+	rm -rf "$mbsyncrc" "$accdir" "$configdir/msmtp" "$cachedir"
 	crontab -l | sed '/mailsync/d' | crontab - >/dev/null
 	echo "All configs and account settings have been purged."
 	sed -ibu "/\# mw-autogenerated/d" "$muttrc" ; rm -f "$muttrc"bu

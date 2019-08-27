@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+bats --tap test_mw.bats

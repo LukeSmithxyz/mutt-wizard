@@ -16,8 +16,6 @@ maildir="${MAILDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/mail}"
 lastrun=${XDG_CACHE_HOME:-$HOME/.cache}/.mailsynclastrun
 if [[ -f $configdir/isync/mbsyncrc ]]; then
       mbsyncrc="$configdir/isync/mbsyncrc"
-elif [[ -f $configdir/mbsync/mbsyncrc ]]; then
-      mbsyncrc="$configdir/mbsync/mbsyncrc"
 else
       mbsyncrc="$HOME/.mbsyncrc"
 fi

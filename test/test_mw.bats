@@ -81,5 +81,7 @@ teardown()
     cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p'
     [ ! "$(cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p')" = "" ]
     [ ! "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
+    run mwlist
+    [ "$(echo $lines | awk '{print $2}')" = "$mwaddr" ]
 }
 

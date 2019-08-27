@@ -1,0 +1,43 @@
+#!/usr/bin/env sh
+
+echo
+echo Unit Test:
+echo
+bats --tap test_mw.bats
+
+echo
+echo Integration Tests:
+echo
+
+#modify
+if [[ -z $MAILDIR ]] || [[ -z $mwaddr ]]; then
+    echo "First do:"
+    [[ -z $MAILDIR ]] && echo "export MAILDIR=..."
+    [[ -z $mwaddr ]] && echo "export mwaddr=your.email@gmail.com"
+    exit
+fi
+
+cd .. && sudo make install
+rm -rf $mwmaildir/$mwaddr
+
+export mwmaildir=\$MAILDIR
+export mwname='r n'
+export mwlogin=$mwaddr
+export mwpass=mutt-wizard-$mwaddr
+[ -f ~/.password-store/$mwpass.gpg ] || pass insert $mwpass
+
+echo "= manual test 1 ="
+mwtype=online mw add
+echo "=> In another window, enter mutt and verify that mails are shown"
+mw purge
+rm -rf $mwmaildir/$mwaddr
+
+echo "= manual test 2 ="
+mwtype=offline mw add
+mailsync
+echo "=> In another window, enter mutt and verify that mails are shown"
+echo "=> In mutt press gm and gM, to start mailsync"
+mw purge
+rm -rf $mwmaildir/$mwaddr
+
+cd $CD

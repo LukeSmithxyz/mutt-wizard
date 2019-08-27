@@ -20,9 +20,9 @@ setup()
     XDG_CACHE_HOME=mwtesttmp/cache \
     source ../bin/mw
     export NOTMUCH_CONFIG=mwtesttmp/config/notmuch-config
-    export mwrealname="real name"
-    export mwfulladdr="full.addr@gmail.com"
-    export mwlogin="$mwfulladdr"
+    export mwname="real name"
+    export mwaddr="full.addr@gmail.com"
+    export mwlogin="$mwaddr"
     export mwshare=$PWD/../share
     function pass() { return 0; }
     export pass
@@ -45,21 +45,24 @@ teardown()
 #2
 @test "add online" {
     export mwtype=online
+    rm -rf mwtesttmp
+    export mailboxes="[Gmail]/Drafts"
     run mwadd
     [ -f mwtesttmp/config/mutt/muttrc ]
-    [ -d mwtesttmp/config/mutt/accounts ]
+    [ -f mwtesttmp/config/mutt/accounts/1-$mwaddr.muttrc ]
     [ "$(cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p')" = "" ]
-    [ "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
+    [ ! "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
     [ ! -f mwtesttmp/config/notmuch-config ]
 }
 
 #3
 @test "add offline unsuccessful" {
     export mwtype=offline
-    export mwmaxmes="0"
+    rm -rf mwtesttmp
     run mwadd
     [ -f mwtesttmp/config/mutt/muttrc ]
     [ -d mwtesttmp/config/mutt/accounts ]
+    [ ! -f mwtesttmp/config/mutt/accounts/1-$mwaddr.muttrc ]
     [ "$(cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p')" = "" ]
     [ "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
     [ ! -f mwtesttmp/config/notmuch-config ]
@@ -68,11 +71,12 @@ teardown()
 #4
 @test "add offline successfully" {
     export mwtype=offline
-    export mwmaxmes="0"
     export mailboxes="[Gmail]/Drafts"
+    rm -rf mwtesttmp
     run mwadd
     [ -f mwtesttmp/config/mutt/muttrc ]
     [ -d mwtesttmp/config/mutt/accounts ]
+    [ -f mwtesttmp/config/mutt/accounts/1-$mwaddr.muttrc ]
     [ -f mwtesttmp/config/notmuch-config ]
     cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p'
     [ ! "$(cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p')" = "" ]

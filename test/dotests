@@ -28,14 +28,14 @@ export mwpass=mutt-wizard-$mwaddr
 
 echo "= manual test 1 ="
 mwtype=online mw add
-echo "=> In another window, enter mutt and verify that mails are shown"
+echo "=> In another window, start mutt and verify that mails are shown"
 mw purge
 rm -rf $mwmaildir/$mwaddr
 
 echo "= manual test 2 ="
 mwtype=offline mw add
 mailsync
-echo "=> In another window, enter mutt and verify that mails are shown"
+echo "=> In another window, start mutt and verify that mails are shown"
 echo "=> In mutt press gm and gM, to start mailsync"
 mw purge
 rm -rf $mwmaildir/$mwaddr

@@ -137,6 +137,8 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
   You can edit these freely if you want to tinker with settings specific to an account.
 - In `/usr/share/mutt-wizard` are several global config files, including `mutt-wizard`'s default settings.
   You can overwride this in your `muttrc` if you wish.
+  To avoid insertion of the line sourcing the default settings,
+  have a commented `# source /usr/share/mutt-wizard/mutt-wizard.muttrc` in your muttrc.
 
 ## Watch out for these things:
 

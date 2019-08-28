@@ -12,7 +12,7 @@ This can include offline email with
 .B isync/mbsync
 and configs for
 .B msmtp
-for sending mail, and also passwords automatically encrypted and stored with
+for sending mail, and passwords automatically encrypted and stored with
 .B pass.
 .SH COMMANDS
 .TP
@@ -26,7 +26,7 @@ list all email accounts configured by mutt-wizard
 delete the configuration files for an already configured email account
 .TP
 .B purge
-totally purge all local mutt-wizard accounts
+totally purge all local mutt-wizard/mbync/msmtp settings
 .TP
 .B cron
 toggle a cronjob that will automatically sync mail with
@@ -38,6 +38,10 @@ as often as you wish
 If the user chooses to keep offline email with
 .B isync,
 it will be kept in
+.I $MAILDIR
+which defaults to
+.I $XDG_DATA_HOME/share/mail/
+which defaults to
 .I ~/.local/share/mail/.
 .B notmuch
 can be used to index and search this mail by giving this directory when first running
@@ -46,9 +50,10 @@ If you have not set up notmuch before, mutt-wizard will automatically set it up 
 .TP
 .B muttrc files
 mutt-wizard will create a muttrc file for each created account holding account-specific details. These will appear in
-.I ~/.config/mutt/accounts/
-and can be edited by the user if needbe. Note that the mutt-wizard will also source these files and create the bindings to switch between them, and these will appear in your default
-.I ~/.config/mutt/muttrc
+.I $XDG_CONFIG_HOME/mutt/accounts/.
+$XGD_CONFIG_HOME default to ~/.config.
+Note that mutt-wizard will also source these files and create the bindings to switch between them, and these will appear in your default
+.I $XDG_CONFIG_HOME/mutt/muttrc
 file.
 .TP
 .B Mail deletion
@@ -59,13 +64,13 @@ or
 will delete downloaded mail for for safety (and time)'s sake. If you want to delete downloaded mail, do so manually by removing it from the directory above.
 .TP
 .B Default settings
-The mutt-wizard has many default settings that focus on making it aesthetically pleasing and supplying more vim-like bindings. These can be found in
+mutt-wizard has many default settings that focus on making it aesthetically pleasing and supplying more vim-like bindings. These can be found in
 .I /usr/share/mutt-wizard/mutt-wizard.muttrc
 and the default mailcap file can be found in
 .I
 /usr/share/mutt-wizard/mailcap.
 Any of these settings can be overwritten in
-.I ~/.config/mutt/muttrc,
+.I $XDG_CONFIG_HOME/mutt/muttrc,
 but be mindful that your overriding binds should appear after the
 .I
 mutt-wizard.muttrc
@@ -82,22 +87,29 @@ If you would like to help develop mutt-wizard for others, you are invited to add
 on mutt-wizard's Github <https://github.com/lukesmithxyz/mutt-wizard> or Gitlab <https://gitlab.com/lukesmithxyz/mutt-wizard> pages.
 .TP
 .B Gmail accounts
-Google will require you to allow "less-secure" (third party) applications or use two-factor authentication in order to access their IMAP servers to download your mail. If you use Gmail, be sure to handle this before running mutt-wizard <https://support.google.com/accounts/answer/6010255>.
+Google will require you to allow "less-secure" (third party) applications or use two-factor authentication in order to access their IMAP servers to download your mail.
+If you use Gmail, be sure to handle this before running mutt-wizard <https://support.google.com/accounts/answer/6010255>.
 .B Protonmail accounts
-Protonmail users must use the Protonmail Bridge <https://protonmail.com/bridge/> to access their IMAP and SMTP servers. This too should be configured before running mutt-wizard.
+Protonmail users must use the Protonmail Bridge <https://protonmail.com/bridge/> to access their IMAP and SMTP servers.
+This too should be configured before running mutt-wizard.
 .B Enterprise and university accounts
-Many universities and businesses might host their domain's email via Google or another service. This often requires a special IMAP/SMTP-specific password that you must generate and use. Again, mutt-wizard can handle these systems, but only once they've been set up.
+Many universities and businesses might host their domain's email via Google or another service.
+This often requires a special IMAP/SMTP-specific password that you must generate and use.
+Again, mutt-wizard can handle these systems, but only once they've been set up.
 .TP
 .B Password decryption
 mutt-wizard uses
 .I pass
 and therefore
 .I gpg
-to decrypt your passwords. Provided your GPG key has a password, this might mean that you will be prompted for your GPG password the first time you sync or send mail in a session. Once your password is cached, it might also expire later as well.
+to decrypt your passwords.
+Provided your GPG key has a password, this might mean that you will be prompted for your GPG password the first time you sync or send mail in a session.
+Once your password is cached, it might also expire later as well.
 
 Because of this I strongly recommend the program
 .I pam-gnupg
-<https://github.com/cruegge/pam-gnupg> which automatically unlocks your GPG password on login and keeps it active, thus giving you, with mutt-wizard, secure access to all your email accounts on your system without ever having to input a password.
+<https://github.com/cruegge/pam-gnupg> which automatically unlocks your GPG password on login and keeps it active.
+This gives you secure access to all your email accounts on your system without ever having to input a password.
 
 If you don't want to use this program, you can also increase the cache time of an inputted GPG password with the
 .I default-cache-ttl
@@ -107,10 +119,11 @@ variables in your
 .I
 gpg-agent.conf.
 .SH MUTT-WIZARD'S NEOMUTT CONFIGURATION
-Here is a list of not only mutt-wizard's particular defaults, but what you need to get the most out of email accounts configured with mutt-wizard.
+Here is a list of not only mutt-wizard's particular defaults, but what you need, to get the most out of email accounts configured with mutt-wizard.
 .TP
 .B Color
-The mutt-wizard's default settings add color to messages in the index and color mail details to make them easier to see. New mail, in addition to being marked by the typical N, will also be bold.
+mutt-wizard's default settings add color to messages in the index and color mail details to make them easier to see.
+New mail, in addition to being marked by the typical N, will also be bold.
 .TP
 .B Movement with h/j/k/l
 Use vim keys to move down

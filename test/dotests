@@ -6,7 +6,7 @@ echo
 bats --tap test_mw.bats
 
 echo
-echo Integration Tests:
+echo Integration tests with a working email:
 echo
 
 #modify
@@ -20,10 +20,10 @@ fi
 cd .. && sudo make install
 rm -rf $mwmaildir/$mwaddr
 
-export mwmaildir=\$MAILDIR
+export mwmaildir=$MAILDIR
 export mwname='r n'
 export mwlogin=$mwaddr
-export mwpass=mutt-wizard-$mwaddr
+export mwpass="${mwpass:-mutt-wizard-$mwaddr}
 [ -f ~/.password-store/$mwpass.gpg ] || pass insert $mwpass
 
 echo "= manual test 1 ="

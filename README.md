@@ -157,4 +157,3 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 - Add ~~Mac OS~~/BSD compatibility (the script should work for Mac OS now)
 - ~~Out-of-the-box compatibility with Protonmail Bridge~~ (I believe this is done, but more bug-testing is welcome since I don't have PM)
 - Option to keep configuration for accounts that failed to connect (maybe)
-- Add automatic tagging and mail moving via `afew`

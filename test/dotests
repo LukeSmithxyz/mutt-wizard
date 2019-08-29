@@ -17,27 +17,39 @@ if [[ -z $MAILDIR ]] || [[ -z $mwaddr ]]; then
     exit
 fi
 
-cd .. && sudo make install
-rm -rf $mwmaildir/$mwaddr
+cd .. && sudo make install && OK="OK"
 
-export mwmaildir=$MAILDIR
-export mwname='r n'
-export mwlogin=$mwaddr
-export mwpass="${mwpass:-mutt-wizard-$mwaddr}"
-[ -f ~/.password-store/$mwpass.gpg ] || pass insert $mwpass
+if [[ "$OK" == "OK" ]]; then
+    echo "Warning: Out with CTRL-C if your mail (config) files are important here."
 
-echo "= manual test 1 ="
-mwtype=online mw add
-echo "=> In another window, start mutt and verify that mails are shown"
-mw purge
-rm -rf $mwmaildir/$mwaddr
+    export mwmaildir=$MAILDIR
+    export mwname='r n'
+    export mwlogin=$mwaddr
+    export mwpass="${mwpass:-mutt-wizard-$mwaddr}"
+    mwaccmutt="${mwaddr//[.@]/_}"
+    mwaccmaildir="$mwmaildir/$mwaccmutt" # folder name as shown by mutt and opens with gf in vim
 
-echo "= manual test 2 ="
-mwtype=offline mw add
-mailsync
-echo "=> In another window, start mutt and verify that mails are shown"
-echo "=> In mutt press gm and gM, to start mailsync"
-mw purge
-rm -rf $mwmaildir/$mwaddr
+    rm -rf $mwaccmaildir
+
+
+    [ -f "${PASSWORD_STORE_DIR:-~/.password-store}/$mwpass.gpg" ] || pass insert $mwpass
+
+    echo "= manual test 1 ="
+    mwtype=online mw add
+    echo "=> In another window, start mutt and verify that mails are shown"
+    echo "=> Then anwer with N"
+    mw purge
+    rm -rf $mwaccmaildir
+
+    echo "= manual test 2 ="
+    mwtype=offline mw add
+    mailsync
+    echo "=> In another window, start mutt and verify that mails are shown"
+    echo "=> Press i1, wait, press i2. Verify that mutt is fast again after i2."
+    echo "=> Press gm and gM, to start mailsync."
+    echo "=> Anwer with y."
+    mw purge
+    rm -rf $mwaccmaildir
+fi
 
 cd $CD

@@ -5,7 +5,7 @@ if [ "$#" -gt 1 ]; then
     exit
 fi
 
-if [[ -z $prefix ]]; then
+if [ -z "$prefix" ]; then
     case "$(uname)" in
 	    Linux) prefix="/usr" ;;
 	    *)  prefix="/usr/local" ;;
@@ -13,38 +13,44 @@ if [[ -z $prefix ]]; then
 fi
 
 command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
-[ -z $PASSWORD_STORE_DIR ] && PASSWORD_STORE_DIR="$HOME/.password-store"
+[ -z "$PASSWORD_STORE_DIR" ] && PASSWORD_STORE_DIR="$HOME/.password-store"
 [ -r "$PASSWORD_STORE_DIR/.gpg-id" ] &&
     "$GPG" --list-secret-keys $(cat "$PASSWORD_STORE_DIR/.gpg-id") >/dev/null 2>&1 || {
         printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`$GPG --full-gen-key\` first.\\n"
         exit
     }
-! command -v $prefix/bin/mbsync >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
-! command -v $prefix/bin/msmtp >/dev/null && printf "\`msmtp\` must be installed.\\n" && exit
+! command -v "$prefix/bin/mbsync" >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
+! command -v "$prefix/bin/msmtp" >/dev/null && printf "\`msmtp\` must be installed.\\n" && exit
 ! ( command -v mutt >/dev/null || command -v neomutt >/dev/null ) && printf "\`mutt\` must be installed.\\n" && exit
 
 mwconfigdir=${XDG_CONFIG_HOME:-$HOME/.config}
 # Main mutt config location
 mwmuttdir="$mwconfigdir/mutt"
 # Directory for account settings
-mwaccdir="$mwmuttdir/accounts"
+mwaccrcdir="$mwmuttdir/accounts"
 # Location of mail storage
 mwmaildir="${MAILDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/mail}"
 # Regex to confirm valid email address
 mwemailre=".\+@.\+\\..\+"
 mwshare="$prefix/share/mutt-wizard"
-if [[ -n $XDG_CONFIG_HOME ]]; then
+if [ -n "$XDG_CONFIG_HOME" ]; then
       mwmbsyncrc="$mwconfigdir/isync/mbsyncrc"
 else
       mwmbsyncrc="$HOME/.mbsyncrc"
 fi
-mwconfig="$mwshare/mutt-wizard.muttrc"
+mwsharerc="$mwshare/mutt-wizard.muttrc"
 mwcachedir="${XDG_CACHE_HOME:-$HOME/.cache}/mutt-wizard"
 mwmuttrc="$mwmuttdir/muttrc"
 mwmsmtprc="$mwconfigdir/msmtp/config"
 mwssltype="IMAPS"
 mbsyncbin="$prefix/bin/mbsync -c $mwmbsyncrc"
 msmtpbin="$prefix/bin/msmtp"
+takemwaddr(){
+	mwacc="$mwaddr" # let the user always just deal with his email
+	mwaccmutt="${mwaddr//[.@]/_}" # but mutt would not show it with an @ or .
+	mwacccachedir=$mwcachedir/${mwaddr//[.@]/_} # @ cannot stay because of mutt, . could
+	mwaccmaildir="$mwmaildir/$mwaccmutt" # folder name as shown by mutt and opens with gf in vim
+}
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"
 do
@@ -52,7 +58,7 @@ do
 done || { echo "CA Certificate not found. Please install one or link it to /etc/ssl/certs/ca-certificates.crt" && exit 1 ;}
 
 getaccounts() {
-	accounts="$(find "$mwaccdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /;s/\.muttrc//" | sort -n)"
+	accounts="$(find "$mwaccrcdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /;s/\.muttrc//" | sort -n)"
 }
 
 mwlist() {
@@ -65,14 +71,14 @@ mwadd() {
 
 getprofiles() {
 	unset msmtp_header msmtp_profile mutt_profile mbsync_profile
-	printf "Creating profiles for \`%s\`..." "$mwaccount"
+	printf "Creating profiles for \`%s\`..." "$mwaddr"
 msmtp_header="defaults
 auth	on
 tls	on
 tls_trust_file	$sslcert
 logfile	${XDG_LOG_HOME:-$HOME}/msmtp.log
 "
-msmtp_profile="account $mwaccount
+msmtp_profile="account $mwacc
 host $mwsmtp
 port $mwsport
 from $mwaddr
@@ -80,7 +86,7 @@ user $mwlogin
 passwordeval \"pass $mwpass\"
 $starttlsoff
 "
-mbsync_profile="IMAPStore $mwaccount-remote
+mbsync_profile="IMAPStore $mwacc-remote
 Host $mwimap
 Port  $mwiport
 User $mwlogin
@@ -88,16 +94,16 @@ PassCmd \"pass $mwpass\"
 SSLType $mwssltype
 CertificateFile $sslcert
 
-MaildirStore $mwaccount-local
+MaildirStore $mwacc-local
 Subfolders Verbatim
-Path $mwmaildir/$mwaccount/
-Inbox $mwmaildir/$mwaccount/INBOX
+Path $mwaccmaildir/
+Inbox $mwaccmaildir/INBOX
 Flatten .
 
-Channel $mwaccount
+Channel $mwacc
 Expunge Both
-Master :$mwaccount-remote:
-Slave :$mwaccount-local:
+Master :$mwacc-remote:
+Slave :$mwacc-local:
 Patterns * !\"[Gmail]/All Mail\"
 Create Both
 SyncState *
@@ -107,28 +113,28 @@ MaxMessages 0
 
 if [ "$mwtype" = "offline" ]; then
 mutt_profile="# vim: filetype=neomuttrc
-# muttrc file for account $mwaccount
+# muttrc file for account $mwaddr
 set realname = \"$mwname\"
 set from = \"$mwaddr\"
-set sendmail = \"$msmtpbin -a $mwaccount\"
+set sendmail = \"$msmtpbin -a $mwacc\"
 alias me $mwname <$mwaddr>
-set folder = \"$mwmaildir/$mwaccount\"
+set folder = \"$mwaccmaildir\"
 set mbox_type = Maildir
 
-macro index gm \"<shell-escape>mailsync -V $mwaccount<enter>\" \"sync mail $mwaccount\"
+macro index gm \"<shell-escape>mailsync $mwacc<enter>\" \"sync mail $mwaddr\"
 
 unmailboxes *
 "
 else
 mutt_profile="# vim: filetype=neomuttrc
-# muttrc file for account $mwaccount
+# muttrc file for account $mwaddr
 set realname = \"$mwname\"
 set from = \"$mwaddr\"
-set sendmail = \"$msmtpbin -a $mwaccount\"
+set sendmail = \"$msmtpbin -a $mwacc\"
 alias me $mwname <$mwaddr>
 set folder = \"imaps://$mwaddr@$mwimap:$mwiport\"
-set header_cache = $mwcachedir/$mwaccount_
-set message_cachedir = $mwcachedir/$mwaccount_
+set header_cache = \"$mwacccachedir\"
+set message_cachedir = \$header_cache
 set imap_user = \"$mwlogin\"
 set imap_pass = \"\`pass $mwpass\`\"
 account-hook \$folder 'set imap_user=\"$mwlogin\" imap_pass=\"\`pass $mwpass\`\"'
@@ -144,7 +150,7 @@ fi
 }
 
 askinfo() {
-	if [ -z $mwaddr ]; then 
+	if [ -z "$mwaddr" ]; then 
 	    printf "Type the \033[31memail address\033[0m\\n\t\033[36m"
 	    read -r mwaddr
 	    printf "\033[0m"
@@ -183,44 +189,44 @@ EOF
 	    printf "Name to associate to email.\\n\t"
 	    read -r mwname
 	fi
-	mwaccount=$mwaddr
-	mwaccount_="${mwaccount//[.@]/_}"
-	if [ -z $mwlogin ]; then
+	takemwaddr
+	if [ -z "$mwlogin" ]; then
 	    printf "Type your account username if different from your email address.\\n\033[34mFor most accounts you can probably leave this blank.\033[0m\\n\tLogin(?): \033[36m"
 	    read -r mwlogin
 	    printf "\033[0m"
 	    [ -z "$mwlogin" ] && mwlogin="$mwaddr"
 	fi
+	# if the user has a pass entry he could provide it via mwpass
 	if [ -z "$mwpass" ]; then
-	    mwpass=mutt-wizard-$mwaccount
+	    mwpass=mutt-wizard-$mwaddr
 	    getpass
 	fi
 	getprofiles
-	mkdir -p "$mwmuttdir" "$mwaccdir" "$mwcachedir/$mwaccount_" "$mwconfigdir/msmtp"
+	mkdir -p "$mwmuttdir" "$mwaccrcdir" "$mwconfigdir/msmtp" "${mwmbsyncrc%/*}"
 	[ ! -f "$mwmsmtprc" ] && echo "$msmtp_header" > "$mwmsmtprc"
 	echo "$msmtp_profile" >> "$mwmsmtprc"
 	case "$mwservice" in
 		protonmail.ch|protonmail.com|pm.me) protonfinger || return 1 ;;
 	esac
-	mkdir -p ${mwmbsyncrc%/*}
 	echo "$mbsync_profile" >> "$mwmbsyncrc"
+	# new idnum = first one missing
 	getaccounts
 	for x in $(seq 1 9); do echo "$accounts" | grep "$x": >/dev/null 2>&1 || { export idnum="$x"; break ;}; done
-	mwaccrc="$mwaccdir/$idnum-$mwaccount.muttrc"
+	mwaccrc="$mwaccrcdir/$idnum-$mwacc.muttrc"
 	echo "$mutt_profile" > "$mwaccrc"
 	[ ! -f "$mwmuttrc" ] && echo "# vim: filetype=neomuttrc" > "$mwmuttrc" && echo "muttrc created."
-	! grep "source.*mutt-wizard.muttrc" "$mwmuttrc" >/dev/null && echo "source $mwconfig # mw-autogenerated" >> "$mwmuttrc"
+	! grep "source.*mutt-wizard.muttrc" "$mwmuttrc" >/dev/null && echo "source $mwsharerc # mw-autogenerated" >> "$mwmuttrc"
 	if [ "$mwtype" = "offline" ]; then
 	    ! grep "^macro .* gM .*" "$mwmuttrc" >/dev/null && echo "macro index gM '<shell-escape>mailsync -Va<enter>' \"sync all mail\" # mw-autogenerated" >> "$mwmuttrc"
 	fi
-	! grep "^source.*$idnum-$mwaccount.muttrc" "$mwmuttrc" >/dev/null && echo "source $mwaccrc # mw-autogenerated" >> "$mwmuttrc"
+	! grep "^source.*$mwaccrc" "$mwmuttrc" >/dev/null && echo "source $mwaccrc # mw-autogenerated" >> "$mwmuttrc"
 	return 0
 }
 
 protonfinger() {
 	printf "Getting Protonmail bridge fingerprint...\\n"
 	fingerprint="$($msmtpbin --serverinfo --host=127.0.0.1 --port=1025 --tls --tls-certcheck=off)" || return 1
-	sed -i "s/account $mwaccount/&\ntls_trust_file\ntls_fingerprint $fingerprint/" "$mwmsmtprc"
+	sed -i "s/account $mwacc/&\ntls_trust_file\ntls_fingerprint $fingerprint/" "$mwmsmtprc"
 }
 
 getpass() {
@@ -236,14 +242,15 @@ formatShortcut() {
 
 tryconnect() {
 	if [ -z "$mailboxes" ]; then
-		mkdir -p $mwmaildir/$mwaccount
-		mailboxes="$($mbsyncbin -l $mwaccount | sed 's/\//./')" >/dev/null 2>&1
+		if [ ! -d "$mwaccmaildir" ]; then
+		    mwaccmaildirWasThere="NO" # we need to remove again for "online"
+		    mkdir -p "$mwaccmaildir"
+		fi
+		mailboxes="$($mbsyncbin -l $mwacc | sed 's/\//./')" >/dev/null 2>&1
 	fi
 	if [ -n "$mailboxes" ]; then
-		[ "$mwtype" = "online" ] && sed -i "/IMAPStore $mwaccount-remote$/,/# End profile/d" "$mwmbsyncrc"
-		[ "$mwtype" = "offline" ] && notmuchauto
 		printf "\033[32mMailboxes detected.\033[0m\\n"
-		echo "$mailboxes" | xargs -I {} mkdir -p "$mwmaildir/$mwaccount/{}"
+		echo "$mailboxes" | xargs -I {} mkdir -p "$mwaccmaildir/{}"
 		return 0
 	else
 		printf "\033[31m\033[31mLog-on not successful.\033[0m\\nIt seems that either you inputted the wrong password or server settings, or there are other requirements for your account out of the control of mutt-wizard.\\n"
@@ -252,23 +259,33 @@ tryconnect() {
 }
 
 finalize() {
-	boxes="$(find "$mwmaildir/$mwaccount/" -mindepth 1 -maxdepth 1 | sed "s/\ /\\\ /g;s/^.*\//=/")"
-	[ -z "$boxes" ] && printf "\033[31mNo local mailboxes have been detected for %s.\033[0m\\nThis means that mbsync has not been successfully run.\\nRun mbsync, and if it has an error, be sure to check your password and server settings manually if needbe.\\n" "$mwaccount" && return
+	sed -i "/# mw-autogenerated/d" "$mwaccrc"
+	sed -i "/^mailboxes\|^set record\|^set postponed\|^set trash\|^set spoolfile/d" "$mwaccrc"
+	idnum=${mwaccrc%%-*}
+	idnum=${idnum##*/}
+	muttsync=$(printf '<sync-mailbox><enter-command>source %s<enter><change-folder>!<enter>;<check-stats>' $mwaccrc)
+	echo "macro index,pager i$idnum '$muttsync' \"switch to $mwaddr\" # mw-autogenerated" >> "$mwaccrc"
+	command -V urlview >/dev/null 2>&1 && [ ! -f "$HOME/.urlview" ] && echo "COMMAND \$BROWSER" > "$HOME/.urlview"
+
+	echo "folder-hook \$folder '$muttsync' # mw-autogenerated" >> "$mwaccrc"
+	boxes="$(find "$mwaccmaildir/" -mindepth 1 -maxdepth 1 | sed "s/\ /\\\ /g;s/^.*\//=/")"
+	if [ "$boxes" = "" ]; then 
+		printf "\033[31mNo local mailboxes have been detected for %s.\033[0m\\nThis means that mbsync has not been successfully run.\\nRun mbsync, and if it has an error, be sure to check your password and server settings manually if needbe.\\n" "$mwacc"
+		return
+	fi
 	printf "Setting default mailboxes for your Inbox, Sent, Drafts and Trash in mutt...\\n"
 	spoolfile=$(echo "$boxes" | grep -i -m 1 inbox | sed 's/=/+/g')
 	record=$(echo "$boxes" | grep -i -m 1 sent | sed 's/=/+/g')
 	postponed=$(echo "$boxes" | grep -i -m 1 draft | sed 's/=/+/g')
 	trash=$(echo "$boxes" | grep -i -m 1 trash | sed 's/=/+/g')
-	sed -i "/^mailboxes\|^set record\|^set postponed\|^set trash\|^set spoolfile/d" "$mwaccrc"
 	cat >> "$mwaccrc" <<EOF
 set spoolfile = "$spoolfile"
 set record = "$record"
 set postponed = "$postponed"
 set trash = "$trash"
 EOF
-	echo "mailboxes =${mwaccount_%_*} ===================== $(echo "$boxes" | sed -e "s/^\|$/\"/g" | tr "\n" " ")" >> "$mwaccrc"
+	echo "mailboxes =$mwaccmutt ===================== $(echo "$boxes" | sed -e "s/^\|$/\"/g" | tr "\n" " ")" >> "$mwaccrc"
 	printf "Setting up your keyboard shortcuts for jumping between mailboxes...\\n"
-	sed -i "/# mw-autogenerated/d" "$mwaccrc"
 	echo "$boxes" | grep -i inbox | head -n 1 | formatShortcut i inbox
 	echo "$boxes" | grep -i sent | head -n 1 | formatShortcut s sent
 	echo "$boxes" | grep -i draft | head -n 1 | formatShortcut d drafts
@@ -276,15 +293,14 @@ EOF
 	echo "$boxes" | grep -i spam | head -n 1 | formatShortcut S spam
 	echo "$boxes" | grep -i junk | head -n 1 | formatShortcut j junk
 	echo "$boxes" | grep -i archive | head -n 1 | formatShortcut a archive
-	idnum=${mwaccrc%%-*}
-	idnum=${idnum##*/}
-	muttsync="<sync-mailbox><enter-command>source $mwaccrc<enter><change-folder>\!<enter>;<check-stats>"
-	echo "macro index,pager i$idnum '$muttsync' \"switch to $mwaddr\" # mw-autogenerated" >> "$mwaccrc"
 	if [ "$mwtype" = "offline" ]; then
-		echo "folder-hook \$folder '$muttsync' # mw-autogenerated" >> "$mwaccrc"
-		printf "All done.\\n\033[33mYou can now run \`\033[32mmailsync [%s]\033[33m\` to sync your mail.\033[0m\\n" "$mwaccount"
+		notmuchauto
+		printf "All done.\\n\033[33mYou can now run \`\033[32mmailsync [%s]\033[33m\` to sync your mail.\033[0m\\n" "$mwacc"
+	else
+		mkdir -p "$mwacccachedir"
+		sed -i "/IMAPStore $mwacc-remote$/,/# End profile/d" "$mwmbsyncrc"
+		[ "$mwaccmaildirWasThere" = "NO" ] && rm -rf "$mwaccmaildir/"
 	fi
-	command -V urlview >/dev/null 2>&1 && [ ! -f "$HOME/.urlview" ] && echo "COMMAND \$BROWSER" > "$HOME/.urlview"
 	return 0
 }
 
@@ -299,18 +315,17 @@ mwpick() {
 	read -r input
 	[ -z "$input" ] && return 1
 	mwaddr="$(echo "$accounts" | grep "$input": | awk '{print $2}')"
-	mwaccount=$mwaddr
-	mwaccount_="${mwaccount//[.@]/_}"
-	[ -z "$mwaccount" ] && printf "Invalid response." && return 1
+	takemwaddr
+	[ -z "$mwacc" ] && printf "Invalid response." && return 1
 	return 0 ;
 }
 
 mwdelete() {
-	sed -i "/IMAPStore $mwaccount-remote$/,/# End profile/d" "$mwmbsyncrc"
-	rm -rf "$mwcachedir/$mwaccount_"
-	rm -rf "$mwaccdir/"[1-9]"-$mwaccount.muttrc"
-	sed -i "/[0-9]-$mwaccount.muttrc/d" "$mwmuttrc"
-	sed -i "/account $mwaccount/,/^\(\s*$\|account\)/d" "$mwmsmtprc"
+	sed -i "/IMAPStore $mwacc-remote$/,/# End profile/d" "$mwmbsyncrc"
+	rm -rf "$mwacccachedir"
+	rm -rf "$mwaccrcdir/"[1-9]"-$mwacc.muttrc"
+	sed -i "/[0-9]-$mwacc.muttrc/d" "$mwmuttrc"
+	sed -i "/account $mwacc/,/^\(\s*$\|account\)/d" "$mwmsmtprc"
 }
 
 mwcron() {
@@ -352,7 +367,7 @@ asktype() {
 
 mwpurge() {
 	confirm "delete all account data" || exit
-	rm -rf "$mwmbsyncrc" "$mwaccdir" "$mwconfigdir/msmtp" "$mwcachedir"
+	rm -rf "$mwmbsyncrc" "$mwaccrcdir" "$mwconfigdir/msmtp" "${mwmbsyncrc%/*}" "$mwcachedir"
 	pgrep cron >/dev/null && crontab -l | sed '/mailsync/d' | crontab - >/dev/null
 	sed -i "/\# mw-autogenerated/d" "$mwmuttrc"
 	echo "All configs and account settings have been purged."
@@ -375,18 +390,18 @@ exclude_tags=deleted;spam;
 synchronize_flags=true
 [crypto]
 gpg_path=$GPG"
-	mkdir -p ${NOTMUCH_CONFIG%/*}
+	mkdir -p "${NOTMUCH_CONFIG%/*}"
 	echo "$nmbasic" > "$NOTMUCH_CONFIG"
 }
 
 trap 'echo -e "\033[0m\n"; exit' STOP INT ABRT KILL
 
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
 case "$1" in
 	ls) mwlist ;;
 	add) mwadd ;;
 	pass) mwpick "change the password of" && getpass ;;
-	delete) mwpick delete && confirm "delete the \`$mwaccount\` profile" && mwdelete ;;
+	delete) mwpick delete && confirm "delete the \`$mwacc\` profile" && mwdelete ;;
 	purge) mwpurge ;;
 	cron) mwcron ;;
 	*) cat << EOF

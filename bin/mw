@@ -203,11 +203,16 @@ EOF
 	fi
 	getprofiles
 	mkdir -p "$mwmuttdir" "$mwaccmuttdir" "$mwconfigdir/msmtp" "${mwmbsyncrc%/*}"
-	[ ! -f "$mwmsmtprc" ] && echo "$msmtp_header" > "$mwmsmtprc"
+	if [ ! -f "$mwmsmtprc" ]; then
+		echo "$msmtp_header" > "$mwmsmtprc"
+	else
+		sed -i "/account $mwacc/,/^\(\s*$\|account\)/d" "$mwmsmtprc"
+	fi
 	echo "$msmtp_profile" >> "$mwmsmtprc"
 	case "$mwservice" in
 		protonmail.ch|protonmail.com|pm.me) protonfinger || return 1 ;;
 	esac
+	[ -f "$mwmbsyncrc" ] && sed -i "/IMAPStore $mwacc-remote$/,/# End profile/d" "$mwmbsyncrc"
 	echo "$mbsync_profile" >> "$mwmbsyncrc"
 	# new idnum = first one missing
 	getaccounts
@@ -235,11 +240,11 @@ getpass() {
 
 
 tryconnect() {
+	if [ ! -d "$mwaccmaildir" ]; then
+	    mwaccmaildirWasThere="NO" # we need to remove again for "online"
+	    mkdir -p "$mwaccmaildir"
+	fi
 	if [ -z "$mailboxes" ]; then
-		if [ ! -d "$mwaccmaildir" ]; then
-		    mwaccmaildirWasThere="NO" # we need to remove again for "online"
-		    mkdir -p "$mwaccmaildir"
-		fi
 		mailboxes="$($mbsyncbin -l $mwacc | sed 's/\//./')" >/dev/null 2>&1
 	fi
 	if [ -n "$mailboxes" ]; then

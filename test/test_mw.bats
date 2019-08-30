@@ -46,7 +46,7 @@ teardown()
 @test "add online" {
     export mwtype=online
     rm -rf mwtesttmp
-    export mailboxes="[Gmail]/Drafts"
+    export mailboxes="[Gmail]/INBOX"
     run mwadd
     [ -f mwtesttmp/config/mutt/muttrc ]
     [ -f mwtesttmp/config/mutt/accounts/1-$mwaddr.muttrc ]
@@ -71,7 +71,7 @@ teardown()
 #4
 @test "add offline successfully" {
     export mwtype=offline
-    export mailboxes="[Gmail]/Drafts"
+    export mailboxes="[Gmail]/INBOX"
     rm -rf mwtesttmp
     run mwadd
     [ -f mwtesttmp/config/mutt/muttrc ]

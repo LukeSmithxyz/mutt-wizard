@@ -46,7 +46,8 @@ If the user chooses to keep offline email with
 it will be kept in
 .I $MAILDIR
 which defaults to
-.I $HOME/mail/.
+.I $HOME/Mail/
+, the default for mutt.
 .B notmuch
 can be used to index and search this mail by giving this directory when first running
 .B notmuch setup.
@@ -55,7 +56,7 @@ If you have not set up notmuch before, mutt-wizard will automatically set it up 
 .B muttrc files
 mutt-wizard will create a muttrc file for each created account holding account-specific details. These will appear in
 .I $XDG_CONFIG_HOME/mutt/accounts/.
-$XGD_CONFIG_HOME default to ~/.config.
+$XGD_CONFIG_HOME defaults to ~/.config.
 Note that mutt-wizard will also source these files and create the bindings to switch between them, and these will appear in your default
 .I $XDG_CONFIG_HOME/mutt/muttrc
 file.
@@ -141,9 +142,9 @@ While mail is open, go to next or previous mail with
 and
 .I K.
 In the mail index,
-.I d
+.I ctrl-d
 and
-.I u
+.I ctrl-u
 go down and up by a half page and
 .I gg
 and
@@ -154,12 +155,12 @@ go to the very top and very bottom.
 If you have
 .B notmuch
 configured with your proper mail directory (see above), you may run
-.I ctrl-f
+.I S
 to search for mail containing any given sequence.
 Even without notmuch,
-.I L
+.I gl
 limits mail, showing only those with the given sequence in the subject while
-.I A
+.I gL
 shows all mail (same as limiting to "all").
 .TP
 .B Deleting mail
@@ -167,7 +168,7 @@ shows all mail (same as limiting to "all").
 deletes mail, while
 .I U
 undeletes it (type in mail number to get to deleted mail). Note that
-.I S
+.I $
 saves your mailbox, finalizing deletion. If you have a
 .I Trash
 box, deleted mail is moved there. If you want it to skip that and simply be deleted, comment out or remove the
@@ -179,7 +180,7 @@ line in that account's muttrc.
 creates a new mail message;
 .I r
 replies to the selected message;
-.I R
+.I gr
 replies all to the selected message and
 .I f
 fowards the selected message.
@@ -197,27 +198,26 @@ to send the mail.
 .TP
 .B Saving and autocompleting email addresses with abook
 Install the optional dependency abook and you will be able to save the sender's email address with
-.I a.
+.I ga.
 Once this is done, when you are typing in any email/contact prompt, you may press
 .I Tab
 to find contacts matching your input. Although abook is often used with mutt, it is also a useful program in its own right.
 .TP
 .B Switching and moving mail between mailboxes
 The
-.I g
-key can be paired with several other keys to automatically move to another mailbox: gi: Inbox; gs: Sent; gd: Drafts; ga: Archive; gS: Spam; gj: Junk; gt: Trash. These bindings will only be present for accounts that have the boxes in question. Instead of
-.I g,
-you can also press
-.I C
-to copy mail or
-.I M
-to move mail to the same boxes.
+.I i
+key is paired with the two inital letters of a mailbox, isp: go to spam, ...
+Similar
+.I Cxy
+will copy mail and
+.I Mxy
+will move mail to the according boxe.
 .TP
 .B Switching between accounts
 mutt-wizard can configure as many as nine accounts each numbered by the lowest available number when configured. Press
 .I i
 followed by an account's number to change to that account: i2, i5, etc.
-.I ctrl-b
+.I gu
 to open a menu to select a url you want to open in you browser.
 .TP
 .B Sidebar
@@ -226,7 +226,17 @@ mutt-wizard enables the sidebar by default which displays your account's boxes w
 will toggle the sidebar. Move up and down in it with
 .I ctrl-k/j.
 Open a box with
-.I ctrl-o.
+.I ctrl-o
+or
+.I ctrl-l
+.TP
+.B Input field / command line
+.I ctrl-u
+within input field / command line, will clear it
+.I ctrl-a / ctl-e
+go to beginning or end.
+.I ctrl-g
+aborts.
 .TP
 .B More information
 Remember that you can press

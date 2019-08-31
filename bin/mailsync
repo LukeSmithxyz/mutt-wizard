@@ -12,16 +12,17 @@ export DISPLAY=:0.0
 if [[ -z $PASSWORD_STORE_DIR ]]; then
     [ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
 fi
-configdir=${XDG_CONFIG_HOME:-$HOME/.config}
-maildir="${MAILDIR:-$HOME/Mail}"
-lastrun=${XDG_CACHE_HOME:-$HOME/.cache}/.mailsynclastrun
-mbsyncrc="$configdir/isync/mbsyncrc"
-mbsyncbin="$prefix/bin/mbsync -c $mbsyncrc"
+mwconfigdir=${XDG_CONFIG_HOME:-$HOME/.config}
+mwmaildir="${MAILDIR:-$HOME/Mail}"
+mwlastrun=${XDG_CACHE_HOME:-$HOME/.cache}/.mailsynclastrun
+mwmbsyncrc="$mwconfigdir/isync/mbsyncrc"
+mwmbsyncbin="$prefix/bin/mbsync -c $mwmbsyncrc"
 
 # Run only if user logged in (prevent cron errors)
 pgrep -u "$USER" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
 # Run only if not already running in other instance
-pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
+pgrep -x mbsync >/dev/null && { echo "mbsync is running." ; exit ;}
+pgrep -x notmuch >/dev/null && { echo "notmuch is running." ; exit ;}
 
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || { echo "No internet connection detected."; exit ;}
@@ -29,20 +30,21 @@ command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotif
 
 # Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" = "Darwin" ]; then
-    notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
+    notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $1\"" && sleep 2 ;}
 else
     notify() { notify-send "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account." ;}
 fi
 
 # Check account for new mail. Notify if there is new content.
 syncandnotify() {
-    acc="$(echo "$account" | sed "s/.*\///")"
-    $mbsyncbin "$acc"
-    new=$(find "$maildir/$acc/INBOX/new/" "$maildir/$acc/Inbox/new/" "$maildir/$acc/inbox/new/" -type f -newer "$lastrun" 2> /dev/null)
-    newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
+    mwacc="$(echo "$mwaccount" | sed "s/.*\///")"
+    mwaccmaildir="$mwmaildir/$mwacc"
+    $mwmbsyncbin "$mwacc"
+    mwnew=$(find "$mwaccmaildir/INBOX/new/" "$mwaccmaildir/Inbox/new/" "$mwaccmaildir/inbox/new/" -type f -newer "$mwlastrun" 2> /dev/null)
+    newcount=$(echo "$mwnew" | sed '/^\s*$/d' | wc -l)
     if [ "$newcount" -gt "0" ]; then
-        notify "$acc" "$newcount" &
-        for file in $new; do
+        notify "$mwacc" "$newcount" &
+        for file in $mwnew; do
             # Extract subject and sender from mail.
             from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
             subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n-1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
@@ -53,17 +55,17 @@ syncandnotify() {
 
 # Sync accounts passed as argument or all.
 if [ "$#" -eq "0" ]; then
-    accounts="$(awk '/^Group .*@.*/ {print $2}' "$mbsyncrc")"
-    accounts+=" $(awk '/^Channel .*@.*/ {print $2}' "$mbsyncrc")"
+    mwaccounts="$(awk '/^Group .*@.*/ {print $2}' "$mwmbsyncrc")"
+    mwaccounts+=" $(awk '/^Channel .*@.*/ {print $2}' "$mwmbsyncrc")"
 else
-    accounts=$*
+    mwaccounts=$*
 fi
 
 echo " 🔃" > /tmp/imapsyncicon_"$USER"
 pkill -RTMIN+12 i3blocks >/dev/null 2>&1
 
 # Parallelize multiple accounts
-for account in $accounts
+for mwaccount in $mwaccounts
 do
     syncandnotify &
 done
@@ -75,4 +77,4 @@ pkill -RTMIN+12 i3blocks >/dev/null 2>&1
 notmuch new 2>/dev/null
 
 #Create a touch file that indicates the time of the last run of mailsync
-touch "$lastrun"
+touch "$mwlastrun"

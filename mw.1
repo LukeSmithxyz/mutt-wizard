@@ -26,12 +26,18 @@ list all email accounts configured by mutt-wizard
 delete the configuration files for an already configured email account
 .TP
 .B purge
-totally purge all local mutt-wizard/mbync/msmtp settings
+.I totally
+purges all local 
+.I .config/mutt/accounts/1-*
+.I mbsyncrc
+and 
+.I .config/msmtp/config
+settings.
 .TP
 .B cron
-toggle a cronjob that will automatically sync mail with
-.B mailsync
-as often as you wish
+toggle a cronjob that will periodically sync mail with
+.B mailsync.
+Use mailsync instead of mbsync, also manually.
 .SH DETAILS
 .TP
 .B Mail location
@@ -65,14 +71,11 @@ will delete downloaded mail for for safety (and time)'s sake. If you want to del
 mutt-wizard has many default settings that focus on making it aesthetically pleasing and supplying more vim-like bindings. These can be found in
 .I /usr/share/mutt-wizard/mutt-wizard.muttrc
 and the default mailcap file can be found in
-.I
-/usr/share/mutt-wizard/mailcap.
-Any of these settings can be overwritten in
+.I /usr/share/mutt-wizard/mailcap.
+After the line sourcing the mutt-wizard default, you can overwrite settings in your
 .I $XDG_CONFIG_HOME/mutt/muttrc,
-but be mindful that your overriding binds should appear after the
-.I
-mutt-wizard.muttrc
-file is sourced.
+Else you can keep mutt-wizard from adding a sourcing line, if you have the following comment in your muttrc:
+.B # source /usr/share/mutt-wizard/mutt-wizard.muttrc
 .TP
 .B Detecting server settings
 mutt-wizard has a repository of email services and their server information kept in

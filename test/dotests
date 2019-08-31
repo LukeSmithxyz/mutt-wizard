@@ -5,10 +5,6 @@ echo Unit Test:
 echo
 bats --tap test_mw.bats
 
-echo
-echo Integration tests with a working email:
-echo
-
 #modify
 if [[ -z $MAILDIR ]] || [[ -z $mwaddr ]]; then
     echo "First do:"
@@ -16,6 +12,10 @@ if [[ -z $MAILDIR ]] || [[ -z $mwaddr ]]; then
     [[ -z $mwaddr ]] && echo "export mwaddr=your.email@gmail.com"
     exit
 fi
+
+echo
+echo "Integration tests need working email $mwaddr"
+echo "CTRL-C to skip"
 
 cd .. && sudo make install && OK="OK"
 
@@ -31,25 +31,24 @@ if [[ "$OK" == "OK" ]]; then
 
     rm -rf $mwaccmaildir
 
-
     [ -f "${PASSWORD_STORE_DIR:-~/.password-store}/$mwpass.gpg" ] || pass insert $mwpass
 
-    echo "= manual test 1 ="
+    echo "= Test 1 ="
     mwtype=online mw add
     echo "=> In another window, start mutt and verify that mails are shown"
     echo "=> Then anwer with N"
     mw purge
     rm -rf $mwaccmaildir
 
-    echo "= manual test 2 ="
+    echo "= Test 2 ="
     mwtype=offline mw add
     mailsync
     echo "=> In another window, start mutt and verify that mails are shown"
     echo "=> Press i1, wait, press i2. Verify that mutt is fast again after i2."
     echo "=> Press gm and gM, to start mailsync."
-    echo "=> Anwer with y."
+    echo "=> Anwer with Y and check that mbsyncrc, msmtp/config and mutt/accounts are gone."
     mw purge
-    rm -rf $mwaccmaildir
+
 fi
 
 cd $CD

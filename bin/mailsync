@@ -15,11 +15,7 @@ fi
 configdir=${XDG_CONFIG_HOME:-$HOME/.config}
 maildir="${MAILDIR:-$HOME/Mail}"
 lastrun=${XDG_CACHE_HOME:-$HOME/.cache}/.mailsynclastrun
-if [[ -f $configdir/isync/mbsyncrc ]]; then
-      mbsyncrc="$configdir/isync/mbsyncrc"
-else
-      mbsyncrc="$HOME/.mbsyncrc"
-fi
+mbsyncrc="$configdir/isync/mbsyncrc"
 mbsyncbin="$prefix/bin/mbsync -c $mbsyncrc"
 
 # Run only if user logged in (prevent cron errors)

@@ -59,7 +59,7 @@ If you get errors in `neomutt`, install the most recent version manually or manu
 - `w3m` - view HTML email and images in neomutt.
 - `notmuch` - index and search mail.
   Install it and run `notmuch setup`.
-  Tell it where your mail is (`$MAILDIR` or `~/.local/share/mail/`).
+  Tell it where your mail is (`$MAILDIR` or `~/Mail`).
   Although, `mw` will do this automatically, if you haven't set notmuch up before.
   You can run it in mutt with `ctrl-f`.
   Run `notmuch new` to process new mail.
@@ -108,7 +108,7 @@ To give you an example of the interface, here's an idea:
   Image/video/pdf attachments without relying on the neomutt instance.
 - abook integration by default.
 - The messy template files and other directories have been moved or removed, leaving a clean config folder.
-- msmtp configs moved to `~/.config/` and mail default location moved to `~/.local/share/mail/`, reducing mess in `~`.
+- msmtp configs moved to `~/.config/` and mail default location moved to `~/Mail`, reducing mess in `~`.
 - `pass` is used as a password manager instead of separately saving passwords.
 - Script is POSIX sh compliant.
 - Error handling for the many people who don't read or follow directions.

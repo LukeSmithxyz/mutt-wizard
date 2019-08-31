@@ -29,7 +29,7 @@ mwmuttdir="$mwconfigdir/mutt"
 # Directory for account settings
 mwaccmuttdir="$mwmuttdir/accounts"
 # Location of mail storage
-mwmaildir="${MAILDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/mail}"
+mwmaildir="${MAILDIR:-$HOME/mail}"
 # Regex to confirm valid email address
 mwemailre=".\+@.\+\\..\+"
 mwshare="$prefix/share/mutt-wizard"

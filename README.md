@@ -41,7 +41,7 @@ Once everything is setup, you'll use `neomutt` to access your mail.
 - `mw ls` -- list existing accounts
 - `mw pass` -- revise an account's password
 - `mw delete` -- deleted an added account
-- `mw purge` -- delete all accounts and settings
+- `mw purge` -- delete all accounts and settings (**DANGER**)
 - `mw cron` -- toggle/configure a cronjob to sync mail
 
 ## Dependencies

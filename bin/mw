@@ -43,9 +43,8 @@ mbsyncbin="$prefix/bin/mbsync -c $mwmbsyncrc"
 msmtpbin="$prefix/bin/msmtp"
 _mwaddrmwtype(){
 	mwacc="$mwaddr" # let the user always just deal with his email
-	mwaccmutt="${mwaddr//[.@]/_}" # but mutt would not show it with an @ or .
+	mwaccmaildir="$mwmaildir/$mwacc" # mail dir is $MAILDIR/email
 	mwacccachedir=$mwcachedir/${mwaddr//[.@]/_} # @ cannot stay because of mutt, . could
-	mwaccmaildir="$mwmaildir/$mwaccmutt" # folder name as shown by mutt and opens with gf in vim
 	mwaccmuttrc="$mwaccmuttdir/$mwidnum-$mwacc.mwonofftype.$mwtype.muttrc"
 	mwpass=mutt-wizard-$mwaddr
 	[ -n "$mwidnum" ] && mwaccmuttrc="$mwaccmuttdir/$mwidnum-$mwacc.mwonofftype.$mwtype.muttrc"

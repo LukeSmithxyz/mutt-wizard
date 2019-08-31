@@ -15,7 +15,6 @@ run_only_test() {
 #these are called for every test
 setup()
 {
-    run_only_test 6
     rm -rf mwtesttmp
     XDG_CONFIG_HOME=mwtesttmp/config \
     MAILDIR=mwtesttmp/share/mail \

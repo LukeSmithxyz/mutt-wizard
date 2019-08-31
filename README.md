@@ -61,7 +61,7 @@ If you get errors in `neomutt`, install the most recent version manually or manu
   Install it and run `notmuch setup`.
   Tell it where your mail is (`$MAILDIR` or `~/Mail`).
   Although, `mw` will do this automatically, if you haven't set notmuch up before.
-  You can run it in mutt with `ctrl-f`.
+  You can run it in mutt with `S`.
   Run `notmuch new` to process new mail.
   Although, the included `mailsync` script does this for you.
 - `libnotify`/`libnotify-bin` - allows notifications when syncing mail with `mailsync`
@@ -71,28 +71,34 @@ If you get errors in `neomutt`, install the most recent version manually or manu
 - `pam-gnupg` - this is a more general program that I use.
   It automatically logs you into your GPG key on login so you will never need to input your password once logged on to your system.
   Check out the repo and directions [here](https://github.com/cruegge/pam-gnupg).
-- `urlview` - outputs urls in mail to browser.
+- `urlscan` - outputs urls in mail to browser.
 
 ## Neomutt user interface
 
 To give you an example of the interface, here's an idea:
 
 - `m` - send mail (uses your default `$EDITOR` to write)
-- `j`/`k` and `d`/`u` - vim-like bindings to go down and up (or `d`/`u` to go down/up a page).
+- `j`/`k` and `ctrl-d`/`ctrl-u` - vim-like bindings to go down and up
 - `l` - open mail, or attachment page or attachment
 - `h` - the opposite of `l`
 - `D` - delete mail
-- `r`/`R` - reply/reply all to highlighted mail
+- `r`/`gr` - reply/reply all to highlighted mail
 - `s` - save selected mail or selected attachment
-- `gs`,`gi`,`ga`,`gd`,`gS` - Press `g` followed by another letter to change mailbox: `s`ent, `i`nbox, `a`rchive, `d`rafts, `S`pam, etc.
-- `M` and `C` - For `M`ove and `C`opy: follow them with one of the mailbox letters above, i.e. `MS` means "move to Spam".
+- `ixy` - Press `i` followed by the two initial mailbox letters to go there
+- `Mxy` and `Cxy` - For `M`ove and `C`opy to the according mailbox, e.g. `Msp` means "move to Spam".
 - `i#` - Press `i` followed by a number 1-9 to go to a different account.
   If you add 9 accounts via mutt-wizard, they will each be assigned a number.
-- `a` to add address/person to abook and `Tab` while typing address to complete one from book.
+- `ga` to add address/person to abook and `Tab` while typing address to complete one from book.
 - `?` - see all keyboard shortcuts
-- `ctrl-j`/`ctrl-k` - move up and down in sidebar, `ctrl-o` opens mailbox.
-- `ctrl-b` - open a menu to select a url you want to open in you browser (needs urlview).
+- `ctrl-j`/`ctrl-k` - move up and down in sidebar, `ctrl-l` opens mailbox.
+- `gu` - open a menu to select a url you want to open in you browser (needs urlscan).
+- `S` - search for a mail
+- `gl` - limit by substring of subject
+- `gL` - undo limit
 - `gm / gM` - call mutt-wizard's mailsync for one / all mail accounts
+- `^u` within input field / command line, will clear it, `^a` and `^e` go to beginning or end, `^g` aborts
+
+Look into `/usr/share/mutt-wizard.muttrc` to see all bindings.
 
 ## New stuff and improvements since the original release
 

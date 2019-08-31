@@ -96,7 +96,7 @@ To give you an example of the interface, here's an idea:
 
 ## New stuff and improvements since the original release
 
-- honors `$MAILDIR`, `$XDG_CONFIG_HOME`, `$XDG_DATA_HOME`, `$XDG_CACHE_HOME`, if defined.
+- honors `$MAILDIR`, `$XDG_CONFIG_HOME`, `$XDG_CACHE_HOME`, if defined.
 - `gm/gM` to sync mail inside `mutt`, as `o/O` has a `mutt` assignment already.
 - Make channel name equal to email address to avoid choosing a new name for the same thing.
 - `isync`/`mbsync` has replaced `offlineimap` as the backend.

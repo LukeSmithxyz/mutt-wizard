@@ -47,9 +47,8 @@ mbsyncbin="$prefix/bin/mbsync -c $mwmbsyncrc"
 msmtpbin="$prefix/bin/msmtp"
 takemwaddr(){
 	mwacc="$mwaddr" # let the user always just deal with his email
-	mwaccmutt="${mwaddr//[.@]/_}" # but mutt would not show it with an @ or .
 	mwacccachedir=$mwcachedir/${mwaddr//[.@]/_} # @ cannot stay because of mutt, . could
-	mwaccmaildir="$mwmaildir/$mwaccmutt" # folder name as shown by mutt and opens with gf in vim
+	mwaccmaildir="$mwmaildir/$mwacc" # $MAILDIR/email, else other tools like afew would need to know the private naming of mw
 }
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"
@@ -284,6 +283,7 @@ set record = "$record"
 set postponed = "$postponed"
 set trash = "$trash"
 EOF
+	mwaccmutt="${mwaddr//[.@]/_}" # but mutt would not show it with an @ or .
 	echo "mailboxes =$mwaccmutt ===================== $(echo "$boxes" | sed -e "s/^\|$/\"/g" | tr "\n" " ")" >> "$mwaccrc"
 	printf "Setting up your keyboard shortcuts for jumping between mailboxes...\\n"
 	echo "$boxes" | grep -i inbox | head -n 1 | formatShortcut i inbox

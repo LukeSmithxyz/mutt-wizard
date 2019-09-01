@@ -78,10 +78,11 @@ If you get errors in `neomutt`, install the most recent version manually or manu
 To give you an example of the interface, here's an idea:
 
 - `m` - send mail (uses your default `$EDITOR` to write)
-- `j`/`k` and `ctrl-d`/`ctrl-u` - vim-like bindings to go down and up
+- `j`/`k` - next/previous mail, `J/K` same, without skipping deleted, and also when viewing mails
+- `ctrl-d/f`/`ctrl-u/b` - down and up a half page / full page
 - `l` - open mail, or attachment page or attachment
 - `h` - the opposite of `l`
-- `D` - delete mail
+- `dd` - delete mail, `u` undelete
 - `r`/`gr` - reply/reply all to highlighted mail
 - `s` - save selected mail or selected attachment
 - `ixy` - Press `i` followed by the two initial mailbox letters to go there

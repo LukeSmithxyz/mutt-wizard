@@ -128,24 +128,24 @@ mutt-wizard's default settings add color to messages in the index and color mail
 New mail, in addition to being marked by the typical N, will also be bold.
 .TP
 .B Movement with h/j/k/l
-Use vim keys to move down
+Use vim-like keys to go down with
 .I j
-or up
+or up with
 .I k
-in mail, while
+in index and open mail.
+.I J
+and
+.I K.
+do not skip deleted mails and go to next/previous mail, when in open mail.
 .I l
 opens mail, then the attachment view, then an attachment, while
 .I h
 is the reverse.
-While mail is open, go to next or previous mail with
-.I J
-and
-.I K.
 In the mail index,
-.I ctrl-d
+.I ctrl-d/f
 and
-.I ctrl-u
-go down and up by a half page and
+.I ctrl-u/b
+go down and up by a half / full page and
 .I gg
 and
 .I G
@@ -164,10 +164,10 @@ limits mail, showing only those with the given sequence in the subject while
 shows all mail (same as limiting to "all").
 .TP
 .B Deleting mail
-.I D
+.I dd
 deletes mail, while
-.I U
-undeletes it (type in mail number to get to deleted mail). Note that
+.I u
+undeletes it.
 .I $
 saves your mailbox, finalizing deletion. If you have a
 .I Trash

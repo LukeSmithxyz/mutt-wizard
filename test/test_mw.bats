@@ -15,10 +15,12 @@ run_only_test() {
 #these are called for every test
 setup()
 {
+    # run_only_test 7
     rm -rf mwtesttmp
     XDG_CONFIG_HOME=mwtesttmp/config \
     MAILDIR=mwtesttmp/share/mail \
     XDG_CACHE_HOME=mwtesttmp/cache \
+    prefix="$PWD" \
     source ../bin/mw
     export NOTMUCH_CONFIG=mwtesttmp/config/notmuch-config
     export mwname="real name"
@@ -28,6 +30,14 @@ setup()
     export mwshare=$PWD/../share
     function pass() { return 0; }
     export pass
+    function _mwcheckinternet() { return 0; }
+    export _mwcheckinternet
+    function pgrep() { return 0; }
+    export pgrep
+    function crontab() { echo 'none'; }
+    export crontab
+    function _mwsyncandnotify() { echo "$mwaddr"; }
+    export _mwsyncandnotify
 }
 teardown()
 {
@@ -83,7 +93,14 @@ teardown()
 @test "delete account" {
     mwtype="online" run _mwadd
     mwtype="offline" run _mwadd
-    mwpick="1" _mwpick delete && _mwdelete
+
+    pick_delete()
+    {
+      _mwpick delete && _mwdelete
+    }
+    export pick_delete
+
+    mwpick="1" run pick_delete
     [ ! -f mwtesttmp/config/mutt/accounts/1-$mwaddr.mwonofftype.online.muttrc ]
     [ ! "$(cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p')" = "" ]
     [ ! "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
@@ -91,11 +108,6 @@ teardown()
 
 #6
 @test "cron" {
-    mwtype="online" run _mwadd
-    function pgrep() { return 0; }
-    export pgrep
-    function crontab() { echo 'none'; }
-    export crontab
     mwcronminutes=99 run _mwcron
     chkline="${lines[2]}"
     [ "${chkline::14}" = "Cronjob added." ]
@@ -106,3 +118,11 @@ teardown()
     [ "${chkline#*turned}" = " off." ]
 }
 
+#7
+@test "sync" {
+    mwtype="offline" run _mwadd
+    function pgrep() { [ "$1" = "-u" ] && return 0 || return 1; }
+    export pgrep
+    run _mwsync
+    [ "${lines// /}" = "full.addr@gmail.com" ]
+}

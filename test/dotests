@@ -6,10 +6,10 @@ echo
 bats --tap test_mw.bats
 
 #modify
-if [[ -z $MAILDIR ]] || [[ -z $mwaddr ]]; then
+if [ -z "$MAILDIR" ] || [ -z "$mwaddr" ]; then
     echo "First do:"
-    [[ -z $MAILDIR ]] && echo "export MAILDIR=..."
-    [[ -z $mwaddr ]] && echo "export mwaddr=your.email@gmail.com"
+    [ -z "$MAILDIR" ] && echo "export MAILDIR=..."
+    [ -z "$mwaddr" ] && echo "export mwaddr=your.email@gmail.com"
     exit
 fi
 
@@ -19,15 +19,15 @@ echo "CTRL-C to skip"
 
 cd .. && sudo make install && OK="OK"
 
-if [[ "$OK" == "OK" ]]; then
+if [ "$OK" = "OK" ]; then
+
     echo "Warning: Out with CTRL-C if your mail (config) files are important here."
 
     export mwmaildir=$MAILDIR
     export mwname='r n'
     export mwlogin=$mwaddr
     export mwpass="${mwpass:-mutt-wizard-$mwaddr}"
-    mwaccmutt="${mwaddr//[.@]/_}"
-    mwaccmaildir="$mwmaildir/$mwaccmutt" # folder name as shown by mutt and opens with gf in vim
+    mwaccmaildir="$mwmaildir/$mwaddr"
 
     rm -rf $mwaccmaildir
 
@@ -42,6 +42,7 @@ if [[ "$OK" == "OK" ]]; then
 
     echo "= Test 2 ="
     mwtype=offline mw add
+    mw
 
     echo "=> In another window, start mutt and verify that mails are shown"
     echo "=> Press i1, wait, press i2. Verify that mutt is fast again after i2."

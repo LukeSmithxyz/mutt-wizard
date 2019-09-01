@@ -42,10 +42,10 @@ if [[ "$OK" == "OK" ]]; then
 
     echo "= Test 2 ="
     mwtype=offline mw add
-    mailsync
+
     echo "=> In another window, start mutt and verify that mails are shown"
     echo "=> Press i1, wait, press i2. Verify that mutt is fast again after i2."
-    echo "=> Press gm and gM, to start mailsync."
+    echo "=> Press gm and gM, to start mw sync."
     echo "=> Anwer with Y and check that mbsyncrc, msmtp/config and mutt/accounts are gone."
     mw purge
 

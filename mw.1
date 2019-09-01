@@ -9,12 +9,20 @@ mw \- mutt-wizard \- autoconfigure email accounts for neomutt and isync
 takes a user email account and sets up a terminal-based email interface with it for
 .B neomutt.
 This can include offline email with
-.B isync/mbsync
+.B mbsync
+or 
+.B getmail
 and configs for
 .B msmtp
 for sending mail, and passwords automatically encrypted and stored with
 .B pass.
 .SH COMMANDS
+Without command parameter 
+.I sync
+is assumed.
+If a parameter contains
+.I @
+an email is assumed and synced.
 .TP
 .B add
 configure an email account
@@ -36,8 +44,9 @@ settings.
 .TP
 .B cron
 toggle a cronjob that will periodically sync mail with
-.B mailsync.
-Use mailsync instead of mbsync, also manually.
+.TP
+.B sync
+syncs all emails.
 .SH DETAILS
 .TP
 .B Mail location

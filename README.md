@@ -26,15 +26,7 @@ sudo make install
 
 User of Arch-based distros can also install mutt-wizard from the AUR as [mutt-wizard-git](https://aur.archlinux.org/packages/mutt-wizard-git/).
 
-*NOTE:* If you have used an older version of mutt-wizard, especially when it used to use `offlineimap`, you need to remove your old configs.
-Back up what's important and run:
-
-```
-rm -rf ~/.config/mutt ~/.msmtprc ~/.config/msmtp ~/.offlineimap ~/.offlineimaprc ~/.config/offlineimap ~/.mbsyncrc
-```
-
 The mutt-wizard is run with the command `mw`.
-It also installs the `mailsync` command.
 Once everything is setup, you'll use `neomutt` to access your mail.
 
 - `mw add` -- add a new email account
@@ -63,8 +55,8 @@ If you get errors in `neomutt`, install the most recent version manually or manu
   Although, `mw` will do this automatically, if you haven't set notmuch up before.
   You can run it in mutt with `S`.
   Run `notmuch new` to process new mail.
-  Although, the included `mailsync` script does this for you.
-- `libnotify`/`libnotify-bin` - allows notifications when syncing mail with `mailsync`
+  Although, `mw sync` does this for you.
+- `libnotify`/`libnotify-bin` - allows notifications when syncing mail with `mw sync`
 - `abook` - a terminal-based address book.
   Pressing tab while typing an address to send mail to will suggest contacts that are in your abook.
 - A cron manager - if you want to enable the auto-sync feature.
@@ -96,7 +88,7 @@ To give you an example of the interface, here's an idea:
 - `S` - search for a mail
 - `gl` - limit by substring of subject
 - `gL` - undo limit
-- `gm / gM` - call mutt-wizard's mailsync for one / all mail accounts
+- `gm / gM` - call mutt-wizard's `mw sync` for one / all mail accounts
 - `^u` within input field / command line, will clear it, `^a` and `^e` go to beginning or end, `^g` aborts
 
 Look into `/usr/share/mutt-wizard.muttrc` to see all bindings.

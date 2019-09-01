@@ -24,7 +24,7 @@ setup()
     export mwname="real name"
     export mwaddr="full.addr@gmail.com"
     export mwlogin="$mwaddr"
-    export mailboxes="[Gmail]/INBOX"
+    export mwmailboxes="[Gmail]/INBOX"
     export mwshare=$PWD/../share
     function pass() { return 0; }
     export pass
@@ -55,7 +55,7 @@ teardown()
 
 #3
 @test "add offline unsuccessful" {
-    export mailboxes="[Gmail]/OTHER"
+    export mwmailboxes="[Gmail]/OTHER"
     mwtype="offline" run _mwadd
     [ -f mwtesttmp/config/mutt/muttrc ]
     [ -d mwtesttmp/config/mutt/accounts ]
@@ -99,7 +99,7 @@ teardown()
     mwcronminutes=99 run _mwcron
     chkline="${lines[2]}"
     [ "${chkline::14}" = "Cronjob added." ]
-    function crontab() { echo 'mailsync'; }
+    function crontab() { echo 'mw sync'; }
     export crontab
     mwcronremove=y run _mwcron
     chkline="${lines[1]}"

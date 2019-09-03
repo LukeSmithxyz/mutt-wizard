@@ -3,18 +3,18 @@
 Get this great stuff without effort:
 
 - A full-featured and autoconfigured email client on the terminal with neomutt
-- Mail stored offline so you can view and write email while away from internet and keep backups
+- Mail stored offline so you can view and write email while away from internet and keep backups.
+  This is via the "offline" option, but you want this.
 
 Specifically, this wizard:
 
-- Determines your email server's IMAP and SMTP servers and ports
-- Creates dotfiles for `neomutt`, `isync`, and `msmtp` appropriate for your email address
-- Encrypts and stores locally your password for easy remote access, accessible only by your GPG key
+- Has a database of IMAP4/POP3 and SMTP servers and ports. If mutt-wizard doesn't know your server's IMAP4/POP3/SMTP, it will prompt.
+- Creates dotfiles for `neomutt`, `isync`, `msmtp` and `getmail`
+- Encrypts and stores locally your password using [pass](https://www.passwordstore.org/), accessible only by your GPG key
 - Handles as many as nine separate email accounts automatically
 - Auto-creates bindings to switch between accounts or between mailboxes
-- Can automatically set mail updates as often as you want to sync your mail and update you when new mail arrives
+- Can automatically set mail updates using `crontab`
 - Provides sensible defaults and an attractive appearance for the neomutt email client
-- If mutt-wizard doesn't know your server's IMAP/SMTP info by default, it will prompt you for them and will put them in all the right places.
 
 ## Install and Use
 
@@ -35,11 +35,12 @@ Once everything is setup, you'll use `neomutt` to access your mail.
 - `mw delete` -- deleted an added account
 - `mw purge` -- delete all accounts and settings (**DANGER**)
 - `mw cron` -- toggle/configure a cronjob to sync mail
+- `mw sync` or `mw` -- sync all your emails. Optionally add the email address, to sync only one.
 
 ## Dependencies
 
 - `neomutt` - the email client
-- `isync` - downloads and syncs the mail (required at install)
+- `isync` - downloads and syncs the mail
 - `msmtp` - sends the email
 - `pass` - safely encrypts passwords (required at install)
 

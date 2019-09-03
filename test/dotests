@@ -5,6 +5,10 @@ echo Unit Test:
 echo
 bats --tap test_mw.bats
 
+echo
+echo "Integration tests need working email $mwaddr"
+echo "CTRL-C to skip"
+
 #modify
 if [ -z "$MAILDIR" ] || [ -z "$mwaddr" ]; then
     echo "First do:"
@@ -12,10 +16,6 @@ if [ -z "$MAILDIR" ] || [ -z "$mwaddr" ]; then
     [ -z "$mwaddr" ] && echo "export mwaddr=your.email@gmail.com"
     exit
 fi
-
-echo
-echo "Integration tests need working email $mwaddr"
-echo "CTRL-C to skip"
 
 cd .. && sudo make install && OK="OK"
 

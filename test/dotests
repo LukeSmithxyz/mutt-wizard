@@ -35,8 +35,8 @@ if [ "$OK" = "OK" ]; then
 
     echo "= Test 1 ="
     mwtype=online mw add
-    echo "=> In another window, start mutt and verify that mails are shown"
-    echo "=> Then anwer with N"
+    echo "=> In another prompt, start mutt and verify that mails are shown"
+    echo "=> Then answer with N"
     mw purge
     rm -rf $mwaccmaildir
 
@@ -44,10 +44,10 @@ if [ "$OK" = "OK" ]; then
     mwtype=offline mw add
     mw
 
-    echo "=> In another window, start mutt and verify that mails are shown"
+    echo "=> In another prompt, start mutt and verify that mails are shown"
     echo "=> Press i1, wait, press i2. Verify that mutt is fast again after i2."
     echo "=> Press gm and gM, to start mw sync."
-    echo "=> Anwer with Y and check that mbsyncrc, msmtp/config and mutt/accounts are gone."
+    echo "=> Answer with Y and check that mbsyncrc, msmtp/config and mutt/accounts are gone."
     mw purge
 
 fi

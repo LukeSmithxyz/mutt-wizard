@@ -19,12 +19,12 @@ Specifically, this wizard:
 ## Install and Use
 
 ```
-git clone https://github.com/LukeSmithxyz/mutt-wizard
+git clone https://github.com/rpuntaie/mutt-wizard
 cd mutt-wizard
 sudo make install
 ```
 
-User of Arch-based distros can also install mutt-wizard from the AUR as [mutt-wizard-git](https://aur.archlinux.org/packages/mutt-wizard-git/).
+User of Arch-based distros can also install mutt-wizard from the AUR as [mw-git](https://aur.archlinux.org/packages/mw-git/).
 
 The mutt-wizard is run with the command `mw`.
 Once everything is setup, you'll use `neomutt` to access your mail.
@@ -119,10 +119,6 @@ Look into `/usr/share/mutt-wizard.muttrc` to see all bindings.
 
 - Try mutt-wizard out on weird machines and weird email addresses and report any errors.
 - Open a PR to add new server information into `domains.csv` so their users can more easily use mutt-wizard.
-- If nothing else, [Donate!](https://paypal.me/LukeMSmith)
-
-See Luke's website [here](https://lukesmith.xyz).
-Email him at [luke@lukesmith.xyz](mailto:luke@lukesmith.xyz).
 
 mutt-wizard is free/libre software, licensed under the GPLv3.
 

@@ -1,8 +1,6 @@
 % mw(1) Version 1.0 | mutt-wizard man page
 
 <!---
-Before 
-
 To test man page:
 
   pandoc README.md -s -t man | /usr/bin/man -l - 

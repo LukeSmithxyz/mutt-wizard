@@ -1,5 +1,5 @@
 =========================================
-mw(1) Version 1.0 \| mutt-wizard man page
+mw(1) Version 2.0 \| mutt-wizard man page
 =========================================
 
 ..   To test man page:
@@ -45,17 +45,19 @@ If the parameter contains @ an email is assumed and synced.
 
 *add*
 
-    Add new email.
+    Add new email
 
-    - First you decide, whether you want to configure
-       - **mbsync**, **getmail**, **msmtp** to sync emails independently from **mutt** using **mw**,
-       - or just **mutt**. 
-         For an IMAP server **mutt** becomes very slow.
-         So normally you enter **yes** here.
-    - **mw** asks you the **email address**.
-    - **mw** has a **database** of IMAP4/POP3 and SMTP servers and ports.
-      If you are lucky, your email server is there.
-      Else **mw** will prompt you.
+    First you decide, whether you want to configure
+    - **mbsync**, **getmail**, **msmtp** to sync emails independently from **mutt** using **mw**,
+    - or just **mutt**.
+      For an IMAP server **mutt** becomes very slow.
+      So normally you enter **yes** here.
+
+    **mw** asks you the **email address**.
+
+    **mw** has a **database** of IMAP4/POP3 and SMTP servers and ports.
+    If you are lucky, your email server is there.
+    Else **mw** will prompt you.
 
 *ls|list*
 
@@ -74,7 +76,7 @@ If the parameter contains @ an email is assumed and synced.
     | *.config/getmail/\**
     | *.config/msmtp/config*
 
-    Files are under *.config* or *$XDG_CONFIG_HOME*.
+    Files are under *.config* or *$XDG_CONFIG_HOME*
 
 *cron*
 
@@ -83,6 +85,7 @@ If the parameter contains @ an email is assumed and synced.
 *sync*
 
     Syncs mail for all email accounts managed by **mw** (whose paths end in the email).
+
     This is the default, if no parameter is given.
     If an email address is given, only that email is synced.
 
@@ -105,7 +108,9 @@ If the parameter contains @ an email is assumed and synced.
 DEPENDENCIES
 ============
 
-- *pass* - `pass <https://www.passwordstore.org/>`__ safely encrypts passwords (**required for email setup**)
+Required for email setup or operation:
+
+- *pass* - `pass <https://www.passwordstore.org/>`__ safely encrypts passwords
 - *gnupg* - needed by *pass*
 - *mutt/neomutt* - the email client (*mutt* untested).
 - *isync’s mbsync* - syncs the mail

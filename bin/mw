@@ -37,7 +37,7 @@ msmtpbin="$prefix/bin/msmtp"
 _mwtakeaddr(){
   mwaccmaildir="$mwmaildir/$mwaddr" # mail dir is $MAILDIR/email
   mwacccachedir=$mwcachedir/${mwaddr//[.@]/_} # @ cannot stay because of mutt, . could
-  [ -z "$mwpass" ] || mwpass=$_MW_-$mwaddr
+  [ -n "$mwpass" ] || mwpass=$_MW_-$mwaddr
   [ -n "$mwidnum" ] && mwaccmuttrc="$mwaccmuttdir/$mwidnum-$mwaddr.mwonofftype.$mwtype.muttrc"
 }
 

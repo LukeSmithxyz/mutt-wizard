@@ -37,6 +37,19 @@ DESCRIPTION
 **mw** configures **mbsync**, **getmail**, **msmtp** and **mutt** in one go.
 **mutt** stands for **mutt** or **neomutt**.
 
+**mw** asks the user for the information it needs.
+They cannot be provided as parameters to the command.
+It is still possible to script **mw** by defining variables. 
+See the commands section.
+
+*mutt-wizard.muttrc* is linked in your *muttrc*.
+Have this line there, if you prefer your own settings::
+
+  # source /usr/share/mutt-wizard/mutt-wizard.muttrc
+
+You will need to keep the binding of *i,g,C,M* to *noop*, though,
+because of the generated bindings in the account muttrc.
+
 COMMANDS
 ========
 
@@ -48,6 +61,7 @@ If the parameter contains @ an email is assumed and synced.
     Add new email
 
     First you decide, whether you want to configure
+
     - **mbsync**, **getmail**, **msmtp** to sync emails independently from **mutt** using **mw**,
     - or just **mutt**.
       For an IMAP server **mutt** becomes very slow.
@@ -59,6 +73,12 @@ If the parameter contains @ an email is assumed and synced.
     If you are lucky, your email server is there.
     Else **mw** will prompt you.
 
+    Add an email without questions, e.g.::
+
+      a=x.y@gmail.com mwtype=offline mwaddr=$a mwlogin=$a mwpass=mutt-wizard-$a mwserverinfo="gmail.com,imap.gmail.com,993,smtp.gmail.com,587" mwname="your name" mw add
+
+    *mwserverinfo* can be omitted, if the email domain is in the accompanied *domains.csv*.
+
 *ls|list*
 
     List all email accounts configured by mutt-wizard
@@ -66,6 +86,10 @@ If the parameter contains @ an email is assumed and synced.
 *rm|remove*
 
     Remove the configuration files for an already configured email
+
+    Remove without questions the email whose generated muttrc starts with 1::
+
+      mwpick=1 mw rm <<<y
 
 *purge*
 
@@ -78,9 +102,18 @@ If the parameter contains @ an email is assumed and synced.
 
     Files are under *.config* or *$XDG_CONFIG_HOME*
 
+    If you don't want questions::
+
+      mw purge <<<y
+
 *cron*
 
     Toggle a cronjob that periodically syncs mail
+
+    Without questions::
+
+      mwcronremove=yes mw cron
+      mwcronminutes=99 mw cron
 
 *sync*
 
@@ -89,21 +122,11 @@ If the parameter contains @ an email is assumed and synced.
     This is the default, if no parameter is given.
     If an email address is given, only that email is synced.
 
-    - Every **mw** sync run will re-generate the **mutt** configuration
-      from the configuration files for **mbsync**, **getmail** and **msmtp**.
-      So you could edit them after or not use *mw add* at all.
+    Every **mw** sync run will re-generate the **mutt** configuration
+    from the configuration files for **mbsync**, **getmail** and **msmtp**.
+    So you could edit them after or not use *mw add* at all.
 
-      Just keep the *Path*, *path* and *account* ending in the email address.
-
-    - The generated **mutt** configuration has these bindings
-
-    - */usr/share/mutt-wizard/mutt-wizard.muttrc* is linked in your *muttrc*.
-      Have this line there, if you prefer your own settings::
-
-        # source /usr/share/mutt-wizard/mutt-wizard.muttrc
-
-      You will need to keep the binding of *i,g,C,M* to *noop*, though,
-      because of the generated bindings in the account muttrc.
+    Just keep the *Path*, *path* and *account* ending in the email address.
 
 DEPENDENCIES
 ============
@@ -155,7 +178,7 @@ MUTT CONFIGURATION
 
 Once everything is setup, you’ll use **mutt** to access your mail.
 
-The accompanied */usr/share/mutt-wizard.muttrc* modifies some **mutt** defaults.
+The accompanied *mutt-wizard.muttrc* modifies some **mutt** defaults.
 Look there for a complete list.
 
 Here an overview:

@@ -50,6 +50,24 @@ Sync email without mutt.
 \f[B]mw\f[R] configures \f[B]mbsync\f[R], \f[B]getmail\f[R],
 \f[B]msmtp\f[R] and \f[B]mutt\f[R] in one go.
 \f[B]mutt\f[R] stands for \f[B]mutt\f[R] or \f[B]neomutt\f[R].
+.PP
+\f[B]mw\f[R] asks the user for the information it needs.
+They cannot be provided as parameters to the command.
+It is still possible to script \f[B]mw\f[R] by defining variables.
+See the commands section.
+.PP
+\f[I]mutt-wizard.muttrc\f[R] is linked in your \f[I]muttrc\f[R].
+Have this line there, if you prefer your own settings:
+.IP
+.nf
+\f[C]
+# source /usr/share/mutt-wizard/mutt-wizard.muttrc
+\f[R]
+.fi
+.PP
+You will need to keep the binding of \f[I]i,g,C,M\f[R] to
+\f[I]noop\f[R], though, because of the generated bindings in the account
+muttrc.
 .SH COMMANDS
 .PP
 Without command parameter \f[B]sync\f[R] is assumed.
@@ -60,9 +78,12 @@ If the parameter contains \[at] an email is assumed and synced.
 .PP
 Add new email
 .PP
-First you decide, whether you want to configure - \f[B]mbsync\f[R],
-\f[B]getmail\f[R], \f[B]msmtp\f[R] to sync emails independently from
-\f[B]mutt\f[R] using \f[B]mw\f[R], - or just \f[B]mutt\f[R].
+First you decide, whether you want to configure
+.IP \[bu] 2
+\f[B]mbsync\f[R], \f[B]getmail\f[R], \f[B]msmtp\f[R] to sync emails
+independently from \f[B]mutt\f[R] using \f[B]mw\f[R],
+.IP \[bu] 2
+or just \f[B]mutt\f[R].
 For an IMAP server \f[B]mutt\f[R] becomes very slow.
 So normally you enter \f[B]yes\f[R] here.
 .PP
@@ -72,6 +93,17 @@ So normally you enter \f[B]yes\f[R] here.
 ports.
 If you are lucky, your email server is there.
 Else \f[B]mw\f[R] will prompt you.
+.PP
+Add an email without questions, e.g.:
+.IP
+.nf
+\f[C]
+a=x.y\[at]gmail.com mwtype=offline mwaddr=$a mwlogin=$a mwpass=mutt-wizard-$a mwserverinfo=\[dq]gmail.com,imap.gmail.com,993,smtp.gmail.com,587\[dq] mwname=\[dq]your name\[dq] mw add
+\f[R]
+.fi
+.PP
+\f[I]mwserverinfo\f[R] can be omitted, if the email domain is in the
+accompanied \f[I]domains.csv\f[R].
 .RE
 .PP
 \f[I]ls|list\f[R]
@@ -84,6 +116,14 @@ List all email accounts configured by mutt-wizard
 .RS
 .PP
 Remove the configuration files for an already configured email
+.PP
+Remove without questions the email whose generated muttrc starts with 1:
+.IP
+.nf
+\f[C]
+mwpick=1 mw rm <<<y
+\f[R]
+.fi
 .RE
 .PP
 \f[I]purge\f[R]
@@ -106,12 +146,29 @@ Removes all mw generated mutt settings and
 \f[I].config/msmtp/config\f[R]
 .PP
 Files are under \f[I].config\f[R] or \f[I]$XDG_CONFIG_HOME\f[R]
+.PP
+If you don\[aq]t want questions:
+.IP
+.nf
+\f[C]
+mw purge <<<y
+\f[R]
+.fi
 .RE
 .PP
 \f[I]cron\f[R]
 .RS
 .PP
 Toggle a cronjob that periodically syncs mail
+.PP
+Without questions:
+.IP
+.nf
+\f[C]
+mwcronremove=yes mw cron
+mwcronminutes=99 mw cron
+\f[R]
+.fi
 .RE
 .PP
 \f[I]sync\f[R]
@@ -122,34 +179,14 @@ end in the email).
 .PP
 This is the default, if no parameter is given.
 If an email address is given, only that email is synced.
-.IP \[bu] 2
+.PP
 Every \f[B]mw\f[R] sync run will re-generate the \f[B]mutt\f[R]
 configuration from the configuration files for \f[B]mbsync\f[R],
 \f[B]getmail\f[R] and \f[B]msmtp\f[R].
 So you could edit them after or not use \f[I]mw add\f[R] at all.
-.RS 2
 .PP
 Just keep the \f[I]Path\f[R], \f[I]path\f[R] and \f[I]account\f[R]
 ending in the email address.
-.RE
-.IP \[bu] 2
-The generated \f[B]mutt\f[R] configuration has these bindings
-.IP \[bu] 2
-\f[I]/usr/share/mutt-wizard/mutt-wizard.muttrc\f[R] is linked in your
-\f[I]muttrc\f[R].
-Have this line there, if you prefer your own settings:
-.RS 2
-.IP
-.nf
-\f[C]
-# source /usr/share/mutt-wizard/mutt-wizard.muttrc
-\f[R]
-.fi
-.PP
-You will need to keep the binding of \f[I]i,g,C,M\f[R] to
-\f[I]noop\f[R], though, because of the generated bindings in the account
-muttrc.
-.RE
 .RE
 .SH DEPENDENCIES
 .PP
@@ -209,7 +246,7 @@ sudo make install
 Once everything is setup, you\[cq]ll use \f[B]mutt\f[R] to access your
 mail.
 .PP
-The accompanied \f[I]/usr/share/mutt-wizard.muttrc\f[R] modifies some
+The accompanied \f[I]mutt-wizard.muttrc\f[R] modifies some
 \f[B]mutt\f[R] defaults.
 Look there for a complete list.
 .PP

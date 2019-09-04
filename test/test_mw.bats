@@ -15,7 +15,7 @@ run_only_test() {
 # these are called for every test
 setup()
 {
-    # run_only_test 2
+    #run_only_test 6
     rm -rf mwtesttmp
     XDG_CONFIG_HOME=mwtesttmp/config \
     MAILDIR=mwtesttmp/share/mail \
@@ -112,13 +112,13 @@ teardown()
 # 6
 @test "cron" {
     mwcronminutes=99 run _mwcron
-    chkline="${lines[2]}"
-    [ "${chkline::14}" = "Cronjob added." ]
+    chkline="${lines[1]}"
+    [ "${chkline::16}" = "mw cronjob added" ]
     function crontab() { echo 'mw sync'; }
     export crontab
     mwcronremove=y run _mwcron
     chkline="${lines[1]}"
-    [ "${chkline#*turned}" = " off." ]
+    [ "${chkline#*cronjob}" = " removed." ]
 }
 
 # 7

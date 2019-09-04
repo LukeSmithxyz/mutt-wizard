@@ -14,8 +14,7 @@ mw(1) Version 1.0 \| mutt-wizard man page
 NAME
 ====
 
-**mw** — mutt-wizard - add, list, remove email configurations for
-mbsync, getmail and mutt. Sync email without mutt.
+**mw** — mutt-wizard - add, list, remove email configurations for mbsync, getmail and mutt. Sync email without mutt.
 
 SYNOPSIS
 ========
@@ -28,22 +27,21 @@ SYNOPSIS
 | **mw remove**  Pick an account to remove
 | **mw purge**  Remove all accounts and settings
 | **mw cron**  Enable or disable an autosync via cronjob
-| **mw sync**  Sync mail based on config in *.config/isync/mbsyncrc *  and *.config/getmail/\**
+| **mw sync**  Sync mail based on config in *.config/isync/mbsyncrc* and *.config/getmail/\**
 | **mw –help\|-h**  Print this message
 | **mw –version\|-v**  Print version
 
 DESCRIPTION
 ===========
 
-**mw** configures **mbsync**, **getmail**, **msmtp** and **mutt** in one
-go, or just **mutt**. Note, **mutt** stands for **mutt** or **neomutt**,
-but **mw** settings was only tested with **neomutt**.
+**mw** configures **mbsync**, **getmail**, **msmtp** and **mutt** in one go.
+**mutt** stands for **mutt** or **neomutt**.
 
 COMMANDS
 ========
 
-Without command parameter **sync** is assumed. If a parameter contains @
-an email is assumed and synced.
+Without command parameter **sync** is assumed.
+If the parameter contains @ an email is assumed and synced.
 
 *add*
 
@@ -53,19 +51,17 @@ an email is assumed and synced.
        - **mbsync**, **getmail**, **msmtp** to sync emails independently from **mutt** using **mw**,
        - or just **mutt**. 
          For an IMAP server **mutt** becomes very slow.
-         Normally you enter **y**.
-    - It asks you the **email address**.
-    - It has a **database** of IMAP4/POP3 and SMTP servers and ports.
+         So normally you enter **yes** here.
+    - **mw** asks you the **email address**.
+    - **mw** has a **database** of IMAP4/POP3 and SMTP servers and ports.
       If you are lucky, your email server is there.
-      Else it will prompt you.
+      Else **mw** will prompt you.
 
 *ls|list*
-
 
     List all email accounts configured by mutt-wizard
 
 *rm|remove*
-
 
     Remove the configuration files for an already configured email
 
@@ -82,13 +78,11 @@ an email is assumed and synced.
 
 *cron*
 
-
-    toggle a cronjob that periodically syncs mail
+    Toggle a cronjob that periodically syncs mail
 
 *sync*
 
-
-    syncs mail for all email accounts managed by *mw* (whose paths end in the email).
+    Syncs mail for all email accounts managed by **mw** (whose paths end in the email).
     This is the default, if no parameter is given.
     If an email address is given, only that email is synced.
 
@@ -99,8 +93,6 @@ an email is assumed and synced.
       Just keep the *Path*, *path* and *account* ending in the email address.
 
     - The generated **mutt** configuration has these bindings
-      - *ixy/Mxy/Cxy* bindings to switch/move/copy to mailbox (x and y stand for other letters)
-      - *i[1-9]* bindings to switch account
 
     - */usr/share/mutt-wizard/mutt-wizard.muttrc* is linked in your *muttrc*.
       Have this line there, if you prefer your own settings::
@@ -109,7 +101,6 @@ an email is assumed and synced.
 
       You will need to keep the binding of *i,g,C,M* to *noop*, though,
       because of the generated bindings in the account muttrc.
-      Else you can overwrite certain things after the uncommented sourcing line.
 
 DEPENDENCIES
 ============
@@ -125,21 +116,23 @@ Optional:
 
 - *w3m* - view HTML email and images in **mutt**.
 
-- *notmuch* - index and search mail. If the configuration file in
-  *$NOTMUCH_CONFIG* is not there, *mw add* will create it.
+- *notmuch* - index and search mail.
+  If the configuration file *$NOTMUCH_CONFIG* is not there,
+  *mw add* will create it.
 
-- *libnotify* - allows notifications when syncing mail with *mw*
+- *libnotify* - allows notifications when syncing mail with **mw**
 
 - *abook* - a terminal-based address book.
 
 - A cron manager (e.g. *cronie*) - if you want to enable the auto-sync
   feature.
 
-- *pam-gnupg* - To provide your GPG key at login and never after. See
-  `directions <https://github.com/cruegge/pam-gnupg>`__.
+- *pam-gnupg* - To provide your GPG key at login and never after.
+  See `directions <https://github.com/cruegge/pam-gnupg>`__.
 
-  Alternatively increasing *default-cache-ttl* and *max-cache-ttl* in
-  *gpg-agent.conf* avoid constant password requests.
+  Alternatively avoid constant password requests by increasing
+
+  - *default-cache-ttl* and *max-cache-ttl* in *gpg-agent.conf*
 
 - *urlscan* - outputs urls in mail
 
@@ -152,15 +145,15 @@ INSTALLATION
    cd mutt-wizard
    sudo make install
 
-User of Arch-based distros can also install mutt-wizard from the AUR as
-`mw-git <https://aur.archlinux.org/packages/mw-git/>`__.
-
-MUTT-WIZARD'S NEOMUTT CONFIGURATION
-===================================
+MUTT CONFIGURATION
+==================
 
 Once everything is setup, you’ll use **mutt** to access your mail.
 
-Mutt usage with the accompanied */usr/share/mutt-wizard.muttrc*:
+The accompanied */usr/share/mutt-wizard.muttrc* modifies some **mutt** defaults.
+Look there for a complete list.
+
+Here an overview:
 
 - *?* - see all keyboard shortcuts
 
@@ -171,16 +164,14 @@ Mutt usage with the accompanied */usr/share/mutt-wizard.muttrc*:
 **mailboxes,accounts**
 
 - *ixy* - To go to **mailbox**.
-- *Mxy*, *Cxy* - For *M*\ ove and *C*\ opy to the according mailbox,
-  e.g. \ *Msp* means “move to Spam”.
-- *i#* - Press *i* followed by a number 1-9 to go to a **different
-  account**.
+- *Mxy*, *Cxy* - For Move and Copy to the according mailbox,
+  e.g. *Msp* means "move to Spam".
+- *i[1-9]* - go to another **account**.
 
   *xy* are
 
-  - two first letters of mailbox letters or
-  - first letter of first path entry + second letter of second path
-    entries
+  - the two first letters of a mailbox or
+  - first letter of first + second letter of second path entry
 
 **searching**
 
@@ -192,8 +183,9 @@ Mutt usage with the accompanied */usr/share/mutt-wizard.muttrc*:
 
 - *ga* - to add address/person to *abook* and *Tab* while typing
   address to complete one from book.
-- *m/r/gr/f* - new/reply/group reply/forward **message**, using your
-  default *$EDITOR* to write. Then you enter the **compose screen**.
+- *m/r/gr/f* - new/reply/group reply/forward **message**,
+  using your default *$EDITOR* to write.
+  Then you enter the **compose screen**.
 - *a* - to add attachments
 - *s/t/c/b/d* - to change the subject/to/CC/BCC/description.
 - *S* - to change the signature/encryption
@@ -225,50 +217,37 @@ Mutt usage with the accompanied */usr/share/mutt-wizard.muttrc*:
 
 **input field/command line**
 
-- *ctrl-u* will clear it
-- *ctrl-a*, *ctrl-e* go to beginning or end, *ctrl-g* aborts
-
-Look into */usr/share/mutt-wizard.muttrc* to see all bindings.
+- *ctrl-u* clears the line
+- *ctrl-a*, *ctrl-e* go to beginning or end
+- *ctrl-g* aborts
 
 DETAILS
 =======
 
-:Encoding:
+**Encoding/Language**
 
-    *isync* is not fully UTF-8 compatible. Non-Latin characters may be
-    garbled (although sync should succeed). *mw* will also not auto-create
-    mailbox shortcuts since it is looking for English mailbox names. I
-    strongly recommend you to set your email language to English on your
-    mail server to avoid these problems.
+    *isync* is not fully UTF-8 compatible.
+    **mw** assumes english mailbox names.
+    Set your email language to English on your mail server.
 
 **Mail location**
 
-    Mail is downloaded to a folder named after your email
-    in *\$MAILDIR*, which defaults to *\$HOME/Mail/*, the default for mutt.
+    Mail is downloaded to a folders named after your emails in *$MAILDIR*.
+    *$MAILDIR* defaults to *$HOME/Mail/*.
     Neither **mw remove** nor **mw purge** will delete downloaded mail.
-    Do that manually.
 
 **Gmail accounts**
 
-    Google will require you to allow "less-secure" (third party)
-    applications or use two-factor authentication in order to access
-    their IMAP servers to download your mail.
-    If you use Gmail, be sure to handle this before running mutt-wizard
+    For Gmail allow "less-secure" applications:
     <https://support.google.com/accounts/answer/6010255>.
+    Do this before running mutt-wizard.
 
 **Protonmail accounts**
 
     Protonmail users must use the Protonmail Bridge
-    <https://protonmail.com/bridge/> to access their IMAP and SMTP
-    servers. This too should be configured before running mutt-wizard.
-
-**Enterprise and university accounts**
-
-    Many universities and businesses might host their domain\'s email
-    via Google or another service.
-    This often requires a special IMAP/SMTP-specific password
-    that you must generate and use. Again, mutt-wizard can handle these
-    systems, but only once they have been set up.
+    <https://protonmail.com/bridge/>
+    to access their IMAP and SMTP servers.
+    Do this before running mutt-wizard.
 
 FILES
 =====
@@ -307,25 +286,6 @@ AUTHORS
    Bugfixes, Improvements in 2019.
 
    GitHub: <https://github.com/rpuntaie/mutt-wizard>
-
-   -  Honors *:math:`MAILDIR*, *`\ XDG_CONFIG_HOME*, *$XDG_CACHE_HOME*,
-      if defined.
-   -  *gm/gM* to sync mail inside *mutt*, as *o/O* has a *mutt*
-      assignment already.
-   -  Other more vim-like shortcut changes
-   -  Make channel name equal to email address to avoid choosing a new
-      name for the same thing.
-   -  *remove|rm* instead of *delete*, *list|ls* instead of only *ls*
-   -  *wm* integrates *mailsync*, not to overload the system namespace
-      and because of code reuse
-   -  *wm* generates *mutt* config on every full sync,
-
-      -  to reflect changes in mailboxes in the shortcuts
-      -  to reflect changes in *mbsync/getmail* config in *mutt* config
-
-   -  *urlscan* instead of *urlview*
-   -  Added tests and made bug fixes
-   -  Generate man page from readme, to avoid duplicate descriptions
 
 LICENSE
 =======

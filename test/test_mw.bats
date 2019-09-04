@@ -12,22 +12,35 @@ run_only_test() {
     fi
 }
 
+# these are called for every test
 setup()
 {
-    #run_only_test 4
+    #run_only_test 6
+    rm -rf mwtesttmp
     XDG_CONFIG_HOME=mwtesttmp/config \
     MAILDIR=mwtesttmp/share/mail \
     XDG_CACHE_HOME=mwtesttmp/cache \
+    prefix="$PWD" \
     source ../bin/mw
     export NOTMUCH_CONFIG=mwtesttmp/config/notmuch-config
     export mwname="real name"
     export mwaddr="full.addr@gmail.com"
     export mwlogin="$mwaddr"
+    export mwmailboxes="[Gmail]/INBOX"
     export mwshare=$PWD/../share
     function pass() { return 0; }
     export pass
+    function _mwcheckinternet() { return 0; }
+    export _mwcheckinternet
+    function _mwcheckcert() { return 0; }
+    export _mwcheckcert
+    function pgrep() { return 0; }
+    export pgrep
+    function crontab() { echo 'none'; }
+    export crontab
+    function _mwsyncandnotify() { echo "$mwaddr"; }
+    export _mwsyncandnotify
 }
-
 teardown()
 {
     if [ -z "$TEST_FUNCTION" ]
@@ -36,52 +49,97 @@ teardown()
     fi
 }
 
-#1
+# 1
 @test "check config" {
     [ "$mwmbsyncrc" = "mwtesttmp/config/isync/mbsyncrc" ]
     [ "$mwmsmtprc" = "mwtesttmp/config/msmtp/config" ]
 }
 
-#2
+# 2
 @test "add online" {
-    export mwtype=online
-    rm -rf mwtesttmp
-    export mailboxes="[Gmail]/Drafts"
-    run mwadd
+    mwtype="online" run _mwadd
     [ -f mwtesttmp/config/mutt/muttrc ]
-    [ -f mwtesttmp/config/mutt/accounts/1-$mwaddr.muttrc ]
+    [ -f mwtesttmp/config/mutt/accounts/1-$mwaddr.mwonofftype.online.muttrc ]
     [ "$(cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p')" = "" ]
-    [ ! "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
+    [ "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
+    [ ! "$(cat mwtesttmp/config/mutt/accounts/1-$mwaddr.mwonofftype.online.muttrc | sed -ne '/smtp_url/p')" = "" ]
     [ ! -f mwtesttmp/config/notmuch-config ]
 }
 
-#3
+# 3
 @test "add offline unsuccessful" {
-    export mwtype=offline
-    rm -rf mwtesttmp
-    run mwadd
+    export mwmailboxes="[Gmail]/OTHER"
+    mwtype="offline" run _mwadd
     [ -f mwtesttmp/config/mutt/muttrc ]
     [ -d mwtesttmp/config/mutt/accounts ]
-    [ ! -f mwtesttmp/config/mutt/accounts/1-$mwaddr.muttrc ]
+    [ ! -f mwtesttmp/config/mutt/accounts/1-$mwaddr.mwonofftype.offline.muttrc ]
     [ "$(cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p')" = "" ]
     [ "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
     [ ! -f mwtesttmp/config/notmuch-config ]
 }
 
-#4
+# 4
 @test "add offline successfully" {
-    export mwtype=offline
-    export mailboxes="[Gmail]/Drafts"
-    rm -rf mwtesttmp
-    run mwadd
+    mwtype="offline" run _mwadd
     [ -f mwtesttmp/config/mutt/muttrc ]
     [ -d mwtesttmp/config/mutt/accounts ]
-    [ -f mwtesttmp/config/mutt/accounts/1-$mwaddr.muttrc ]
+    [ -f mwtesttmp/config/mutt/accounts/1-$mwaddr.mwonofftype.offline.muttrc ]
     [ -f mwtesttmp/config/notmuch-config ]
-    cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p'
     [ ! "$(cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p')" = "" ]
     [ ! "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
-    run mwlist
+    [ "$(cat mwtesttmp/config/mutt/accounts/1-$mwaddr.mwonofftype.online.muttrc | sed -ne '/smtp_url/p')" = "" ]
+    run _mwlist
     [ "$(echo $lines | awk '{print $2}')" = "$mwaddr" ]
 }
 
+# 5
+@test "delete account" {
+    mwtype="online" run _mwadd
+    mwtype="offline" run _mwadd
+
+    pick_delete()
+    {
+      _mwpick delete && _mwdelete
+    }
+    export pick_delete
+
+    mwpick="1" run pick_delete
+    [ ! -f mwtesttmp/config/mutt/accounts/1-$mwaddr.mwonofftype.online.muttrc ]
+    [ ! "$(cat mwtesttmp/config/isync/mbsyncrc | sed -ne '/^\s*\w/p')" = "" ]
+    [ ! "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
+}
+
+# 6
+@test "cron" {
+    mwcronminutes=99 run _mwcron
+    chkline="${lines[1]}"
+    [ "${chkline::16}" = "mw cronjob added" ]
+    function crontab() { echo 'mw sync'; }
+    export crontab
+    mwcronremove=y run _mwcron
+    chkline="${lines[1]}"
+    [ "${chkline#*cronjob}" = " removed." ]
+}
+
+# 7
+@test "sync" {
+    mwtype="offline" run _mwadd
+    function pgrep() { [ "$1" = "-u" ] && return 0 || return 1; }
+    export pgrep
+    run _mwsync
+    [ "${lines// /}" = "full.addr@gmail.com" ]
+}
+
+# 8
+@test "add pop" {
+    export mwaddr="full.addr@chello.at"
+    mwtype="offline" run _mwadd
+    [ -f mwtesttmp/config/mutt/muttrc ]
+    [ -d mwtesttmp/config/mutt/accounts ]
+    [ -f mwtesttmp/config/mutt/accounts/1-$mwaddr.mwonofftype.offline.muttrc ]
+    [ -f mwtesttmp/config/notmuch-config ]
+    [ ! "$(cat mwtesttmp/config/msmtp/config | sed -ne '/^account/p')" = "" ]
+    [ ! "$(cat mwtesttmp/config/getmail/$mwaddr | sed -ne '/^\s*\w/p')" = "" ]
+    run _mwlist
+    [ "$(echo $lines | awk '{print $2}')" = "$mwaddr" ]
+}

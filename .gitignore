@@ -3,4 +3,4 @@ personal.muttrc
 *.gpg
 *.pyc
 accounts/
-*mailsynclastrun
+*mw.lastrun

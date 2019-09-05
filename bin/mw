@@ -32,9 +32,6 @@ mwgetmaildir=$mwconfigdir/getmail # POP3
 mwmsmtprc="$mwconfigdir/msmtp/config"
 mwsharerc="$mwshare/$_MW_.muttrc"
 mwcachedir="${XDG_CACHE_HOME:-$HOME/.cache}/$_MW_"
-mwmbsyncbin="$prefix/bin/mbsync -c $mwmbsyncrc"
-mwgetmailbin="$prefix/bin/getmail"
-msmtpbin="$prefix/bin/msmtp"
 
 _mwtakeaddr(){
   mwaccmaildir="$mwmaildir/$mwaddr" # mail dir is $MAILDIR/email
@@ -89,7 +86,7 @@ _mwasktype() {
     done
   fi
   if [ "$mwtype" == "offline" ]; then
-    ! type "$prefix/bin/msmtp" >/dev/null && printf "\033[31m\`msmtp\` must be installed. You can do that afterwards.\\n\033[0m"
+    ! type "msmtp" >/dev/null && printf "\033[31m\`msmtp\` must be installed. You can do that afterwards.\\n\033[0m"
   else
     ! ( type mutt >/dev/null || type neomutt >/dev/null ) && printf "\033[31m\`mutt\` must be installed. You can do that afterwards.\\n\033[0m"
   fi
@@ -196,7 +193,7 @@ EOF
 
 _mwprotonfinger() {
   printf "Getting Protonmail bridge fingerprint...\\n"
-  mwfingerprint="$($msmtpbin --serverinfo --host=127.0.0.1 --port=1025 --tls --tls-certcheck=off)" || return 1
+  mwfingerprint="$(msmtp --serverinfo --host=127.0.0.1 --port=1025 --tls --tls-certcheck=off)" || return 1
   sed -i "s/account $mwaddr/&\ntls_trust_file\ntls_fingerprint $mwfingerprint/" "$mwmsmtprc" &>/dev/null
 }
 
@@ -261,10 +258,10 @@ _mwprofiles() {
 
   if [ "$mwtype" = "offline" ]; then # not online, actually outside mutt
     if [ "${mwkind::3}" = "pop" ]; then
-      ! type "$prefix/bin/getmail" >/dev/null && printf "\033[31mFor POP3 \`getmail\` must be installed to use \`mw\`. You can do that afterwards.\\n\033[0m"
+      ! type getmail >/dev/null && printf "\033[31mFor POP3 \`getmail\` must be installed to use \`mw\`. You can do that afterwards.\\n\033[0m"
       _mwpop
     else
-      ! type "$prefix/bin/mbsync" >/dev/null && printf "\033[31mFor IMAP \`mbsync\` must be installed to use \`mw\`. You can do that afterwards.\\n\033[0m"
+      ! type mbsync >/dev/null && printf "\033[31mFor IMAP \`mbsync\` must be installed to use \`mw\`. You can do that afterwards.\\n\033[0m"
       _mwmbsync
     fi
     _mwsmtp
@@ -285,7 +282,6 @@ _mwtryconnect() {
         grep "+OK" && mwmailboxes="INBOX"
     else
       # for online do without mbsync, i.e. don't require it for mail setup, either
-      # mwmailboxes="$($mwmbsyncbin -l $mwaddr | sed 's/\//./')" >/dev/null 2>&1
       [ "$mwport" = "143" ] && mwi="IMAP4" || mwi="IMAP4_SSL"
       mwpw="$(pass $mwpass)"
       mwmailboxes="$(python -c "from imaplib import $mwi;m=$mwi('$mwurl');m.login('$mwlogin','$mwpw');b=m.list()[1];print('\n'.join(e.split(b' \"/\" ')[-1].strip(b'\"').decode() for e in b if all(x not in e for x in [b'[Gmail]/All Mail',b'Noselect',b'HasChildren'])));m.logout()")"
@@ -501,7 +497,7 @@ macro index gm "<shell-escape>mw $mwaddr<enter>" "sync mail $mwaddr"
 set folder = "$mwaccmaildir"
 folder-hook \$folder '$mwmuttsync'
 
-set sendmail = "/usr/bin/msmtp -a \$from"
+set sendmail = "msmtp -a \$from"
 
 EOF
   else # online
@@ -643,9 +639,9 @@ _mwgatheremails() {
 _mwsyncandnotify() {
   mwaccmaildir="$mwmaildir/$mwaddr"
   if [ -f "$mwgetmaildir/$mwaddr" ]; then
-    $mwgetmailbin --rcfile=$mwaddr --getmaildir=$mwgetmaildir
+    getmail --rcfile=$mwaddr --getmaildir=$mwgetmaildir
   else
-    $mwmbsyncbin  $mwaddr
+    mbsync -c $mwmbsyncrc $mwaddr
   fi
   [ -n "$mwnono" ] && return
   mwlastrun="$mwaccmaildir/.mw.lastrun"

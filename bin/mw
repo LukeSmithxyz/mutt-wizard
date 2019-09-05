@@ -219,7 +219,7 @@ Channel $mwaddr
 Expunge Both
 Master :$mwaddr-remote:
 Slave :$mwaddr-local:
-Patterns * !"[Gmail]" !"[Gmail]/All Mail"
+Patterns * !"_/*" !"[Gmail]" !"[Gmail]/All Mail"
 Create Both
 SyncState *
 MaxMessages 0
@@ -645,6 +645,7 @@ _mwsyncandnotify() {
   else
     $mwmbsyncbin  $mwaddr
   fi
+  [ -z "$mwnono" ] && return
   mwlastrun="$mwaccmaildir/.mw.lastrun"
   mwnew=$(find "$mwaccmaildir/INBOX/new/" "$mwaccmaildir/Inbox/new/" "$mwaccmaildir/inbox/new/" -type f -newer "$mwlastrun" 2> /dev/null)
   newcount=$(echo "$mwnew" | sed '/^\s*$/d' | wc -l)
@@ -716,6 +717,7 @@ if [ "$#" -gt 1 ]; then
 fi
 
 if [ "$1" = "" ]; then
+  mwnono="NO"
   _mwsync
 else
   case "$1" in

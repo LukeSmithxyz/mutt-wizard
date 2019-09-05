@@ -117,9 +117,11 @@ If the parameter contains @ an email is assumed and synced.
 
 *sync*
 
-    Syncs mail for all email accounts managed by **mw** (whose paths end in the email).
+    Syncs mail for all email accounts managed by **mw** (whose paths end in the email),
+    and pops up notifications for new mail.
 
-    This is the default, if no parameter is given.
+    **mw** alone, without *sync*, syncs without notifications.
+
     If an email address is given, only that email is synced.
 
     Every **mw** sync run will re-generate the **mutt** configuration
@@ -266,14 +268,24 @@ DETAILS
 
 **Gmail accounts**
 
-    For Gmail allow "less-secure" applications:
-    <https://support.google.com/accounts/answer/6010255>.
+    For Gmail allow 
+    `less-secure applications <https://support.google.com/accounts/answer/6010255>`__
     Do this before running mutt-wizard.
+
+    Gmail uses labels instead of folders.
+    To avoid local message duplication, remove labels on the
+    `Gmail web interface <https://mail.google.com/mail/u/0/#settings/labels>`__
+    or hide them from IMAP
+    and remove the according local folders.
+    To keep a (local) folder from being synced one must exclude it in *mbsyncrc*.
+    **mw** generates this default::
+
+      Patterns * !"_/*" !"[Gmail]" !"[Gmail]/All Mail"
 
 **Protonmail accounts**
 
-    Protonmail users must use the Protonmail Bridge
-    <https://protonmail.com/bridge/>
+    Protonmail users must use the 
+    `Protonmail Bridge <https://protonmail.com/bridge/>`__
     to access their IMAP and SMTP servers.
     Do this before running mutt-wizard.
 
@@ -298,7 +310,7 @@ FILES
 BUGS
 ====
 
-GitHub Issues: <https://github.com/rpuntaie/mutt-wizard/issues>
+`GitHub Issues <https://github.com/rpuntaie/mutt-wizard/issues>`__
 
 AUTHORS
 =======
@@ -306,14 +318,14 @@ AUTHORS
 *Luke Smith* <luke@lukesmith.xyz>
    Original author, started in 2018.
 
-   Github <https://github.com/lukesmithxyz/mutt-wizard>
+   `Github <https://github.com/lukesmithxyz/mutt-wizard>`__
 
-   Gitlab <https://gitlab.com/lukesmithxyz/mutt-wizard>
+   `Gitlab <https://gitlab.com/lukesmithxyz/mutt-wizard>`__
 
 *Roland Puntaier* <roland.puntaier@gmail.com>
    Bugfixes, Improvements in 2019.
 
-   GitHub: <https://github.com/rpuntaie/mutt-wizard>
+   `GitHub: <https://github.com/rpuntaie/mutt-wizard>`__
 
 LICENSE
 =======

@@ -175,9 +175,10 @@ mwcronminutes=99 mw cron
 .RS
 .PP
 Syncs mail for all email accounts managed by \f[B]mw\f[R] (whose paths
-end in the email).
+end in the email), and pops up notifications for new mail.
 .PP
-This is the default, if no parameter is given.
+\f[B]mw\f[R] alone, without \f[I]sync\f[R], syncs without notifications.
+.PP
 If an email address is given, only that email is synced.
 .PP
 Every \f[B]mw\f[R] sync run will re-generate the \f[B]mutt\f[R]
@@ -366,16 +367,30 @@ downloaded mail.
 \f[B]Gmail accounts\f[R]
 .RS
 .PP
-For Gmail allow \[dq]less-secure\[dq] applications:
-<<https://support.google.com/accounts/answer/6010255>>.
-Do this before running mutt-wizard.
+For Gmail allow less-secure
+applications (https://support.google.com/accounts/answer/6010255) Do
+this before running mutt-wizard.
+.PP
+Gmail uses labels instead of folders.
+To avoid local message duplication, remove labels on the Gmail web
+interface (https://mail.google.com/mail/u/0/#settings/labels) or hide
+them from IMAP and remove the according local folders.
+To keep a (local) folder from being synced one must exclude it in
+\f[I]mbsyncrc\f[R].
+\f[B]mw\f[R] generates this default:
+.IP
+.nf
+\f[C]
+Patterns * !\[dq]_/*\[dq] !\[dq][Gmail]\[dq] !\[dq][Gmail]/All Mail\[dq]
+\f[R]
+.fi
 .RE
 .PP
 \f[B]Protonmail accounts\f[R]
 .RS
 .PP
-Protonmail users must use the Protonmail Bridge
-<<https://protonmail.com/bridge/>> to access their IMAP and SMTP
+Protonmail users must use the Protonmail
+Bridge (https://protonmail.com/bridge/) to access their IMAP and SMTP
 servers.
 Do this before running mutt-wizard.
 .RE
@@ -397,23 +412,23 @@ Default mailcap file.
 Email server database.
 .SH BUGS
 .PP
-GitHub Issues: <<https://github.com/rpuntaie/mutt-wizard/issues>>
+GitHub Issues (https://github.com/rpuntaie/mutt-wizard/issues)
 .SH AUTHORS
 .TP
 .B \f[I]Luke Smith\f[R] <<luke@lukesmith.xyz>>
 Original author, started in 2018.
 .RS
 .PP
-Github <<https://github.com/lukesmithxyz/mutt-wizard>>
+Github (https://github.com/lukesmithxyz/mutt-wizard)
 .PP
-Gitlab <<https://gitlab.com/lukesmithxyz/mutt-wizard>>
+Gitlab (https://gitlab.com/lukesmithxyz/mutt-wizard)
 .RE
 .TP
 .B \f[I]Roland Puntaier\f[R] <<roland.puntaier@gmail.com>>
 Bugfixes, Improvements in 2019.
 .RS
 .PP
-GitHub: <<https://github.com/rpuntaie/mutt-wizard>>
+GitHub: (https://github.com/rpuntaie/mutt-wizard)
 .RE
 .SH LICENSE
 .PP

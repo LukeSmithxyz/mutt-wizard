@@ -20,7 +20,6 @@ setup()
     XDG_CONFIG_HOME=mwtesttmp/config \
     MAILDIR=mwtesttmp/share/mail \
     XDG_CACHE_HOME=mwtesttmp/cache \
-    prefix="$PWD" \
     source ../bin/mw
     export NOTMUCH_CONFIG=mwtesttmp/config/notmuch-config
     export mwname="real name"

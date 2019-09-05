@@ -1,13 +1,15 @@
 #!/bin/sh
 
-if [ -z "$prefix" ]; then
-  case "$(uname)" in
-    Linux) prefix="/usr" ;;
-    *)  prefix="/usr/local" ;;
-  esac
-fi
-
 VERSION="2.0"
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+  prefix=${0}
+else
+  prefix="$BASH_SOURCE"
+fi
+[ ! ${prefix::1} = "/" ] && prefix="$PWD/$prefix"
+prefix="${prefix%/bin/*}"
+mwbin="$prefix/bin/mw"
 
 _MW_="mutt-wizard"
 _MW_generated="mutt-wizard-generated"
@@ -428,7 +430,7 @@ _mwcron() {
     read -r mwcronminutes
     printf "\033[0m"
   done
-  (crontab -l; echo "*/$mwcronminutes * * * * export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus; export DISPLAY=:0; $(type mw | cut -d' ' -f3) sync") \
+  (crontab -l; echo "*/$mwcronminutes * * * * export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus; export DISPLAY=:0; $mwbin sync") \
       | crontab - && echo "mw cronjob added. Mail will sync every $mwcronminutes minutes. Be sure you have your cron manager running."
 }
 
@@ -645,7 +647,7 @@ _mwsyncandnotify() {
   else
     $mwmbsyncbin  $mwaddr
   fi
-  [ -z "$mwnono" ] && return
+  [ -n "$mwnono" ] && return
   mwlastrun="$mwaccmaildir/.mw.lastrun"
   mwnew=$(find "$mwaccmaildir/INBOX/new/" "$mwaccmaildir/Inbox/new/" "$mwaccmaildir/inbox/new/" -type f -newer "$mwlastrun" 2> /dev/null)
   newcount=$(echo "$mwnew" | sed '/^\s*$/d' | wc -l)

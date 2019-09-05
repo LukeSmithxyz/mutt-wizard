@@ -7,9 +7,7 @@ bats --tap test_mw.bats
 
 echo
 echo "Integration tests need working email $mwaddr"
-echo "CTRL-C to skip"
 
-#modify
 if [ -z "$MAILDIR" ] || [ -z "$mwaddr" ]; then
     echo "First do:"
     [ -z "$MAILDIR" ] && echo "export MAILDIR=..."
@@ -17,11 +15,15 @@ if [ -z "$MAILDIR" ] || [ -z "$mwaddr" ]; then
     exit
 fi
 
-cd .. && sudo make install && OK="OK"
+export PREFIX=$PWD/mwtesttmp
+export PATH=$PATH:$PREFIX/bin
+
+cd .. && make install && OK="OK"
 
 if [ "$OK" = "OK" ]; then
 
     echo "Warning: Out with CTRL-C if your mail (config) files are important here."
+    read
 
     export mwmaildir=$MAILDIR
     export mwname='r n'
@@ -34,6 +36,7 @@ if [ "$OK" = "OK" ]; then
     [ -f "${PASSWORD_STORE_DIR:-~/.password-store}/$mwpass.gpg" ] || pass insert $mwpass
 
     echo "= Test 1 ="
+    echo $PATH
     mwtype=online mw add
     echo "=> In another prompt, start mutt and verify that mails are shown"
     echo "=> Then answer with N"
@@ -53,3 +56,6 @@ if [ "$OK" = "OK" ]; then
 fi
 
 cd $CD
+
+rm -rf $PREFIX
+

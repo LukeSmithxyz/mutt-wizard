@@ -222,15 +222,12 @@ If the configuration file \f[I]$NOTMUCH_CONFIG\f[R] is not there,
 A cron manager (e.g.\ *cronie*) - if you want to enable the auto-sync
 feature.
 .IP \[bu] 2
-\f[I]pam-gnupg\f[R] - To provide your GPG key at login and never after.
-See directions (https://github.com/cruegge/pam-gnupg).
-.RS 2
-.PP
-Alternatively avoid constant password requests by increasing
-.IP \[bu] 2
+\f[I]pam-gnupg\f[R] - Forwards your login password to the
+gpg-agent (https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html).
+Login password and GPG password must be the same.
 \f[I]default-cache-ttl\f[R] and \f[I]max-cache-ttl\f[R] in
-\f[I]gpg-agent.conf\f[R]
-.RE
+\f[I]gpg-agent.conf\f[R] still apply.
+Increasing them to avoid password requests too soon after login.
 .IP \[bu] 2
 \f[I]urlscan\f[R] - outputs urls in mail
 .SH INSTALLATION

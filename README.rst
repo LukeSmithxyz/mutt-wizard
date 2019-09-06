@@ -154,15 +154,13 @@ Optional:
 
 - *abook* - a terminal-based address book.
 
-- A cron manager (e.g. *cronie*) - if you want to enable the auto-sync
-  feature.
+- A cron manager (e.g. *cronie*) - if you want to enable the auto-sync feature.
 
-- *pam-gnupg* - To provide your GPG key at login and never after.
-  See `directions <https://github.com/cruegge/pam-gnupg>`__.
-
-  Alternatively avoid constant password requests by increasing
-
-  - *default-cache-ttl* and *max-cache-ttl* in *gpg-agent.conf*
+- *pam-gnupg* - Forwards your login password to the
+  `gpg-agent <https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html>`__.
+  Login password and GPG password must be the same.
+  *default-cache-ttl* and *max-cache-ttl* in *gpg-agent.conf* still apply.
+  Increasing them to avoid password requests too soon after login.
 
 - *urlscan* - outputs urls in mail
 

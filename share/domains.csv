@@ -268,3 +268,4 @@ zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 tlu.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 mailo.com,mail.mailo.com,993,mail.mailo.com,465
 mail.mcgill.ca,outlook.office365.com,993,smtp.office365.com,587
+ua.pt,outlook.office365.com,993,mail.ua.pt,25

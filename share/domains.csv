@@ -195,6 +195,7 @@ orange.fr,imap.orange.fr,993,smtp.orange.fr,465
 outlook.at,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 outlook.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 outlook.de,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+outlook.es,outlook.office365.com,993,smtp.office365.com,587
 paranoici.org,mail.autistici.org,993,smtp.autistici.org,465
 pm.me,127.0.0.1,1143,127.0.0.1,1025
 poczta.fm,poczta.interia.pl,993,poczta.interia.pl,465

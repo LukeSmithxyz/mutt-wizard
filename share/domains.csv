@@ -1,6 +1,6 @@
-ADDRESS,IMAP,imap port,SMTP,smtp port
 420blaze.it,mail.cock.li,993,mail.cock.li,587
 8chan.co,mail.cock.li,993,mail.cock.li,587
+ADDRESS,IMAP,imap port,SMTP,smtp port
 aaathats3as.com,mail.cock.li,993,mail.cock.li,587
 accountant.com,imap.mail.com,993,smtp.mail.com,587
 activist.com,imap.mail.com,993,smtp.mail.com,587
@@ -166,9 +166,11 @@ loves.dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 loves.dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
 lukesmith.xyz,mail.lukesmith.xyz,993,mail.lukesmith.xyz,587
 mail.com,imap.mail.com,993,smtp.mail.com,587
+mail.mcgill.ca,outlook.office365.com,993,smtp.office365.com,587
 mail.polimi.it,outlook.office365.com,993,smtp.office365.com,587
 mail.ru,imap.mail.ru,993,smtp.mail.ru,465
 mailbox.org,imap.mailbox.org,993,smtp.mailbox.org,587
+mailo.com,mail.mailo.com,993,mail.mailo.com,465
 memeware.net,mail.cock.li,993,mail.cock.li,587
 ml1.net,imap.fastmail.com,993,smtp.fastmail.com,465
 mortemale.org,mail.autistici.org,993,smtp.autistici.org,465
@@ -227,14 +229,17 @@ studserv.uni-leipzig.de,studserv.uni-leipzig.de,993,studserv.uni-leipzig.de,25
 subvertising.org,mail.autistici.org,993,smtp.autistici.org,465
 t-online.de,secureimap.t-online.de,993,securesmtp.t-online.de,465
 techie.com,imap.mail.com,993,smtp.mail.com,587
+tecnico.ulisboa.pt,mail.tecnico.ulisboa.pt,993,mail.tecnico.ulisboa.pt,465
 teknik.io,mail.teknik.io,993,mail.teknik.io,587
 telenet.be,imap.telenet.be,993,smtp.telenet.be,587
 tfwno.gf,mail.cock.li,993,mail.cock.li,587
 tlen.pl,poczta.o2.pl,993,poczta.o2.pl,465
+tlu.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 tquad.ai,imap.mail.eu-west-1.awsapps.com,993,smtp.mail.eu-west-1.awsapps.com,465
 tu-harburg.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
 tuhh.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
 txstate.edu,outlook.office365.com,993,smtp.office365.com,587
+ua.pt,outlook.office365.com,993,mail.ua.pt,25
 uach.mx,imap.gmail.com,993,smtp.gmail.com,587
 uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587
@@ -266,7 +271,3 @@ yandex.net,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
-tlu.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
-mailo.com,mail.mailo.com,993,mail.mailo.com,465
-mail.mcgill.ca,outlook.office365.com,993,smtp.office365.com,587
-ua.pt,outlook.office365.com,993,mail.ua.pt,25

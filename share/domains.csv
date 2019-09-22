@@ -224,6 +224,7 @@ stud.tu-darmstadt.de,imap.stud.tu-darmstadt.de,993,smtp.tu-darmstadt.de,465
 stud.uis.no,outlook.office365.com,993,smtp.office365.com,587
 stud.uni-bamberg.de,outlook.office365.com,993,smtp.office365.com,587
 student.rmit.edu.au,outlook.office365.com,993,smtp.office365.com,587
+student.tuwien.ac.at,mail.student.tuwien.ac.at,993,mail.student.tuwien.ac.at,587
 students.southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 studserv.uni-leipzig.de,studserv.uni-leipzig.de,993,studserv.uni-leipzig.de,25
 subvertising.org,mail.autistici.org,993,smtp.autistici.org,465
@@ -238,7 +239,6 @@ tlu.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 tquad.ai,imap.mail.eu-west-1.awsapps.com,993,smtp.mail.eu-west-1.awsapps.com,465
 tu-harburg.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
 tuhh.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
-student.tuwien.ac.at,mail.student.tuwien.ac.at,993,mail.student.tuwien.ac.at,587
 txstate.edu,outlook.office365.com,993,smtp.office365.com,587
 ua.pt,outlook.office365.com,993,mail.ua.pt,25
 uach.mx,imap.gmail.com,993,smtp.gmail.com,587

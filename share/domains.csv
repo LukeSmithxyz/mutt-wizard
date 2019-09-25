@@ -129,7 +129,7 @@ hotmail.de,outlook.office365.com,993,smtp.office365.com,587
 hotmail.dk,outlook.office365.com,993,smtp.office365.com,587
 hotmail.es,outlook.office365.com,993,smtp.office365.com,587
 hotmail.fi,outlook.office365.com,993,smtp.office365.com,587
-hotmail.fr,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+hotmail.fr,outlook.office365.com,993,smtp.office365.com,587
 hotmail.gr,outlook.office365.com,993,smtp.office365.com,587
 hotmail.hu,outlook.office365.com,993,smtp.office365.com,587
 hotmail.it,outlook.office365.com,993,smtp.office365.com,587

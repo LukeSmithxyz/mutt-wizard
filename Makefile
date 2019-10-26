@@ -26,8 +26,9 @@ install:
 	cp -f mw.1 $(DESTDIR)$(MANPREFIX)/man1/mw.1
 
 uninstall:
-	for script in bin/*; do \
-		rm -f $(DESTDIR)$(PREFIX)/bin/$$script; \
+	for scriptPath in bin/*; do \
+		scriptFile=$$(basename $$scriptPath); \
+		rm -f $(DESTDIR)$(PREFIX)/bin/$$scriptFile; \
 	done
 	rm -rf $(DESTDIR)$(PREFIX)/share/mutt-wizard
 

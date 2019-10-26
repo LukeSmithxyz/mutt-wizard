@@ -1,6 +1,6 @@
 text/plain; $EDITOR %s ;
 text/html; openfile %s ; nametemplate=%s.html
-text/html; w3m -I %{charset} -T text/html; copiousoutput;
+text/html; lynx -assume_charset=%{charset} -display_charset=utf-8 -dump %s; nametemplate=%s.html; copiousoutput;
 image/*; muttimage %s ; copiousoutput
 video/*; setsid mpv --quiet %s &; copiousoutput
 application/pdf; openfile %s ;

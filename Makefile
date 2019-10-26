@@ -30,5 +30,6 @@ uninstall:
 		rm -f $(DESTDIR)$(PREFIX)/bin/$$script; \
 	done
 	rm -rf $(DESTDIR)$(PREFIX)/share/mutt-wizard
+	rm -f $(DESTDIR)$(MANPREFIX)/man1/mw.1
 
 .PHONY: install uninstall

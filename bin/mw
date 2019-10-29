@@ -134,8 +134,20 @@ askinfo() { \
 		printf "\033[0m"
 	done
 	domain="$(echo "$fulladdr" | sed "s/.*@//")"
+  search_query=$domain
+  while : ; do
+    printf "\nIs your email hosted with Protonmail? [yes/no] "
+    read -r is_protonmail
+    case $is_protonmail in
+      [Yy][Ee][Ss]) is_protonmail=true && break;;
+      [Nn][Oo]) is_protonmail=false && break;;
+      *) printf 'Please answer Yes or No'
+    esac; done;
+  if $is_protonmail; then
+    search_query='protonmail.com'
+  fi
 	printf "\\nSearching for \033[32m%s\033[0m in \033[34m\`domains.csv\`\033[0m..." "$domain"
-	serverinfo="$(grep "^$domain" "$muttshare/domains.csv" 2>/dev/null)"
+	serverinfo="$(grep "^$search_query" "$muttshare/domains.csv" 2>/dev/null)"
 	if [ -z "$serverinfo" ]; then
 		printf "Your email domain is not in mutt-wizard's database yet.\\nmutt-wizard will still autoconfigure everything, but you will have to manually type in your service's IMAP and SMTP server information.\\nYou can usually quickly find this by internet searching for it.\\n"
 		printf "Insert the IMAP server for your email provider (excluding the port number)\\n\033[36m\t"

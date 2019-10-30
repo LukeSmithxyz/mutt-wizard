@@ -260,6 +260,7 @@ wanadoo.fr,imap.orange.fr,993,smtp.orange.fr,465
 wants.dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 wants.dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
 web.de,imap.web.de,993,smtp.web.de,587
+wit.edu,outlook.office365.com,993,smtp.office365.com,587
 wp.pl,imap.wp.pl,993,smtp.wp.pl,465
 writeme.com,imap.mail.com,993,smtp.mail.com,587
 ya.ru,imap.yandex.com,993,smtp.yandex.com,587

@@ -2,7 +2,8 @@
 # Sync mail and give notification if there is new mail.
 
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
+export DBUS_SESSION_BUS_ADDRESS
 export DISPLAY=:0.0
 [ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
 

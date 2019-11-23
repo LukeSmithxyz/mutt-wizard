@@ -44,6 +44,7 @@ bind index U undelete-message
 bind index L limit
 bind index h noop
 bind index l display-message
+bind index <space> tag-entry
 #bind browser h goto-parent
 macro browser h '<change-dir><kill-line>..<enter>' "Go to parent folder"
 bind index,pager H view-raw-message
@@ -90,6 +91,11 @@ color index_subject cyan default '.*'
 color index brightyellow black "~N"
 color index_author brightred black "~N"
 color index_subject brightcyan black "~N"
+
+# Tagged mail is highlighted:
+color index brightyellow blue "~T"
+color index_author brightred blue "~T"
+color index_subject brightcyan blue "~T"
 
 # Other colors and aesthetic settings:
 mono bold bold

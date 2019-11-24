@@ -73,6 +73,7 @@ Patterns * !\"[Gmail]/All Mail\"
 Create Both
 SyncState *
 MaxMessages $maxmes
+ExpireUnread no
 # End profile
 "
 

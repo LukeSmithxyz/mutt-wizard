@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 [ -z ${PASSWORD_STORE_DIR+x} ] && PASSWORD_STORE_DIR="$HOME/.password-store"
 [ -r "$PASSWORD_STORE_DIR/.gpg-id" ] &&

@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #get image resolution
 resolution=$(identify $1 | awk '{print $3}')
 IFS='x' # x is set as delimiter
-read -ra ADDR <<< "$resolution" 
+read -ra ADDR <<< "$resolution"
 width=${ADDR[0]}
 height=${ADDR[1]}
 

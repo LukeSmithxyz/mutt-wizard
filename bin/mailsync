@@ -48,7 +48,7 @@ else
 fi
 
 echo " 🔃" > /tmp/imapsyncicon_"$USER"
-pkill -RTMIN+12 "$STATUSBAR" >/dev/null 2>&1
+pkill -RTMIN+12 "${STATUSBAR:?}" >/dev/null 2>&1
 
 # Parallelize multiple accounts
 for account in $accounts

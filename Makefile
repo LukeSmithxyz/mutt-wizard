@@ -20,11 +20,11 @@ install:
 	cp -f mw.1 $(DESTDIR)$(MANPREFIX)/man1/mw.1
 	if [ "$(PREFIX)" ]; then \
 		sed -iba 's:/usr/local:$(PREFIX):' $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrc; \
+		rm -f $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrcba; \
 		sed -iba 's:/usr/local:$(PREFIX):' $(DESTDIR)$(PREFIX)/bin/mw; \
+		rm -f $(DESTDIR)$(PREFIX)/bin/mwba; \
 		sed -iba 's:/usr/local:$(PREFIX):' $(DESTDIR)$(MANPREFIX)/man1/mw.1; \
-	fi
-	if [ "$(OS)" = "Darwin" ]; then \
-		rm $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrcba; \
+		rm -f $(DESTDIR)$(MANPREFIX)/man1/mw.1ba; \
 	fi
 
 uninstall:

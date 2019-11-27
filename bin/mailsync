@@ -20,7 +20,7 @@ command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotif
 if [ "$(uname)" = "Darwin" ]; then
     notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 else
-    notify() { notify-send "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account." ;}
+    notify() { notify-send --app-name="mutt-wizard" "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account." ;}
 fi
 
 # Check account for new mail. Notify if there is new content.
@@ -35,7 +35,7 @@ syncandnotify() {
             # Extract subject and sender from mail.
             from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
             subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n-1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
-            notify-send "📧$from:" "$subject" &
+            notify-send --app-name="mutt-wizard" "📧$from:" "$subject" &
         done
     fi
 }
@@ -48,7 +48,7 @@ else
 fi
 
 echo " 🔃" > /tmp/imapsyncicon_"$USER"
-pkill -RTMIN+12 i3blocks >/dev/null 2>&1
+pkill -RTMIN+12 "${STATUSBAR:?}" >/dev/null 2>&1
 
 # Parallelize multiple accounts
 for account in $accounts
@@ -58,7 +58,7 @@ done
 
 wait
 rm -f /tmp/imapsyncicon_"$USER"
-pkill -RTMIN+12 i3blocks >/dev/null 2>&1
+pkill -RTMIN+12 "${STATUSBAR:?}" >/dev/null 2>&1
 
 notmuch new 2>/dev/null
 

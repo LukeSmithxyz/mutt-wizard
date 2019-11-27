@@ -52,7 +52,7 @@ There's a chance of errors if you use a slow-release distro like Ubuntu, Debian 
 
 ### Optional
 
-- `w3m` - view HTML email and images in neomutt.
+- `lynx` - view HTML email in neomutt.
 - `notmuch` - index and search mail. Install it and run `notmuch setup`, tell it that your mail is in `~/.local/share/mail/` (although `mw` will do this automatically if you haven't set notmuch up before). You can run it in mutt with `ctrl-f`. Run `notmuch new` to process new mail, although the included `mailsync` script does this for you.
 - `libnotify`/`libnotify-bin` - allows notifications when syncthing mail with `mailsync`
 - `abook` - a terminal-based address book. Pressing tab while typing an address to send mail to will suggest contacts that are in your abook.

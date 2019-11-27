@@ -60,10 +60,10 @@ will delete downloaded mail for for safety (and time)'s sake. If you want to del
 .TP
 .B Default settings
 The mutt-wizard has many default settings that focus on making it aesthetically pleasing and supplying more vim-like bindings. These can be found in
-.I /usr/share/mutt-wizard/mutt-wizard.muttrc
+.I /usr/local/share/mutt-wizard/mutt-wizard.muttrc
 and the default mailcap file can be found in
 .I
-/usr/share/mutt-wizard/mailcap.
+/usr/local/share/mutt-wizard/mailcap.
 Any of these settings can be overwritten in
 .I ~/.config/mutt/muttrc,
 but be mindful that your overriding binds should appear after the
@@ -73,7 +73,7 @@ file is sourced.
 .TP
 .B Detecting server settings
 mutt-wizard has a repository of email services and their server information kept in
-.I /usr/share/mutt-wizard/domains.csv
+.I /usr/local/share/mutt-wizard/domains.csv
 which is used to automatically configure email settings.
 If your email provider is not found there, it will prompt you to input your email service's IMAP and SMTP server information which can usually be found by searching online.
 

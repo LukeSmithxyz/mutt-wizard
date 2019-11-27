@@ -1,4 +1,5 @@
 ADDRESS,IMAP,imap port,SMTP,smtp port
+icloud.com,imap.mail.me.com,993,smtp.mail.me.com,587
 420blaze.it,mail.cock.li,993,mail.cock.li,587
 8chan.co,mail.cock.li,993,mail.cock.li,587
 aaathats3as.com,mail.cock.li,993,mail.cock.li,587
@@ -278,3 +279,4 @@ yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 polito.it,mail.polito.it,993,mail.polito.it,465
 studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
+hs-mittweida.de,mail.hs-mittweida.de,993,mail.hs-mittweida.de,465

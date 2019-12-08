@@ -30,6 +30,8 @@ bind index,pager g noop
 bind index \Cf noop
 
 # General rebindings
+bind index j next-entry
+bind index k previous-entry
 bind attach <return> view-mailcap
 bind attach l view-mailcap
 bind editor <space> noop

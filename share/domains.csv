@@ -279,6 +279,7 @@ yandex.net,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
+zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
 polito.it,mail.polito.it,993,mail.polito.it,465
 studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
 hs-mittweida.de,mail.hs-mittweida.de,993,mail.hs-mittweida.de,465

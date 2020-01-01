@@ -1,0 +1,24 @@
+#!/bin/sh
+echo "Specify account:"
+read -r acc
+acc_spec=$(ls ~/.config/mutt/accounts/ | grep "$acc")
+echo "Specify folder:"
+read -r folder
+echo "$folder"
+mkdir -p ~/.local/share/mail/"$acc"/"$folder"/new
+mkdir -p ~/.local/share/mail/"$acc"/"$folder"/tmp
+mkdir -p ~/.local/share/mail/"$acc"/"$folder"/cur
+sed -i "/^mailboxes/ s/$/ \"="$folder"\"/" ~/.config/mutt/accounts/"$acc_spec"
+echo "Folder created, do you want to add a shortcut?"
+read -r shortcut
+if [ "$shortcut" = "y" ]
+then
+	echo "Specify Shortcut:"
+	read -r key
+	cat <<EOF >> ~/.config/mutt/accounts/"$acc_spec"
+#
+macro index,pager g$key "<change-folder>=$folder<enter>" "go to $folder"
+macro index,pager M$key "<save-message>=$folder<enter>" "go to $folder"
+EOF
+	echo "Shortcut created!"
+fi

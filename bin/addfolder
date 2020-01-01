@@ -1,20 +1,29 @@
 #!/bin/sh
 echo "Specify account:"
+# The account to put the folder in
 read -r acc
+# get the full path
 acc_spec=$(ls ~/.config/mutt/accounts/ | grep "$acc")
 echo "Specify folder:"
+# Ask for the foldername
 read -r folder
+# Echo back foldername (for informational purpose)
 echo "$folder"
+# Create needed directories
 mkdir -p ~/.local/share/mail/"$acc"/"$folder"/new
 mkdir -p ~/.local/share/mail/"$acc"/"$folder"/tmp
 mkdir -p ~/.local/share/mail/"$acc"/"$folder"/cur
+# Add the folder to muttrc
 sed -i "/^mailboxes/ s/$/ \"="$folder"\"/" ~/.config/mutt/accounts/"$acc_spec"
+# Ask if a shortcut is needed
 echo "Folder created, do you want to add a shortcut?"
 read -r shortcut
+# If yes, then ask for the shortcutkey (without prefix)
 if [ "$shortcut" = "y" ]
 then
 	echo "Specify Shortcut:"
 	read -r key
+	# Add shortcuts to muttrc
 	cat <<EOF >> ~/.config/mutt/accounts/"$acc_spec"
 #
 macro index,pager g$key "<change-folder>=$folder<enter>" "go to $folder"

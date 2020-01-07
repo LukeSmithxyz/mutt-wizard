@@ -283,3 +283,4 @@ zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
 polito.it,mail.polito.it,993,mail.polito.it,465
 studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
 hs-mittweida.de,mail.hs-mittweida.de,993,mail.hs-mittweida.de,465
+in.tum.de,mail.in.tum.de,993,mail.in.tum.de,465

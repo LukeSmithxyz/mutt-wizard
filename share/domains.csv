@@ -60,7 +60,7 @@ counsellor.com,imap.mail.com,993,smtp.mail.com,587
 cryptolab.net,mail.autistici.org,993,smtp.autistici.org,465
 cumallover.me,mail.cock.li,993,mail.cock.li,587
 cyberservices.com,imap.mail.com,993,smtp.mail.com,587
-datentopf.org,imap.migadu.com,993,smtp.migadu.com,587
+datentopf.org,mail.datentopf.org,993,mail.datentopf.org,587
 deliveryman.com,imap.mail.com,993,smtp.mail.com,587
 dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
@@ -148,6 +148,7 @@ humbug.pw,imap.migadu.com,993,smtp.migadu.com,587
 hushmail.com,imap.hushmail.com,993,smtp.hushmail.com,465
 icloud.com,imap.mail.me.com,993,smtp.mail.me.com,587
 illinois.edu, imap.gmail.com,993,smtp.gmail.com,465
+in.tum.de,mail.in.tum.de,993,mail.in.tum.de,465
 iname.com,imap.mail.com,993,smtp.mail.com,587
 inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 infomaniak.com,imap.infomaniak.com,993,imap.infomaniak.com,587
@@ -209,6 +210,7 @@ poczta.fm,poczta.interia.pl,993,poczta.interia.pl,465
 poczta.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 polimi.it,outlook.office365.com,993,smtp.office365.com,587
 polito.it,mail.polito.it,993,mail.polito.it,465
+polito.it,mail.polito.it,993,mail.polito.it,465
 post.com,imap.mail.com,993,smtp.mail.com,587
 posteo.de,posteo.de,993,posteo.de,587
 posteo.net,posteo.de,993,posteo.de,587
@@ -218,7 +220,7 @@ protonmail.ch,127.0.0.1,1143,127.0.0.1,1025
 protonmail.com,127.0.0.1,1143,127.0.0.1,1025
 rape.lol,mail.cock.li,993,mail.cock.li,587
 redchan.it,mail.cock.li,993,mail.cock.li,587
-resch.pw,imap.migadu.com,993,smtp.migadu.com,587
+resch.pw,mail.resch.pw,993,mail.resch.pw,587
 runbox.com,mail.runbox.com,993,mail.runbox.com,587
 rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
@@ -232,7 +234,9 @@ stud.uis.no,outlook.office365.com,993,smtp.office365.com,587
 stud.uni-bamberg.de,outlook.office365.com,993,smtp.office365.com,587
 student.rmit.edu.au,outlook.office365.com,993,smtp.office365.com,587
 student.tuwien.ac.at,mail.student.tuwien.ac.at,993,mail.student.tuwien.ac.at,587
+studenti.unipi.it,outlook.office365.com,995,smtp.office365.com,587
 students.southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
+studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
 studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
 studserv.uni-leipzig.de,studserv.uni-leipzig.de,993,studserv.uni-leipzig.de,25
 subvertising.org,mail.autistici.org,993,smtp.autistici.org,465
@@ -258,6 +262,7 @@ usa.com,imap.mail.com,993,smtp.mail.com,587
 utas.edu.au,outlook.office365.com,993,smtp.office365.com,587
 utdallas.edu,outlook.office365.com,993,smtp.office365.com,587
 uw.edu,imap.gmail.com,993,smtp.gmail.com,465
+uwcad.it,imap.gmail.com,993,smtp.gmail.com,465
 uymail.com,imap.mail.com,993,smtp.mail.com,587
 vip.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 vivaldi.net,imap.vivaldi.net,993,smtp.vivaldi.net,587
@@ -282,3 +287,4 @@ yandex.net,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
+zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465

@@ -254,6 +254,7 @@ tuhh.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
 txstate.edu,outlook.office365.com,993,smtp.office365.com,587
 ua.pt,outlook.office365.com,993,mail.ua.pt,25
 uach.mx,imap.gmail.com,993,smtp.gmail.com,587
+ucdavis.edu,imap.gmail.com,993,smtp.gmail.com,587
 uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465
 unitybox.de,mail.unity-mail.de,993,mail.unity-mail.de,587
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587

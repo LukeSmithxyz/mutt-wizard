@@ -185,6 +185,7 @@ muny.us,mail.muny.us,993,mail.muny.us,465
 myself.com,imap.mail.com,993,smtp.mail.com,587
 narod.ru,imap.yandex.com,993,smtp.yandex.com,587
 national.shitposting.agency,mail.cock.li,993,mail.cock.li,587
+ncsu.edu,imap.gmail.com,993,smtp.gmail.com,587
 netcourrier.com,mail.netcourrier.com,993,mail.netcourrier.com,465
 nigge.rs,mail.cock.li,993,mail.cock.li,587
 nuke.africa,mail.cock.li,993,mail.cock.li,587
@@ -287,5 +288,6 @@ yandex.kz,imap.yandex.com,993,smtp.yandex.com,587
 yandex.net,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
+zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465

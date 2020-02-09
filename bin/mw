@@ -53,6 +53,7 @@ Port  $iport
 User $login
 PassCmd \"pass mutt-wizard-$title\"
 SSLType $ssltype
+AuthMech LOGIN
 CertificateFile $sslcert
 
 MaildirStore $title-local

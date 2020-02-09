@@ -1,4 +1,5 @@
 #!/bin/sh
+
 # Sync mail and give notification if there is new mail.
 
 # Run only if user logged in (prevent cron errors)

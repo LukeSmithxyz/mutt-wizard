@@ -21,7 +21,8 @@ mwconfig="$muttshare/mutt-wizard.muttrc"
 cachedir="$HOME/.cache/mutt-wizard"
 muttrc="$muttdir/muttrc"
 msmtprc="$HOME/.config/msmtp/config"
-ssltype="IMAPS"				# This is later changed to `None` later in the script if using Protonmail
+ssltype="IMAPS"
+				# This is later changed to `None` later in the script if using Protonmail
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"
 do
@@ -54,7 +55,6 @@ Port  $iport
 User $login
 PassCmd \"pass mutt-wizard-$title\"
 SSLType $ssltype
-AuthMech LOGIN
 CertificateFile $sslcert
 
 MaildirStore $title-local
@@ -171,6 +171,11 @@ EOF
 	esac
 	[ "$sport" = 465 ] && starttlsoff="tls_starttls off"
 	fi
+	printf "\nDoes your server uses \033[35mSTARTTLS?  \033[0m [Yes/No/Unknown]"
+	read -r is_TLS
+	case $is_TLS in
+	  [Yy][Ee][Ss]) ssltype="STARTTLS";;
+	esac
 	printf "Enter the \033[35mfull name\033[0m you want to be identified by on this account.\\n\tReal name: "
 	read -r realname
 	printf "Enter a short, \033[36mone-word identifier\033[0m for this email account that will distinguish them from any other accounts you add.\\n\tAccount name: "

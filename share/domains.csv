@@ -37,6 +37,7 @@ canaglie.net,mail.autistici.org,993,smtp.autistici.org,465
 canaglie.org,mail.autistici.org,993,smtp.autistici.org,465
 carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 cash4u.com,imap.mail.com,993,smtp.mail.com,587
+ceng.metu.edu.tr,imap.ceng.metu.edu.tr,993,mailhost.ceng.metu.edu.tr,587
 cheerful.com,imap.mail.com,993,smtp.mail.com,587
 chef.net,imap.mail.com,993,smtp.mail.com,587
 chemist.com,imap.mail.com,993,smtp.mail.com,587
@@ -178,6 +179,7 @@ mailbox.org,imap.mailbox.org,993,smtp.mailbox.org,587
 mailbox.tu-dresden.de,msx.tu-dresden.de,993,msx.tu-dresden.de,587
 mailo.com,mail.mailo.com,993,mail.mailo.com,465
 memeware.net,mail.cock.li,993,mail.cock.li,587
+metu.edu.tr,imap.metu.edu.tr,993,smtp.metu.edu.tr,465
 ml1.net,imap.fastmail.com,993,smtp.fastmail.com,465
 mortemale.org,mail.autistici.org,993,smtp.autistici.org,465
 msn.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587

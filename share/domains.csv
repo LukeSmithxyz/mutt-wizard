@@ -1,5 +1,4 @@
 ADDRESS,IMAP,imap port,SMTP,smtp port
-icloud.com,imap.mail.me.com,993,smtp.mail.me.com,587
 420blaze.it,mail.cock.li,993,mail.cock.li,587
 8chan.co,mail.cock.li,993,mail.cock.li,587
 aaathats3as.com,mail.cock.li,993,mail.cock.li,587
@@ -144,9 +143,12 @@ hotmail.rs,outlook.office365.com,993,smtp.office365.com,587
 hotmail.se,outlook.office365.com,993,smtp.office365.com,587
 hotmail.sg,outlook.office365.com,993,smtp.office365.com,587
 hotmail.sk,outlook.office365.com,993,smtp.office365.com,587
-humbug.pw,mail.humbug.pw,993,mail.humbug.pw,587
+hs-mittweida.de,mail.hs-mittweida.de,993,mail.hs-mittweida.de,465
+humbug.pw,imap.migadu.com,993,smtp.migadu.com,587
 hushmail.com,imap.hushmail.com,993,smtp.hushmail.com,465
+icloud.com,imap.mail.me.com,993,smtp.mail.me.com,587
 illinois.edu, imap.gmail.com,993,smtp.gmail.com,465
+in.tum.de,mail.in.tum.de,993,mail.in.tum.de,465
 iname.com,imap.mail.com,993,smtp.mail.com,587
 inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 infomaniak.com,imap.infomaniak.com,993,imap.infomaniak.com,587
@@ -156,6 +158,7 @@ interactio.io,imap.gmail.com,993,smtp.gmail.com,587
 interia.eu,poczta.interia.pl,993,poczta.interia.pl,465
 interia.pl,poczta.interia.pl,993,poczta.interia.pl,465
 inventati.org,mail.autistici.org,993,smtp.autistici.org,465
+ionos.de,imap.ionos.de,993,smtp.ionos.de,587
 itu.dk,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 kipras.org,mail.kipras.org,993,mail.kipras.org,587
 krutt.org,mail.autistici.org,993,smtp.autistici.org,465
@@ -182,6 +185,7 @@ muny.us,mail.muny.us,993,mail.muny.us,465
 myself.com,imap.mail.com,993,smtp.mail.com,587
 narod.ru,imap.yandex.com,993,smtp.yandex.com,587
 national.shitposting.agency,mail.cock.li,993,mail.cock.li,587
+ncsu.edu,imap.gmail.com,993,smtp.gmail.com,587
 netcourrier.com,mail.netcourrier.com,993,mail.netcourrier.com,465
 nigge.rs,mail.cock.li,993,mail.cock.li,587
 nuke.africa,mail.cock.li,993,mail.cock.li,587
@@ -206,6 +210,8 @@ pm.me,127.0.0.1,1143,127.0.0.1,1025
 poczta.fm,poczta.interia.pl,993,poczta.interia.pl,465
 poczta.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 polimi.it,outlook.office365.com,993,smtp.office365.com,587
+polito.it,mail.polito.it,993,mail.polito.it,465
+polito.it,mail.polito.it,993,mail.polito.it,465
 post.com,imap.mail.com,993,smtp.mail.com,587
 posteo.de,posteo.de,993,posteo.de,587
 posteo.net,posteo.de,993,posteo.de,587
@@ -231,6 +237,8 @@ student.rmit.edu.au,outlook.office365.com,993,smtp.office365.com,587
 student.tuwien.ac.at,mail.student.tuwien.ac.at,993,mail.student.tuwien.ac.at,587
 studenti.unipi.it,outlook.office365.com,995,smtp.office365.com,587
 students.southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
+studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
+studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
 studserv.uni-leipzig.de,studserv.uni-leipzig.de,993,studserv.uni-leipzig.de,25
 subvertising.org,mail.autistici.org,993,smtp.autistici.org,465
 t-online.de,secureimap.t-online.de,993,securesmtp.t-online.de,465
@@ -244,10 +252,13 @@ tlu.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 tquad.ai,imap.mail.eu-west-1.awsapps.com,993,smtp.mail.eu-west-1.awsapps.com,465
 tu-harburg.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
 tuhh.de,mail.tu-harburg.de,993,mail.tu-harburg.de,587
+tum.de,xmail.mwn.de,993,postout.lrz.de,587
 txstate.edu,outlook.office365.com,993,smtp.office365.com,587
 ua.pt,outlook.office365.com,993,mail.ua.pt,25
 uach.mx,imap.gmail.com,993,smtp.gmail.com,587
+ucdavis.edu,imap.gmail.com,993,smtp.gmail.com,587
 uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465
+unitybox.de,mail.unity-mail.de,993,mail.unity-mail.de,587
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587
 uqtr.ca,outlook.office365.com,993,smtp.office365.com,587
 usa.com,imap.mail.com,993,smtp.mail.com,587
@@ -278,9 +289,6 @@ yandex.kz,imap.yandex.com,993,smtp.yandex.com,587
 yandex.net,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
+zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
-polito.it,mail.polito.it,993,mail.polito.it,465
-studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
-hs-mittweida.de,mail.hs-mittweida.de,993,mail.hs-mittweida.de,465
-in.tum.de,mail.in.tum.de,993,mail.in.tum.de,465

@@ -1,11 +1,6 @@
-#!/usr/bin/env sh
-# Sync mail and give notification if there is new mail.
+#!/bin/sh
 
-export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
-export DBUS_SESSION_BUS_ADDRESS
-export DISPLAY=:0.0
-[ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
+# Sync mail and give notification if there is new mail.
 
 # Run only if user logged in (prevent cron errors)
 pgrep -u "${USER:=$LOGNAME}" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
@@ -15,6 +10,14 @@ pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || { echo "No internet connection detected."; exit ;}
 command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotify-send\` should be installed for pop-up mail notifications with this script."
+
+# Required to display notifications if run as a cronjob:
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
+export DISPLAY=:0.0
+
+# For individual configurations:
+[ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
+pgrep i3blocks >/dev/null && STATUSBAR="i3blocks" || STATUSBAR="dwmblocks"
 
 # Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" = "Darwin" ]; then

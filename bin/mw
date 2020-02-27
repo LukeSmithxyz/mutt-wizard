@@ -180,7 +180,7 @@ EOF
 		read -r title
 		printf "\033[0m"
 	done
-	printf "If you need a custom certificate file, please enter the path to it here (including the actual name), else leave it blank.\n\033[0m\\n\tCustom cert file(?): \033[36m"
+	printf "If you need a custom certificate file, please enter the path to it here (including the actual filename), else leave it blank.\n\033[0m\\n\tCustom cert file(?): \033[36m"
 	read -r sslcertmbsync
 	[ -z "$sslcertmbsync" ] && sslcertmbsync="$sslcert"
 	printf "If your account has a special username different from your address, insert it now. Otherwise leave this prompt totally blank.\\n\033[34mMost accounts will not have a separate login, so you should probably leave this blank.\033[0m\\n\tLogin(?): \033[36m"

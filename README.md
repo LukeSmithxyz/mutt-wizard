@@ -31,7 +31,7 @@ The mutt-wizard is run with the command `mw`. It also installs the `mailsync` co
 - `mw add` -- add a new email account
 - `mw ls` -- list existing accounts
 - `mw pass` -- revise an account's password
-- `mw delete` -- deleted an added account
+- `mw delete` -- delete an added account
 - `mw purge` -- delete all accounts and settings
 - `mw cron` -- toggle/configure a cronjob to sync mail
 
@@ -114,4 +114,3 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 
 - Add ~~Mac OS~~/BSD compatibility (the script is confired to work for Mac OS now)
 - ~~Out-of-the-box compatibility with Protonmail Bridge~~ (I believe this is done, but more bug-testing is welcome since I don't have PM)
-- Option to keep configuration for accounts that failed to connect (maybe)

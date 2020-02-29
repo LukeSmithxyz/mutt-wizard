@@ -86,7 +86,6 @@ set folder = \"$maildir/$title\"
 set header_cache = $cachedir/$title/headers
 set message_cachedir = $cachedir/$title/bodies
 set mbox_type = Maildir
-set status_format="-%r-"$from": %D [Msgs:%?M?%M/?%m%?n? New:%n?%?o? Old:%o?%?d? Del:%d?%?F? Flag:%F?%?t? Tag:%t?%?p? Post:%p?%?b? Inc:%b?%?l? %l?]---(%s/%S)-%>-(%P)---"
 
 bind index,pager gg noop
 bind index,pager g noop
@@ -108,7 +107,6 @@ set imap_user = \"$login\"
 set header_cache = $cachedir/$title/headers
 set message_cachedir = $cachedir/$title/bodies
 set imap_pass = \"\`pass mutt-wizard-$title\`\"
-set status_format="-%r-"$from": %D [Msgs:%?M?%M/?%m%?n? New:%n?%?o? Old:%o?%?d? Del:%d?%?F? Flag:%F?%?t? Tag:%t?%?p? Post:%p?%?b? Inc:%b?%?l? %l?]---(%s/%S)-%>-(%P)---"
 
 set mbox_type = Maildir
 set ssl_starttls = yes

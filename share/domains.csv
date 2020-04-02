@@ -168,6 +168,7 @@ kth.se,webmail.kth.se,993,smtp.kth.se,587
 lavabit.com,lavabit.com,993,lavabit.com,587
 linuxmail.org,imap.mail.com,993,smtp.mail.com,587
 live.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+live.de,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 live.rhul.ac.uk,outlook.office365.com,993,smtp.office365.com,587
 logorroici.org,mail.autistici.org,993,smtp.autistici.org,465
 loves.dicksinhisan.us,mail.cock.li,993,mail.cock.li,587

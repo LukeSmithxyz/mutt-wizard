@@ -8,7 +8,7 @@ pgrep -u "${USER:=$LOGNAME}" >/dev/null || { echo "$USER not logged in; sync wil
 pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
 
 # Checks for internet connection and set notification script.
-ping -q -c 1 example.org > /dev/null || { echo "No internet connection detected."; exit ;}
+ping -q -c 1 1.1.1.1 > /dev/null || ping -q -c 1 1.0.0.1 > /dev/null || ping -q -c 1 example.org || { echo "No internet connection detected."; exit ;}
 command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotify-send\` should be installed for pop-up mail notifications with this script."
 
 # Required to display notifications if run as a cronjob:

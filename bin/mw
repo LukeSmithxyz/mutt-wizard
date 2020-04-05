@@ -101,7 +101,7 @@ mutt_profile="# vim: filetype=neomuttrc
 # muttrc file for account $title
 set realname = \"$realname\"
 set from = \"$fulladdr\"
-set sendmail = \"$prefix/bin/msmtp -a $title\"
+set sendmail = \"msmtp -a $title\"
 alias me $realname <$fulladdr>
 set folder = \"imaps://$fulladdr@$imap:$iport\"
 set imap_user = \"$login\"

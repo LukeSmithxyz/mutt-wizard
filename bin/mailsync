@@ -6,6 +6,7 @@
 pgrep -u "${USER:=$LOGNAME}" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
 # Run only if not already running in other instance
 pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
+while pgrep -x ${LOCK:-slock} >/dev/null; do sleep 10; done
 
 # Checks for internet connection and set notification script.
 ping -q -c 1 1.1.1.1 > /dev/null || { echo "No internet connection detected."; exit ;}

@@ -4,6 +4,7 @@ ADDRESS,IMAP,imap port,SMTP,smtp port
 aaathats3as.com,mail.cock.li,993,mail.cock.li,587
 accountant.com,imap.mail.com,993,smtp.mail.com,587
 activist.com,imap.mail.com,993,smtp.mail.com,587
+ad.unsw.edu.au,outlook.office365.com,993,smtp.office365.com,587
 adexec.com,imap.mail.com,993,smtp.mail.com,587
 airmail.cc,mail.cock.li,993,mail.cock.li,587
 allergist.com,imap.mail.com,993,smtp.mail.com,587

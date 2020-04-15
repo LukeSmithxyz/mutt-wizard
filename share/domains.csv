@@ -304,3 +304,4 @@ zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
 ymail.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,465
 unilodz.eu,outlook.office365.com,993,smtp.office365.com,587
+iu.edu,imap.exchange.iu.edu,993,mail-relay.iu.edu,587

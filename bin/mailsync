@@ -28,7 +28,7 @@ fi
 # Check account for new mail. Notify if there is new content.
 syncandnotify() {
     acc="$(echo "$account" | sed "s/.*\///")"
-    mbsync "$acc"
+    mbsync $opts "$acc"
     new=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$HOME/.config/mutt/.mailsynclastrun" 2> /dev/null)
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
     if [ "$newcount" -gt "0" ]; then
@@ -46,6 +46,9 @@ syncandnotify() {
 if [ "$#" -eq "0" ]; then
     accounts="$(awk '/^Channel/ {print $2}' "$HOME/.mbsyncrc")"
 else
+    for arg in "$@"; do
+        [ "${arg%${arg#?}}" = '-' ] && opts="${opts:+${opts} }${arg}" && shift 1
+    done
     accounts=$*
 fi
 

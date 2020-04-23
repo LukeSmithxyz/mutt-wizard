@@ -321,7 +321,7 @@ name=$realname
 primary_email=$fulladdr
 [new]
 tags=unread;inbox;
-ignore=
+ignore=.mbsyncstate;.uidvalidity
 [search]
 exclude_tags=deleted;spam;
 [maildir]

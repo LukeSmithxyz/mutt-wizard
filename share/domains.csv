@@ -304,3 +304,5 @@ zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
 ymail.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,465
 unilodz.eu,outlook.office365.com,993,smtp.office365.com,587
+ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
+bocken.org,imap.gmail.com,993,smtp.gmail.com,465

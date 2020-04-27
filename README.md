@@ -105,8 +105,8 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 
 ## Watch out for these things:
 - Gmail accounts can now create 'App Password' to use with """less secure""" applications. This password is single use (ie. for setup) and will be stored and encrypted locally. Enabling third-party applications requires turning off two-factor authentication and this will circumvent that. You might also need to manually "Enable IMAP" in the settings.
-- Protonmail accounts will require you to set up "Protonmail Bridge" to access PM's IMAP and SMTP servers. Configure that before running mutt-wizard.
-- Protonmail bridge is prone to timing out. Watch out for this while adding an account. If the bridge times out, try again.
+- Protonmail accounts will require you to set up "Protonmail Bridge" to access PM's IMAP and SMTP servers. Configure that before running mutt-wizard. Note that when mutt-wizard asks for a password, you should put in your [bridge password](https://protonmail.com/bridge/thunderbird#3), not your account password.
+- Protonmail bridge is prone to timing out. Watch out for this while adding an account. If the bridge times out, try again. It might help to [increase the timeout](https://protonmail.com/support/knowledge-base/thunderbird-connection-server-timed-error/) in your `mbsyncrc`.
 - If you have a university email, or enterprise-hosted email for work, there might be other hurdles or two-factor authentication you have to jump through. Some, for example, will want you to create a separate IMAP password, etc.
  - `isync` is not fully UTF-8 compatible, so non-Latin characters may be garbled (although sync should succeed). `mw` will also not autocreate mailbox shortcuts since it is looking for English mailbox names. I strongly recommend you to set your email language to English on your mail server to avoid these problems.
 

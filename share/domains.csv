@@ -245,7 +245,7 @@ stud.uis.no,outlook.office365.com,993,smtp.office365.com,587
 stud.uni-bamberg.de,outlook.office365.com,993,smtp.office365.com,587
 student.rmit.edu.au,outlook.office365.com,993,smtp.office365.com,587
 student.tuwien.ac.at,mail.student.tuwien.ac.at,993,mail.student.tuwien.ac.at,587
-studenti.unipi.it,outlook.office365.com,995,smtp.office365.com,587
+studenti.unipi.it,outlook.office365.com,993,smtp.office365.com,587
 students.southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
 studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587

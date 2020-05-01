@@ -45,6 +45,7 @@ chef.net,imap.mail.com,993,smtp.mail.com,587
 chemist.com,imap.mail.com,993,smtp.mail.com,587
 chrissx.ga,chrissx.ga,993,chrissx.ga,25
 clarkson.edu,imap.gmail.com,993,smtp.gmail.com,587
+clasnet.sunyocc.edu,outlook.office365.com,993,smtp.office365.com,587
 clerk.com,imap.mail.com,993,smtp.mail.com,587
 clubmember.org,imap.mail.com,993,smtp.mail.com,587
 cmail.carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587

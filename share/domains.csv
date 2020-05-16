@@ -239,6 +239,7 @@ sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
 smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 spoko.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
+st.amu.edu.pl,outlook.office365.com,993,smtp.office365.com,587
 stevens.edu,imap.outlook.com,993,smtp.outlook.com,587
 stronzi.org,mail.autistici.org,993,smtp.autistici.org,465
 stud.tu-darmstadt.de,imap.stud.tu-darmstadt.de,993,smtp.tu-darmstadt.de,465

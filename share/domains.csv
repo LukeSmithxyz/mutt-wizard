@@ -308,3 +308,4 @@ ymail.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,465
 unilodz.eu,outlook.office365.com,993,smtp.office365.com,587
 ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
 bocken.org,imap.gmail.com,993,smtp.gmail.com,465
+vxempire.xyz,vxempire.xyz,993,vxempire.xyz,587

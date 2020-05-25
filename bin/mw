@@ -102,7 +102,7 @@ set realname = \"$realname\"
 set from = \"$fulladdr\"
 set sendmail = \"msmtp -a $title\"
 alias me $realname <$fulladdr>
-set folder = \"imaps://$fulladdr@$imap:$iport\"
+set folder = \"imaps://$login@$imap:$iport\"
 set imap_user = \"$login\"
 set header_cache = $cachedir/$title/headers
 set message_cachedir = $cachedir/$title/bodies

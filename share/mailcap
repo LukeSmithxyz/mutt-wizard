@@ -5,3 +5,4 @@ image/*; openfile %s ;
 video/*; setsid mpv --quiet %s &; copiousoutput
 application/pdf; openfile %s ;
 application/pgp-encrypted; gpg -d '%s'; copiousoutput;
+application/pgp-keys; gpg --import '%s'; copiousoutput;

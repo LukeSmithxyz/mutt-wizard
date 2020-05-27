@@ -21,7 +21,7 @@ export DISPLAY=:0.0
 # Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" = "Darwin" ]; then
     notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
-    messageinfo() { osascript "display notification with title \"📧 $from\" subtitle \"$subject\"" ;}
+    messageinfo() { osascript -e "display notification with title \"📧 $from\" subtitle \"$subject\"" ;}
 else
     notify() { notify-send --app-name="mutt-wizard" "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account." ;}
     messageinfo() { notify-send --app-name="mutt-wizard" "📧$from:" "$subject" ;}

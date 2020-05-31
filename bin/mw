@@ -3,7 +3,7 @@
 command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 [ -z ${PASSWORD_STORE_DIR+x} ] && PASSWORD_STORE_DIR="$HOME/.password-store"
 [ -r "$PASSWORD_STORE_DIR/.gpg-id" ] &&
-    "$GPG" --list-secret-keys $(cat "$PASSWORD_STORE_DIR/.gpg-id") >/dev/null 2>&1 || {
+    "$GPG" --list-secret-keys "$(cat "$PASSWORD_STORE_DIR/.gpg-id")" >/dev/null 2>&1 || {
         printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`%s --full-gen-key\` first.\\n" "$GPG"
         exit
     }
@@ -134,7 +134,7 @@ fi
 askinfo() { \
 	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/mbsync\\n\tEmail: \033[36m"
 	read -r fulladdr
-	keyid=$( gpg --list-keys --with-colons $fulladdr | awk -F: '/^pub:/ { print $5 }')
+	keyid=$( gpg --list-keys --with-colons "$fulladdr" | awk -F: '/^pub:/ { print $5 }')
 	printf "\033[0m"
 	while ! echo "$fulladdr" | grep "$emailre" >/dev/null; do
 		printf "That is not a valid \033[31memail address\033[0m, please retype the desired email.\\n\\nEmail: \033[36m\t"
@@ -145,7 +145,7 @@ askinfo() { \
   search_query=$domain
   case "$domain" in
     protonmail.com|protonmail.ch|pm.me)
-      search_query='protonmail.com' && break;;
+      search_query='protonmail.com' && return 1;;
     *)
       while : ; do
         printf "\nIs your email hosted with Protonmail? [yes/no] "
@@ -339,7 +339,7 @@ synchronize_flags=true
 gpg_path=$GPG"
 	echo "$nmbasic" > "$NOTMUCH_CONFIG" ;}
 
-trap 'echo -e "\033[0m\n"; exit' STOP INT ABRT KILL
+trap 'echo -e "\033[0m\n"; exit' INT ABRT
 
 case "$1" in
 	ls) list ;;

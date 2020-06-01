@@ -3,13 +3,13 @@
 Get this great stuff without effort:
 
 - A full-featured and autoconfigured email client on the terminal with neomutt
-- Mail stored offline so you can view and write email while away from internet and keep backups
+- Mail stored offline so you can view and write email while you're away from internet and keep backups
 
 Specifically, this wizard:
 
 - Determines your email server's IMAP and SMTP servers and ports
 - Creates dotfiles for `neomutt`, `isync`, and `msmtp` appropriate for your email address
-- Encrypts and stores locally your password for easy remote access, accessible only by your GPG key
+- Encrypts and locally stores your password for easy remote access, accessible only by your GPG key
 - Handles as many as nine separate email accounts automatically
 - Auto-creates bindings to switch between accounts or between mailboxes
 - Can automatically set mail updates as often as you want to sync your mail and update you when new mail arrives
@@ -112,5 +112,5 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 
 ## To-do
 
-- Add ~~Mac OS~~/BSD compatibility (the script is confired to work for Mac OS now)
+- Add ~~Mac OS~~/~~BSD~~ compatibility (the script is confirmed to work for Mac OS and FreeBSD now)
 - ~~Out-of-the-box compatibility with Protonmail Bridge~~ (I believe this is done, but more bug-testing is welcome since I don't have PM)

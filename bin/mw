@@ -86,6 +86,8 @@ set folder = \"$maildir/$title\"
 set header_cache = $cachedir/$title/headers
 set message_cachedir = $cachedir/$title/bodies
 set mbox_type = Maildir
+
+set crypt_autosign = yes
 set crypt_opportunistic_encrypt = yes
 set pgp_self_encrypt = yes
 set pgp_default_key  = $keyid
@@ -111,6 +113,7 @@ set header_cache = $cachedir/$title/headers
 set message_cachedir = $cachedir/$title/bodies
 set imap_pass = \"\`pass mutt-wizard-$title\`\"
 
+set crypt_autosign = yes
 set crypt_opportunistic_encrypt = yes
 set pgp_self_encrypt = yes
 set pgp_default_key  = $keyid

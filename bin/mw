@@ -137,7 +137,7 @@ fi
 askinfo() { \
 	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/mbsync\\n\tEmail: \033[36m"
 	read -r fulladdr
-	keyid=$( gpg --list-keys --with-colons "$fulladdr" | awk -F: '/^pub:/ { print $5 }')
+	keyid=$("$GPG" --list-keys --with-colons "$fulladdr" | awk -F: '/^pub:/ { print $5 }')
 	printf "\033[0m"
 	while ! echo "$fulladdr" | grep "$emailre" >/dev/null; do
 		printf "That is not a valid \033[31memail address\033[0m, please retype the desired email.\\n\\nEmail: \033[36m\t"

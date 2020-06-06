@@ -46,7 +46,7 @@ bind index U undelete-message
 bind index L limit
 bind index h noop
 bind index l display-message
-bind index <space> tag-entry
+bind index,query <space> tag-entry
 #bind browser h goto-parent
 macro browser h '<change-dir><kill-line>..<enter>' "Go to parent folder"
 bind index,pager H view-raw-message

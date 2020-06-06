@@ -4,6 +4,7 @@ ADDRESS,IMAP,imap port,SMTP,smtp port
 aaathats3as.com,mail.cock.li,993,mail.cock.li,587
 accountant.com,imap.mail.com,993,smtp.mail.com,587
 activist.com,imap.mail.com,993,smtp.mail.com,587
+ad.unsw.edu.au,outlook.office365.com,993,smtp.office365.com,587
 adexec.com,imap.mail.com,993,smtp.mail.com,587
 airmail.cc,mail.cock.li,993,mail.cock.li,587
 allergist.com,imap.mail.com,993,smtp.mail.com,587
@@ -44,6 +45,7 @@ chef.net,imap.mail.com,993,smtp.mail.com,587
 chemist.com,imap.mail.com,993,smtp.mail.com,587
 chrissx.ga,chrissx.ga,993,chrissx.ga,25
 clarkson.edu,imap.gmail.com,993,smtp.gmail.com,587
+clasnet.sunyocc.edu,outlook.office365.com,993,smtp.office365.com,587
 clerk.com,imap.mail.com,993,smtp.mail.com,587
 clubmember.org,imap.mail.com,993,smtp.mail.com,587
 cmail.carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
@@ -87,6 +89,7 @@ forthnet.gr,mail.forthnet.gr,993,smtp-auth.forthnet.gr,465
 fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
 fsu-jena,exchange.uni-jena.de,993,smtp.uni-jena.de,587
 getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
+gcc.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 gmail.com,imap.gmail.com,993,smtp.gmail.com,587
 gmx.at,imap.gmx.net,993,mail.gmx.net,587
 gmx.com,imap.gmx.net,993,mail.gmx.net,587
@@ -166,6 +169,7 @@ kipras.org,mail.kipras.org,993,mail.kipras.org,587
 krutt.org,mail.autistici.org,993,smtp.autistici.org,465
 kth.se,webmail.kth.se,993,smtp.kth.se,587
 lavabit.com,lavabit.com,993,lavabit.com,587
+librem.one,imap.librem.one,993,smtp.librem.one,465
 linuxmail.org,imap.mail.com,993,smtp.mail.com,587
 live.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 live.de,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
@@ -236,6 +240,7 @@ sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
 smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 spoko.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
+st.amu.edu.pl,outlook.office365.com,993,smtp.office365.com,587
 stevens.edu,imap.outlook.com,993,smtp.outlook.com,587
 stronzi.org,mail.autistici.org,993,smtp.autistici.org,465
 stud.tu-darmstadt.de,imap.stud.tu-darmstadt.de,993,smtp.tu-darmstadt.de,465
@@ -243,7 +248,7 @@ stud.uis.no,outlook.office365.com,993,smtp.office365.com,587
 stud.uni-bamberg.de,outlook.office365.com,993,smtp.office365.com,587
 student.rmit.edu.au,outlook.office365.com,993,smtp.office365.com,587
 student.tuwien.ac.at,mail.student.tuwien.ac.at,993,mail.student.tuwien.ac.at,587
-studenti.unipi.it,outlook.office365.com,995,smtp.office365.com,587
+studenti.unipi.it,outlook.office365.com,993,smtp.office365.com,587
 students.southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
 studio.unibo.it,outlook.office365.com,993,smtp.office365.com,587
@@ -301,4 +306,7 @@ zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
 ymail.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,465
-gcc.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+unilodz.eu,outlook.office365.com,993,smtp.office365.com,587
+ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
+bocken.org,imap.gmail.com,993,smtp.gmail.com,465
+vxempire.xyz,vxempire.xyz,993,vxempire.xyz,587

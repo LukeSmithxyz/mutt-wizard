@@ -33,6 +33,7 @@ bikerider.com,imap.mail.com,993,smtp.mail.com,587
 billycarlyle.uk,mail.muny.us,993,mail.muny.us,465
 birdlover.com,imap.mail.com,993,smtp.mail.com,587
 bjoernguthphotography.de,wp300.webpack.hosteurope.de,993,wp300.webpack.hosteurope.de,587
+bocken.org,imap.gmail.com,993,smtp.gmail.com,465
 brew-meister.com,imap.mail.com,993,smtp.mail.com,587
 bruttocarattere.org,mail.autistici.org,993,smtp.autistici.org,465
 canaglie.net,mail.autistici.org,993,smtp.autistici.org,465
@@ -79,6 +80,7 @@ eneco.com,outlook.office365.com,993,smtp.office365.com,587
 engineer.com,imap.mail.com,993,smtp.mail.com,587
 erciyes.edu.tr,posta.erciyes.edu.tr,993,smtp.erciyes.edu.tr,587
 ethancoe.com,mail.privateemail.com,993,mail.privateemail.com,465
+ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
 etu.upmc.fr,courriel.upmc.fr,993,smtps.upmc.fr,587
 europe.com,imap.mail.com,993,smtp.mail.com,587
 fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465
@@ -88,8 +90,8 @@ forpsi.com,imap.forpsi.com,993,smtp.forpsi.com,465
 forthnet.gr,mail.forthnet.gr,993,smtp-auth.forthnet.gr,465
 fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
 fsu-jena,exchange.uni-jena.de,993,smtp.uni-jena.de,587
-getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
 gcc.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
 gmail.com,imap.gmail.com,993,smtp.gmail.com,587
 gmx.at,imap.gmx.net,993,mail.gmx.net,587
 gmx.com,imap.gmx.net,993,mail.gmx.net,587
@@ -271,6 +273,7 @@ ua.pt,outlook.office365.com,993,mail.ua.pt,25
 uach.mx,imap.gmail.com,993,smtp.gmail.com,587
 ucdavis.edu,imap.gmail.com,993,smtp.gmail.com,587
 uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465
+unilodz.eu,outlook.office365.com,993,smtp.office365.com,587
 unitybox.de,mail.unity-mail.de,993,mail.unity-mail.de,587
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587
 uqtr.ca,outlook.office365.com,993,smtp.office365.com,587
@@ -284,6 +287,7 @@ vip.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 vivaldi.net,imap.vivaldi.net,993,smtp.vivaldi.net,587
 vp.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 vt.edu,imap.gmail.com,993,smtp.gmail.com,587
+vxempire.xyz,vxempire.xyz,993,vxempire.xyz,587
 waifu.club,mail.cock.li,993,mail.cock.li,587
 wanadoo.fr,imap.orange.fr,993,smtp.orange.fr,465
 wants.dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
@@ -302,11 +306,7 @@ yandex.kz,imap.yandex.com,993,smtp.yandex.com,587
 yandex.net,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ru,imap.yandex.com,993,smtp.yandex.com,587
 yandex.ua,imap.yandex.com,993,smtp.yandex.com,587
+ymail.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,465
 zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
-ymail.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,465
-unilodz.eu,outlook.office365.com,993,smtp.office365.com,587
-ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
-bocken.org,imap.gmail.com,993,smtp.gmail.com,465
-vxempire.xyz,vxempire.xyz,993,vxempire.xyz,587

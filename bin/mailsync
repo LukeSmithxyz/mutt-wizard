@@ -15,9 +15,6 @@ command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotif
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
 export DISPLAY=:0.0
 
-# For individual configurations:
-[ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
-
 # Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" = "Darwin" ]; then
     notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}

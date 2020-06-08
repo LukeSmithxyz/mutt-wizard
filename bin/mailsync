@@ -1,7 +1,10 @@
 #!/bin/sh
+
+# Sync mail and give notification if there is new mail.
+
 MAILDIR="$HOME/.local/share/mail"
 SYNCSTAT="$HOME/.config/mutt/.mailsynclastrun"
-# Sync mail and give notification if there is new mail.
+FOLDEREXCLUDES='sent|drafts|bin|trash|spam|junk'
 
 # Run only if user logged in (prevent cron errors)
 pgrep -u "${USER:=$LOGNAME}" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
@@ -32,7 +35,7 @@ fi
 syncandnotify() {
     acc="$(echo "$account" | sed "s/.*\///")"
     if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
-    folderlist="$(find "$MAILDIR"/"$acc"/*/new -type d 2>/dev/null | sed '/^\s*$/d')"
+    folderlist="$(find "$MAILDIR"/"$acc"/*/new -type d 2>/dev/null | sed '/^\s*$/d' | awk -v exclude=$FOLDEREXCLUDES 'BEGIN {IGNORECASE = 1} $0 !~ exclude')"
     for folder in $folderlist; do
 	    new="$(find "$folder" -type f -newer "$SYNCSTAT" 2> /dev/null)"
 	    newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)

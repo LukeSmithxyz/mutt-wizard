@@ -1,5 +1,6 @@
 #!/bin/sh
-
+MAILDIR="$HOME/.local/share/mail"
+SYNCSTAT="$HOME/.config/mutt/.mailsynclastrun"
 # Sync mail and give notification if there is new mail.
 
 # Run only if user logged in (prevent cron errors)
@@ -31,17 +32,20 @@ fi
 syncandnotify() {
     acc="$(echo "$account" | sed "s/.*\///")"
     if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
-    new=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$HOME/.config/mutt/.mailsynclastrun" 2> /dev/null)
-    newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
-    if [ "$newcount" -gt "0" ]; then
-        notify "$acc" "$newcount" &
-        for file in $new; do
-            # Extract subject and sender from mail.
-            from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
-            subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n 1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
-	    messageinfo &
-        done
-    fi
+    folderlist="$(find "$MAILDIR"/"$acc"/*/new -type d 2>/dev/null | sed '/^\s*$/d')"
+    for folder in $folderlist; do
+	    new="$(find "$folder" -type f -newer "$SYNCSTAT" 2> /dev/null)"
+	    newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
+	    if [ "$newcount" -gt "0" ]; then
+		notify "$acc" "$newcount" &
+		for file in $new; do
+		    # Extract subject and sender from mail.
+		    from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
+		    subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n 1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
+		    messageinfo &
+		done
+	    fi
+    done
 }
 
 # Sync accounts passed as argument or all.

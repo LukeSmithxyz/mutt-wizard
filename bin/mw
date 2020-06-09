@@ -303,7 +303,7 @@ choosecron() { ! pgrep cron >/dev/null && echo "No cron manager running. Install
 			read -r minnum
 			printf "\033[0m"
 		done
-		(crontab -l; echo "*/$minnum * * * * $(type mailsync | cut -d' ' -f3)") >/dev/null | crontab - &&
+		(crontab -l; echo "*/$minnum * * * * $(type mailsync | cut -d' ' -f3) >/dev/null 2>&1") | crontab - >/dev/null &&
 			echo "Cronjob added. Mail will sync every $minnum minutes. Be sure you have your cron manager running."
 	fi ;}
 

@@ -148,7 +148,7 @@ askinfo() { \
   search_query=$domain
   case "$domain" in
     protonmail.com|protonmail.ch|pm.me)
-      search_query='protonmail.com' && return 1;;
+      search_query='protonmail.com' ;;
     *)
       while : ; do
         printf "\nIs your email hosted with Protonmail? [yes/no] "

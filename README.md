@@ -3,13 +3,13 @@
 Get this great stuff without effort:
 
 - A full-featured and autoconfigured email client on the terminal with neomutt
-- Mail stored offline so you can view and write email while away from internet and keep backups
+- Mail stored offline so you can view and write email while you're away from internet and keep backups
 
 Specifically, this wizard:
 
 - Determines your email server's IMAP and SMTP servers and ports
 - Creates dotfiles for `neomutt`, `isync`, and `msmtp` appropriate for your email address
-- Encrypts and stores locally your password for easy remote access, accessible only by your GPG key
+- Encrypts and locally stores your password for easy remote access, accessible only by your GPG key
 - Handles as many as nine separate email accounts automatically
 - Auto-creates bindings to switch between accounts or between mailboxes
 - Can automatically set mail updates as often as you want to sync your mail and update you when new mail arrives
@@ -26,18 +26,12 @@ sudo make install
 
 User of Arch-based distros can also install mutt-wizard from the AUR as [mutt-wizard-git](https://aur.archlinux.org/packages/mutt-wizard-git/).
 
-*NOTE:* If you have used an older version of mutt-wizard, especially when it used to use `offlineimap`, you need to remove your old configs. Back anything up that's important and run:
-
-```
-rm -rf ~/.config/mutt ~/.msmtprc ~/.config/msmtp ~/.offlineimap ~/.offlineimaprc ~/.config/offlineimap ~/.mbsyncrc
-```
-
 The mutt-wizard is run with the command `mw`. It also installs the `mailsync` command. Once everything is setup, you'll use `neomutt` to access your mail.
 
 - `mw add` -- add a new email account
 - `mw ls` -- list existing accounts
 - `mw pass` -- revise an account's password
-- `mw delete` -- deleted an added account
+- `mw delete` -- delete an added account
 - `mw purge` -- delete all accounts and settings
 - `mw cron` -- toggle/configure a cronjob to sync mail
 
@@ -54,7 +48,7 @@ There's a chance of errors if you use a slow-release distro like Ubuntu, Debian 
 
 - `lynx` - view HTML email in neomutt.
 - `notmuch` - index and search mail. Install it and run `notmuch setup`, tell it that your mail is in `~/.local/share/mail/` (although `mw` will do this automatically if you haven't set notmuch up before). You can run it in mutt with `ctrl-f`. Run `notmuch new` to process new mail, although the included `mailsync` script does this for you.
-- `libnotify`/`libnotify-bin` - allows notifications when syncthing mail with `mailsync`
+- `libnotify`/`libnotify-bin` - allows notifications when syncing mail with `mailsync`
 - `abook` - a terminal-based address book. Pressing tab while typing an address to send mail to will suggest contacts that are in your abook.
 - A cron manager - if you want to enable the auto-sync feature.
 - `pam-gnupg` - this is a more general program that I use. It automatically logs you into your GPG key on login so you will never need to input your password once logged on to your system. Check the repo and directions out [here](https://github.com/cruegge/pam-gnupg).
@@ -111,13 +105,12 @@ mutt-wizard is free/libre software, licensed under the GPLv3.
 
 ## Watch out for these things:
 - Gmail accounts can now create 'App Password' to use with """less secure""" applications. This password is single use (ie. for setup) and will be stored and encrypted locally. Enabling third-party applications requires turning off two-factor authentication and this will circumvent that. You might also need to manually "Enable IMAP" in the settings.
-- Protonmail accounts will require you to set up "Protonmail Bridge" to access PM's IMAP and SMTP servers. Configure that before running mutt-wizard.
-- Protonmail bridge is prone to timing out. Watch out for this while adding an account. If the bridge times out, try again.
+- Protonmail accounts will require you to set up "Protonmail Bridge" to access PM's IMAP and SMTP servers. Configure that before running mutt-wizard. Note that when mutt-wizard asks for a password, you should put in your [bridge password](https://protonmail.com/bridge/thunderbird#3), not your account password.
+- Protonmail bridge is prone to timing out. Watch out for this while adding an account. If the bridge times out, try again. It might help to [increase the timeout](https://protonmail.com/support/knowledge-base/thunderbird-connection-server-timed-error/) in your `mbsyncrc`.
 - If you have a university email, or enterprise-hosted email for work, there might be other hurdles or two-factor authentication you have to jump through. Some, for example, will want you to create a separate IMAP password, etc.
  - `isync` is not fully UTF-8 compatible, so non-Latin characters may be garbled (although sync should succeed). `mw` will also not autocreate mailbox shortcuts since it is looking for English mailbox names. I strongly recommend you to set your email language to English on your mail server to avoid these problems.
 
 ## To-do
 
-- Add ~~Mac OS~~/BSD compatibility (the script is confired to work for Mac OS now)
+- Add ~~Mac OS~~/~~BSD~~ compatibility (the script is confirmed to work for Mac OS and FreeBSD now)
 - ~~Out-of-the-box compatibility with Protonmail Bridge~~ (I believe this is done, but more bug-testing is welcome since I don't have PM)
-- Option to keep configuration for accounts that failed to connect (maybe)

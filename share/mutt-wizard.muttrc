@@ -5,7 +5,7 @@
 # If you want to override any settings, set those in your muttrc.
 set mailcap_path = /usr/local/share/mutt-wizard/mailcap
 set date_format="%y/%m/%d %I:%M%p"
-set index_format="%2C %zs %?X?A& ? %D %-15.15F %s (%-4.4c)"
+set index_format="%2C %Z %?X?A& ? %D %-15.15F %s (%-4.4c)"
 set sort = 'reverse-date'
 set smtp_authenticators = 'gssapi:login'
 set query_command = "abook --mutt-query '%s'"
@@ -30,6 +30,8 @@ bind index,pager g noop
 bind index \Cf noop
 
 # General rebindings
+bind index j next-entry
+bind index k previous-entry
 bind attach <return> view-mailcap
 bind attach l view-mailcap
 bind editor <space> noop
@@ -44,7 +46,7 @@ bind index U undelete-message
 bind index L limit
 bind index h noop
 bind index l display-message
-bind index <space> tag-entry
+bind index,query <space> tag-entry
 #bind browser h goto-parent
 macro browser h '<change-dir><kill-line>..<enter>' "Go to parent folder"
 bind index,pager H view-raw-message

@@ -17,6 +17,7 @@ export DISPLAY=:0.0
 
 # For individual configurations:
 [ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
+[ -f "$HOME/.config/isync/mbsyncrc" ] && MBSYNC="mbsync -c \"$HOME/.config/isync/mbsyncrc\"" || MBSYNC="mbsync"
 
 # Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" = "Darwin" ]; then
@@ -30,7 +31,7 @@ fi
 # Check account for new mail. Notify if there is new content.
 syncandnotify() {
     acc="$(echo "$account" | sed "s/.*\///")"
-    if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
+    if [ -z "$opts" ]; then eval "$MBSYNC $acc"; else eval "$MBSYNC $opts $acc"; fi
     new=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$HOME/.config/mutt/.mailsynclastrun" 2> /dev/null)
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
     if [ "$newcount" -gt "0" ]; then
@@ -46,7 +47,7 @@ syncandnotify() {
 
 # Sync accounts passed as argument or all.
 if [ "$#" -eq "0" ]; then
-    accounts="$(awk '/^Channel/ {print $2}' "$HOME/.mbsyncrc")"
+    [ -f "$HOME/.config/isync/mbsyncrc" ] && accounts="$(awk '/^Channel/ {print $2}' "$HOME/.config/isync/mbsyncrc")" || accounts="$(awk '/^Channel/ {print $2}' "$HOME/.mbsyncrc")"
 else
     for arg in "$@"; do
         [ "${arg%${arg#?}}" = '-' ] && opts="${opts:+${opts} }${arg}" && shift 1

@@ -17,7 +17,14 @@ export DISPLAY=:0.0
 
 # For individual configurations:
 [ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
-[ -f "$HOME/.config/isync/mbsyncrc" ] && MBSYNC="mbsync -c \"$HOME/.config/isync/mbsyncrc\"" || MBSYNC="mbsync"
+
+if [ -f "$HOME/.config/isync/mbsyncrc" ]; then
+    MBSYNC="mbsync -c \"$HOME/.config/isync/mbsyncrc\""
+    MBSYNCRCPATH="$HOME/.config/isync/mbsyncrc"
+else
+    MBSYNC="mbsync"
+    MBSYNCRCPATH="$HOME/.mbsyncrc"
+fi
 
 # Settings are different for MacOS (Darwin) systems.
 if [ "$(uname)" = "Darwin" ]; then
@@ -47,7 +54,7 @@ syncandnotify() {
 
 # Sync accounts passed as argument or all.
 if [ "$#" -eq "0" ]; then
-    [ -f "$HOME/.config/isync/mbsyncrc" ] && accounts="$(awk '/^Channel/ {print $2}' "$HOME/.config/isync/mbsyncrc")" || accounts="$(awk '/^Channel/ {print $2}' "$HOME/.mbsyncrc")"
+    accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRCPATH")"
 else
     for arg in "$@"; do
         [ "${arg%${arg#?}}" = '-' ] && opts="${opts:+${opts} }${arg}" && shift 1

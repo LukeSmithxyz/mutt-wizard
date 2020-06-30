@@ -16,6 +16,7 @@ maildir="$HOME/.local/share/mail"	# Location of mail storage
 namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
 muttshare="$prefix/share/mutt-wizard"
+[ -d "$HOME/.config/isync" ] && mkdir -p $HOME/.config/isync
 mbsyncrc="$HOME/.config/isync/mbsyncrc"
 mwconfig="$muttshare/mutt-wizard.muttrc"
 cachedir="$HOME/.cache/mutt-wizard"

@@ -34,7 +34,7 @@ bikerider.com,imap.mail.com,993,smtp.mail.com,587
 billycarlyle.uk,mail.muny.us,993,mail.muny.us,465
 birdlover.com,imap.mail.com,993,smtp.mail.com,587
 bjoernguthphotography.de,wp300.webpack.hosteurope.de,993,wp300.webpack.hosteurope.de,587
-bocken.org,imap.gmail.com,993,smtp.gmail.com,465
+bocken.org,mail.bocken.org,993,mail.bocken.org,587
 brew-meister.com,imap.mail.com,993,smtp.mail.com,587
 bruttocarattere.org,mail.autistici.org,993,smtp.autistici.org,465
 canaglie.net,mail.autistici.org,993,smtp.autistici.org,465
@@ -253,6 +253,7 @@ stud.tu-darmstadt.de,imap.stud.tu-darmstadt.de,993,smtp.tu-darmstadt.de,465
 stud.uis.no,outlook.office365.com,993,smtp.office365.com,587
 stud.uni-bamberg.de,outlook.office365.com,993,smtp.office365.com,587
 student.binadarma.ac.id,imap.gmail.com,993,smtp.gmail.com,587
+student.ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
 student.rmit.edu.au,outlook.office365.com,993,smtp.office365.com,587
 student.tuwien.ac.at,mail.student.tuwien.ac.at,993,mail.student.tuwien.ac.at,587
 studenti.unipi.it,outlook.office365.com,993,smtp.office365.com,587

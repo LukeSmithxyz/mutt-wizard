@@ -15,12 +15,14 @@ command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotif
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
 export DISPLAY=:0.0
 
+configdir=${XDG_CONFIG_HOME:=$HOME/.config}
+
 # For individual configurations:
 [ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
 
 if [ -f "$HOME/.config/isync/mbsyncrc" ]; then
-    MBSYNC="mbsync -c \"$HOME/.config/isync/mbsyncrc\""
-    MBSYNCRCPATH="$HOME/.config/isync/mbsyncrc"
+    MBSYNC="mbsync -c \"$configdir/isync/mbsyncrc\""
+    MBSYNCRCPATH="$configdir/isync/mbsyncrc"
 else
     MBSYNC="mbsync"
     MBSYNCRCPATH="$HOME/.mbsyncrc"

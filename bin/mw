@@ -21,7 +21,11 @@ mwconfig="$muttshare/mutt-wizard.muttrc"
 cachedir="$HOME/.cache/mutt-wizard"
 muttrc="$muttdir/muttrc"
 msmtprc="$HOME/.config/msmtp/config"
-ssltype="IMAPS"				# This is later changed to `None` later in the script if using Protonmail
+issl="IMAPS"		# IMAP SSL setting	(IMAPS/STARTTLS/None)
+			# Changed to 'None' for Protonmail Bridge
+sssl="STARTTLS"		# SMTP SSL setting	(SMTPS/STARTTLS/None)
+sauth="plain"		# SMTP auth method
+			# Set because msmtp only uses the most common 'plain' method without TLS if it is explicitly set
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"
 do
@@ -46,7 +50,9 @@ port $sport
 from $fulladdr
 user $login
 passwordeval \"pass mutt-wizard-$title\"
-$starttlsoff
+tls $([ "$sssl" = "None" ] && echo off || echo on)
+tls_starttls $([ "$sssl" = "STARTTLS" ] && echo on || echo off)
+$([ "$sssl" = "None" ] && echo auth ${sauth:-plain})
 "
 mbsync_profile="IMAPStore $title-remote
 Host $imap
@@ -54,7 +60,7 @@ Port $iport
 User $login
 PassCmd \"pass mutt-wizard-$title\"
 AuthMechs LOGIN
-SSLType $ssltype
+SSLType $issl
 CertificateFile $sslcert
 
 MaildirStore $title-local
@@ -107,7 +113,7 @@ set realname = \"$realname\"
 set from = \"$fulladdr\"
 set sendmail = \"msmtp -a $title\"
 alias me $realname <$fulladdr>
-set folder = \"imaps://$login@$imap:$iport\"
+set folder = \"$([ "$issl" = "None" ] && echo imap || echo imaps)://$login@$imap:$iport\"
 set imap_user = \"$login\"
 set header_cache = $cachedir/$title/headers
 set message_cachedir = $cachedir/$title/bodies
@@ -120,8 +126,8 @@ set pgp_default_key  = $keyid
 
 
 set mbox_type = Maildir
-set ssl_starttls = yes
-set ssl_force_tls = yes
+set ssl_starttls = $([ "$sssl" = "STARTTLS" ] && echo yes || echo no)
+set ssl_force_tls = $([ "$sssl" = "SMTPS" ] && echo yes || echo no)
 
 bind index,pager gg noop
 bind index,pager g noop
@@ -165,12 +171,37 @@ askinfo() { \
 		printf "Your email domain is not in mutt-wizard's database yet.\\nmutt-wizard will still autoconfigure everything, but you will have to manually type in your service's IMAP and SMTP server information.\\nYou can usually quickly find this by internet searching for it.\\n"
 		printf "Insert the IMAP server for your email provider (excluding the port number)\\n\033[36m\t"
 		read -r imap
-		printf "\033[0mWhat is your server's IMAP port number? (Usually something like 993)\\n\033[36m\t"
+		printf "\033[0mWhat is your server's IMAP port number? (default: 993)\\n\033[36m\t"
 		read -r iport
+		iport="${iport:-993}"
+		while : ; do
+			printf "\033[0mWhich encryption method to use for IMAP? [None/STARTTLS/IMAPS] (default: IMAPS)\\n\033[36m\t"
+			read -r issl
+			issl="${issl:-IMAPS}"
+			case "$issl" in
+				[Nn][oO][nN][eE]) issl="None" && break;;
+				[Ss][Tt][Aa][Rr][Tt][Tt][Ll][Ss]) issl="STARTTLS" && break;;
+				[Ii][Mm][Aa][Pp][Ss]) issl="IMAPS" && break;;
+				*) printf 'Please answer None, STARTTLS or IMAPS';;
+			esac
+		done
 		printf "\033[0mInsert the SMTP server for your email provider (excluding the port number)\\n\033[36m\t"
 		read -r smtp
-		printf "\033[0mWhat is your server's SMTP port number? (Usually 587 or 465)\\n\033[36m\t"
+		printf "\033[0mWhat is your server's SMTP port number? (default: 587, 465 also common)\\n\033[36m\t"
 		read -r sport
+		sport="${sport:-587}"
+		[ "$sport" = 465 ] && sssl_default="SMTPS" || sssl_default="STARTTLS"
+		while : ; do
+			printf "\033[0mWhich encryption method to use for SMTP? [None/STARTTLS/SMTPS] (default: %s)\\n\033[36m\t" "$sssl_default"
+			read -r sssl
+			sssl="${sssl:-$sssl_default}"
+			case "$sssl" in
+				[Nn][oO][nN][eE]) sssl="None" && break;;
+				[Ss][Tt][Aa][Rr][Tt][Tt][Ll][Ss]) sssl="STARTTLS" && break;;
+				[Ss][Mm][Tt][Pp][Ss]) sssl="SMTPS" && break;;
+				*) printf 'Please answer None, STARTTLS or SMTPS';;
+			esac
+		done
 		printf "\033[0m\\nGreat! If you want to be helpful, copy the line below and you can add it to the \`domains.csv\` file on Github.\\nThis will make things easier for others who use your email provider.\\n\\n%s,%s,%s,%s,%s\\n\\nAlthough be sure to test to see if these settings work first! ;-)\\n" "$domain" "$imap" "$iport" "$smtp" "$sport"
 	else
 		IFS=, read -r service imap iport smtp sport <<EOF
@@ -179,9 +210,9 @@ EOF
 	printf "\\n\033[3;33mCongrats!\033[0m Server info has automatically been found, so you won't have to look anything up!\\n\t\033[1mIMAP server\033[0m: %s\\n\t\033[1mIMAP port\033[0m: %s\\n\t\033[1mSMTP server\033[0m: %s\\n\t\033[1mSMTP port\033[0m: %s\\nThis data will be used by the wizard.\\n" "$imap" "$iport" "$smtp" "$sport"
 	case "$service" in
 		gmail.com) printf "\033[31mREMEMBER: Gmail users must enable \"less secure\" (third-party) applications first for the sync to work:\\nhttps://support.google.com/accounts/answer/6010255\\n\033[0m" ;;
-		protonmail.ch|protonmail.com|pm.me) printf "\033[31mREMEMBER: Protonmail users must install and configure Protonmail Bridge first for the sync to work:\\nhttps://protonmail.com/bridge/\\n\033[0m" && ssltype="None" ;;
+		protonmail.ch|protonmail.com|pm.me) printf "\033[31mREMEMBER: Protonmail users must install and configure Protonmail Bridge first for the sync to work:\\nhttps://protonmail.com/bridge/\\n\033[0m" && issl="None" ;;
 	esac
-	[ "$sport" = 465 ] && starttlsoff="tls_starttls off"
+	[ "$sport" = 465 ] && sssl="SMTPS"
 	fi
 	printf "Enter the \033[35mfull name\033[0m you want to be identified by on this account.\\n\tReal name: "
 	read -r realname

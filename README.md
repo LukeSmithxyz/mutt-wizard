@@ -12,7 +12,6 @@ Specifically, this wizard:
 - Encrypts and locally stores your password for easy remote access, accessible only by your GPG key
 - Handles as many as nine separate email accounts automatically
 - Auto-creates bindings to switch between accounts or between mailboxes
-- Can automatically set mail updates as often as you want to sync your mail and update you when new mail arrives
 - Provides sensible defaults and an attractive appearance for the neomutt email client
 - If mutt-wizard doesn't know your server's IMAP/SMTP info by default, it will prompt you for them and will put them in all the right places.
 
@@ -26,14 +25,14 @@ sudo make install
 
 User of Arch-based distros can also install mutt-wizard from the AUR as [mutt-wizard-git](https://aur.archlinux.org/packages/mutt-wizard-git/).
 
-The mutt-wizard is run with the command `mw`. It also installs the `mailsync` command. Once everything is setup, you'll use `neomutt` to access your mail.
+The mutt-wizard is run with the command `mw`. Once everything is setup, you'll use `neomutt` to access your mail.
 
 - `mw add` -- add a new email account
 - `mw ls` -- list existing accounts
 - `mw pass` -- revise an account's password
 - `mw delete` -- delete an added account
+- `mw sync` -- sync all mail accounts and update notmuch database
 - `mw purge` -- delete all accounts and settings
-- `mw cron` -- toggle/configure a cronjob to sync mail
 
 ## Dependencies
 
@@ -47,10 +46,8 @@ There's a chance of errors if you use a slow-release distro like Ubuntu, Debian 
 ### Optional
 
 - `lynx` - view HTML email in neomutt.
-- `notmuch` - index and search mail. Install it and run `notmuch setup`, tell it that your mail is in `~/.local/share/mail/` (although `mw` will do this automatically if you haven't set notmuch up before). You can run it in mutt with `ctrl-f`. Run `notmuch new` to process new mail, although the included `mailsync` script does this for you.
-- `libnotify`/`libnotify-bin` - allows notifications when syncing mail with `mailsync`
+- `notmuch` - index and search mail. Install it and run `notmuch setup`, tell it that your mail is in `~/.local/share/mail/` (although `mw` will do this automatically if you haven't set notmuch up before). You can run it in mutt with `ctrl-f`. Run `notmuch new` to process new mail.
 - `abook` - a terminal-based address book. Pressing tab while typing an address to send mail to will suggest contacts that are in your abook.
-- A cron manager - if you want to enable the auto-sync feature.
 - `pam-gnupg` - this is a more general program that I use. It automatically logs you into your GPG key on login so you will never need to input your password once logged on to your system. Check the repo and directions out [here](https://github.com/cruegge/pam-gnupg).
 - `urlview` - outputs urls in mail to browser.
 

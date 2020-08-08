@@ -318,3 +318,5 @@ zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
 student.utwente.nl,imap.gmail.com,993,smtp.gmail.com,587
+univ-ubs.fr,partage.univ-ubs.fr,993,partage.univ-ubs.fr,587
+

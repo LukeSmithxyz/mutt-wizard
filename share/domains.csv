@@ -256,6 +256,7 @@ stud.uni-bamberg.de,outlook.office365.com,993,smtp.office365.com,587
 student.binadarma.ac.id,imap.gmail.com,993,smtp.gmail.com,587
 student.rmit.edu.au,outlook.office365.com,993,smtp.office365.com,587
 student.tuwien.ac.at,mail.student.tuwien.ac.at,993,mail.student.tuwien.ac.at,587
+student.utwente.nl,imap.gmail.com,993,smtp.gmail.com,587
 studenti.unipi.it,outlook.office365.com,993,smtp.office365.com,587
 students.rmcacs.org,imap.gmail.com,993,smtp.gmail.com,587
 students.southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
@@ -282,6 +283,7 @@ ucdavis.edu,imap.gmail.com,993,smtp.gmail.com,587
 uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465
 unilodz.eu,outlook.office365.com,993,smtp.office365.com,587
 unitybox.de,mail.unity-mail.de,993,mail.unity-mail.de,587
+univ-ubs.fr,partage.univ-ubs.fr,993,partage.univ-ubs.fr,587
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587
 uqtr.ca,outlook.office365.com,993,smtp.office365.com,587
 usa.com,imap.mail.com,993,smtp.mail.com,587
@@ -317,6 +319,3 @@ ymail.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,465
 zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
-student.utwente.nl,imap.gmail.com,993,smtp.gmail.com,587
-univ-ubs.fr,partage.univ-ubs.fr,993,partage.univ-ubs.fr,587
-

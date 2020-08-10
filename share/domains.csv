@@ -51,6 +51,7 @@ clasnet.sunyocc.edu,outlook.office365.com,993,smtp.office365.com,587
 clerk.com,imap.mail.com,993,smtp.mail.com,587
 clubmember.org,imap.mail.com,993,smtp.mail.com,587
 cmail.carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+cn.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 cocaine.ninja,mail.cock.li,993,mail.cock.li,587
 cock.email,mail.cock.li,993,mail.cock.li,587
 cock.li,mail.cock.li,993,mail.cock.li,587

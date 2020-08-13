@@ -4,7 +4,9 @@ OS = $(shell uname -s)
 ifndef PREFIX
   PREFIX = /usr/local
 endif
-MANPREFIX = $(PREFIX)/share/man
+ifndef MANPREFIX
+  MANPREFIX = $(PREFIX)/share/man
+endif
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin

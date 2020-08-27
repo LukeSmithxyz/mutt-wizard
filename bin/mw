@@ -14,7 +14,7 @@ muttdir="$HOME/.config/mutt"		# Main mutt config location
 accdir="$muttdir/accounts"		# Directory for account settings
 maildir="$HOME/.local/share/mail"	# Location of mail storage
 namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
-emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
+emailre=".+@.+\..+" 			# Regex to confirm valid email address
 muttshare="$prefix/share/mutt-wizard"
 mbsyncrc="$HOME/.mbsyncrc"
 mwconfig="$muttshare/mutt-wizard.muttrc"
@@ -127,7 +127,7 @@ askinfo() { \
 	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/mbsync\\n\tEmail: \033[36m"
 	read -r fulladdr
 	printf "\033[0m"
-	while ! echo "$fulladdr" | grep "$emailre" >/dev/null; do
+	while ! echo "$fulladdr" | grep -E "$emailre" >/dev/null; do
 		printf "That is not a valid \033[31memail address\033[0m, please retype the desired email.\\n\\nEmail: \033[36m\t"
 		read -r fulladdr
 		printf "\033[0m"

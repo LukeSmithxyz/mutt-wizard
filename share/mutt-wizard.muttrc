@@ -63,6 +63,11 @@ bind pager \031 previous-line		# Mouse wheel
 bind pager \005 next-line		# Mouse wheel
 bind editor <Tab> complete-query
 
+#set crypt_autosign = yes
+#set crypt_opportunistic_encrypt = yes
+#set pgp_self_encrypt = yes
+#set pgp_default_key  = 'your@gpgemailaddre.ss'
+
 macro index,pager a "<enter-command>set my_pipe_decode=\$pipe_decode pipe_decode<return><pipe-message>abook --add-email<return><enter-command>set pipe_decode=\$my_pipe_decode; unset my_pipe_decode<return>" "add the sender address to abook"
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
 macro index O "<shell-escape>mbsync -a<enter>" "run mbsync to sync all mail"

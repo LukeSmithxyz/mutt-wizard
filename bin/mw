@@ -10,11 +10,11 @@ command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 ! command -v mbsync >/dev/null && printf "\`mbsync (isync package)\` must be installed to run mutt-wizard.\\n" && exit
 
 prefix="/usr/local"
-muttdir="${XDG_CONFIG_HOME:-$HOME/.config}/mutt"		# Main mutt config location
-accdir="$muttdir/accounts"		# Directory for account settings
+muttdir="${XDG_CONFIG_HOME:-$HOME/.config}/mutt"	# Main mutt config location
+accdir="$muttdir/accounts"				# Directory for account settings
 maildir="${XDG_DATA_HOME:-$HOME/.local/share}/mail"	# Location of mail storage
-namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
-emailre=".+@.+\..+" 			# Regex to confirm valid email address
+namere="^[a-z_][a-z0-9_-]*$"				# Regex to ensure viable username
+emailre=".+@.+\..+" 					# Regex to confirm valid email address
 muttshare="$prefix/share/mutt-wizard"
 mbsyncrc="${MBSYNCRC_HOME:-$HOME/.mbsyncrc}"
 mwconfig="$muttshare/mutt-wizard.muttrc"
@@ -22,6 +22,7 @@ cachedir="${XDG_CACHE_HOME:-$HOME/.cache}/mutt-wizard"
 muttrc="$muttdir/muttrc"
 msmtprc="${XDG_CACHE_HOME:-$HOME/.config}/msmtp/config"
 ssltype="IMAPS"				# This is later changed to `None` later in the script if using Protonmail
+alias mbsync='mbsync -c "$mbsyncrc"'
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"
 do

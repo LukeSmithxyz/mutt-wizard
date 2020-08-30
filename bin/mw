@@ -10,17 +10,17 @@ command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 ! command -v mbsync >/dev/null && printf "\`mbsync (isync package)\` must be installed to run mutt-wizard.\\n" && exit
 
 prefix="/usr/local"
-muttdir="$HOME/.config/mutt"		# Main mutt config location
+muttdir="${XDG_CONFIG_HOME:-$HOME/.config}/mutt"		# Main mutt config location
 accdir="$muttdir/accounts"		# Directory for account settings
-maildir="$HOME/.local/share/mail"	# Location of mail storage
+maildir="${XDG_DATA_HOME:-$HOME/.local/share}/mail"	# Location of mail storage
 namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
 emailre=".+@.+\..+" 			# Regex to confirm valid email address
 muttshare="$prefix/share/mutt-wizard"
-mbsyncrc="$HOME/.mbsyncrc"
+mbsyncrc="${MBSYNCRC_HOME:-$HOME/.mbsyncrc}"
 mwconfig="$muttshare/mutt-wizard.muttrc"
-cachedir="$HOME/.cache/mutt-wizard"
+cachedir="${XDG_CACHE_HOME:-$HOME/.cache}/mutt-wizard"
 muttrc="$muttdir/muttrc"
-msmtprc="$HOME/.config/msmtp/config"
+msmtprc="${XDG_CACHE_HOME:-$HOME/.config}/msmtp/config"
 ssltype="IMAPS"				# This is later changed to `None` later in the script if using Protonmail
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"
@@ -38,7 +38,7 @@ msmtp_header="defaults
 auth	on
 tls	on
 tls_trust_file	$sslcert
-logfile	~/.config/msmtp/msmtp.log
+logfile	$XDG_CONFIG_HOME/msmtp/msmtp.log
 "
 msmtp_profile="account $title
 host $smtp
@@ -59,8 +59,8 @@ CertificateFile $sslcert
 
 MaildirStore $title-local
 Subfolders Verbatim
-Path ~/.local/share/mail/$title/
-Inbox ~/.local/share/mail/$title/INBOX
+Path $XDG_DATA_HOME/mail/$title/
+Inbox $XDG_DATA_HOME/mail/$title/INBOX
 Flatten .
 
 Channel $title

@@ -38,7 +38,7 @@ msmtp_header="defaults
 auth	on
 tls	on
 tls_trust_file	$sslcert
-logfile	$XDG_CONFIG_HOME/msmtp/msmtp.log
+logfile	${XDG_CONFIG_HOME/:-$HOME/.config}/msmtp/msmtp.log
 "
 msmtp_profile="account $title
 host $smtp
@@ -59,8 +59,8 @@ CertificateFile $sslcert
 
 MaildirStore $title-local
 Subfolders Verbatim
-Path $XDG_DATA_HOME/mail/$title/
-Inbox $XDG_DATA_HOME/mail/$title/INBOX
+Path ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$title/
+Inbox ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$title/INBOX
 Flatten .
 
 Channel $title

@@ -7,21 +7,23 @@ command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
         printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`%s --full-gen-key\` first.\\n" "$GPG"
         exit
     }
-! command -v mbsync >/dev/null && printf "\`mbsync\` must be installed to run mutt-wizard.\\n" && exit
+! command -v mbsync >/dev/null && printf "\`mbsync (isync package)\` must be installed to run mutt-wizard.\\n" && exit
 
 prefix="/usr/local"
-muttdir="$HOME/.config/mutt"		# Main mutt config location
-accdir="$muttdir/accounts"		# Directory for account settings
-maildir="$HOME/.local/share/mail"	# Location of mail storage
-namere="^[a-z_][a-z0-9_-]*$"		# Regex to ensure viable username
-emailre=".\+@.\+\\..\+" 		# Regex to confirm valid email address
+muttdir="${XDG_CONFIG_HOME:-$HOME/.config}/mutt"	# Main mutt config location
+accdir="$muttdir/accounts"				# Directory for account settings
+maildir="${XDG_DATA_HOME:-$HOME/.local/share}/mail"	# Location of mail storage
+namere="^[a-z_][a-z0-9_-]*$"				# Regex to ensure viable username
+emailre=".+@.+\..+" 					# Regex to confirm valid email address
 muttshare="$prefix/share/mutt-wizard"
-mbsyncrc="$HOME/.mbsyncrc"
+mbsyncrc="${MBSYNCRC:-$HOME/.mbsyncrc}"
 mwconfig="$muttshare/mutt-wizard.muttrc"
-cachedir="$HOME/.cache/mutt-wizard"
+cachedir="${XDG_CACHE_HOME:-$HOME/.cache}/mutt-wizard"
 muttrc="$muttdir/muttrc"
-msmtprc="$HOME/.config/msmtp/config"
+msmtprc="${XDG_CONFIG_HOME:-$HOME/.config}/msmtp/config"
+msmtplog="${XDG_CONFIG_HOME:-$HOME/.config}/msmtp/msmtp.log"
 ssltype="IMAPS"				# This is later changed to `None` later in the script if using Protonmail
+alias mbsync='mbsync -c "$mbsyncrc"'
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"
 do
@@ -38,7 +40,7 @@ msmtp_header="defaults
 auth	on
 tls	on
 tls_trust_file	$sslcert
-logfile	~/.config/msmtp/msmtp.log
+logfile $msmtplog
 "
 msmtp_profile="account $title
 host $smtp
@@ -50,18 +52,17 @@ $starttlsoff
 "
 mbsync_profile="IMAPStore $title-remote
 Host $imap
-Port  $iport
+Port $iport
 User $login
 PassCmd \"pass mutt-wizard-$title\"
 AuthMechs LOGIN
 SSLType $ssltype
-AuthMech LOGIN
 CertificateFile $sslcert
 
 MaildirStore $title-local
 Subfolders Verbatim
-Path ~/.local/share/mail/$title/
-Inbox ~/.local/share/mail/$title/INBOX
+Path ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$title/
+Inbox ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$title/INBOX
 Flatten .
 
 Channel $title
@@ -93,7 +94,7 @@ bind index,pager g noop
 bind index,pager M noop
 bind index,pager C noop
 bind index gg first-entry
-macro index o \"<shell-escape>mailsync -V $title<enter>\" \"run mbsync to sync $title\"
+macro index o \"<shell-escape>mbsync -V $title<enter>\" \"run mbsync to sync $title\"
 unmailboxes *
 "
 else
@@ -103,7 +104,7 @@ set realname = \"$realname\"
 set from = \"$fulladdr\"
 set sendmail = \"msmtp -a $title\"
 alias me $realname <$fulladdr>
-set folder = \"imaps://$fulladdr@$imap:$iport\"
+set folder = \"imaps://$login@$imap:$iport\"
 set imap_user = \"$login\"
 set header_cache = $cachedir/$title/headers
 set message_cachedir = $cachedir/$title/bodies
@@ -128,7 +129,7 @@ askinfo() { \
 	printf "Insert the \033[31memail address\033[0m that you want to autoconfigure for mutt/mbsync\\n\tEmail: \033[36m"
 	read -r fulladdr
 	printf "\033[0m"
-	while ! echo "$fulladdr" | grep "$emailre" >/dev/null; do
+	while ! echo "$fulladdr" | grep -E "$emailre" >/dev/null; do
 		printf "That is not a valid \033[31memail address\033[0m, please retype the desired email.\\n\\nEmail: \033[36m\t"
 		read -r fulladdr
 		printf "\033[0m"
@@ -137,7 +138,7 @@ askinfo() { \
   search_query=$domain
   case "$domain" in
     protonmail.com|protonmail.ch|pm.me)
-      search_query='protonmail.com' && break;;
+      search_query='protonmail.com' ;;
     *)
       while : ; do
         printf "\nIs your email hosted with Protonmail? [yes/no] "
@@ -150,6 +151,10 @@ askinfo() { \
   esac
 	printf "\\nSearching for \033[32m%s\033[0m in \033[34m\`domains.csv\`\033[0m..." "$domain"
 	serverinfo="$(grep "^$search_query" "$muttshare/domains.csv" 2>/dev/null)"
+	if [ -z "$serverinfo" ]; then
+		search_query=$(echo "$search_query" | sed "s/\.[^\.]*$/\.\\\*/")
+		serverinfo="$(grep "^$search_query" "$muttshare/domains.csv" 2>/dev/null)"
+	fi
 	if [ -z "$serverinfo" ]; then
 		printf "Your email domain is not in mutt-wizard's database yet.\\nmutt-wizard will still autoconfigure everything, but you will have to manually type in your service's IMAP and SMTP server information.\\nYou can usually quickly find this by internet searching for it.\\n"
 		printf "Insert the IMAP server for your email provider (excluding the port number)\\n\033[36m\t"
@@ -189,7 +194,7 @@ EOF
 	echo "$maxmes" | grep "[1-9]" >/dev/null || maxmes="0"
 	getpass
 	getprofiles
-	mkdir -p "$muttdir" "$accdir" "$cachedir/$title/bodies" "$HOME/.config/msmtp"
+	mkdir -p "$muttdir" "$accdir" "$cachedir/$title/bodies" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp"
 	getaccounts
 	for x in $(seq 1 9); do echo "$accounts" | grep "$x" >/dev/null 2>&1 || { export idnum="$x"; break ;}; done
 	[ ! -f "$msmtprc" ] && echo "$msmtp_header" > "$msmtprc"
@@ -199,6 +204,7 @@ EOF
 		protonmail.ch|protonmail.com|pm.me) protonfinger || return 1 ;;
 	esac
 	echo "$mutt_profile" > "$accdir/$idnum-$title.muttrc"
+	mkdir -p "${mbsyncrc%/*}"
 	echo "$mbsync_profile" >> "$mbsyncrc"
 	notmuchauto
 	[ ! -f "$muttrc" ] && echo "# vim: filetype=neomuttrc" > "$muttrc" && echo "muttrc created."
@@ -275,27 +281,6 @@ delete() { sed -ibu "/IMAPStore $title-remote$/,/# End profile/d" "$mbsyncrc" ; 
 	sed -ibu "/account $title/,/^\(\s*$\|account\)/d" "$msmtprc"; rm -f "$msmtprc"bu
 	}
 
-choosecron() { ! pgrep cron >/dev/null && echo "No cron manager running. Install/enable one and then select this option again." && return 1
-	if crontab -l | grep mailsync >/dev/null; then
-		echo "Active mail sync cronjob detected. Do you want to remove it?"
-		printf "\033[36m\t"
-		read -r rmyn
-		printf "\033[0m"
-		echo "$rmyn" | grep -i "^y\(es\)*$" >/dev/null && crontab -l | sed '/mailsync/d' | crontab - >/dev/null && echo "Mail sync turned off."
-	else
-		echo "How many minutes between each mail sync?"
-		printf "\033[36m\t"
-		read -r minnum
-		printf "\033[0m"
-		while ! echo "$minnum" | grep "^[0-9]\+$" >/dev/null; do
-			printf "That doesn't look like a number. How many minutes between each mail sync?\\n\033[36m\t"
-			read -r minnum
-			printf "\033[0m"
-		done
-		(crontab -l; echo "*/$minnum * * * * $(type mailsync | cut -d' ' -f3)") | crontab - &&
-			echo "Cronjob added. Mail will sync every $minnum minutes. Be sure you have your cron manager running."
-	fi ;}
-
 asktype() { while : ; do
 		printf "Do you want to keep your mail for this account offline with mbsync? [yes/no]\\n\t"
 		read -r offnot
@@ -306,10 +291,16 @@ asktype() { while : ; do
 		esac; done ;}
 
 purge() { confirm "delete all account data" || exit
-	rm -rf "$mbsyncrc" "$accdir" "$HOME/.config/msmtp" "$cachedir"
-	crontab -l | sed '/mailsync/d' | crontab - >/dev/null
+	rm -rf "$mbsyncrc" "$accdir" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp" "$cachedir"
 	echo "All configs and account settings have been purged."
 	sed -ibu "/\# mw-autogenerated/d" "$muttrc" ; rm -f "$muttrc"bu
+}
+
+syncwrapper() { mbsync "${1:--a}" &
+	( kill -46 "$(pidof "${STATUSBAR:-dwmblocks}")" >/dev/null 2>&1 ) 2>/dev/null
+	wait
+	( kill -46 "$(pidof "${STATUSBAR:-dwmblocks}")" >/dev/null 2>&1 ) 2>/dev/null
+	notmuch new
 }
 
 notmuchauto() { \
@@ -322,7 +313,7 @@ name=$realname
 primary_email=$fulladdr
 [new]
 tags=unread;inbox;
-ignore=
+ignore=.mbsyncstate;.uidvalidity
 [search]
 exclude_tags=deleted;spam;
 [maildir]
@@ -331,15 +322,15 @@ synchronize_flags=true
 gpg_path=$GPG"
 	echo "$nmbasic" > "$NOTMUCH_CONFIG" ;}
 
-trap 'echo -e "\033[0m\n"; exit' STOP INT ABRT KILL
+trap 'echo -e "\033[0m\n"; exit' INT ABRT
 
 case "$1" in
 	ls) list ;;
 	add) asktype && askinfo && tryconnect && finalize || delete ;;
 	pass) pick "change the password of" && getpass ;;
 	delete) pick delete && confirm "delete the \`$title\` profile" && delete ;;
+	sync) syncwrapper "$2" ;;
 	purge) purge ;;
-	cron) choosecron ;;
 	*) cat << EOF
 mw: mutt-wizard, auto-configure email accounts for mutt
 including downloadable mail with \`isync\`.
@@ -349,7 +340,7 @@ Allowed options:
   ls		List configured accounts
   delete	Pick an account to delete
   purge		Delete all accounts and settings
-  cron		Enable or disable an autosync via cronjob
+  sync		Syncs mail and updates notmuch database
   all else	Print this message
 
 NOTE: Once at least one account is added, you can run

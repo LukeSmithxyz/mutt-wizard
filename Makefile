@@ -4,7 +4,9 @@ OS = $(shell uname -s)
 ifndef PREFIX
   PREFIX = /usr/local
 endif
-MANPREFIX = $(PREFIX)/share/man
+ifndef MANPREFIX
+  MANPREFIX = $(PREFIX)/share/man
+endif
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -32,7 +34,7 @@ install:
 
 uninstall:
 	for script in bin/*; do \
-		rm -f $(DESTDIR)$(PREFIX)/$$script; \
+		rm -f $(DESTDIR)$(PREFIX)/bin/$$script; \
 	done
 	rm -rf $(DESTDIR)$(PREFIX)/share/mutt-wizard
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/mw.1

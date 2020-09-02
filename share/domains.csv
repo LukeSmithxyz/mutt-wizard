@@ -126,6 +126,7 @@ interia.*,poczta.interia.pl,993,poczta.interia.pl,465
 inventati.org,mail.autistici.org,993,smtp.autistici.org,465
 ionos.de,imap.ionos.de,993,smtp.ionos.de,587
 itu.dk,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
+iu.edu,imap.exchange.iu.edu,993,mail-relay.iu.edu,587
 kean.edu,imap.gmail.com,993,smtp.gmail.com,587
 kipras.org,mail.kipras.org,993,mail.kipras.org,587
 krutt.org,mail.autistici.org,993,smtp.autistici.org,465

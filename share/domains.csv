@@ -151,6 +151,7 @@ mailbox.org,imap.mailbox.org,993,smtp.mailbox.org,587
 mailbox.tu-dresden.de,msx.tu-dresden.de,993,msx.tu-dresden.de,587
 mailfence.com,imap.mailfence.com,993,smtp.mailfence.com,465
 mailo.com,mail.mailo.com,993,mail.mailo.com,465
+marquette.edu,outlook.office365.com,993,smtp.office365.com,587
 memeware.net,mail.cock.li,993,mail.cock.li,587
 metu.edu.tr,imap.metu.edu.tr,993,smtp.metu.edu.tr,465
 ml1.net,imap.fastmail.com,993,smtp.fastmail.com,465

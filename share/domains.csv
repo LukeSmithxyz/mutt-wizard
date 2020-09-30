@@ -217,6 +217,7 @@ student.binadarma.ac.id,imap.gmail.com,993,smtp.gmail.com,587
 student.ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
 student.rmit.edu.au,outlook.office365.com,993,smtp.office365.com,587
 student.tuwien.ac.at,mail.student.tuwien.ac.at,993,mail.student.tuwien.ac.at,587
+student.uj.edu.pl,outlook.office365.com,993,smtp.office365.com,587
 student.utwente.nl,imap.gmail.com,993,smtp.gmail.com,587
 studenti.unipi.it,outlook.office365.com,993,smtp.office365.com,587
 students.rmcacs.org,imap.gmail.com,993,smtp.gmail.com,587

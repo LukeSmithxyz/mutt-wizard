@@ -273,3 +273,5 @@ ymail.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,465
 zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
+sms.ed.ac.uk,pod51015.outlook.com,993,pod51015.outlook.com,587
+

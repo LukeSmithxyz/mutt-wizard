@@ -14,6 +14,7 @@ alumnidirector.com,imap.mail.com,993,smtp.mail.com,587
 alunos.utfpr.edu.br,imap.gmail.com,993,smtp.gmail.com,587
 anche.no,mail.autistici.org,993,smtp.autistici.org,465
 angelic.com,imap.mail.com,993,smtp.mail.com,587
+anu.edu.au,outlook.office365.com,993,smtp.office365.com,587
 aol.com,imap.aol.com,993,smtp.aol.com,465
 appraiser.net,imap.mail.com,993,smtp.mail.com,587
 aquilenet.fr,imap.aquilenet.fr,993,smtp.aquilenet.fr,587
@@ -131,8 +132,8 @@ kean.edu,imap.gmail.com,993,smtp.gmail.com,587
 kipras.org,mail.kipras.org,993,mail.kipras.org,587
 krutt.org,mail.autistici.org,993,smtp.autistici.org,465
 kth.se,webmail.kth.se,993,smtp.kth.se,587
-lavabit.com,lavabit.com,993,lavabit.com,587
 larbs.xyz,mail.larbs.xyz,993,mail.larbs.xyz,587
+lavabit.com,lavabit.com,993,lavabit.com,587
 librem.one,imap.librem.one,993,smtp.librem.one,465
 linuxmail.org,imap.mail.com,993,smtp.mail.com,587
 live.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587

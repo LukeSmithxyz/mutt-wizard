@@ -205,6 +205,7 @@ rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
 seznam.cz,imap.seznam.cz,993,smtp.seznam.cz,465
 smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
+sms.ed.ac.uk,pod51015.outlook.com,993,pod51015.outlook.com,587
 southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 spoko.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 st.amu.edu.pl,outlook.office365.com,993,smtp.office365.com,587
@@ -275,5 +276,3 @@ ymail.com,imap.mail.yahoo.com,993,smtp.mail.yahoo.com,465
 zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
-sms.ed.ac.uk,pod51015.outlook.com,993,pod51015.outlook.com,587
-

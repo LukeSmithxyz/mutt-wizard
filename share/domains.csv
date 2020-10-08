@@ -1,4 +1,6 @@
 ADDRESS,IMAP,imap port,SMTP,smtp port
+126.com,imap.126.com,993,smtp.126.com,587
+163.com,imap.163.com,993,smtp.163.com,587
 420blaze.it,mail.cock.li,993,mail.cock.li,587
 8chan.co,mail.cock.li,993,mail.cock.li,587
 aaathats3as.com,mail.cock.li,993,mail.cock.li,587
@@ -195,6 +197,7 @@ privacyrequired.com,mail.autistici.org,993,smtp.autistici.org,465
 prokonto.pl,poczta.o2.pl,993,poczta.o2.pl,465
 protonmail.ch,127.0.0.1,1143,127.0.0.1,1025
 protonmail.com,127.0.0.1,1143,127.0.0.1,1025
+qq.com,imap.qq.com,993,smtp.qq.com,587
 rape.lol,mail.cock.li,993,mail.cock.li,587
 redchan.it,mail.cock.li,993,mail.cock.li,587
 resch.pw,mail.resch.pw,993,mail.resch.pw,587

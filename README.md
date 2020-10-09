@@ -27,12 +27,31 @@ User of Arch-based distros can also install mutt-wizard from the AUR as [mutt-wi
 
 The mutt-wizard is run with the command `mw`. Once everything is setup, you'll use `neomutt` to access your mail.
 
-- `mw add` -- add a new email account
-- `mw ls` -- list existing accounts
-- `mw pass` -- revise an account's password
-- `mw delete` -- delete an added account
-- `mw sync` -- sync all mail accounts and update notmuch database
-- `mw purge` -- delete all accounts and settings
+- `mw -a you@email.com` -- add a new email account
+- `mw -l` -- list existing accounts
+- `mw -y your@email.com` -- sync an email account
+- `my -Y` -- sync all configured email accounts
+- `mw -d` -- choose an account to delete
+- `mw -D your@email.com` -- delete account settings without confirmation
+- `pass edit mw-your@email.com` -- revise an account's password
+
+### Options usable when adding an account
+
+#### Providing arguments
+
+- `-u` -- Give an account username if different from the email address. If you use my [emailwiz](https://github.com/lukesmithxyz/emailwiz), give your username with this option. Not necessary for other accounts.
+- `-n` -- A real name to be used by the account. Put in quotations if multiple words
+- `-i` -- IMAP server address
+- `-I` -- IMAP server port (otherwise assumed to be 993)
+- `-s` -- SMTP server address
+- `-S` -- SMTP server port (otherwise assumed to be 587)
+- `-m` -- Maximum number of emails to be kept offline. No maximum is default functionality.
+
+#### General Settings
+
+- `-p` -- Add a Protonmail account
+- `-f` -- Assume mailbox names and force account configuration without connecting online at all.
+- `-o` -- Configure mutt for an account, but do not keep mail offline.
 
 ## Dependencies
 

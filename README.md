@@ -30,7 +30,7 @@ The mutt-wizard is run with the command `mw`. Once everything is setup, you'll u
 - `mw -a you@email.com` -- add a new email account
 - `mw -l` -- list existing accounts
 - `mw -y your@email.com` -- sync an email account
-- `my -Y` -- sync all configured email accounts
+- `mw -Y` -- sync all configured email accounts
 - `mw -d` -- choose an account to delete
 - `mw -D your@email.com` -- delete account settings without confirmation
 - `pass edit mw-your@email.com` -- revise an account's password

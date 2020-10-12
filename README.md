@@ -46,6 +46,7 @@ The mutt-wizard is run with the command `mw`. Once everything is setup, you'll u
 - `-s` -- SMTP server address
 - `-S` -- SMTP server port (otherwise assumed to be 587)
 - `-m` -- Maximum number of emails to be kept offline. No maximum is default functionality.
+- `-x` -- Account password. You will be prompted for it otherwise.
 
 #### General Settings
 

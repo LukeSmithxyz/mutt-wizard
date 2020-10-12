@@ -122,7 +122,6 @@ bind index gg first-entry
 unmailboxes *
 "
 fi
-	printf "DONE.\\n"
 }
 
 parsedomains(){ serverinfo="$(grep "^${fulladdr#*@}" "$muttshare/domains.csv" 2>/dev/null)"
@@ -156,6 +155,7 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 	rm -rf "${cachedir:?}/${fulladdr:?}" "$accdir/"[1-9]"-$fulladdr.muttrc"
 	sed -ibu "/[0-9]-$fulladdr.muttrc/d" "$muttrc" ; rm -f "$muttrc"bu
 	sed -ibu "/account $fulladdr/,/^\(\s*$\|account\)/d" "$msmtprc"; rm -f "$msmtprc"bu
+	pass rm -f "$pass_prefix$fulladdr" >/dev/null 2>&1
 }
 
 askinfo() { \
@@ -174,9 +174,16 @@ askinfo() { \
 	[ -z "$realname" ] && echo "Give the name you would like to be identified by on the email account:" &&
 		read -r realname
 	login="${login:-$fulladdr}"
-	getpass
+	if [ -n "${password+x}" ]; then
+		createpass
+	else
+		getpass
+	fi
 }
 
+createpass() { echo "$password" > "$PASSWORD_STORE_DIR/$pass_prefix$fulladdr"
+	"$GPG" -qer "$(cat "$PASSWORD_STORE_DIR/.gpg-id")" "$PASSWORD_STORE_DIR/$pass_prefix$fulladdr"
+	rm -f "$PASSWORD_STORE_DIR/$pass_prefix$fulladdr" ;}
 
 writeinfo() { mkdir -p "$muttdir" "$accdir" "$cachedir/$fulladdr/bodies" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp" "$maildir/$fulladdr"
 
@@ -287,7 +294,7 @@ setact() { if [ -n "${action+x}" ] && [ "$action" != "$1" ]; then
 
 trap 'echo -e "\033[0m\n"; exit' INT ABRT
 
-while getopts "fplhdYD:y:i:I:s:S:u:a:n:" o; do case "${o}" in
+while getopts "fplhdYD:y:i:I:s:S:u:a:n:x:" o; do case "${o}" in
 	l) setact list || exit 1 ;;
 	d) setact delete || exit 1 ;;
 	D) setact delete || exit 1 ; fulladdr="$OPTARG" ;;
@@ -303,6 +310,7 @@ while getopts "fplhdYD:y:i:I:s:S:u:a:n:" o; do case "${o}" in
 	m) setact add || exit 1 ; maxmes="$OPTARG" ;;
 	o) setact add || exit 1 ; online=True ;;
 	f) setact add || exit 1 ; force=True ;;
+	x) setact add || exit 1 ; password="$OPTARG" ;;
 	p) echo "NOTE: Protonmail users must install and configure Protonmail Bridge first for the first sync to work."
 		proton=True
 		imap="127.0.0.1"

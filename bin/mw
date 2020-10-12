@@ -265,7 +265,7 @@ finalize() { echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$fulladdr/{}/cur
 		esac
 	done
 	echo "$toappend" >> "$accdir/$idnum-$fulladdr.muttrc"
-	[ -z "${online+x}" ] && printf "\033[33mYou should now be able to run \`\033[32mw -y %s\033[33m\` to begin to download your mail.\033[0m\\n" "$fulladdr"
+	[ -z "${online+x}" ] && printf "\033[33mYou should now be able to run \`\033[32mmw -y %s\033[33m\` to begin to download your mail.\033[0m\\n" "$fulladdr"
 	command -V urlview >/dev/null 2>&1 && [ ! -f "$HOME/.urlview" ] && echo "COMMAND \$BROWSER" > "$HOME/.urlview"
 	return 0 ;}
 

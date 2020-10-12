@@ -125,22 +125,18 @@ fi
 	printf "DONE.\\n"
 }
 
-parsedomains(){ \
-		# Parses the domains.csv file for server information and sets
-		# the required variables unless overridden by the user.
-		serverinfo="$(grep "^${fulladdr#*@}" "$muttshare/domains.csv" 2>/dev/null)"
+parsedomains(){ serverinfo="$(grep "^${fulladdr#*@}" "$muttshare/domains.csv" 2>/dev/null)"
 
-		[ -z "$serverinfo" ] &&
-			serverinfo="$(grep "$(echo "${fulladdr#*@}" | sed "s/\.[^\.]*$/\.\\\*/")" "$muttshare/domains.csv" 2>/dev/null)"
+	[ -z "$serverinfo" ] && serverinfo="$(grep "$(echo "${fulladdr#*@}" | sed "s/\.[^\.]*$/\.\\\*/")" "$muttshare/domains.csv" 2>/dev/null)"
 
-		IFS=, read -r service imapsugg iportsugg smtpsugg sportsugg <<EOF
+	IFS=, read -r service imapsugg iportsugg smtpsugg sportsugg <<EOF
 $serverinfo
 EOF
-		imap="${imap:-$imapsugg}"
-		smtp="${smtp:-$smtpsugg}"
-		sport="${sport:-$sportsugg}"
-		iport="${iport:-$iportsugg}"
-		}
+	imap="${imap:-$imapsugg}"
+	smtp="${smtp:-$smtpsugg}"
+	sport="${sport:-$sportsugg}"
+	iport="${iport:-$iportsugg}"
+}
 
 delete() { if [ -z "${fulladdr+x}" ]; then
 		echo "Select the account your would like to delete (by number):"
@@ -160,7 +156,7 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 	rm -rf "${cachedir:?}/${fulladdr:?}" "$accdir/"[1-9]"-$fulladdr.muttrc"
 	sed -ibu "/[0-9]-$fulladdr.muttrc/d" "$muttrc" ; rm -f "$muttrc"bu
 	sed -ibu "/account $fulladdr/,/^\(\s*$\|account\)/d" "$msmtprc"; rm -f "$msmtprc"bu
-	}
+}
 
 askinfo() { \
 	[ -z "$fulladdr" ] && echo "Give the full email address to add:" &&
@@ -185,8 +181,7 @@ askinfo() { \
 writeinfo() { mkdir -p "$muttdir" "$accdir" "$cachedir/$fulladdr/bodies" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp" "$maildir/$fulladdr"
 
 	# Get accounts and find the first missing account number (max. 9).
-	getaccounts
-	for x in $(seq 1 9); do echo "$accounts" | grep -q "$x" || { export idnum="$x"; break ;}; done
+	getaccounts; for x in $(seq 1 9); do echo "$accounts" | grep -q "$x" || { export idnum="$x"; break ;}; done
 
 	# Configure msmtprc for sending mail.
 	[ ! -f "$msmtprc" ] && echo "$msmtp_header" > "$msmtprc"
@@ -205,8 +200,7 @@ writeinfo() { mkdir -p "$muttdir" "$accdir" "$cachedir/$fulladdr/bodies" "${XDG_
 	! grep "^source.*.muttrc" "$muttrc" | grep -qv "$mwconfig" && echo "source $accdir/$idnum-$fulladdr.muttrc $MARKER" >> "$muttrc"
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$idnum-$fulladdr.muttrc<enter><change-folder>!<enter>;<check-stats>' \"switch to $fulladdr\" $MARKER" >> "$muttrc"
 
-	# Create a notmuch config file if not present already.
-	notmuchauto
+	notmuchauto # Create a notmuch config file if not present already.
 }
 
 protonfinger() { printf "Getting Protonmail bridge fingerprint...\\n"
@@ -283,9 +277,7 @@ synchronize_flags=true
 gpg_path=$GPG"
 	echo "$nmbasic" > "$NOTMUCH_CONFIG" ;}
 
-trap 'echo -e "\033[0m\n"; exit' INT ABRT
-
-setaction() { if [ -n "${action+x}" ] && [ "$action" != "$1" ]; then
+setact() { if [ -n "${action+x}" ] && [ "$action" != "$1" ]; then
 		echo "Running $1 with $action..."
 		echo "Incompatible options given. Only one action may be specified per run."
 		return 1
@@ -293,22 +285,24 @@ setaction() { if [ -n "${action+x}" ] && [ "$action" != "$1" ]; then
 		action="$1"
 	fi; }
 
+trap 'echo -e "\033[0m\n"; exit' INT ABRT
+
 while getopts "fplhdYD:y:i:I:s:S:u:a:n:" o; do case "${o}" in
-	l) setaction list || exit 1 ;;
-	d) setaction delete || exit 1 ;;
-	D) setaction delete || exit 1 ; fulladdr="$OPTARG" ;;
-	y) setaction sync || exit 1 ; fulladdr="$OPTARG" ;;
-	Y) setaction sync || exit 1 ;;
-	a) setaction add || exit 1 ; fulladdr="$OPTARG" ;;
-	i) setaction add || exit 1 ; imap="$OPTARG" ;;
-	I) setaction add || exit 1 ; iport="$OPTARG" ;;
-	s) setaction add || exit 1 ; smtp="$OPTARG" ;;
-	S) setaction add || exit 1 ; sport="$OPTARG" ;;
-	u) setaction add || exit 1 ; login="$OPTARG" ;;
-	n) setaction add || exit 1 ; realname="$OPTARG" ;;
-	m) setaction add || exit 1 ; maxmes="$OPTARG" ;;
-	o) setaction add || exit 1 ; online=True ;;
-	f) setaction add || exit 1 ; force=True ;;
+	l) setact list || exit 1 ;;
+	d) setact delete || exit 1 ;;
+	D) setact delete || exit 1 ; fulladdr="$OPTARG" ;;
+	y) setact sync || exit 1 ; fulladdr="$OPTARG" ;;
+	Y) setact sync || exit 1 ;;
+	a) setact add || exit 1 ; fulladdr="$OPTARG" ;;
+	i) setact add || exit 1 ; imap="$OPTARG" ;;
+	I) setact add || exit 1 ; iport="$OPTARG" ;;
+	s) setact add || exit 1 ; smtp="$OPTARG" ;;
+	S) setact add || exit 1 ; sport="$OPTARG" ;;
+	u) setact add || exit 1 ; login="$OPTARG" ;;
+	n) setact add || exit 1 ; realname="$OPTARG" ;;
+	m) setact add || exit 1 ; maxmes="$OPTARG" ;;
+	o) setact add || exit 1 ; online=True ;;
+	f) setact add || exit 1 ; force=True ;;
 	p) echo "NOTE: Protonmail users must install and configure Protonmail Bridge first for the first sync to work."
 		proton=True
 		imap="127.0.0.1"
@@ -317,7 +311,7 @@ while getopts "fplhdYD:y:i:I:s:S:u:a:n:" o; do case "${o}" in
 		sport="1025"
 		ssltype="None"
 		protonfinger
-		setaction add || exit 1
+		setact add || exit 1
 		;;
 	*) cat << EOF
 mw: mutt-wizard, auto-configure email accounts for mutt

@@ -347,7 +347,7 @@ Options allowed with -a:
 NOTE: Once at least one account is added, you can run
 \`mbsync -a\` to begin downloading mail.
 
-To chane an account's password, run \`pass edit ${pass_prefix}your@email.com\`.
+To change an account's password, run \`pass edit ${pass_prefix}your@email.com\`.
 EOF
 exit 1
 ;;

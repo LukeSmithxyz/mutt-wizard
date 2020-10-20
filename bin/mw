@@ -48,7 +48,7 @@ port ${sport:-587}
 from $fulladdr
 user $login
 passwordeval \"pass $pass_prefix$fulladdr\"
-$starttlsoff
+$tlsline
 "
 mbsync_profile="IMAPStore $fulladdr-remote
 Host $imap
@@ -170,7 +170,7 @@ askinfo() { \
 		read -r imap
 	[ -z "$smtp" ] && echo "Give your email server's SMTP address (excluding the port number):" &&
 		read -r smtp
-	[ "$sport" = 465 ] && starttlsoff="tls_starttls off"
+	[ "$sport" = 465 ] && tlsline="tls_starttls off"
 	[ -z "$realname" ] && echo "Give the name you would like to be identified by on the email account:" &&
 		read -r realname
 	login="${login:-$fulladdr}"
@@ -209,10 +209,6 @@ writeinfo() { mkdir -p "$muttdir" "$accdir" "$cachedir/$fulladdr/bodies" "${XDG_
 
 	notmuchauto # Create a notmuch config file if not present already.
 }
-
-protonfinger() { printf "Getting Protonmail bridge fingerprint...\\n"
-  fingerprint="$(msmtp --serverinfo --host=$smtp --port=$sport --tls --tls-certcheck=off | grep SHA256: | sed 's/^.*: //')"
-	sed -ibu "s/account $fulladdr/&\ntls_trust_file\ntls_fingerprint $fingerprint/" "$msmtprc" ; rm -f "$msmtprc"bu ;}
 
 getpass() { while : ; do pass rm -f "$pass_prefix$fulladdr" >/dev/null 2>&1
 		pass insert "$pass_prefix$fulladdr" && break; done ;}
@@ -318,7 +314,7 @@ while getopts "fplhdYD:y:i:I:s:S:u:a:n:x:" o; do case "${o}" in
 		smtp="127.0.0.1"
 		sport="1025"
 		ssltype="None"
-		protonfinger
+  		tlsline="tls_fingerprint $(msmtp --serverinfo --host=$smtp --port=$sport --tls --tls-certcheck=off | awk '/SHA256:/ {print $2}')"
 		setact add || exit 1
 		;;
 	*) cat << EOF

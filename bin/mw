@@ -30,7 +30,7 @@ do
 	[ -f "$x" ] && sslcert="$x" && break
 done || { echo "CA Certificate not found. Please install one or link it to /etc/ssl/certs/ca-certificates.crt" && exit 1 ;}
 
-getaccounts() { accounts="$(find "$accdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /;s/\.muttrc$//" | sort -n)" ;}
+getaccounts() { accounts="$(find "$accdir" -type f -or -type l | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /;s/\.muttrc$//" | sort -n)" ;}
 
 list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" ;}
 

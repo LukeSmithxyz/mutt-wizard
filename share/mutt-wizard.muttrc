@@ -22,8 +22,9 @@ set forward_quote		# include message in forwards
 set reverse_name		# reply as whomever it was to
 set include			# include message in replies
 set mail_check=60 # to avoid lags using IMAP with some email providers (yahoo for example)
-auto_view text/html		# automatically show html (mailcap uses w3m)
+auto_view text/html		# automatically show html (mailcap uses lynx)
 auto_view application/pgp-encrypted
+set display_filter = "tac | sed '/\\\[-- Autoview/,+1d' | tac" # Suppress autoview messages.
 alternative_order text/plain text/enriched text/html
 bind index,pager i noop
 bind index,pager g noop

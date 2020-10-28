@@ -330,12 +330,13 @@ Main actions:
   -Y			Sync mail for all accounts
 
 Options allowed with -a:
-  -u	Account login name if not full address.
-  -n	"Real name" to be on the email account.
+  -u	Account login name if not full address
+  -n	"Real name" to be on the email account
   -i	IMAP server address
   -I	IMAP server port
   -s	SMTP server address
   -S	SMTP server port
+  -x	Password for account (recommended to be in double quotes)
   -p	Install for a Protonmail account.
   -o	Configure address, but keep mail online.
   -b	Assume typical English mailboxes without attempting log-on.
@@ -353,7 +354,7 @@ esac done
 
 case "$action" in
 	list) list ;;
-	add) askinfo && getprofiles && writeinfo && getboxes && finalize || delete ;;
+	add) askinfo && getprofiles && writeinfo && getboxes && finalize || { delete ; exit 1 ;} ;;
 	delete) delete $fulladdr ;;
 	sync) syncwrapper $fulladdr ;;
 esac

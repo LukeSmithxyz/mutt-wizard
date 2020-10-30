@@ -54,6 +54,15 @@ The mutt-wizard is run with the command `mw`. Once everything is setup, you'll u
 - `-f` -- Assume mailbox names and force account configuration without connecting online at all.
 - `-o` -- Configure mutt for an account, but do not keep mail offline.
 
+## Update Mailbox with Cron
+
+Since mutt-wizard requires shell variables stored in `~/.profile`, you will need to add `. $HOME/.profile` to your cronjobs. For example, to have mail update every 10 minutes, this is the line that should appear in the crontab file:
+```
+*/10 * * * * . $HOME/.profile; /usr/bin/mw -Y
+```
+
+Remember to use cron as the same user the mail is, not root. (IE, run `crontab -e`, not `sudo crontab -e`).
+
 ## Dependencies
 
 - `neomutt` - the email client.
@@ -61,7 +70,7 @@ The mutt-wizard is run with the command `mw`. Once everything is setup, you'll u
 - `msmtp` - sends the email.
 - `pass` - safely encrypts passwords (required at install)
 
-There's a chance of errors if you use a slow-release distro like Ubuntu, Debian or Mint. If you get errors in `neomutt`, install the most recent version manually or manually remove the offending lines in the config in `/usr/share/mutt-wizard/mutt-wizard.muttrc`.
+There's a chance of errors if you use a slow-release distro like Ubuntu, Debian or Mint. If you get errors in `neomutt`, install the most recent version manually or manually remove the offending lines in the config in `/usr/share/mutt-n/mutt-wizard.muttrc`.
 
 ### Optional
 

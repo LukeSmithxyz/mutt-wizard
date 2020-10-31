@@ -3,10 +3,12 @@
 mw \- mutt-wizard \- autoconfigure email accounts for neomutt and isync
 .SH SYNOPSIS
 .B mw
-<command>
+[
+.I OPTIONS
+]
 .SH DESCRIPTION
 .B mw
-takes a user email account and sets up a terminal-based email interface with it for
+takes a user email account and sets up a terminal-based email interface for it with
 .B neomutt.
 This can include offline email with
 .B isync/mbsync
@@ -16,22 +18,61 @@ for sending mail, and also passwords automatically encrypted and stored with
 .B pass.
 .SH COMMANDS
 .TP
-.B add
-configure an email account
+.B -a your@email.com
+add an email address
 .TP
-.B ls
+.B -l
 list all email accounts configured by mutt-wizard
 .TP
-.B delete
-delete the configuration files for an already configured email account
+.B -d
+pick an already configured account and remove its configuration
 .TP
-.B purge
-totally purge all local mutt-wizard accounts
+.B -D your@email.com
+remove a configured account without confirmation
 .TP
-.B cron
-toggle a cronjob that will automatically sync mail with
-.B mailsync
-as often as you wish
+.B -y your@email.com
+download and upload mail for an email account
+.TP
+.B -Y
+sync all email accounts
+.SH OPTIONS FOR ADDING ACCOUNTS
+These can be specified on the command line, otherwise, you will be prompted for what is necessary. mutt-wizard knows the IMAP/SMTP server information for most email providers, so specifying them is usually redundant.
+.TP
+.B -u billy
+Account logon/username if required and different from email address.
+.TP
+.B -n Billy
+Real name which will appear in emails. Should be put in quotes if multiple words.
+.TP
+.B -m number
+Set a maximum number of messages to be stored offline.
+.TP
+.B -i
+IMAP server address
+.TP
+.B -I
+IMAP server port (assumed to be 993 if not specified)
+.TP
+.B -s
+SMTP server address
+.TP
+.B -S
+SMTP server port (assumed to be 587 if not specified)
+.TP
+.B -x
+Account password. You will be prompted for the password interactively if this option is not given.
+.SH OTHER OPTIONS
+.TP
+.B -f
+Force account creation and guess mailboxes without attempting to connect to server. Otherwise if connection cannot be made, the configured account settings will not be persistent.
+.TP
+.B -o
+Create settings for an account to be used online only without mail syncing abilities. Without
+.B -f
+connection will still be attempted in setup to discover mailboxes.
+.TP
+.B -p
+Add a Protonmail account. Protonmail Bridge must be installed and set up.
 .SH DETAILS
 .TP
 .B Mail location
@@ -52,11 +93,9 @@ and can be edited by the user if needbe. Note that the mutt-wizard will also sou
 file.
 .TP
 .B Mail deletion
-Neither
-.B delete
-or
-.B purge
-will delete downloaded mail for for safety (and time)'s sake. If you want to delete downloaded mail, do so manually by removing it from the directory above.
+mutt-wizard's delete action will delete configuration files and
+.I not
+downloaded mail for safety (and time)'s sake. If you want to delete downloaded mail, do so manually by removing it from the directory above.
 .TP
 .B Default settings
 The mutt-wizard has many default settings that focus on making it aesthetically pleasing and supplying more vim-like bindings. These can be found in

@@ -282,3 +282,11 @@ zju.edu.cn,imap.zju.edu.cn,993,smtp.zju.edu.cn,994
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
 e.email,mail.ecloud.global,993.00,mail.ecloud.global,587.00
+nixnet.email,imap.nixnet.email,143,smtp.nixnet.email,587
+nixnetmail.com,imap.nixnet.email,143,smtp.nixnet.email,587
+pwned.life,imap.nixnet.email,143,smtp.nixnet.email,587
+paranoid.network,imap.nixnet.email,143,smtp.nixnet.email,587
+linux.monster,imap.nixnet.email,143,smtp.nixnet.email,587
+nixnet.xyz,imap.nixnet.email,143,smtp.nixnet.email,587
+freedom.xyz,imap.nixnet.email,143,smtp.nixnet.email,587
+privacy.xyz,imap.nixnet.email,143,smtp.nixnet.email,587

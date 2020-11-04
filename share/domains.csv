@@ -1,8 +1,8 @@
-ADDRESS,IMAP,imap port,SMTP,smtp port
 126.com,imap.126.com,993,smtp.126.com,587
 163.com,imap.163.com,993,smtp.163.com,587
 420blaze.it,mail.cock.li,993,mail.cock.li,587
 8chan.co,mail.cock.li,993,mail.cock.li,587
+ADDRESS,IMAP,imap port,SMTP,smtp port
 aaathats3as.com,mail.cock.li,993,mail.cock.li,587
 accountant.com,imap.mail.com,993,smtp.mail.com,587
 activist.com,imap.mail.com,993,smtp.mail.com,587
@@ -80,6 +80,7 @@ disroot.org,disroot.org,993,disroot.org,587
 distruzione.org,mail.autistici.org,993,smtp.autistici.org,465
 dr.com,imap.mail.com,993,smtp.mail.com,587
 duke.edu,outlook.office365.com,993,smtp.office365.com,587
+e.email,mail.ecloud.global,993.00,mail.ecloud.global,587.00
 email.arizona.edu,imap.gmail.com,993,smtp.gmail.com,587
 email.com,imap.mail.com,993,smtp.mail.com,587
 eneco.com,outlook.office365.com,993,smtp.office365.com,587
@@ -111,8 +112,6 @@ hitler.rocks,mail.cock.li,993,mail.cock.li,587
 horsefucker.org,mail.cock.li,993,mail.cock.li,587
 hostgator,gator4171.hostgator.com,993,gator4171.hostgator.com,587
 hotmail.*,outlook.office365.com,993,smtp.office365.com,587
-hotmail.co.*,outlook.office365.com,993,smtp.office365.com,587
-hotmail.com.*,outlook.office365.com,993,smtp.office365.com,587
 hs-mittweida.de,mail.hs-mittweida.de,993,mail.hs-mittweida.de,465
 humbug.pw,imap.migadu.com,993,smtp.migadu.com,587
 hushmail.com,imap.hushmail.com,993,smtp.hushmail.com,465
@@ -281,4 +280,3 @@ zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zju.edu.cn,imap.zju.edu.cn,993,smtp.zju.edu.cn,994
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
-e.email,mail.ecloud.global,993.00,mail.ecloud.global,587.00

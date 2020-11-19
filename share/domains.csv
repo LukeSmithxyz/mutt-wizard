@@ -78,6 +78,7 @@ dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
 diplomats.com,imap.mail.com,993,smtp.mail.com,587
 disroot.org,disroot.org,993,disroot.org,587
 distruzione.org,mail.autistici.org,993,smtp.autistici.org,465
+dorriseaton.com,outlook.office365.com,993,smtp.office365.com,587
 dr.com,imap.mail.com,993,smtp.mail.com,587
 duke.edu,outlook.office365.com,993,smtp.office365.com,587
 e.email,mail.ecloud.global,993.00,mail.ecloud.global,587.00
@@ -86,7 +87,7 @@ email.arizona.edu,imap.gmail.com,993,smtp.gmail.com,587
 email.com,imap.mail.com,993,smtp.mail.com,587
 eneco.com,outlook.office365.com,993,smtp.office365.com,587
 engineer.com,imap.mail.com,993,smtp.mail.com,587
-erciyes.edu.tr,posta.erciyes.edu.tr,993,smtp.erciyes.edu.tr,587
+erciyes.edu.tr,mail.erciyes.edu.tr,993,mail.erciyes.edu.tr,587
 ethancoe.com,mail.privateemail.com,993,mail.privateemail.com,465
 ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
 etu.upmc.fr,courriel.upmc.fr,993,smtps.upmc.fr,587

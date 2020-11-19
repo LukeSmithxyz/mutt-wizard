@@ -337,7 +337,7 @@ Options allowed with -a:
   -x	Password for account (recommended to be in double quotes)
   -p	Install for a Protonmail account.
   -o	Configure address, but keep mail online.
-  -b	Assume typical English mailboxes without attempting log-on.
+  -f	Assume typical English mailboxes without attempting log-on.
 
 NOTE: Once at least one account is added, you can run
 \`mbsync -a\` to begin downloading mail.

@@ -35,6 +35,7 @@ bguth.de,wp300.webpack.hosteurope.de,993,wp300.webpack.hosteurope.de,587
 bigpond.com,imap.telstra.com,143,smtp.telstra.com,587
 bikerider.com,imap.mail.com,993,smtp.mail.com,587
 billycarlyle.uk,mail.muny.us,993,mail.muny.us,465
+biomed.ee.ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
 birdlover.com,imap.mail.com,993,smtp.mail.com,587
 bjoernguthphotography.de,wp300.webpack.hosteurope.de,993,wp300.webpack.hosteurope.de,587
 bocken.org,mail.bocken.org,993,mail.bocken.org,587
@@ -162,6 +163,7 @@ mailo.com,mail.mailo.com,993,mail.mailo.com,465
 marquette.edu,outlook.office365.com,993,smtp.office365.com,587
 memeware.net,mail.cock.li,993,mail.cock.li,587
 metu.edu.tr,imap.metu.edu.tr,993,smtp.metu.edu.tr,465
+mit.edu,imap.exchange.mit.edu,993,outgoing.mit.edu,465
 ml1.net,imap.fastmail.com,993,smtp.fastmail.com,465
 mortemale.org,mail.autistici.org,993,smtp.autistici.org,465
 msn.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587

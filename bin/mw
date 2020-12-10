@@ -239,7 +239,7 @@ finalize() { echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$fulladdr/{}/cur
 	sed -ibu "/$MARKER/d" "$accdir/$idnum-$fulladdr.muttrc" ; rm -f "$accdir/$idnum-$fulladdr.muttrcbu"
 	toappend="mailboxes $(echo "$mailboxes" | sed "s/^/\"=/;s/$/\"/" | paste -sd ' ' )"
 	for x in $mailboxes; do
-		case $x in
+		case "$x" in
 			*[Ss][Ee][Nn][Tt]*) setBox record "$x"; formatShortcut s sent "$x" ;;
 			*[Dd][Rr][Aa][Ff][Tt][Ss]*) setBox postponed "$x"; formatShortcut d drafts "$x" ;;
 			*[Tt][Rr][Aa][Ss][Hh]*) formatShortcut t trash "$x"; setBox trash "$x" ;;

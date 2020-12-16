@@ -237,7 +237,7 @@ Archive" && return 0
 
 finalize() { echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$fulladdr/{}/cur" "$maildir/$fulladdr/{}/tmp" "$maildir/$fulladdr/{}/new"
 	sed -ibu "/$MARKER/d" "$accdir/$idnum-$fulladdr.muttrc" ; rm -f "$accdir/$idnum-$fulladdr.muttrcbu"
-	toappend="mailboxes $(echo "$mailboxes" | sed "s/^/\"=/;s/$/\"/" | paste -sd ' ' )"
+	toappend="mailboxes $(echo "$mailboxes" | sed "s/^/\"=/;s/$/\"/" | paste -sd ' ' - )"
 	for x in $mailboxes; do
 		case "$x" in
 			*[Ss][Ee][Nn][Tt]*) setBox record "$x"; formatShortcut s sent "$x" ;;

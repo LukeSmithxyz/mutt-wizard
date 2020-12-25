@@ -219,6 +219,7 @@ runbox.com,mail.runbox.com,993,mail.runbox.com,587
 rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
 seznam.cz,imap.seznam.cz,993,smtp.seznam.cz,465
+shu.edu.cn,imap.shu.edu.cn,143,smtp.shu.edu.cn,25
 smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 sms.ed.ac.uk,pod51015.outlook.com,993,pod51015.outlook.com,587
 southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587

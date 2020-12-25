@@ -164,6 +164,8 @@ askinfo() { \
 		echo "\`$fulladdr\` is not a valid email address. Please retype the address:"
 		read -r fulladdr
 	done
+	grep -q "Channel\s*$fulladdr$" "$mbsyncrc" &&
+		{ echo "$fulladdr has already been added" && exit 1 ;}
 	{ [ -z "$imap" ] || [ -z "$smtp" ] ;} && parsedomains
 	[ -z "$imap" ] && echo "Give your email server's IMAP address (excluding the port number):" &&
 		read -r imap

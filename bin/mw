@@ -95,6 +95,7 @@ bind index,pager C noop
 bind index gg first-entry
 macro index o \"<shell-escape>mw -y $fulladdr<enter>\" \"run mbsync to sync $fulladdr\"
 unmailboxes *
+unalternates *
 "
 else
 mutt_profile="# vim: filetype=neomuttrc

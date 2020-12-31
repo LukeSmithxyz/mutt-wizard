@@ -35,6 +35,12 @@ download and upload mail for an email account
 .TP
 .B -Y
 sync all email accounts
+.TP
+.B -t 15
+toggle a cronjob that syncs your mail every 15 minutes (or any other number under 60)
+.TP
+.B -T
+toggle a cronjob without specifying minutes between sync
 .SH OPTIONS FOR ADDING ACCOUNTS
 These can be specified on the command line, otherwise, you will be prompted for what is necessary. mutt-wizard knows the IMAP/SMTP server information for most email providers, so specifying them is usually redundant.
 .TP
@@ -74,6 +80,13 @@ connection will still be attempted in setup to discover mailboxes.
 .B -p
 Add a Protonmail account. Protonmail Bridge must be installed and set up.
 .SH DETAILS
+.TP
+.B mailsync
+mutt-wizard calls a script
+.I mailsync
+to sync mail. This script additionally indexes new mail with notmuch and gives you a notification if new mail has arrived. If you want to bypass its additional features, you can always just run
+.I mbsync -a
+to sync your mail directly.
 .TP
 .B Mail location
 If the user chooses to keep offline email with

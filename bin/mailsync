@@ -20,17 +20,17 @@ pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
 # archive, notmuch and the GPG home.  This is done by searching common profile
 # files for variable assignments. This is ugly, but there are few options that
 # will work on the maximum number of machines.
-eval `grep -h -- \
-	"^\(export \)\?\(MBSYNCRC\|PASSWORD_STORE_DIR\|NOTMUCH_CONFIG\|GNUPGHOME\)=" \
-	"$HOME/.profile" "$HOME/.bash_profile" "$HOME/.zprofile" "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.pam_environment" 2>/dev/null`
+eval "$(grep -h -- \
+	"^\s*\(export \)\?\(MBSYNCRC\|PASSWORD_STORE_DIR\|NOTMUCH_CONFIG\|GNUPGHOME\)=" \
+	"$HOME/.profile" "$HOME/.bash_profile" "$HOME/.zprofile" "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.pam_environment" 2>/dev/null)"
 # One alternative to this kind of command would be marking the script for
 # /bin/sh -l. That might cause other problems on other particular setups that
 # do more complicated things on login, or those people who assign environmental
 # variables in shell rc files.
 
-# This variable might be required for soysdemd users, but it will break the
-# script on Artix runit.
-# export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
+case "$(readlink -f /sbin/init)" in
+	*systemd*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
+esac
 export GPG_TTY=$TTY
 
 [ -n "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC" || MBSYNCRC="$HOME/.mbsyncrc"

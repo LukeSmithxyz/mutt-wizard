@@ -35,6 +35,7 @@ list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" ;}
 
 getprofiles() { \
 	unset msmtp_header msmtp_profile mutt_profile mbsync_profile
+	[ "$iport" = "1143" ] && imapssl="None"
 msmtp_header="defaults
 auth	on
 tls	on
@@ -55,7 +56,7 @@ Port ${iport:-993}
 User $login
 PassCmd \"pass $pass_prefix$fulladdr\"
 AuthMechs LOGIN
-SSLType ${ssltype:-IMAPS}
+SSLType ${imapssl:-IMAPS}
 CertificateFile $sslcert
 
 MaildirStore $fulladdr-local
@@ -283,7 +284,7 @@ togglecron() { cron="$(mktemp)"
 		sed -ibu /mailsync/d "$cron"; rm -f "$cron"bu
 	else
 		echo "Adding automatic mailsync every ${cronmin:-10} minutes..."
-		echo "*/${cronmin-10} * * * * /usr/local/bin/mailsync" >> "$cron"
+		echo "*/${cronmin-10} * * * * $prefix/bin/mailsync" >> "$cron"
 	fi &&
 	crontab "$cron"; rm -f "$cron" ;}
 
@@ -321,7 +322,6 @@ while getopts "fplhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 		iport="1143"
 		smtp="127.0.0.1"
 		sport="1025"
-		ssltype="None"
   		tlsline="tls_fingerprint $(msmtp --serverinfo --host=$smtp --port=$sport --tls --tls-certcheck=off | awk '/SHA256:/ {print $2}')"
 		setact add || exit 1
 		;;

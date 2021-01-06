@@ -3,7 +3,7 @@
 command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 [ -z ${PASSWORD_STORE_DIR+x} ] && PASSWORD_STORE_DIR="$HOME/.password-store"
 [ -r "$PASSWORD_STORE_DIR/.gpg-id" ] &&
-    "$GPG" --list-secret-keys $(cat "$PASSWORD_STORE_DIR/.gpg-id") >/dev/null 2>&1 || {
+    "$GPG" --list-secret-keys "$(cat "$PASSWORD_STORE_DIR/.gpg-id")" >/dev/null 2>&1 || {
         printf "\`pass\` must be installed and initialized to encrypt passwords.\\nBe sure it is installed and run \`pass init <yourgpgemail>\`.\\nIf you don't have a GPG public private key pair, run \`%s --full-gen-key\` first.\\n" "$GPG"
         exit 1
     }
@@ -235,7 +235,7 @@ Archive" && return 0
 		return 0
 	else
 		echo "$mailboxes"
-		printf "\033[31m\033[31mLog-on not successful.\033[0m\\nIt seems that either you inputted the wrong password or server settings, or there are other requirements for your account out of the control of mutt-wizard.\\n"
+		echo "Log-on not successful."
 		return 1
 	fi ;}
 
@@ -254,7 +254,7 @@ finalize() { echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$fulladdr/{}/cur
 		esac
 	done
 	echo "$toappend" >> "$accdir/$idnum-$fulladdr.muttrc"
-	[ -z "${online+x}" ] && printf "\033[33mYou should now be able to run \`\033[32mmw -y %s\033[33m\` to begin to download your mail.\033[0m\\n" "$fulladdr"
+	[ -z "${online+x}" ] && echo "$fulladdr (account #$idnum) added successfully."
 	command -V urlview >/dev/null 2>&1 && [ ! -f "$HOME/.urlview" ] && echo "COMMAND \$BROWSER" > "$HOME/.urlview"
 	return 0 ;}
 
@@ -295,8 +295,6 @@ setact() { if [ -n "${action+x}" ] && [ "$action" != "$1" ]; then
 	else
 		action="$1"
 	fi; }
-
-trap 'echo -e "\033[0m\n"; exit' INT ABRT
 
 while getopts "fplhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 	l) setact list || exit 1 ;;
@@ -360,12 +358,12 @@ exit 1
 ;;
 esac done
 
-! command -v mbsync >/dev/null && [ -z "${force+x}" ] && printf "\`mbsync (isync package)\` must be installed to run mutt-wizard.\\n" && exit 1
+! command -v mbsync >/dev/null && [ -z "${force+x}" ] && echo "\`mbsync (isync package)\` must be installed." && exit 1
 
 case "$action" in
 	list) list ;;
 	add) askinfo && getprofiles && writeinfo && getboxes && finalize || { delete ; exit 1 ;} ;;
-	delete) delete $fulladdr ;;
+	delete) delete ;;
 	sync) mailsync $fulladdr ;;
 	toggle) togglecron ;;
 esac

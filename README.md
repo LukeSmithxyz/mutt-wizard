@@ -66,9 +66,10 @@ The mutt-wizard is run with the command `mw`. Once everything is setup, you'll u
 ## Dependencies
 
 - `neomutt` - the email client.
-- `isync` - downloads and syncs the mail. (required at install)
+- `curl` - tests connections (required at install).
+- `isync` - downloads and syncs the mail (required if storing IMAP mail locally).
 - `msmtp` - sends the email.
-- `pass` - safely encrypts passwords (required at install)
+- `pass` - safely encrypts passwords (required at install).
 
 There's a chance of errors if you use a slow-release distro like Ubuntu, Debian or Mint. If you get errors in `neomutt`, install the most recent version manually or manually remove the offending lines in the config in `/usr/share/mutt-wizard/mutt-wizard.muttrc`.
 

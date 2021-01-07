@@ -220,8 +220,11 @@ rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
 seznam.cz,imap.seznam.cz,993,smtp.seznam.cz,465
 shu.edu.cn,imap.shu.edu.cn,143,smtp.shu.edu.cn,25
+sina.com,imap.sina.com,993,smtp.sina.com,587
+sina.cn,imap.sina.cn,993,smtp.sina.cn,587
 smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 sms.ed.ac.uk,pod51015.outlook.com,993,pod51015.outlook.com,587
+sohu.com,imap.sohu.com,143,smtp.sohu.com,25
 southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 spoko.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 st.amu.edu.pl,outlook.office365.com,993,smtp.office365.com,587

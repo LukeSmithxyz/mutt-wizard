@@ -1,8 +1,8 @@
+ADDRESS,IMAP,imap port,SMTP,smtp port
 126.com,imap.126.com,993,smtp.126.com,587
 163.com,imap.163.com,993,smtp.163.com,587
 420blaze.it,mail.cock.li,993,mail.cock.li,587
 8chan.co,mail.cock.li,993,mail.cock.li,587
-ADDRESS,IMAP,imap port,SMTP,smtp port
 aaathats3as.com,mail.cock.li,993,mail.cock.li,587
 accountant.com,imap.mail.com,993,smtp.mail.com,587
 activist.com,imap.mail.com,993,smtp.mail.com,587
@@ -35,6 +35,7 @@ bguth.de,wp300.webpack.hosteurope.de,993,wp300.webpack.hosteurope.de,587
 bigpond.com,imap.telstra.com,143,smtp.telstra.com,587
 bikerider.com,imap.mail.com,993,smtp.mail.com,587
 billycarlyle.uk,mail.muny.us,993,mail.muny.us,465
+biomed.ee.ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
 birdlover.com,imap.mail.com,993,smtp.mail.com,587
 bjoernguthphotography.de,wp300.webpack.hosteurope.de,993,wp300.webpack.hosteurope.de,587
 bocken.org,mail.bocken.org,993,mail.bocken.org,587
@@ -162,6 +163,7 @@ mailo.com,mail.mailo.com,993,mail.mailo.com,465
 marquette.edu,outlook.office365.com,993,smtp.office365.com,587
 memeware.net,mail.cock.li,993,mail.cock.li,587
 metu.edu.tr,imap.metu.edu.tr,993,smtp.metu.edu.tr,465
+mit.edu,imap.exchange.mit.edu,993,outgoing.mit.edu,465
 ml1.net,imap.fastmail.com,993,smtp.fastmail.com,465
 mortemale.org,mail.autistici.org,993,smtp.autistici.org,465
 msn.com,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
@@ -217,8 +219,12 @@ runbox.com,mail.runbox.com,993,mail.runbox.com,587
 rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
 seznam.cz,imap.seznam.cz,993,smtp.seznam.cz,465
+shu.edu.cn,imap.shu.edu.cn,143,smtp.shu.edu.cn,25
+sina.com,imap.sina.com,993,smtp.sina.com,587
+sina.cn,imap.sina.cn,993,smtp.sina.cn,587
 smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 sms.ed.ac.uk,pod51015.outlook.com,993,pod51015.outlook.com,587
+sohu.com,imap.sohu.com,143,smtp.sohu.com,25
 southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 spoko.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 st.amu.edu.pl,outlook.office365.com,993,smtp.office365.com,587
@@ -264,6 +270,7 @@ univ-ubs.fr,partage.univ-ubs.fr,993,partage.univ-ubs.fr,587
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587
 uqtr.ca,outlook.office365.com,993,smtp.office365.com,587
 usa.com,imap.mail.com,993,smtp.mail.com,587
+usp.br,imap.gmail.com,993,smtp.gmail.com,465
 utas.edu.au,outlook.office365.com,993,smtp.office365.com,587
 utdallas.edu,outlook.office365.com,993,smtp.office365.com,587
 uw.edu,imap.gmail.com,993,smtp.gmail.com,465

@@ -49,7 +49,7 @@ The mutt-wizard is run with the command `mw`. Once everything is setup, you'll u
 #### Providing arguments
 
 - `-u` -- Give an account username if different from the email address.
-- `-n` -- A real name to be used by the account. Put in quotations if multiple words
+- `-n` -- A real name to be used by the account. Put in quotations if multiple words.
 - `-i` -- IMAP server address
 - `-I` -- IMAP server port (otherwise assumed to be 993)
 - `-s` -- SMTP server address

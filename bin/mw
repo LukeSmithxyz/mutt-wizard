@@ -180,8 +180,7 @@ askinfo() { \
 	[ -z "$smtp" ] && echo "Give your email server's SMTP address (excluding the port number):" &&
 		read -r smtp
 	[ "$sport" = 465 ] && tlsline="tls_starttls off"
-	[ -z "$realname" ] && echo "Give the name you would like to be identified by on the email account:" &&
-		read -r realname
+	[ -z "$realname" ] && realname="${fulladdr%%@*}"
 	login="${login:-$fulladdr}"
 	if [ -n "${password+x}" ]; then
 		createpass

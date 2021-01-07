@@ -81,16 +81,12 @@ else
     accounts=$*
 fi
 
-#( kill -46 "$(pidof "${STATUSBAR:-dwmblocks}")" >/dev/null 2>&1 ) 2>/dev/null
-
 # Parallelize multiple accounts
-for account in $accounts
-do
+for account in $accounts; do
     syncandnotify &
 done
 
 wait
-#( kill -46 "$(pidof "${STATUSBAR:-dwmblocks}")" >/dev/null 2>&1 ) 2>/dev/null
 
 notmuch new 2>/dev/null
 

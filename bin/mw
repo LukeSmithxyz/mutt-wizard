@@ -157,6 +157,12 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 	sed -ibu "/[0-9]-$fulladdr.muttrc/d" "$muttrc" ; rm -f "$muttrc"bu
 	sed -ibu "/account $fulladdr/,/^\(\s*$\|account\)/d" "$msmtprc"; rm -f "$msmtprc"bu
 	pass rm -f "$pass_prefix$fulladdr" >/dev/null 2>&1
+
+	# Get rid of those multiple newlines because I don't know awk well enough to do it by default lol.
+	for file in "$msmtprc" "$mbsyncrc"; do
+ 		tr '\n' '|' < "$file" | sed "s/||\+/||/g" | tr '|' '\n' >> "$file"bu
+		mv -f "$file"bu "$file"
+	done
 }
 
 askinfo() { \

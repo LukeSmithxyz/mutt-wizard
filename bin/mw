@@ -229,8 +229,8 @@ Junk
 Trash
 Sent
 Archive" && return 0
-	info="$(curl -s --user "$login:$(pass $pass_prefix$fulladdr)" --url "${protocol:-imaps}://$imap")" ||
-		{ echo "Log-on not successful." ; exit 1 ;}
+	info="$(curl -s --user "$login:$(pass $pass_prefix$fulladdr)" --url "${protocol:-imaps}://$imap")"
+	[ -z "$info" ] && echo "Log-on not successful." && return 1
 	mailboxes="$(echo "$info" | sed "s/.*\" //" | tr -d '')"
 }
 

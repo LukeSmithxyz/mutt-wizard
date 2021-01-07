@@ -34,9 +34,9 @@ Specifically, this wizard:
 - `msmtp` - sends the email.
 - `pass` - safely encrypts passwords (required at install).
 
-**Note**: There's a chance of errors if you use a slow-release distro like Ubuntu, Debian,
-or Mint. If you get errors in `neomutt`, install the most recent version
-manually or manually remove the offending lines in the config in
+**Note**: There's a chance of errors if you use a slow-release distro like
+Ubuntu, Debian, or Mint. If you get errors in `neomutt`, install the most
+recent version manually or manually remove the offending lines in the config in
 `/usr/share/mutt-wizard/mutt-wizard.muttrc`.
 
 ```bash
@@ -50,12 +50,19 @@ A user of Arch-based distros can also install mutt-wizard from the AUR as
 
 ### Optional Dependencies
 
-- `pam-gnupg` - Automatically logs you into your GPG key on login so you will never need to input your password once logged on to your system. Check the repo and directions out [here](https://github.com/cruegge/pam-gnupg).
+- `pam-gnupg` - Automatically logs you into your GPG key on login so you will
+  never need to input your password once logged on to your system. Check the
+  repo and directions out [here](https://github.com/cruegge/pam-gnupg).
 - `lynx` - view HTML email in neomutt.
-- `notmuch` - index and search mail. Install it and run `notmuch setup`, tell it that your mail is in `~/.local/share/mail/` (although `mw` will do this automatically if you haven't set notmuch up before). You can run it in mutt with `ctrl-f`. Run `notmuch new` to process new mail.
-- `abook` - a terminal-based address book. Pressing tab while typing an address to send mail to will suggest contacts that are in your abook.
+- `notmuch` - index and search mail. Install it and run `notmuch setup`, tell
+  it that your mail is in `~/.local/share/mail/` (although `mw` will do this
+  automatically if you haven't set notmuch up before). You can run it in mutt
+  with `ctrl-f`. Run `notmuch new` to process new mail.
+- `abook` - a terminal-based address book. Pressing tab while typing an address
+  to send mail to will suggest contacts that are in your abook.
 - `urlview` - outputs urls in mail to browser.
-- `cronie` - (or any other major cronjob manager) to set up automatic mail syncing.
+- `cronie` - (or any other major cronjob manager) to set up automatic mail
+  syncing.
 
 
 ## Usage
@@ -185,38 +192,38 @@ See Luke's website [here](https://lukesmith.xyz). Email him at
 
 ## Watch out for these things
 
-- Gmail accounts need to create an [App
-  Password](https://support.google.com/accounts/answer/185833?hl=en) to use
-  with  _**less secure**_ applications. This password is single-use (i.e. for
-  setup) and will be stored and encrypted locally. Enabling third-party
+- Gmail accounts need to create an
+- [App Password](https://support.google.com/accounts/answer/185833?hl=en) to
+  use with  _**less secure**_ applications. This password is single-use (i.e.
+  for setup) and will be stored and encrypted locally. Enabling third-party
   applications requires turning off two-factor authentication and this will
   circumvent that. You might also need to manually "Enable IMAP" in the
   settings.
 - Protonmail accounts require a "Protonmail Bridge" to access
   PM's IMAP and SMTP servers. Configure that before running mutt-wizard. Note
-  that when mutt-wizard asks for a password, you should put in your [bridge
-  password](https://protonmail.com/bridge/thunderbird#3), not your account
-  password.
+  that when mutt-wizard asks for a password, you should put in your
+  [bridge password](https://protonmail.com/bridge/thunderbird#3), not your
+  account password.
 - Protonmail bridge is prone to timing out. Watch out for this while adding an
-  account. If the bridge times out, try again. It might help to [increase the
-  timeout](https://protonmail.com/support/knowledge-base/thunderbird-connection-server-timed-error/)
+  account. If the bridge times out, try again. It might help to
+  [increase the timeout](https://protonmail.com/support/knowledge-base/thunderbird-connection-server-timed-error/)
   in your `mbsyncrc`.
 - If you have a university email or enterprise-hosted email for work, there
   might be other hurdles or two-factor authentication you have to jump through.
   Some, for example, will want you to create a separate IMAP password, etc.
- - `isync` is not fully UTF-8 compatible, so non-Latin characters may be garbled
-   (although sync should succeed). `mw` will also not auto-create mailbox
-   shortcuts since it is looking for English mailbox names. I strongly recommend
-   you to set your email language to English on your mail server to avoid these
-   problems.
+- `isync` is not fully UTF-8 compatible, so non-Latin characters may be garbled
+  (although sync should succeed). `mw` will also not auto-create mailbox
+  shortcuts since it is looking for English mailbox names. I strongly recommend
+  you to set your email language to English on your mail server to avoid these
+  problems.
 
 ## To-do
 
 - [x] Add Mac OS/BSD compatibility
-
 - [x] Out-of-the-box compatibility with Protonmail Bridge (I believe this is
   done, but more bug-testing is welcome since I don't have PM)
-  
+
 ## License
 
-[mutt-wizard](https://github.com/LukeSmithxyz/mutt-wizard) is free/libre software. This program is released under the GPLv3 license, which you can find in the file [LICENSE](LICENSE).
+mutt-wizard is free/libre software. This program is released under the GPLv3
+license, which you can find in the file [LICENSE](LICENSE).

@@ -45,8 +45,8 @@ cd mutt-wizard
 sudo make install
 ```
 
-A user of Arch-based distros can also install mutt-wizard from the AUR as
-[mutt-wizard-git](https://aur.archlinux.org/packages/mutt-wizard-git/).
+A user of Arch-based distros can also install the current mutt-wizard release from the AUR as
+[mutt-wizard](https://aur.archlinux.org/packages/mutt-wizard/), or the Github master branch, [mutt-wizard-git](https://aur.archlinux.org/packages/mutt-wizard-git/).
 
 ### Optional Dependencies
 

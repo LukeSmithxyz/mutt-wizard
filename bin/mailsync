@@ -42,7 +42,7 @@ case "$(uname)" in
 		messageinfo() { osascript -e "display notification with title \"📧 $from\" subtitle \"$subject\"" ;}
 		;;
 	*)
-		displays="$(ps axo user,cmd | grep "^$USER\s\+.*Xorg" | grep -wo "[0-9]*:[0-9]\+")"
+		displays="$(pgrep -a Xorg | grep -wo "[0-9]*:[0-9]\+")"
 	    	notify() { for x in $displays; do
 				export DISPLAY=$x
 				notify-send --app-name="mutt-wizard" "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account."

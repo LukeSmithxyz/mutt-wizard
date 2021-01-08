@@ -238,7 +238,7 @@ Sent
 Archive" && return 0
 	info="$(curl --location-trusted -s -m 5 --user "$login:$(pass $pass_prefix$fulladdr)" --url "${protocol:-imaps}://$imap")"
 	[ -z "$info" ] && echo "Log-on not successful." && return 1
-	mailboxes="$(echo "$info" | sed "s/.*\" //" | tr -d '')"
+	mailboxes="$(echo "$info" | sed "s/.*\" //;s/\"//g" | tr -d '')"
 }
 
 finalize() { echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$fulladdr/{}/cur" "$maildir/$fulladdr/{}/tmp" "$maildir/$fulladdr/{}/new"

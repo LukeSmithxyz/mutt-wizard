@@ -25,7 +25,7 @@ checkbasics() { command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 	[ -r "$PASSWORD_STORE_DIR/.gpg-id" ] &&
 	"$GPG" --list-secret-keys "$(cat "$PASSWORD_STORE_DIR/.gpg-id")" >/dev/null 2>&1 || {
 	echo "First run \`pass init <yourgpgemail>\` to set up a password archive."
-	echo "(If you don't already have a GPG key pair, first run \`$GPG --fullgenkey\`.)"
+	echo "(If you don't already have a GPG key pair, first run \`$GPG --full-gen-key\`.)"
        	exit 1 ;} ;}
 
 getaccounts() { accounts="$(find -L "$accdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /;s/\.muttrc$//" | sort -n)" ;}

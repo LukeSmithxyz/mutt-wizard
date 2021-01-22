@@ -351,6 +351,7 @@ while getopts "fplhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 	t) setact toggle || exit 1 ; cronmin="$OPTARG" ;;
 	T) setact toggle || exit 1 ;;
 	p) echo "NOTE: Protonmail users must install and configure Protonmail Bridge first for the first sync to work."
+		protocol="imap"
 		imap="127.0.0.1"
 		iport="1143"
 		smtp="127.0.0.1"

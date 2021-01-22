@@ -122,6 +122,7 @@ bind index,pager g noop
 bind index,pager M noop
 bind index,pager C noop
 bind index gg first-entry
+unmacro index o
 unmailboxes *
 "
 fi

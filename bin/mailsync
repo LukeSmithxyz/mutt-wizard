@@ -22,7 +22,7 @@ pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
 # will work on the maximum number of machines.
 eval "$(grep -h -- \
 	"^\s*\(export \)\?\(MBSYNCRC\|PASSWORD_STORE_DIR\|NOTMUCH_CONFIG\|GNUPGHOME\)=" \
-	"$HOME/.profile" "$HOME/.bash_profile" "$HOME/.zprofile" "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.pam_environment" 2>/dev/null)"
+	"$HOME/.profile" "$HOME/.bash_profile" "${ZDOTDIR:-$HOME}/.zprofile" "$HOME/.bashrc" "${ZDOTDIR:-$HOME}/.zshrc" "$HOME/.pam_environment" 2>/dev/null)"
 # One alternative to this kind of command would be marking the script for
 # /bin/sh -l. That might cause other problems on other particular setups that
 # do more complicated things on login, or those people who assign environmental

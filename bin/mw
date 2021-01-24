@@ -25,7 +25,7 @@ checkbasics() { command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 	[ -r "$PASSWORD_STORE_DIR/.gpg-id" ] &&
 	"$GPG" --list-secret-keys "$(cat "$PASSWORD_STORE_DIR/.gpg-id")" >/dev/null 2>&1 || {
 	echo "First run \`pass init <yourgpgemail>\` to set up a password archive."
-	echo "(If you don't already have a GPG key pair, first run \`$GPG --fullgenkey\`.)"
+	echo "(If you don't already have a GPG key pair, first run \`$GPG --full-gen-key\`.)"
        	exit 1 ;} ;}
 
 getaccounts() { accounts="$(find -L "$accdir" -type f | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /;s/\.muttrc$//" | sort -n)" ;}
@@ -122,6 +122,7 @@ bind index,pager g noop
 bind index,pager M noop
 bind index,pager C noop
 bind index gg first-entry
+unmacro index o
 unmailboxes *
 "
 fi
@@ -236,7 +237,7 @@ Junk
 Trash
 Sent
 Archive" && return 0
-	info="$(curl --location-trusted -s -m 5 --user "$login:$(pass $pass_prefix$fulladdr)" --url "${protocol:-imaps}://$imap")"
+	info="$(curl --location-trusted -s -m 5 --user "$login:$(pass $pass_prefix$fulladdr)" --url "${protocol:-imaps}://$imap:${iport:-993}")"
 	[ -z "$info" ] && echo "Log-on not successful." && return 1
 	mailboxes="$(echo "$info" | sed "s/.*\" //;s/\"//g" | tr -d '')"
 }
@@ -351,6 +352,7 @@ while getopts "fplhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 	t) setact toggle || exit 1 ; cronmin="$OPTARG" ;;
 	T) setact toggle || exit 1 ;;
 	p) echo "NOTE: Protonmail users must install and configure Protonmail Bridge first for the first sync to work."
+		protocol="imap"
 		imap="127.0.0.1"
 		iport="1143"
 		smtp="127.0.0.1"

@@ -16,6 +16,11 @@ pgrep -u "${USER:=$LOGNAME}" >/dev/null || { echo "$USER not logged in; sync wil
 # Run only if not already running in other instance
 pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
 
+# Workaround for zsh users who only have .zshenv in their $HOME.
+usersh="$(awk -F: -v user="$USER" '$1 == user {print $NF}' /etc/passwd)"
+[ "$usersh" = /usr/bin/zsh ] && eval "$(grep -h -- \
+	"^\s*\(export \)\?\(ZDOTDIR\|XDG_CONFIG_HOME\|XDG_DATA_HOME\)=" \
+	"$HOME/.zshenv" 2>/dev/null)"
 # First, we have to get the right variables for the mbsync file, the pass
 # archive, notmuch and the GPG home.  This is done by searching common profile
 # files for variable assignments. This is ugly, but there are few options that

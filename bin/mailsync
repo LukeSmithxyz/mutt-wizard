@@ -22,18 +22,13 @@ pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
 # will work on the maximum number of machines.
 eval "$(grep -h -- \
 	"^\s*\(export \)\?\(MBSYNCRC\|PASSWORD_STORE_DIR\|NOTMUCH_CONFIG\|GNUPGHOME\)=" \
-	"$HOME/.profile" "$HOME/.bash_profile" "${ZDOTDIR:-$HOME}/.zprofile" "$HOME/.bashrc" "${ZDOTDIR:-$HOME}/.zshrc" "$HOME/.pam_environment" 2>/dev/null)"
-# One alternative to this kind of command would be marking the script for
-# /bin/sh -l. That might cause other problems on other particular setups that
-# do more complicated things on login, or those people who assign environmental
-# variables in shell rc files.
+	"$HOME/.profile" "$HOME/.bash_profile" "$HOME/.zprofile"  "$HOME/.config/zsh/.zprofile" \
+	"$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.config/zsh/.zshrc" "$HOME/.pam_environment" 2>/dev/null)"
 
 case "$(readlink -f /sbin/init)" in
 	*systemd*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
 esac
 export GPG_TTY=$TTY
-
-muttconfig="${XDG_CONFIG_HOME:-$HOME/.config}/mutt"
 
 [ -n "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC" || MBSYNCRC="$HOME/.mbsyncrc"
 
@@ -60,7 +55,7 @@ esac
 syncandnotify() {
     acc="$(echo "$account" | sed "s/.*\///")"
     if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
-    new=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$muttconfig/.mailsynclastrun" 2> /dev/null)
+    new=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun" 2> /dev/null)
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
     if [ "$newcount" -gt "0" ]; then
 	notify "$acc" "$newcount" &
@@ -93,4 +88,4 @@ wait
 notmuch new 2>/dev/null
 
 #Create a touch file that indicates the time of the last run of mailsync
-touch "$muttconfig/.mailsynclastrun"
+touch "${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun"

@@ -118,6 +118,7 @@ bind index,pager g noop
 bind index,pager M noop
 bind index,pager C noop
 bind index gg first-entry
+unset signature
 unmacro index o
 unmailboxes *
 "

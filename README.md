@@ -193,7 +193,7 @@ See Luke's website [here](https://lukesmith.xyz). Email him at
 ## Watch out for these things
 
 - Gmail accounts need to create an
-- [App Password](https://support.google.com/accounts/answer/185833?hl=en) to
+  [App Password](https://support.google.com/accounts/answer/185833?hl=en) to
   use with  _**less secure**_ applications. This password is single-use (i.e.
   for setup) and will be stored and encrypted locally. Enabling third-party
   applications requires turning off two-factor authentication and this will
@@ -216,12 +216,6 @@ See Luke's website [here](https://lukesmith.xyz). Email him at
   shortcuts since it is looking for English mailbox names. I strongly recommend
   you to set your email language to English on your mail server to avoid these
   problems.
-
-## To-do
-
-- [x] Add Mac OS/BSD compatibility
-- [x] Out-of-the-box compatibility with Protonmail Bridge (I believe this is
-  done, but more bug-testing is welcome since I don't have PM)
 
 ## License
 

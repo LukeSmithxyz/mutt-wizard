@@ -63,6 +63,7 @@ A user of Arch-based distros can also install the current mutt-wizard release fr
 - `urlview` - outputs urls in mail to browser.
 - `cronie` - (or any other major cronjob manager) to set up automatic mail
   syncing.
+- `mpop` - If you want to use POP protocol instead of IMAP.
 
 
 ## Usage
@@ -101,6 +102,7 @@ The mutt-wizard runs via the command `mw`. Once setup is complete, you'll use
 - `-f` -- Assume mailbox names and force account configuration without
   connecting online at all.
 - `-o` -- Configure mutt for an account, but do not keep mail offline.
+- `-P` -- Use POP protocol instead of IMAP (requires `mpop` installed).
 
 ## Neomutt user interface
 
@@ -163,6 +165,8 @@ To give you an example of the interface, here's an idea:
 - Error handling for the many people who don't read or follow directions. Fewer
   errors generally.
 - Addition of a manual `man mw`
+- Now handles POP protocol via `mpop` for those who prefer it (add an account
+  with the `-P` option). POP configs are still generated automatically.
 
 ## Help the Project!
 

@@ -27,7 +27,7 @@ checkbasics() { command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 
 getaccounts() { accounts="$(find -L "$accdir" -type f 2>/dev/null | grep -o "[0-9]-.*.muttrc" | sed "s/-/: /;s/\.muttrc$//" | sort -n)" ;}
 
-list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" ;}
+list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" || exit 1 ;}
 
 prepmsmtp() { echo "account $fulladdr
 host $smtp
@@ -72,7 +72,8 @@ ExpireUnread no
 # End profile
 " >> "$mbsyncrc" ;}
 
-prepmpop() { echo "
+prepmpop() { mkdir -p "${mpoprc%/*}"
+	echo "
 account $fulladdr
 tls on
 user $login
@@ -126,6 +127,7 @@ set ssl_starttls = yes
 set ssl_force_tls = yes"
 			;;
 		pop) synccmd="macro index o \"<shell-escape>mpop $fulladdr<enter>\" \"run mpop to get $fulladdr's mail\""
+			folder="$maildir/$fulladdr"
 			prepmpop ;;
 		*) synccmd="macro index o \"<shell-escape>mw -y $fulladdr<enter>\" \"run mbsync to sync $fulladdr\""
 			folder="$maildir/$fulladdr"
@@ -152,7 +154,7 @@ EOF
 
 delete() { if [ -z "${fulladdr+x}" ]; then
 		echo "Select the account your would like to delete (by number):"
-		list
+		list || exit 1
 		read -r input
 		match="^$input:"
 	else
@@ -162,18 +164,19 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 
 	fulladdr="$(echo "$accounts" | grep "$match" | cut -f2 -d' ')"
 
-	[ -z "$fulladdr" ] && echo "Invalid account name given." && return 1
+	[ -z "$fulladdr" ] && echo "$fulladdr is not a valid account name." && return 1
 
-	sed -ibu "/IMAPStore $fulladdr-remote$/,/# End profile/d" "$mbsyncrc" ; rm -f "$mbsyncrc"bu
+	sed -ibu "/IMAPStore $fulladdr-remote$/,/# End profile/d" "$mbsyncrc" 2>/dev/null ; rm -f "$mbsyncrc"bu
 	rm -rf "${cachedir:?}/${fulladdr:?}" "$accdir/"[1-9]"-$fulladdr.muttrc"
-	sed -ibu "/[0-9]-$fulladdr.muttrc/d" "$muttrc" ; rm -f "$muttrc"bu
-	sed -ibu "/account $fulladdr/,/^\(\s*$\|account\)/d" "$msmtprc"; rm -f "$msmtprc"bu
+	sed -ibu "/[0-9]-$fulladdr.muttrc/d" "$muttrc" 2>/dev/null; rm -f "$muttrc"bu
+	sed -ibu "/account $fulladdr$/,/^\(\s*$\|account\)/d" "$msmtprc" 2>/dev/null; rm -f "$msmtprc"bu
+	sed -ibu "/account $fulladdr$/,/^\(\s*$\|account\)/d" "$mpoprc" 2>/dev/null; rm -f "$mpoprc"bu
 	pass rm -f "$fulladdr" >/dev/null 2>&1
 	[ -n "${purge+x}" ] && rm -rf "${maildir:?}/${fulladdr:?}"
 
 	# Get rid of those multiple newlines because I don't know awk well enough to do it by default lol.
-	for file in "$msmtprc" "$mbsyncrc"; do
- 		tr '\n' '|' < "$file" | sed "s/||\+/||/g" | tr '|' '\n' >> "$file"bu
+	for file in "$msmtprc" "$mbsyncrc" "$mpoprc"; do
+ 		tr '\n' '|' < "$file" 2>/dev/null | sed "s/||\+/||/g" | tr '|' '\n' >> "$file"bu
 		mv -f "$file"bu "$file"
 	done
 }
@@ -217,13 +220,14 @@ macro index,pager C$1 \";<copy-message>=$3<enter>\" \"copy mail to $2\"" ;}
 setBox() { toappend="$toappend
 set $1 = \"+$2\"" ;}
 
-getboxes() { if [ -n "${force+x}" ]; then
+getboxes() { if [ -n "${force+x}" ] ; then
 		mailboxes="$(printf "INBOX\\nDrafts\\nJunk\\nTrash\\nSent\\nArchive")"
 	else
 		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass $fulladdr)" --url "${protocol:-imaps}://$imap:${iport:-993}")"
 		[ -z "$info" ] && echo "Log-on not successful." && return 1
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '')"
 	fi
+	[ "$type" = "pop" ] && mailboxes="INBOX"
 	getaccounts; for x in $(seq 1 9); do echo "$accounts" | grep -q "^$x:" || { export idnum="$x"; break ;}; done
 	toappend="mailboxes $(echo "$mailboxes" | sed "s/^/\"=/;s/$/\"/" | paste -sd ' ' - )"
 	for x in $mailboxes; do
@@ -333,7 +337,7 @@ while getopts "fpPXlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 	n) setact add || exit 1 ; realname="$OPTARG" ;;
 	m) setact add || exit 1 ; maxmes="$OPTARG" ;;
 	o) setact add || exit 1 ; type="online" ;;
-	P) setact add || exit 1 ; type="pop" ;;
+	P) setact add || exit 1 ; type="pop"; protocol="pop3s" ; iport="${iport:-995}" ;;
 	f) setact add || exit 1 ; force=True ;;
 	x) setact add || exit 1 ; password="$OPTARG" ;;
 	X) setact delete || exit 1 ; purge=True ;;

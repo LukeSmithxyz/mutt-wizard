@@ -169,6 +169,7 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 	sed -ibu "/[0-9]-$fulladdr.muttrc/d" "$muttrc" ; rm -f "$muttrc"bu
 	sed -ibu "/account $fulladdr/,/^\(\s*$\|account\)/d" "$msmtprc"; rm -f "$msmtprc"bu
 	pass rm -f "$fulladdr" >/dev/null 2>&1
+	[ -n "${purge+x}" ] && rm -rf "${maildir:?}/${fulladdr:?}"
 
 	# Get rid of those multiple newlines because I don't know awk well enough to do it by default lol.
 	for file in "$msmtprc" "$mbsyncrc"; do
@@ -305,7 +306,8 @@ Options allowed with -a:
   -S	SMTP server port
   -x	Password for account (recommended to be in double quotes)
   -p	Install for a Protonmail account.
-  -P	Add for a POP server instead of IMAP
+  -P	Add for a POP server instead of IMAP.
+  -X	Delete an account's local email too when deleting.
   -o	Configure address, but keep mail online.
   -f	Assume typical English mailboxes without attempting log-on.
 
@@ -316,7 +318,7 @@ To change an account's password, run \`pass edit your@email.com\`.
 EOF
 }
 
-while getopts "fpPlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
+while getopts "fpPXlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 	l) setact list || exit 1 ;;
 	d) setact delete || exit 1 ;;
 	D) setact delete || exit 1 ; fulladdr="$OPTARG" ;;
@@ -334,6 +336,7 @@ while getopts "fpPlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 	P) setact add || exit 1 ; type="pop" ;;
 	f) setact add || exit 1 ; force=True ;;
 	x) setact add || exit 1 ; password="$OPTARG" ;;
+	X) setact delete || exit 1 ; purge=True ;;
 	t) setact toggle || exit 1 ; cronmin="$OPTARG" ;;
 	T) setact toggle || exit 1 ;;
 	p) echo "NOTE: Protonmail users must install and configure Protonmail Bridge first for the first sync to work."

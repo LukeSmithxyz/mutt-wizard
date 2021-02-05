@@ -48,7 +48,8 @@ user $login
 passwordeval \"pass $fulladdr\"
 $tlsline
 "
-mbsync_profile="IMAPStore $fulladdr-remote
+mbsync_profile="
+IMAPStore $fulladdr-remote
 Host $imap
 Port ${iport:-993}
 User $login

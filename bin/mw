@@ -10,6 +10,7 @@ accdir="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/accounts"
 msmtprc="${XDG_CONFIG_HOME:-$HOME/.config}/msmtp/config"
 msmtplog="${XDG_CONFIG_HOME:-$HOME/.config}/msmtp/msmtp.log"
 mbsyncrc="${MBSYNCRC:-$HOME/.mbsyncrc}"
+mpoprc="${XDG_CONFIG_HOME:-$HOME/.config}/mpop/config"
 alias mbsync='mbsync -c "$mbsyncrc"'
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"; do
@@ -28,27 +29,23 @@ getaccounts() { accounts="$(find -L "$accdir" -type f 2>/dev/null | grep -o "[0-
 
 list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" ;}
 
-getprofiles() { \
-	unset msmtp_header msmtp_profile mutt_profile mbsync_profile
-	case "$iport" in
-		1143) imapssl=None ;;
-		143) imapssl=STARTTLS ;;
-	esac
-msmtp_header="defaults
-auth	on
-tls	on
-tls_trust_file	$sslcert
-logfile $msmtplog
-"
-msmtp_profile="account $fulladdr
+prepmsmtp() { echo "account $fulladdr
 host $smtp
 port ${sport:-587}
 from $fulladdr
 user $login
 passwordeval \"pass $fulladdr\"
-$tlsline
-"
-mbsync_profile="
+auth on
+${tlsline:-tls on}
+tls_trust_file	$sslcert
+logfile $msmtplog
+" >> "$msmtprc"
+	# On Ubuntu/Debian, a link is needed since they use an older version.
+	command -V apt-get >/dev/null 2>&1 && ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
+}
+
+prepmbsync() { mkdir -p "${mbsyncrc%/*}"
+	echo "
 IMAPStore $fulladdr-remote
 Host $imap
 Port ${iport:-993}
@@ -73,56 +70,71 @@ SyncState *
 MaxMessages ${maxmes:-0}
 ExpireUnread no
 # End profile
-"
+" >> "$mbsyncrc" ;}
 
-if [ -z "${online+x}" ]; then
-mutt_profile="# vim: filetype=neomuttrc
+prepmpop() { echo "
+account $fulladdr
+tls on
+user $login
+host $imap
+delivery maildir ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$fulladdr/${inbox:-INBOX}
+passwordeval pass $fulladdr
+" >> "$mpoprc" ;}
+
+prepmutt() { echo "# vim: filetype=neomuttrc
 # muttrc file for account $fulladdr
 set realname = \"$realname\"
 set from = \"$fulladdr\"
 set sendmail = \"msmtp -a $fulladdr\"
 alias me $realname <$fulladdr>
-set folder = \"$maildir/$fulladdr\"
+set folder = \"$folder\"
 set header_cache = $cachedir/$fulladdr/headers
 set message_cachedir = $cachedir/$fulladdr/bodies
 set mbox_type = Maildir
+$extra
 
 bind index,pager gg noop
 bind index,pager g noop
 bind index,pager M noop
 bind index,pager C noop
 bind index gg first-entry
-macro index o \"<shell-escape>mw -y $fulladdr<enter>\" \"run mbsync to sync $fulladdr\"
 unmailboxes *
 unalternates *
-"
-else
-mutt_profile="# vim: filetype=neomuttrc
-# muttrc file for account $fulladdr
-set realname = \"$realname\"
-set from = \"$fulladdr\"
-set sendmail = \"msmtp -a $fulladdr\"
-alias me $realname <$fulladdr>
-set folder = \"imaps://$login@$imap:${iport:-993}\"
-set imap_user = \"$login\"
-set header_cache = $cachedir/$fulladdr/headers
-set message_cachedir = $cachedir/$fulladdr/bodies
-set imap_pass = \"\`pass $fulladdr\`\"
-
-set mbox_type = Maildir
-set ssl_starttls = yes
-set ssl_force_tls = yes
-
-bind index,pager gg noop
-bind index,pager g noop
-bind index,pager M noop
-bind index,pager C noop
-bind index gg first-entry
 unset signature
 unmacro index o
-unmailboxes *
-"
-fi
+$synccmd
+" > "$accdir/$idnum-$fulladdr.muttrc"
+
+	[ ! -f "$muttrc" ] && echo "# vim: filetype=neomuttrc" > "$muttrc"
+	! grep -q "^source.*mutt-wizard.muttrc" "$muttrc" && echo "source $mwconfig" >> "$muttrc"
+	! grep "^source.*.muttrc" "$muttrc" | grep -qv "$mwconfig" && echo "source $accdir/$idnum-$fulladdr.muttrc" >> "$muttrc"
+	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$idnum-$fulladdr.muttrc<enter><change-folder>!<enter>;<check-stats>' \"switch to $fulladdr\"" >> "$muttrc"
+}
+
+getprofiles() { \
+	mkdir -p "${muttrc%/*}" "$accdir" "$cachedir/$fulladdr/bodies" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp"
+	unset msmtp_header msmtp_profile mutt_profile mbsync_profile
+	case "$iport" in
+		1143) imapssl=None ;;
+		143) imapssl=STARTTLS ;;
+	esac
+	case "$type" in
+		online) folder="imaps://$login@$imap:${iport:-993}"
+extra="set imap_user = \"$login\"
+set imap_pass = \"\`pass $fulladdr\`\"
+set ssl_starttls = yes
+set ssl_force_tls = yes"
+			;;
+		pop) synccmd="macro index o \"<shell-escape>mpop $fulladdr<enter>\" \"run mpop to get $fulladdr's mail\""
+			prepmpop ;;
+		*) synccmd="macro index o \"<shell-escape>mw -y $fulladdr<enter>\" \"run mbsync to sync $fulladdr\""
+			folder="$maildir/$fulladdr"
+			prepmbsync ;;
+	esac
+	prepmsmtp
+	prepmutt
+
+	prepnotmuch # Create a notmuch config file if not present already.
 }
 
 parsedomains(){ serverinfo="$(grep "^${fulladdr#*@}" "$muttshare/domains.csv" 2>/dev/null)"
@@ -172,7 +184,7 @@ askinfo() { \
 		echo "\`$fulladdr\` is not a valid email address. Please retype the address:"
 		read -r fulladdr
 	done
-	grep -q "Channel\s*$fulladdr$" "$mbsyncrc" 2>/dev/null &&
+	getaccounts; echo "$accounts" | grep -q "\s$fulladdr$" 2>/dev/null &&
 		{ echo "$fulladdr has already been added" && exit 1 ;}
 	{ [ -z "$imap" ] || [ -z "$smtp" ] ;} && parsedomains
 	[ -z "$imap" ] && echo "Give your email server's IMAP address (excluding the port number):" &&
@@ -192,27 +204,6 @@ askinfo() { \
 createpass() { echo "$password" > "$PASSWORD_STORE_DIR/$fulladdr"
 	"$GPG" -qer "$(cat "$PASSWORD_STORE_DIR/.gpg-id")" "$PASSWORD_STORE_DIR/$fulladdr"
 	rm -f "$PASSWORD_STORE_DIR/$fulladdr" ;}
-
-writeinfo() { mkdir -p "${muttrc%/*}" "$accdir" "$cachedir/$fulladdr/bodies" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp" "$maildir/$fulladdr"
-
-	# Configure msmtprc for sending mail.
-	[ ! -f "$msmtprc" ] && echo "$msmtp_header" > "$msmtprc"
-	echo "$msmtp_profile" >> "$msmtprc"
-	# On Ubuntu/Debian, a link is needed since they use an older version.
-	command -V apt-get >/dev/null 2>&1 && ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
-
-	# Create the mbsync config file if local account.
-	[ -z "${online+x}" ] && mkdir -p "${mbsyncrc%/*}" && echo "$mbsync_profile" >> "$mbsyncrc"
-
-	# Create a muttrc for viewing mail.
-	echo "$mutt_profile" > "$accdir/$idnum-$fulladdr.muttrc"
-	[ ! -f "$muttrc" ] && echo "# vim: filetype=neomuttrc" > "$muttrc"
-	! grep -q "^source.*mutt-wizard.muttrc" "$muttrc" && echo "source $mwconfig" >> "$muttrc"
-	! grep "^source.*.muttrc" "$muttrc" | grep -qv "$mwconfig" && echo "source $accdir/$idnum-$fulladdr.muttrc" >> "$muttrc"
-	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$idnum-$fulladdr.muttrc<enter><change-folder>!<enter>;<check-stats>' \"switch to $fulladdr\"" >> "$muttrc"
-
-	notmuchauto # Create a notmuch config file if not present already.
-}
 
 getpass() { while : ; do pass rm -f "$fulladdr" >/dev/null 2>&1
 		pass insert "$fulladdr" && break; done ;}
@@ -247,13 +238,13 @@ getboxes() { if [ -n "${force+x}" ]; then
 	done
 }
 
-finalize() { echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$fulladdr/{}/cur" "$maildir/$fulladdr/{}/tmp" "$maildir/$fulladdr/{}/new"
-	echo "$toappend" >> "$accdir/$idnum-$fulladdr.muttrc"
-	[ -z "${online+x}" ] && echo "$fulladdr (account #$idnum) added successfully."
+finalize() { echo "$toappend" >> "$accdir/$idnum-$fulladdr.muttrc"
+	[ "$type" != "online" ] && echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$fulladdr/{}/cur" "$maildir/$fulladdr/{}/tmp" "$maildir/$fulladdr/{}/new"
+	echo "$fulladdr (account #$idnum) added successfully."
 	command -V urlview >/dev/null 2>&1 && [ ! -f "$HOME/.urlview" ] && echo "COMMAND \$BROWSER" > "$HOME/.urlview"
 	return 0 ;}
 
-notmuchauto() { \
+prepnotmuch() { \
 	[ -z "$NOTMUCH_CONFIG" ] && NOTMUCH_CONFIG="$HOME/.notmuch-config"
 	[ -f "$NOTMUCH_CONFIG" ] && return 0
 	nmbasic="[database]
@@ -308,12 +299,13 @@ Main actions:
 Options allowed with -a:
   -u	Account login name if not full address
   -n	"Real name" to be on the email account
-  -i	IMAP server address
-  -I	IMAP server port
+  -i	IMAP/POP server address
+  -I	IMAP/POP server port
   -s	SMTP server address
   -S	SMTP server port
   -x	Password for account (recommended to be in double quotes)
   -p	Install for a Protonmail account.
+  -P	Add for a POP server instead of IMAP
   -o	Configure address, but keep mail online.
   -f	Assume typical English mailboxes without attempting log-on.
 
@@ -324,7 +316,7 @@ To change an account's password, run \`pass edit your@email.com\`.
 EOF
 }
 
-while getopts "fplhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
+while getopts "fpPlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 	l) setact list || exit 1 ;;
 	d) setact delete || exit 1 ;;
 	D) setact delete || exit 1 ; fulladdr="$OPTARG" ;;
@@ -338,7 +330,8 @@ while getopts "fplhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 	u) setact add || exit 1 ; login="$OPTARG" ;;
 	n) setact add || exit 1 ; realname="$OPTARG" ;;
 	m) setact add || exit 1 ; maxmes="$OPTARG" ;;
-	o) setact add || exit 1 ; online=True ;;
+	o) setact add || exit 1 ; type="online" ;;
+	P) setact add || exit 1 ; type="pop" ;;
 	f) setact add || exit 1 ; force=True ;;
 	x) setact add || exit 1 ; password="$OPTARG" ;;
 	t) setact toggle || exit 1 ; cronmin="$OPTARG" ;;
@@ -357,7 +350,7 @@ esac done
 
 case "$action" in
 	list) list ;;
-	add) checkbasics && askinfo && getboxes && getprofiles && writeinfo && finalize || { delete ; exit 1 ;} ;;
+	add) checkbasics && askinfo && getboxes && getprofiles && finalize || { delete ; exit 1 ;} ;;
 	delete) delete ;;
 	sync) mailsync $fulladdr ;;
 	toggle) togglecron ;;

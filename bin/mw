@@ -153,7 +153,7 @@ EOF
 }
 
 delete() { if [ -z "${fulladdr+x}" ]; then
-		echo "Select the account your would like to delete (by number):"
+		echo "Select the account you would like to delete (by number):"
 		list || exit 1
 		read -r input
 		match="^$input:"
@@ -357,7 +357,7 @@ esac done
 
 case "$action" in
 	list) list ;;
-	add) checkbasics && askinfo && getboxes && getprofiles && finalize || { delete ; exit 1 ;} ;;
+	add) checkbasics && askinfo && getboxes && getprofiles && finalize ;;
 	delete) delete ;;
 	sync) mailsync $fulladdr ;;
 	toggle) togglecron ;;

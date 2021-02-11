@@ -184,7 +184,7 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 askinfo() { \
 	[ -z "$fulladdr" ] && echo "Give the full email address to add:" &&
 		read -r fulladdr
-	while ! echo "$fulladdr" | grep -qE ".+@.+\..+"; do
+	while ! echo "$fulladdr" | grep -qE "^.+@.+\.[A-z]+$"; do
 		echo "\`$fulladdr\` is not a valid email address. Please retype the address:"
 		read -r fulladdr
 	done

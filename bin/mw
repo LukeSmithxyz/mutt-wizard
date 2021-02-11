@@ -3,7 +3,6 @@
 prefix="/usr/local"
 maildir="${XDG_DATA_HOME:-$HOME/.local/share}/mail"
 muttshare="$prefix/share/mutt-wizard"
-mwconfig="$muttshare/mutt-wizard.muttrc"
 cachedir="${XDG_CACHE_HOME:-$HOME/.cache}/mutt-wizard"
 muttrc="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/muttrc"
 accdir="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/accounts"
@@ -107,8 +106,8 @@ $synccmd
 " > "$accdir/$idnum-$fulladdr.muttrc"
 
 	[ ! -f "$muttrc" ] && echo "# vim: filetype=neomuttrc" > "$muttrc"
-	! grep -q "^source.*mutt-wizard.muttrc" "$muttrc" && echo "source $mwconfig" >> "$muttrc"
-	! grep "^source.*.muttrc" "$muttrc" | grep -qv "$mwconfig" && echo "source $accdir/$idnum-$fulladdr.muttrc" >> "$muttrc"
+	! grep -q "^source.*mutt-wizard.muttrc" "$muttrc" && echo "source $muttshare/mutt-wizard.muttrc" >> "$muttrc"
+	! grep "^source.*.muttrc" "$muttrc" | grep -qv "$muttshare/mutt-wizard.muttrc" && echo "source $accdir/$idnum-$fulladdr.muttrc" >> "$muttrc"
 	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$idnum-$fulladdr.muttrc<enter><change-folder>!<enter>;<check-stats>' \"switch to $fulladdr\"" >> "$muttrc"
 }
 
@@ -210,7 +209,7 @@ createpass() { echo "$password" > "$PASSWORD_STORE_DIR/$fulladdr"
 	rm -f "$PASSWORD_STORE_DIR/$fulladdr" ;}
 
 getpass() { while : ; do pass rm -f "$fulladdr" >/dev/null 2>&1
-		pass insert "$fulladdr" && break; done ;}
+		pass insert -f "$fulladdr" && break; done ;}
 
 formatShortcut() { toappend="$toappend
 macro index,pager g$1 \"<change-folder>=$3<enter>\" \"go to $2\"
@@ -223,7 +222,7 @@ set $1 = \"+$2\"" ;}
 getboxes() { if [ -n "${force+x}" ] ; then
 		mailboxes="$(printf "INBOX\\nDrafts\\nJunk\\nTrash\\nSent\\nArchive")"
 	else
-		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass $fulladdr)" --url "${protocol:-imaps}://$imap:${iport:-993}")"
+		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass "$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
 		[ -z "$info" ] && echo "Log-on not successful." && return 1
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '')"
 	fi

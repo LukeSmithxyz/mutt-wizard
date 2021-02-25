@@ -39,12 +39,14 @@ case "$(uname)" in
 		messageinfo() { osascript -e "display notification with title \"📧 $from\" subtitle \"$subject\"" ;}
 		;;
 	*)
-		displays="$(pgrep -a X\(org\|wayland\) | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
-	    	notify() { for x in $displays; do
+		# remember if a display server is running since `ps` doesn't always contain a display
+		pgrepoutput="$(pgrep -a X\(org\|wayland\))"
+		displays="$(echo "$pgrepoutput" | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
+		notify() { [ -n "$pgrepoutput" ] && for x in ${displays:-0:}; do
 				export DISPLAY=$x
 				notify-send --app-name="mutt-wizard" "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account."
 			done ;}
-		messageinfo() { for x in $displays; do
+		messageinfo() { [ -n "$pgrepoutput" ] && for x in ${displays:-0:}; do
 				export DISPLAY=$x
 				notify-send --app-name="mutt-wizard" "📧$from:" "$subject"
 			done ;}

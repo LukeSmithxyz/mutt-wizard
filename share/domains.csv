@@ -124,6 +124,7 @@ hushmail.com,imap.hushmail.com,993,smtp.hushmail.com,465
 icloud.com,imap.mail.me.com,993,smtp.mail.me.com,587
 illinois.edu, imap.gmail.com,993,smtp.gmail.com,465
 in.tum.de,mail.in.tum.de,993,mail.in.tum.de,465
+inbox.lv,mail.inbox.lv,993,mail.inbox.lv,465
 iname.com,imap.mail.com,993,smtp.mail.com,587
 inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 infomaniak.com,imap.infomaniak.com,993,imap.infomaniak.com,587

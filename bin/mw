@@ -34,7 +34,7 @@ port ${sport:-587}
 from $fulladdr
 user $login
 passwordeval \"pass $fulladdr\"
-auth on
+auth ${auth:-on}
 ${tlsline:-tls on}
 tls_trust_file	$sslcert
 logfile $msmtplog
@@ -175,7 +175,7 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 
 	# Get rid of those multiple newlines because I don't know awk well enough to do it by default lol.
 	for file in "$msmtprc" "$mbsyncrc" "$mpoprc"; do
- 		tr '\n' '|' < "$file" 2>/dev/null | sed "s/||\+/||/g" | tr '|' '\n' >> "$file"bu
+ 		tr '\n' '|' 2>/dev/null  < "$file" | sed "s/||\+/||/g" | tr '|' '\n' >> "$file"bu
 		mv -f "$file"bu "$file"
 	done
 }
@@ -348,6 +348,7 @@ while getopts "fpPXlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 		iport="1143"
 		smtp="127.0.0.1"
 		sport="1025"
+		auth="login"
   		tlsline="tls_fingerprint $(msmtp --serverinfo --host=$smtp --port=$sport --tls --tls-certcheck=off | awk '/SHA256:/ {print $2}')"
 		setact add || exit 1
 		;;

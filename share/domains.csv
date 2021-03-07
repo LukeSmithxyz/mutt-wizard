@@ -92,7 +92,8 @@ engineer.com,imap.mail.com,993,smtp.mail.com,587
 erciyes.edu.tr,mail.erciyes.edu.tr,993,mail.erciyes.edu.tr,587
 ethancoe.com,mail.privateemail.com,993,mail.privateemail.com,465
 ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
-etu.upmc.fr,courriel.upmc.fr,993,smtps.upmc.fr,587
+etu.sorbonne-universite.fr,imaps.sorbonne-universite.fr,993,smtps.sorbonne-universite.fr,465
+etu.upmc.fr,imaps.sorbonne-universite.fr,993,smtps.sorbonne-universite.fr,465
 europe.com,imap.mail.com,993,smtp.mail.com,587
 ex-studenti.unitn.it,imap.gmail.com,993,smtp.gmail.com,587
 fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465

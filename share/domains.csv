@@ -159,6 +159,7 @@ mail.de,imap.mail.de,993,smtp.mail.de,465
 mail.mcgill.ca,outlook.office365.com,993,smtp.office365.com,587
 mail.polimi.it,outlook.office365.com,993,smtp.office365.com,587
 mail.ru,imap.mail.ru,993,smtp.mail.ru,465
+mail.utoronto.ca,outlook.office365.com,993,smtp.office365.com,587
 mailbox.org,imap.mailbox.org,993,smtp.mailbox.org,587
 mailbox.tu-dresden.de,msx.tu-dresden.de,993,msx.tu-dresden.de,587
 mailfence.com,imap.mailfence.com,993,smtp.mailfence.com,465
@@ -223,6 +224,7 @@ runbox.com,mail.runbox.com,993,mail.runbox.com,587
 rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
 seznam.cz,imap.seznam.cz,993,smtp.seznam.cz,465
+sheridancollege.ca,outlook.office365.com,993,smtp.office365.com,587
 shu.edu.cn,imap.shu.edu.cn,143,smtp.shu.edu.cn,25
 sina.cn,imap.sina.cn,993,smtp.sina.cn,587
 sina.com,imap.sina.com,993,smtp.sina.com,587

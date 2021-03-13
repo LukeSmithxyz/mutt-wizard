@@ -84,7 +84,6 @@ dorriseaton.com,outlook.office365.com,993,smtp.office365.com,587
 dr.com,imap.mail.com,993,smtp.mail.com,587
 duke.edu,outlook.office365.com,993,smtp.office365.com,587
 e.email,mail.ecloud.global,993,mail.ecloud.global,587
-e.email,mail.ecloud.global,993,mail.ecloud.global,587
 email.arizona.edu,imap.gmail.com,993,smtp.gmail.com,587
 email.com,imap.mail.com,993,smtp.mail.com,587
 eneco.com,outlook.office365.com,993,smtp.office365.com,587
@@ -125,8 +124,8 @@ hushmail.com,imap.hushmail.com,993,smtp.hushmail.com,465
 icloud.com,imap.mail.me.com,993,smtp.mail.me.com,587
 illinois.edu, imap.gmail.com,993,smtp.gmail.com,465
 in.tum.de,mail.in.tum.de,993,mail.in.tum.de,465
-inbox.lv,mail.inbox.lv,993,mail.inbox.lv,465
 iname.com,imap.mail.com,993,smtp.mail.com,587
+inbox.lv,mail.inbox.lv,993,mail.inbox.lv,465
 inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 infomaniak.com,imap.infomaniak.com,993,imap.infomaniak.com,587
 insiberia.net,mail.autistici.org,993,smtp.autistici.org,465
@@ -160,6 +159,7 @@ mail.de,imap.mail.de,993,smtp.mail.de,465
 mail.mcgill.ca,outlook.office365.com,993,smtp.office365.com,587
 mail.polimi.it,outlook.office365.com,993,smtp.office365.com,587
 mail.ru,imap.mail.ru,993,smtp.mail.ru,465
+mail.utoronto.ca,outlook.office365.com,993,smtp.office365.com,587
 mailbox.org,imap.mailbox.org,993,smtp.mailbox.org,587
 mailbox.tu-dresden.de,msx.tu-dresden.de,993,msx.tu-dresden.de,587
 mailfence.com,imap.mailfence.com,993,smtp.mailfence.com,465
@@ -224,9 +224,10 @@ runbox.com,mail.runbox.com,993,mail.runbox.com,587
 rwth-aachen.de,mail.rwth-aachen.de,993,mail.rwth-aachen.de,587
 sapo.pt,imap.sapo.pt,993,smtp.sapo.pt,587
 seznam.cz,imap.seznam.cz,993,smtp.seznam.cz,465
+sheridancollege.ca,outlook.office365.com,993,smtp.office365.com,587
 shu.edu.cn,imap.shu.edu.cn,143,smtp.shu.edu.cn,25
-sina.com,imap.sina.com,993,smtp.sina.com,587
 sina.cn,imap.sina.cn,993,smtp.sina.cn,587
+sina.com,imap.sina.com,993,smtp.sina.com,587
 smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 sms.ed.ac.uk,pod51015.outlook.com,993,pod51015.outlook.com,587
 sohu.com,imap.sohu.com,143,smtp.sohu.com,25
@@ -272,9 +273,9 @@ ucsb.edu,imap.gmail.com,993,smtp.gmail.com,587
 uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465
 uni-jena.de,imap.uni-jena.de,993,smtp.uni-jena.de,587
 unilodz.eu,outlook.office365.com,993,smtp.office365.com,587
+unitn.it,imap.gmail.com,993,smtp.gmail.com,587
 unitybox.de,mail.unity-mail.de,993,mail.unity-mail.de,587
 univ-ubs.fr,partage.univ-ubs.fr,993,partage.univ-ubs.fr,587
-unitn.it,imap.gmail.com,993,smtp.gmail.com,587
 uoregon.edu,imap.uoregon.edu,993,smtp.uoregon.edu,587
 uqtr.ca,outlook.office365.com,993,smtp.office365.com,587
 usa.com,imap.mail.com,993,smtp.mail.com,587

@@ -22,7 +22,7 @@ pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
 # will work on the maximum number of machines.
 eval "$(grep -h -- \
 	"^\s*\(export \)\?\(MBSYNCRC\|PASSWORD_STORE_DIR\|NOTMUCH_CONFIG\|GNUPGHOME\)=" \
-	"$HOME/.profile" "$HOME/.bash_profile" "$HOME/.zprofile"  "$HOME/.config/zsh/.zprofile" \
+	"$HOME/.profile" "$HOME/.bash_profile" "$HOME/.zprofile"  "$HOME/.config/zsh/.zprofile" "$HOME/.zshenv" \
 	"$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.config/zsh/.zshrc" "$HOME/.pam_environment" 2>/dev/null)"
 
 case "$(readlink -f /sbin/init)" in

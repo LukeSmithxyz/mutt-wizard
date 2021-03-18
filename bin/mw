@@ -271,10 +271,16 @@ togglecron() { cron="$(mktemp)"
 	crontab -l > "$cron"
 	if grep -q mailsync "$cron"; then
 		echo "Removing automatic mailsync..."
-		sed -ibu /mailsync/d "$cron"; rm -f "$cron"bu
+	    sed -ibu '/^# mailsync/,/^.*mailsync$/d' "$cron"; rm -f "$cron"bu
 	else
 		echo "Adding automatic mailsync every ${cronmin:-10} minutes..."
-		echo "*/${cronmin-10} * * * * $prefix/bin/mailsync" >> "$cron"
+		cat <<EOF >>"$cron"
+MBSYNCRC=${MBSYNCRC:-$HOME/.mbsynrc}
+NOTMUCH_CONFIG=${NOTMUCH_CONFIG:-$HOME/.notmuch-config}
+GNUPGHOME=${GNUPGHOME:-$HOME/.gnupg}
+PASSWORD_STORE_DIR=${PASSWORD_STORE_DIR:-$HOME/.password-store}
+*/${cronmin-10} * * * * $prefix/bin/mailsync
+EOF
 	fi &&
 	crontab "$cron"; rm -f "$cron" ;}
 

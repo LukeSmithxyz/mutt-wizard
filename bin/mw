@@ -61,8 +61,8 @@ Inbox ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$fulladdr/${inbox:-INBOX}
 
 Channel $fulladdr
 Expunge Both
-Far :$fulladdr-remote:
-Near :$fulladdr-local:
+Master :$fulladdr-remote:
+Slave :$fulladdr-local:
 Patterns * !\"[Gmail]/All Mail\"
 Create Both
 SyncState *

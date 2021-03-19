@@ -224,7 +224,8 @@ getboxes() { if [ -n "${force+x}" ] ; then
 	else
 		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass "$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
 		[ -z "$info" ] && echo "Log-on not successful." && return 1
-		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '')"
+		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '
+')"
 	fi
 	[ "$type" = "pop" ] && mailboxes="INBOX"
 	getaccounts; for x in $(seq 1 9); do echo "$accounts" | grep -q "^$x:" || { export idnum="$x"; break ;}; done
@@ -275,6 +276,7 @@ togglecron() { cron="$(mktemp)"
 	else
 		echo "Adding automatic mailsync every ${cronmin:-10} minutes..."
 		cat <<EOF >>"$cron"
+# mailsync
 MBSYNCRC=${MBSYNCRC:-$HOME/.mbsynrc}
 NOTMUCH_CONFIG=${NOTMUCH_CONFIG:-$HOME/.notmuch-config}
 GNUPGHOME=${GNUPGHOME:-$HOME/.gnupg}

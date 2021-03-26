@@ -93,6 +93,27 @@ set message_cachedir = $cachedir/$fulladdr/bodies
 set mbox_type = Maildir
 $extra
 
+bind index,pager gi noop
+bind index,pager gs noop
+bind index,pager gd noop
+bind index,pager ga noop
+bind index,pager gS noop
+bind index,pager gj noop
+bind index,pager gt noop
+bind index,pager Mi noop
+bind index,pager Ms noop
+bind index,pager Md noop
+bind index,pager Ma noop
+bind index,pager MS noop
+bind index,pager Mj noop
+bind index,pager Mt noop
+bind index,pager Ci noop
+bind index,pager Cs noop
+bind index,pager Cd noop
+bind index,pager Ca noop
+bind index,pager CS noop
+bind index,pager Cj noop
+bind index,pager Ct noop
 bind index,pager gg noop
 bind index,pager g noop
 bind index,pager M noop
@@ -101,6 +122,8 @@ bind index gg first-entry
 unmailboxes *
 unalternates *
 unset signature
+unset hostname
+unmy_hdr Organization
 unmacro index o
 $synccmd
 " > "$accdir/$idnum-$fulladdr.muttrc"

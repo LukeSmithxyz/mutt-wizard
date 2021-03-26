@@ -128,7 +128,7 @@ set ssl_force_tls = yes"
 		pop) synccmd="macro index o \"<shell-escape>mpop $fulladdr<enter>\" \"run mpop to get $fulladdr's mail\""
 			folder="$maildir/$fulladdr"
 			prepmpop ;;
-		*) synccmd="macro index o \"<shell-escape>mbsync -a $fulladdr<enter>\" \"run mbsync to sync $fulladdr\""
+		*) synccmd="macro index o \"<shell-escape>mbsync $fulladdr<enter>\" \"run mbsync to sync $fulladdr\""
 			folder="$maildir/$fulladdr"
 			prepmbsync ;;
 	esac

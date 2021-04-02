@@ -101,7 +101,6 @@ bind index gg first-entry
 unmailboxes *
 unalternates *
 unset signature
-unmacro index o
 $synccmd
 " > "$accdir/$idnum-$fulladdr.muttrc"
 

@@ -241,6 +241,7 @@ stud.feec.vutbr.cz,imap.stud.feec.vutbr.cz,993,smtp.stud.feec.vutbr.cz,587
 stud.tu-darmstadt.de,imap.stud.tu-darmstadt.de,993,smtp.tu-darmstadt.de,465
 stud.uis.no,outlook.office365.com,993,smtp.office365.com,587
 stud.uni-bamberg.de,outlook.office365.com,993,smtp.office365.com,587
+stud.uni-saarland.de,mail.hiz-saarland.de,993,mail.hiz-saarland.de,465
 student.binadarma.ac.id,imap.gmail.com,993,smtp.gmail.com,587
 student.ethz.ch,mail.ethz.ch,993,mail.ethz.ch,587
 student.rmit.edu.au,outlook.office365.com,993,smtp.office365.com,587

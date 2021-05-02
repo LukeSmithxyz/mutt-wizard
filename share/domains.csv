@@ -231,6 +231,7 @@ sina.cn,imap.sina.cn,993,smtp.sina.cn,587
 sina.com,imap.sina.com,993,smtp.sina.com,587
 smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 sms.ed.ac.uk,pod51015.outlook.com,993,pod51015.outlook.com,587
+snopyta.org,mail.snopyta.org,993,mail.snopyta.org,465
 sohu.com,imap.sohu.com,143,smtp.sohu.com,25
 southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 spoko.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465

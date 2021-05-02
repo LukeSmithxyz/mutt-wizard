@@ -78,6 +78,7 @@ deliveryman.com,imap.mail.com,993,smtp.mail.com,587
 dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
 diplomats.com,imap.mail.com,993,smtp.mail.com,587
+dismail.de,imap.dismail.de,993,smtp.dismail.de,465
 disroot.org,disroot.org,993,disroot.org,587
 distruzione.org,mail.autistici.org,993,smtp.autistici.org,465
 dorriseaton.com,outlook.office365.com,993,smtp.office365.com,587
@@ -202,6 +203,7 @@ outlook.es,outlook.office365.com,993,smtp.office365.com,587
 parabolas.xyz,mail.parabolas.xyz,993,mail.parabolas.xyz,587
 paranoici.org,mail.autistici.org,993,smtp.autistici.org,465
 paranoid.network,imap.nixnet.email,143,smtp.nixnet.email,587
+paranoid.email,imap.paranoid.email,993,smtp.paranoid.email,25
 pm.me,127.0.0.1,1143,127.0.0.1,1025
 poczta.fm,poczta.interia.pl,993,poczta.interia.pl,465
 poczta.onet.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
@@ -231,6 +233,7 @@ sina.cn,imap.sina.cn,993,smtp.sina.cn,587
 sina.com,imap.sina.com,993,smtp.sina.com,587
 smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 sms.ed.ac.uk,pod51015.outlook.com,993,pod51015.outlook.com,587
+snopyta.org,mail.snopyta.org,993,mail.snopyta.org,465
 sohu.com,imap.sohu.com,143,smtp.sohu.com,25
 southwales.ac.uk,imap.gmail.com,993,smtp.gmail.com,587
 spoko.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465

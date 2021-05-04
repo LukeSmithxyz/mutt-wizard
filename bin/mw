@@ -236,7 +236,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 			*[Jj][Uu][Nn][Kk]*) formatShortcut j junk "$x" ;;
 			*[Aa][Rr][Cc][Hh][Ii][Vv][Ee]*) formatShortcut a archive "$x" ;;
 			*[Ss][Pp][Aa][Mm]*) formatShortcut S spam "$x" ;;
-			*[Ii][Nn][Bb][Oo][Xx]*) formatShortcut i inbox "$x"; setBox spoolfile "$x" inbox="$x" ;;
+			*[Ii][Nn][Bb][Oo][Xx]) formatShortcut i inbox "$x"; setBox spoolfile "$x" inbox="$x" ;;
 		esac
 	done
 }

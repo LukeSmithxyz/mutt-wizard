@@ -10,16 +10,12 @@ endif
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	for script in bin/*; do \
-		cp -f $$script $(DESTDIR)$(PREFIX)/bin/; \
-		chmod 755 $(DESTDIR)$(PREFIX)/$$script; \
-	done
+	cp -f bin/mw bin/mailsync bin/openfile $(DESTDIR)$(PREFIX)/bin/
+	chmod 755 $(DESTDIR)$(PREFIX)/bin/mw $(DESTDIR)$(PREFIX)/bin/mailsync $(DESTDIR)$(PREFIX)/bin/openfile
 	mkdir -p $(DESTDIR)$(PREFIX)/share/mutt-wizard
 	chmod 755 $(DESTDIR)$(PREFIX)/share/mutt-wizard
-	for shared in share/*; do \
-		cp -f $$shared $(DESTDIR)$(PREFIX)/share/mutt-wizard; \
-		chmod 644 $(DESTDIR)$(PREFIX)/share/mutt-wizard/$$(basename $(notdir $$shared)); \
-	done
+	cp -f share/mailcap share/domains.csv share/mutt-wizard.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard
+	chmod 644 $(DESTDIR)$(PREFIX)/share/mutt-wizard/mailcap $(DESTDIR)$(PREFIX)/share/mutt-wizard/domains.csv $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrc
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
 	cp -f mw.1 $(DESTDIR)$(MANPREFIX)/man1/mw.1
 	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/mw.1
@@ -33,9 +29,7 @@ install:
 	fi
 
 uninstall:
-	for script in bin/*; do \
-		rm -f $(DESTDIR)$(PREFIX)/$$script; \
-	done
+	rm -f $(DESTDIR)$(PREFIX)/bin/mw $(DESTDIR)$(PREFIX)/bin/mailsync $(DESTDIR)$(PREFIX)/bin/openfile
 	rm -rf $(DESTDIR)$(PREFIX)/share/mutt-wizard
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/mw.1
 

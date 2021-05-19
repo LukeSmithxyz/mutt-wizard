@@ -227,7 +227,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 	fi
 	[ "$type" = "pop" ] && mailboxes="INBOX"
 	getaccounts; for x in $(seq 1 9); do echo "$accounts" | grep -q "^$x:" || { export idnum="$x"; break ;}; done
-	toappend="mailboxes \`mdir=$maildir/$fulladdr/; find \$mdir -type d -name cur | sort | sed -e 's:/cur\$:\":' -e \"s:\$mdir:\\\"=:\" | tr '\\\n' ' '\`"
+	toappend="mailboxes \`mdir=$maildir/$fulladdr/; find \$mdir -mindepth 1 -type d -name cur | sed -e 's:/cur\$:\":' -e \"s:\$mdir:\\\"=:\" | sort | tr '\\\n' ' '\`"
 	for x in $mailboxes; do
 		case "$x" in
 			*[Ss][Ee][Nn][Tt]*) setBox record "$x"; formatShortcut s sent "$x" ;;

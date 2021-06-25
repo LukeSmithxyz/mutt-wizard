@@ -265,6 +265,7 @@ techie.com,imap.mail.com,993,smtp.mail.com,587
 tecnico.ulisboa.pt,mail.tecnico.ulisboa.pt,993,mail.tecnico.ulisboa.pt,465
 teknik.io,mail.teknik.io,993,mail.teknik.io,587
 telenet.be,imap.telenet.be,993,smtp.telenet.be,587
+telia.com mailin.telia.com 993 mailout.telia.com 465
 tfwno.gf,mail.cock.li,993,mail.cock.li,587
 thunix.net,thunix.net,143,thunix.net,25
 tlen.pl,poczta.o2.pl,993,poczta.o2.pl,465

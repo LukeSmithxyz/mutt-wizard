@@ -172,10 +172,8 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 	pass rm -f "$fulladdr" >/dev/null 2>&1
 	[ -n "${purge+x}" ] && rm -rf "${maildir:?}/${fulladdr:?}"
 
-	# Get rid of those multiple newlines because I don't know awk well enough to do it by default lol.
 	for file in "$msmtprc" "$mbsyncrc" "$mpoprc"; do
- 		tr '\n' '|' 2>/dev/null  < "$file" | sed "s/||\+/||/g" | tr '|' '\n' >> "$file"bu
-		mv -f "$file"bu "$file"
+		sed -ibu 'N;/^\n$/D;P;D;' "$file" 2>/dev/null; rm -f "$file"bu
 	done
 }
 

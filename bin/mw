@@ -91,6 +91,7 @@ set folder = \"$folder\"
 set header_cache = $cachedir/$fulladdr/headers
 set message_cachedir = $cachedir/$fulladdr/bodies
 set mbox_type = Maildir
+set hostname = \"$hostname\"
 $extra
 
 bind index,pager gg noop
@@ -193,6 +194,7 @@ askinfo() { \
 		read -r smtp
 	[ "$sport" = 465 ] && tlsline="tls_starttls off"
 	[ -z "$realname" ] && realname="${fulladdr%%@*}"
+	hostname="$(echo "$fulladdr" | cut -d @ -f 2)"
 	login="${login:-$fulladdr}"
 	if [ -n "${password+x}" ]; then
 		createpass

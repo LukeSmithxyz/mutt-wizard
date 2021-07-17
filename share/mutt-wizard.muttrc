@@ -107,6 +107,7 @@ color index_author brightred blue "~T"
 color index_subject brightcyan blue "~T"
 
 # Other colors and aesthetic settings:
+set cursor_overlay = yes
 mono bold bold
 mono underline underline
 mono indicator reverse

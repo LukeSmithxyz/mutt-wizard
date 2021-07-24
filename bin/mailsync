@@ -11,10 +11,16 @@
 # issues. It also should at least be compatible with Linux (and maybe BSD) with
 # Xorg and MacOS as well.
 
+if [ "$(uname)" == 'OpenBSD' ]; then
+  alias grep=ggrep
+  alias sed=gsed
+  alias awk=gawk
+fi
+
 # Run only if user logged in (prevent cron errors)
 pgrep -u "${USER:=$LOGNAME}" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
 # Run only if not already running in other instance
-pidof mbsync >/dev/null && { echo "mbsync is already running."; exit ;}
+pgrep mbsync >/dev/null && { echo "mbsync is already running."; exit ;}
 
 # First, we have to get the right variables for the mbsync file, the pass
 # archive, notmuch and the GPG home.  This is done by searching common profile
@@ -34,6 +40,17 @@ case "$(uname)" in
 	Darwin)
 		notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 		messageinfo() { osascript -e "display notification with title \"📧 $from\" subtitle \"$subject\"" ;}
+		;;
+	OpenBSD)
+		displays="$(pgrep -lf X11R6 | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
+		notify() { [ -n "$displays" ] && for x in ${displays:-0:}; do
+				export DISPLAY=$x
+				notify-send --app-name="mutt-wizard" "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account."
+			done ;}
+		messageinfo() { [ -n "$displays" ] && for x in ${displays:-0:}; do
+				export DISPLAY=$x
+				notify-send --app-name="mutt-wizard" "📧$from:" "$subject"
+			done ;}
 		;;
 	*)
 		case "$(readlink -f /sbin/init)" in

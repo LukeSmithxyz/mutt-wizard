@@ -11,6 +11,7 @@ msmtplog="${XDG_CONFIG_HOME:-$HOME/.config}/msmtp/msmtp.log"
 mbsyncrc="${MBSYNCRC:-$HOME/.mbsyncrc}"
 mpoprc="${XDG_CONFIG_HOME:-$HOME/.config}/mpop/config"
 alias mbsync='mbsync -c "$mbsyncrc"'
+acctseq="1 2 3 4 5 6 7 8 9"
 
 for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"; do
 	[ -f "$x" ] && sslcert="$x" && break
@@ -226,7 +227,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '')"
 	fi
 	[ "$type" = "pop" ] && mailboxes="INBOX"
-	getaccounts; for x in $(seq 1 9); do echo "$accounts" | grep -q "^$x:" || { export idnum="$x"; break ;}; done
+	getaccounts; for x in "$acctseq"; do echo "$accounts" | grep -q "^$x:" || { export idnum="$x"; break ;}; done
 	toappend="mailboxes $(echo "$mailboxes" | sed "s/^/\"=/;s/$/\"/" | paste -sd ' ' - )"
 	for x in $mailboxes; do
 		case "$x" in

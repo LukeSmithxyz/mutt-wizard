@@ -228,6 +228,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 	[ "$type" = "pop" ] && mailboxes="INBOX"
 	getaccounts; for x in $(seq 1 9); do echo "$accounts" | grep -q "^$x:" || { export idnum="$x"; break ;}; done
 	toappend="mailboxes $(echo "$mailboxes" | sed "s/^/\"=/;s/$/\"/" | paste -sd ' ' - )"
+	IFS=$'\n'
 	for x in $mailboxes; do
 		case "$x" in
 			*[Ss][Ee][Nn][Tt]*) setBox record "$x"; formatShortcut s sent "$x" ;;
@@ -239,6 +240,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 			*[Ii][Nn][Bb][Oo][Xx]) formatShortcut i inbox "$x"; setBox spoolfile "$x" inbox="$x" ;;
 		esac
 	done
+	unset IFS
 }
 
 finalize() { echo "$toappend" >> "$accdir/$idnum-$fulladdr.muttrc"

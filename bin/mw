@@ -182,7 +182,7 @@ askinfo() { \
 	[ -z "$fulladdr" ] && echo "Give the full email address to add:" &&
 		read -r fulladdr
 	while ! echo "$fulladdr" | grep -qE "^.+@.+\.[A-Za-z]+$"; do
-		echo "\`$fulladdr\` is not a valid email address. Please retype the address:"
+		echo "$fulladdr is not a valid email address. Please retype the address:"
 		read -r fulladdr
 	done
 	getaccounts; echo "$accounts" | grep -q "\s$fulladdr$" 2>/dev/null &&
@@ -228,7 +228,8 @@ getboxes() { if [ -n "${force+x}" ] ; then
 	[ "$type" = "pop" ] && mailboxes="INBOX"
 	getaccounts; for x in $(seq 1 9); do echo "$accounts" | grep -q "^$x:" || { export idnum="$x"; break ;}; done
 	toappend="mailboxes $(echo "$mailboxes" | sed "s/^/\"=/;s/$/\"/" | paste -sd ' ' - )"
-	IFS=$'\n'
+	IFS='
+'
 	for x in $mailboxes; do
 		case "$x" in
 			*[Ss][Ee][Nn][Tt]*) setBox record "$x"; formatShortcut s sent "$x" ;;

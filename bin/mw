@@ -12,7 +12,18 @@ mbsyncrc="${MBSYNCRC:-$HOME/.mbsyncrc}"
 mpoprc="${XDG_CONFIG_HOME:-$HOME/.config}/mpop/config"
 alias mbsync='mbsync -c "$mbsyncrc"'
 
-for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"; do
+# On Ubuntu/Debian, a link is needed since they use an older version.
+if command -V apt-get >/dev/null 2>&1; then
+	ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
+	master="Master"
+	slave="Slave"
+fi
+
+for x in "/etc/ssl/certs/ca-certificates.crt" \
+	"/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/cert.pem" \
+	"/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" \
+	"/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" \
+	"/usr/local/share/ca-certificates/"; do
 	[ -f "$x" ] && sslcert="$x" && break
 done || { echo "CA Certificate not found. Please install one or link it to /etc/ssl/certs/ca-certificates.crt" && exit 1 ;}
 
@@ -39,8 +50,6 @@ ${tlsline:-tls on}
 tls_trust_file	$sslcert
 logfile $msmtplog
 " >> "$msmtprc"
-	# On Ubuntu/Debian, a link is needed since they use an older version.
-	command -V apt-get >/dev/null 2>&1 && ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
 }
 
 prepmbsync() { mkdir -p "${mbsyncrc%/*}"
@@ -61,8 +70,8 @@ Inbox ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$fulladdr/${inbox:-INBOX}
 
 Channel $fulladdr
 Expunge Both
-Master :$fulladdr-remote:
-Slave :$fulladdr-local:
+${master:-Far} :$fulladdr-remote:
+${slave:-Near} :$fulladdr-local:
 Patterns * !\"[Gmail]/All Mail\"
 Create Both
 SyncState *

@@ -1,4 +1,5 @@
 ADDRESS,IMAP,imap port,SMTP,smtp port
+gordon.edu,outlook.office365.com,993,smtp.office365.com,587
 126.com,imap.126.com,993,smtp.126.com,587
 163.com,imap.163.com,993,smtp.163.com,587
 3nt3.de,mail.3nt3.de,993,mail.3nt3.de,465

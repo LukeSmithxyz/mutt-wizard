@@ -45,6 +45,7 @@ bocken.org,mail.bocken.org,993,mail.bocken.org,587
 brew-meister.com,imap.mail.com,993,smtp.mail.com,587
 bruttocarattere.org,mail.autistici.org,993,smtp.autistici.org,465
 btinternet.com,mail.btinternet.com,993,mail.btinternet.com,587
+calstatela.edu,outlook.office365.com,993,smtp.office365.com,587
 canaglie.net,mail.autistici.org,993,smtp.autistici.org,465
 canaglie.org,mail.autistici.org,993,smtp.autistici.org,465
 carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587

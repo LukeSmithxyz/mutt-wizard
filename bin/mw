@@ -46,9 +46,10 @@ from $fulladdr
 user $login
 passwordeval \"pass $fulladdr\"
 auth ${auth:-on}
-${tlsline:-tls on}
+tls on
 tls_trust_file	$sslcert
 logfile $msmtplog
+$tlsline
 " >> "$msmtprc"
 }
 

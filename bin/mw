@@ -29,8 +29,7 @@ done || { echo "CA Certificate not found. Please install one or link it to /etc/
 
 checkbasics() { command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 	PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
-	[ -r "$PASSWORD_STORE_DIR/.gpg-id" ] &&
-	"$GPG" --list-secret-keys "$(cat "$PASSWORD_STORE_DIR/.gpg-id")" >/dev/null 2>&1 || {
+	[ -r "$PASSWORD_STORE_DIR/.gpg-id" ] || {
 	echo "First run \`pass init <yourgpgemail>\` to set up a password archive."
 	echo "(If you don't already have a GPG key pair, first run \`$GPG --full-generate-key\`.)"
        	exit 1 ;} ;}
@@ -214,7 +213,7 @@ askinfo() { \
 }
 
 createpass() { echo "$password" > "$PASSWORD_STORE_DIR/$fulladdr"
-	"$GPG" -qer "$(cat "$PASSWORD_STORE_DIR/.gpg-id")" "$PASSWORD_STORE_DIR/$fulladdr"
+  "$GPG" -qe $(printf -- " -r %s" $(cat "$PASSWORD_STORE_DIR/.gpg-id")) "$PASSWORD_STORE_DIR/$fulladdr"
 	rm -f "$PASSWORD_STORE_DIR/$fulladdr" ;}
 
 getpass() { while : ; do pass rm -f "$fulladdr" >/dev/null 2>&1

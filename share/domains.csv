@@ -1,4 +1,5 @@
 ADDRESS,IMAP,imap port,SMTP,smtp port
+gordon.edu,outlook.office365.com,993,smtp.office365.com,587
 126.com,imap.126.com,993,smtp.126.com,587
 163.com,imap.163.com,993,smtp.163.com,587
 3nt3.de,mail.3nt3.de,993,mail.3nt3.de,465
@@ -44,6 +45,7 @@ bocken.org,mail.bocken.org,993,mail.bocken.org,587
 brew-meister.com,imap.mail.com,993,smtp.mail.com,587
 bruttocarattere.org,mail.autistici.org,993,smtp.autistici.org,465
 btinternet.com,mail.btinternet.com,993,mail.btinternet.com,587
+calstatela.edu,outlook.office365.com,993,smtp.office365.com,587
 canaglie.net,mail.autistici.org,993,smtp.autistici.org,465
 canaglie.org,mail.autistici.org,993,smtp.autistici.org,465
 carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587

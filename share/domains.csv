@@ -1,5 +1,4 @@
 ADDRESS,IMAP,imap port,SMTP,smtp port
-gordon.edu,outlook.office365.com,993,smtp.office365.com,587
 126.com,imap.126.com,993,smtp.126.com,587
 163.com,imap.163.com,993,smtp.163.com,587
 3nt3.de,mail.3nt3.de,993,mail.3nt3.de,465
@@ -114,6 +113,7 @@ gmx.*,imap.gmx.net,993,mail.gmx.net,587
 go2.pl,poczta.o2.pl,993,poczta.o2.pl,465
 goat.si,mail.cock.li,993,mail.cock.li,587
 googlemail.com,imap.googlemail.com,993,smtp.googlemail.com,587
+gordon.edu,outlook.office365.com,993,smtp.office365.com,587
 grrlz.net,mail.autistici.org,993,smtp.autistici.org,465
 hacari.*,mail.autistici.org,993,smtp.autistici.org,465
 helsinki.fi,outlook.office365.com,993,smtp.helsinki.fi,587

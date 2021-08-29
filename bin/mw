@@ -121,7 +121,7 @@ $synccmd
 }
 
 getprofiles() { \
-	mkdir -p "${muttrc%/*}" "$accdir" "$cachedir/$fulladdr/bodies" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp"
+	mkdir -p "${muttrc%/*}" "$accdir" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp"
 	unset msmtp_header msmtp_profile mutt_profile mbsync_profile
 	case "$iport" in
 		1143) imapssl=None ;;

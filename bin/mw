@@ -12,14 +12,24 @@ mbsyncrc="${MBSYNCRC:-$HOME/.mbsyncrc}"
 mpoprc="${XDG_CONFIG_HOME:-$HOME/.config}/mpop/config"
 alias mbsync='mbsync -c "$mbsyncrc"'
 
-for x in "/etc/ssl/certs/ca-certificates.crt" "/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" "/etc/ssl/cert.pem" "/usr/local/share/ca-certificates/"; do
+# On Ubuntu/Debian, a link is needed since they use an older version.
+if command -V apt-get >/dev/null 2>&1; then
+	ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
+	master="Master"
+	slave="Slave"
+fi
+
+for x in "/etc/ssl/certs/ca-certificates.crt" \
+	"/etc/pki/tls/certs/ca-bundle.crt" "/etc/ssl/cert.pem" \
+	"/etc/ssl/ca-bundle.pem" "/etc/pki/tls/cacert.pem" \
+	"/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem" \
+	"/usr/local/share/ca-certificates/"; do
 	[ -f "$x" ] && sslcert="$x" && break
 done || { echo "CA Certificate not found. Please install one or link it to /etc/ssl/certs/ca-certificates.crt" && exit 1 ;}
 
 checkbasics() { command -V gpg >/dev/null 2>&1 && GPG="gpg" || GPG="gpg2"
 	PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
-	[ -r "$PASSWORD_STORE_DIR/.gpg-id" ] &&
-	"$GPG" --list-secret-keys "$(cat "$PASSWORD_STORE_DIR/.gpg-id")" >/dev/null 2>&1 || {
+	[ -r "$PASSWORD_STORE_DIR/.gpg-id" ] || {
 	echo "First run \`pass init <yourgpgemail>\` to set up a password archive."
 	echo "(If you don't already have a GPG key pair, first run \`$GPG --full-generate-key\`.)"
        	exit 1 ;} ;}
@@ -35,12 +45,11 @@ from $fulladdr
 user $login
 passwordeval \"pass $fulladdr\"
 auth ${auth:-on}
-${tlsline:-tls on}
+tls on
 tls_trust_file	$sslcert
 logfile $msmtplog
+$tlsline
 " >> "$msmtprc"
-	# On Ubuntu/Debian, a link is needed since they use an older version.
-	command -V apt-get >/dev/null 2>&1 && ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
 }
 
 prepmbsync() { mkdir -p "${mbsyncrc%/*}"
@@ -61,8 +70,8 @@ Inbox ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$fulladdr/${inbox:-INBOX}
 
 Channel $fulladdr
 Expunge Both
-Master :$fulladdr-remote:
-Slave :$fulladdr-local:
+${master:-Far} :$fulladdr-remote:
+${slave:-Near} :$fulladdr-local:
 Patterns * !\"[Gmail]/All Mail\"
 Create Both
 SyncState *
@@ -91,16 +100,9 @@ set folder = \"$folder\"
 set header_cache = $cachedir/$fulladdr/headers
 set message_cachedir = $cachedir/$fulladdr/bodies
 set mbox_type = Maildir
+set hostname = \"$hostname\"
+source $muttshare/unbind.muttrc
 $extra
-
-bind index,pager gg noop
-bind index,pager g noop
-bind index,pager M noop
-bind index,pager C noop
-bind index gg first-entry
-unmailboxes *
-unalternates *
-unset signature
 $synccmd
 " > "$accdir/$idnum-$fulladdr.muttrc"
 
@@ -111,7 +113,7 @@ $synccmd
 }
 
 getprofiles() { \
-	mkdir -p "${muttrc%/*}" "$accdir" "$cachedir/$fulladdr/bodies" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp"
+	mkdir -p "${muttrc%/*}" "$accdir" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp"
 	unset msmtp_header msmtp_profile mutt_profile mbsync_profile
 	case "$iport" in
 		1143) imapssl=None ;;
@@ -172,10 +174,8 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 	pass rm -f "$fulladdr" >/dev/null 2>&1
 	[ -n "${purge+x}" ] && rm -rf "${maildir:?}/${fulladdr:?}"
 
-	# Get rid of those multiple newlines because I don't know awk well enough to do it by default lol.
 	for file in "$msmtprc" "$mbsyncrc" "$mpoprc"; do
- 		tr '\n' '|' 2>/dev/null  < "$file" | sed "s/||\+/||/g" | tr '|' '\n' >> "$file"bu
-		mv -f "$file"bu "$file"
+		sed -ibu 'N;/^\n$/D;P;D;' "$file" 2>/dev/null; rm -f "$file"bu
 	done
 }
 
@@ -183,7 +183,7 @@ askinfo() { \
 	[ -z "$fulladdr" ] && echo "Give the full email address to add:" &&
 		read -r fulladdr
 	while ! echo "$fulladdr" | grep -qE "^.+@.+\.[A-Za-z]+$"; do
-		echo "\`$fulladdr\` is not a valid email address. Please retype the address:"
+		echo "$fulladdr is not a valid email address. Please retype the address:"
 		read -r fulladdr
 	done
 	getaccounts; echo "$accounts" | grep -q "\s$fulladdr$" 2>/dev/null &&
@@ -195,6 +195,7 @@ askinfo() { \
 		read -r smtp
 	[ "$sport" = 465 ] && tlsline="tls_starttls off"
 	[ -z "$realname" ] && realname="${fulladdr%%@*}"
+	hostname="$(echo "$fulladdr" | cut -d @ -f 2)"
 	login="${login:-$fulladdr}"
 	if [ -n "${password+x}" ]; then
 		createpass
@@ -204,7 +205,7 @@ askinfo() { \
 }
 
 createpass() { echo "$password" > "$PASSWORD_STORE_DIR/$fulladdr"
-	"$GPG" -qer "$(cat "$PASSWORD_STORE_DIR/.gpg-id")" "$PASSWORD_STORE_DIR/$fulladdr"
+  "$GPG" -qe $(printf -- " -r %s" $(cat "$PASSWORD_STORE_DIR/.gpg-id")) "$PASSWORD_STORE_DIR/$fulladdr"
 	rm -f "$PASSWORD_STORE_DIR/$fulladdr" ;}
 
 getpass() { while : ; do pass rm -f "$fulladdr" >/dev/null 2>&1
@@ -223,11 +224,14 @@ getboxes() { if [ -n "${force+x}" ] ; then
 	else
 		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass "$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
 		[ -z "$info" ] && echo "Log-on not successful." && return 1
-		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '')"
+		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '
+')"
 	fi
 	[ "$type" = "pop" ] && mailboxes="INBOX"
 	getaccounts; for x in $(seq 1 9); do echo "$accounts" | grep -q "^$x:" || { export idnum="$x"; break ;}; done
 	toappend="mailboxes \`mdir=$maildir/$fulladdr/; find \$mdir -mindepth 1 -type d -name cur | sed -e 's:/cur\$:\":' -e \"s:\$mdir:\\\"=:\" | sort | tr '\\\n' ' '\`"
+	IFS='
+'
 	for x in $mailboxes; do
 		case "$x" in
 			*[Ss][Ee][Nn][Tt]*) setBox record "$x"; formatShortcut s sent "$x" ;;
@@ -239,6 +243,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 			*[Ii][Nn][Bb][Oo][Xx]) formatShortcut i inbox "$x"; setBox spoolfile "$x" inbox="$x" ;;
 		esac
 	done
+	unset IFS
 }
 
 finalize() { echo "$toappend" >> "$accdir/$idnum-$fulladdr.muttrc"

@@ -227,11 +227,9 @@ getboxes() { if [ -n "${force+x}" ] ; then
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '\r')"
 	fi
 	[ "$type" = "pop" ] && mailboxes="INBOX"
-	getaccounts
-	usednums="$(grep -o "^macro.* i[0-9]\+ " "$muttrc" | grep -o "[0-9]" | sort -u)"
-	for x in 1 2 3 4 5 6 7 8 9; do
-		echo "$usednums" | grep -q "$x" ||
-			{ export idnum="$x"; break ;}
+	for x in $(sed -n "/^macro.* i[0-9] / s/\(^macro.* i\| .*\)//gp " $muttrc | sort -u; echo 0); do
+		idnum=$((idnum + 1))
+		[ $idnum -eq $x ] || break
 	done
 	toappend="mailboxes \`mdir=$maildir/$fulladdr/; find \$mdir -mindepth 1 -type d -name cur | sed -e 's:/cur\$:\":' -e \"s:\$mdir:\\\"=:\" | sort | tr '\\\n' ' '\`"
 	IFS='

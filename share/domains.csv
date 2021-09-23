@@ -49,6 +49,7 @@ canaglie.net,mail.autistici.org,993,smtp.autistici.org,465
 canaglie.org,mail.autistici.org,993,smtp.autistici.org,465
 carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 cash4u.com,imap.mail.com,993,smtp.mail.com,587
+cedars.xyz,imap.cedars.xyz,993,smtp.cedars.xyz,465
 ceng.metu.edu.tr,imap.ceng.metu.edu.tr,993,mailhost.ceng.metu.edu.tr,587
 cheerful.com,imap.mail.com,993,smtp.mail.com,587
 chef.net,imap.mail.com,993,smtp.mail.com,587

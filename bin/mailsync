@@ -33,7 +33,6 @@ export GPG_TTY="$(tty)"
 case "$(uname)" in
 	Darwin)
 		notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
-		messageinfo() { osascript -e "display notification with title \"📧 $from\" subtitle \"$subject\"" ;}
 		;;
 	*)
 		case "$(readlink -f /sbin/init)" in
@@ -45,10 +44,6 @@ case "$(uname)" in
 		notify() { [ -n "$pgrepoutput" ] && for x in ${displays:-0:}; do
 				export DISPLAY=$x
 				notify-send --app-name="mutt-wizard" "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account."
-			done ;}
-		messageinfo() { [ -n "$pgrepoutput" ] && for x in ${displays:-0:}; do
-				export DISPLAY=$x
-				notify-send --app-name="mutt-wizard" "📧$from:" "$subject"
 			done ;}
 		;;
 esac
@@ -67,13 +62,7 @@ syncandnotify() {
 	-type f -newer "${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun" 2> /dev/null)
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
     case 1 in
-	$((newcount > 5)) ) notify "$acc" "$newcount" ;;
-    	$((newcount > 0)) ) for file in $new; do
-		    # Extract subject and sender from mail.
-		    from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
-		    subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n 1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
-		    messageinfo &
-		done ;;
+	$((newcount > 0)) ) notify "$acc" "$newcount" ;;
     esac
 }
 

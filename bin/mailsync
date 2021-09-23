@@ -14,7 +14,7 @@
 # Run only if user logged in (prevent cron errors)
 pgrep -u "${USER:=$LOGNAME}" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
 # Run only if not already running in other instance
-pidof mbsync >/dev/null && { echo "mbsync is already running."; exit ;}
+pgrep mbsync >/dev/null && { echo "mbsync is already running."; exit ;}
 
 # First, we have to get the right variables for the mbsync file, the pass
 # archive, notmuch and the GPG home.  This is done by searching common profile

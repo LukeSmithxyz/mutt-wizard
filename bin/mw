@@ -129,7 +129,7 @@ set ssl_force_tls = yes"
 		pop) synccmd="macro index o \"<shell-escape>mpop $fulladdr<enter>\" \"run mpop to get $fulladdr's mail\""
 			folder="$maildir/$fulladdr"
 			prepmpop ;;
-		*) synccmd="macro index o \"<shell-escape>mbsync $fulladdr<enter>\" \"run mbsync to sync $fulladdr\""
+		*) synccmd="macro index o \"<shell-escape>mw -y $fulladdr<enter>\" \"run mbsync to sync $fulladdr\""
 			folder="$maildir/$fulladdr"
 			prepmbsync ;;
 	esac
@@ -227,7 +227,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '')"
 	fi
 	[ "$type" = "pop" ] && mailboxes="INBOX"
-	getaccounts; for x in $(seq 1 9); do echo "$accounts" | grep -q "^$x:" || { export idnum="$x"; break ;}; done
+	getaccounts; for x in 1 2 3 4 5 6 7 8 9; do echo "$accounts" | grep -q "^$x:" || { export idnum="$x"; break ;}; done
 	toappend="mailboxes $(echo "$mailboxes" | sed "s/^/\"=/;s/$/\"/" | paste -sd ' ' - )"
 	IFS='
 '

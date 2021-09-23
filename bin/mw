@@ -101,16 +101,8 @@ set header_cache = $cachedir/$fulladdr/headers
 set message_cachedir = $cachedir/$fulladdr/bodies
 set mbox_type = Maildir
 set hostname = \"$hostname\"
+source $muttshare/unbind.muttrc
 $extra
-
-bind index,pager gg noop
-bind index,pager g noop
-bind index,pager M noop
-bind index,pager C noop
-bind index gg first-entry
-unmailboxes *
-unalternates *
-unset signature
 $synccmd
 " > "$accdir/$idnum-$fulladdr.muttrc"
 

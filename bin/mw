@@ -40,7 +40,7 @@ list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" || exit 1 ;}
 
 prepmsmtp() { echo "account $fulladdr
 host $smtp
-port ${sport:-587}
+port ${sport:-465}
 from $fulladdr
 user $login
 passwordeval \"pass $fulladdr\"
@@ -48,7 +48,7 @@ auth ${auth:-on}
 tls on
 tls_trust_file	$sslcert
 logfile $msmtplog
-$tlsline
+${tlsline:-tls_starttls off}
 " >> "$msmtprc"
 }
 
@@ -193,7 +193,7 @@ askinfo() { \
 		read -r imap
 	[ -z "$smtp" ] && echo "Give your email server's SMTP address (excluding the port number):" &&
 		read -r smtp
-	[ "$sport" = 465 ] && tlsline="tls_starttls off"
+	[ "$sport" = 587 ] && tlsline="# tls_starttls"
 	[ -z "$realname" ] && realname="${fulladdr%%@*}"
 	hostname="$(echo "$fulladdr" | cut -d @ -f 2)"
 	login="${login:-$fulladdr}"

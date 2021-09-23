@@ -168,7 +168,7 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 
 	sed -ibu "/IMAPStore $fulladdr-remote$/,/# End profile/d" "$mbsyncrc" 2>/dev/null ; rm -f "$mbsyncrc"bu
 	rm -rf "${cachedir:?}/${fulladdr:?}" "$accdir/$fulladdr.muttrc"  "$accdir/"[0-9]-"$fulladdr.muttrc"
-	sed -ibu "/[0-9]-$fulladdr.muttrc/d" "$muttrc" 2>/dev/null; rm -f "$muttrc"bu
+	sed -ibu "/[0-9]-$fulladdr.muttrc/d" "/$fulladdr.muttrc/d" "$muttrc" 2>/dev/null; rm -f "$muttrc"bu
 	sed -ibu "/account $fulladdr$/,/^\(\s*$\|account\)/d" "$msmtprc" 2>/dev/null; rm -f "$msmtprc"bu
 	sed -ibu "/account $fulladdr$/,/^\(\s*$\|account\)/d" "$mpoprc" 2>/dev/null; rm -f "$mpoprc"bu
 	pass rm -f "$fulladdr" >/dev/null 2>&1

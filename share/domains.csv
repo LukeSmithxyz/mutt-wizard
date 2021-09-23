@@ -45,6 +45,7 @@ brew-meister.com,imap.mail.com,993,smtp.mail.com,587
 bruttocarattere.org,mail.autistici.org,993,smtp.autistici.org,465
 btinternet.com,mail.btinternet.com,993,mail.btinternet.com,587
 calstatela.edu,outlook.office365.com,993,smtp.office365.com,587
+campus.fct.unl.pt,imap.gmail.com,993,smtp.gmail.com,587
 canaglie.net,mail.autistici.org,993,smtp.autistici.org,465
 canaglie.org,mail.autistici.org,993,smtp.autistici.org,465
 carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
@@ -101,6 +102,7 @@ europe.com,imap.mail.com,993,smtp.mail.com,587
 ex-studenti.unitn.it,imap.gmail.com,993,smtp.gmail.com,587
 fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465
 fastmail.fm,imap.fastmail.com,993,smtp.fastmail.com,465
+fct.unl.pt,imap.gmail.com,993,smtp.gmail.com,587
 firemail.cc,mail.cock.li,993,mail.cock.li,587
 forpsi.com,imap.forpsi.com,993,smtp.forpsi.com,465
 forthnet.gr,mail.forthnet.gr,993,smtp-auth.forthnet.gr,465
@@ -282,6 +284,7 @@ txstate.edu,outlook.office365.com,993,smtp.office365.com,587
 ua.pt,outlook.office365.com,993,mail.ua.pt,25
 uach.mx,imap.gmail.com,993,smtp.gmail.com,587
 ucdavis.edu,imap.gmail.com,993,smtp.gmail.com,587
+uclive.ac.nz,outlook.office365.com,993,smtp.office365.com,587
 ucsb.edu,imap.gmail.com,993,smtp.gmail.com,587
 ucsc.edu,imap.gmail.com,993,smtp.gmail.com,587
 uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465

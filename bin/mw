@@ -101,7 +101,11 @@ set header_cache = $cachedir/$fulladdr/headers
 set message_cachedir = $cachedir/$fulladdr/bodies
 set mbox_type = Maildir
 set hostname = \"$hostname\"
-source $muttshare/unbind.muttrc
+source $muttshare/switch.muttrc
+set spoolfile = "+INBOX"
+set postponed = "+Drafts"
+set trash = "+Trash"
+set record = "+Sent"
 $extra
 $synccmd
 " > "$accdir/$fulladdr.muttrc"
@@ -135,7 +139,6 @@ set ssl_force_tls = yes"
 	esac
 	prepmsmtp
 	prepmutt
-
 	prepnotmuch # Create a notmuch config file if not present already.
 }
 
@@ -211,14 +214,6 @@ createpass() { echo "$password" > "$PASSWORD_STORE_DIR/$fulladdr"
 getpass() { while : ; do pass rm -f "$fulladdr" >/dev/null 2>&1
 		pass insert -f "$fulladdr" && break; done ;}
 
-formatShortcut() { toappend="$toappend
-macro index,pager g$1 \"<change-folder>=$3<enter>\" \"go to $2\"
-macro index,pager M$1 \";<save-message>=$3<enter>\" \"move mail to $2\"
-macro index,pager C$1 \";<copy-message>=$3<enter>\" \"copy mail to $2\"" ;}
-
-setBox() { toappend="$toappend
-set $1 = \"+$2\"" ;}
-
 getboxes() { if [ -n "${force+x}" ] ; then
 		mailboxes="$(printf "INBOX\\nDrafts\\nJunk\\nTrash\\nSent\\nArchive")"
 	else
@@ -232,20 +227,6 @@ getboxes() { if [ -n "${force+x}" ] ; then
 		[ $idnum -eq $x ] || break
 	done
 	toappend="mailboxes \`mdir=$maildir/$fulladdr/; find \$mdir -mindepth 1 -type d -name cur | sed -e 's:/cur\$:\":' -e \"s:\$mdir:\\\"=:\" | sort | tr '\\\n' ' '\`"
-	IFS='
-'
-	for x in $mailboxes; do
-		case "$x" in
-			*[Ss][Ee][Nn][Tt]*) setBox record "$x"; formatShortcut s sent "$x" ;;
-			*[Dd][Rr][Aa][Ff][Tt][Ss]*) setBox postponed "$x"; formatShortcut d drafts "$x" ;;
-			*[Tt][Rr][Aa][Ss][Hh]*) formatShortcut t trash "$x"; setBox trash "$x" ;;
-			*[Jj][Uu][Nn][Kk]*) formatShortcut j junk "$x" ;;
-			*[Aa][Rr][Cc][Hh][Ii][Vv][Ee]*) formatShortcut a archive "$x" ;;
-			*[Ss][Pp][Aa][Mm]*) formatShortcut S spam "$x" ;;
-			*[Ii][Nn][Bb][Oo][Xx]) formatShortcut i inbox "$x"; setBox spoolfile "$x" inbox="$x" ;;
-		esac
-	done
-	unset IFS
 }
 
 finalize() { echo "$toappend" >> "$accdir/$fulladdr.muttrc"
@@ -257,7 +238,7 @@ finalize() { echo "$toappend" >> "$accdir/$fulladdr.muttrc"
 prepnotmuch() { \
 	[ -z "$NOTMUCH_CONFIG" ] && NOTMUCH_CONFIG="$HOME/.notmuch-config"
 	[ -f "$NOTMUCH_CONFIG" ] && return 0
-	nmbasic="[database]
+	echo "[database]
 path=$maildir
 [user]
 name=$realname
@@ -270,8 +251,7 @@ exclude_tags=deleted;spam;
 [maildir]
 synchronize_flags=true
 [crypto]
-gpg_path=$GPG"
-	echo "$nmbasic" > "$NOTMUCH_CONFIG" ;}
+gpg_path=$GPG" > "$NOTMUCH_CONFIG" ;}
 
 togglecron() { cron="$(mktemp)"
 	crontab -l > "$cron"

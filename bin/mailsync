@@ -36,7 +36,7 @@ case "$(uname)" in
 		;;
 	*)
 		case "$(readlink -f /sbin/init)" in
-			*systemd*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
+			*systemd*|*openrc*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
 		esac
 		# remember if a display server is running since `ps` doesn't always contain a display
 		pgrepoutput="$(pgrep -a X\(org\|wayland\))"

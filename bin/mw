@@ -198,7 +198,7 @@ askinfo() { \
 		read -r smtp
 	[ "$sport" = 587 ] && tlsline="# tls_starttls"
 	[ -z "$realname" ] && realname="${fulladdr%%@*}"
-	hostname="$(echo "$fulladdr" | cut -d @ -f 2)"
+	hostname="${fulladdr#*@}"
 	login="${login:-$fulladdr}"
 	if [ -n "${password+x}" ]; then
 		createpass
@@ -222,9 +222,9 @@ getboxes() { if [ -n "${force+x}" ] ; then
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '\r')"
 	fi
 	[ "$type" = "pop" ] && mailboxes="INBOX"
-	for x in $(sed -n "/^macro.* i[0-9] / s/\(^macro.* i\| .*\)//gp " $muttrc | sort -u; echo 0); do
+	for x in $(sed -n "/^macro.* i[0-9] / s/\(^macro.* i\| .*\)//gp " "$muttrc" | sort -u; echo 0); do
 		idnum=$((idnum + 1))
-		[ $idnum -eq $x ] || break
+		[ "$idnum" -eq "$x" ] || break
 	done
 	toappend="mailboxes \`mdir=$maildir/$fulladdr/; find \$mdir -mindepth 1 -type d -name cur | sed -e 's:/cur\$:\":' -e \"s:\$mdir:\\\"=:\" | sort | tr '\\\n' ' '\`"
 }
@@ -335,7 +335,7 @@ while getopts "fpPXlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 		smtp="127.0.0.1"
 		sport="1025"
 		auth="login"
-  		tlsline="tls_fingerprint $(msmtp --serverinfo --host=$smtp --port=$sport --tls --tls-certcheck=off | awk '/SHA256:/ {print $2}')"
+  		tlsline="tls_fingerprint $(msmtp --serverinfo --host=$smtp --port=$sport --tls --tls-certcheck=off | sed -n '/SHA256:/ s/^\s*SHA256:\s*// p')"
 		setact add || exit 1
 		;;
 	*) mwinfo;  exit 1 ;;

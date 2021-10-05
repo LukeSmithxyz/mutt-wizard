@@ -226,7 +226,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 		idnum=$((idnum + 1))
 		[ $idnum -eq $x ] || break
 	done
-	toappend="mailboxes \`mdir=$maildir/$fulladdr/; find \$mdir -mindepth 1 -type d -name cur | sed -e 's:/cur\$:\":' -e \"s:\$mdir:\\\"=:\" | sort | tr '\\\n' ' '\`"
+	toappend="mailboxes \`mdir=$maildir/$fulladdr/; find \$mdir -mindepth 1 -type d -name cur | sed -e 's:/cur\$:\":' -e \"s:\$mdir:\\\"=:\" | sort | tr '\\n' ' '\`"
 }
 
 finalize() { echo "$toappend" >> "$accdir/$fulladdr.muttrc"

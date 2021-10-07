@@ -79,6 +79,7 @@ The mutt-wizard runs via the command `mw`. Once setup is complete, you'll use
 - `mw -D your@email.com` -- delete account settings without confirmation
 - `mw -t 30` -- toggle automatic mailsync to every 30 minutes
 - `mw -T` -- toggle mailsync without specifying minutes (default is 10)
+- `mw -r` -- reorder account shortcut numbers
 - `pass edit mw-your@email.com` -- revise an account's password
 
 ### Options usable when adding an account

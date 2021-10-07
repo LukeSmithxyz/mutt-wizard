@@ -285,6 +285,7 @@ Main actions:
   -Y			Sync mail for all accounts
   -t number		Toggle automatic mailsync every <number> minutes
   -T			Toggle automatic mailsync
+  -r			Reorder account numbers
 
 Options allowed with -a:
   -u	Account login name if not full address
@@ -307,8 +308,28 @@ To change an account's password, run \`pass edit your@email.com\`.
 EOF
 }
 
-while getopts "fpPXlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
+reorder(){
+	tempfile="$(mktemp -u)"
+	trap 'rm -f $tempfile' HUP INT QUIT TERM PWR EXIT
+	echo "# Carefully reorder these accounts with the desired numbers." > "$tempfile"
+	sed -n "
+	/ i[0-9] / s?\(.* i\|'<sync.*/\|\.muttrc.*\)??g p
+	" "$muttrc" > "$tempfile"
+	${EDITOR:-vim} "$tempfile" || exit 1
+	default="$(sort -n "$tempfile" | head -n 1)"
+	default="${default#* }"
+	sed -ibu "/.* i[0-9] .*.muttrc/d" "$muttrc" 2>/dev/null; rm -f "$muttrc"bu
+	awk -v a="$accdir" -v d="$default" ' BEGIN { print "source "a"/"d".muttrc" }
+		{
+		print "macro index,pager i"$1" '\''<sync-mailbox><enter-command>source "a"/"$2".muttrc<enter><change-folder>!<enter>;<check-stats>'\'' \"switch to "$2"\""
+		}
+	' "$tempfile" >> "$muttrc"
+
+}
+
+while getopts "rfpPXlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 	l) setact list || exit 1 ;;
+	r) setact reorder || exit 1 ;;
 	d) setact delete || exit 1 ;;
 	D) setact delete || exit 1 ; fulladdr="$OPTARG" ;;
 	y) setact sync || exit 1 ; fulladdr="$OPTARG" ;;
@@ -347,5 +368,6 @@ case "$action" in
 	delete) delete ;;
 	sync) mailsync $fulladdr ;;
 	toggle) togglecron ;;
+	reorder) reorder ;;
 	*) mwinfo; exit 1 ;;
 esac

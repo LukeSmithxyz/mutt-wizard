@@ -287,6 +287,7 @@ ucdavis.edu,imap.gmail.com,993,smtp.gmail.com,587
 uclive.ac.nz,outlook.office365.com,993,smtp.office365.com,587
 ucsb.edu,imap.gmail.com,993,smtp.gmail.com,587
 ucsc.edu,imap.gmail.com,993,smtp.gmail.com,587
+ukr.net,imap.ukr.net,993,smtp.ukr.net,465
 uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465
 uni-jena.de,imap.uni-jena.de,993,smtp.uni-jena.de,587
 uni.strath.ac.uk,outlook.office365.com,993,smtp.office365.com,587

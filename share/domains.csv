@@ -285,6 +285,7 @@ tum.de,xmail.mwn.de,993,postout.lrz.de,587
 txstate.edu,outlook.office365.com,993,smtp.office365.com,587
 ua.pt,outlook.office365.com,993,mail.ua.pt,25
 uach.mx,imap.gmail.com,993,smtp.gmail.com,587
+ucalgary.ca,outlook.office365.com,993,smtp.office365.com,587
 ucdavis.edu,imap.gmail.com,993,smtp.gmail.com,587
 uclive.ac.nz,outlook.office365.com,993,smtp.office365.com,587
 ucsb.edu,imap.gmail.com,993,smtp.gmail.com,587

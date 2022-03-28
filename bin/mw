@@ -94,7 +94,7 @@ prepmutt() { echo "# vim: filetype=neomuttrc
 # muttrc file for account $fulladdr
 set realname = \"$realname\"
 set from = \"$fulladdr\"
-set sendmail = \"msmtp -a $fulladdr\"
+set sendmail = \"pass show $fulladdr &> /dev/null; msmtp -a $fulladdr\"
 alias me $realname <$fulladdr>
 set folder = \"$folder\"
 set header_cache = $cachedir/$fulladdr/headers
@@ -132,7 +132,7 @@ set imap_pass = \"\`pass $fulladdr\`\"
 set ssl_starttls = yes
 set ssl_force_tls = yes"
 			;;
-		pop) synccmd="macro index o \"<shell-escape>mpop $fulladdr<enter>\" \"run mpop to get $fulladdr's mail\""
+		pop) synccmd="macro index o \"<shell-escape>pass show $fulladdr &> /dev/null; mpop $fulladdr<enter>\" \"run mpop to get $fulladdr's mail\""
 			folder="$maildir/$fulladdr"
 			prepmpop ;;
 		*) synccmd="macro index o \"<shell-escape>pass show $fulladdr &> /dev/null; mw -y $fulladdr<enter>\" \"run mbsync to sync $fulladdr\""

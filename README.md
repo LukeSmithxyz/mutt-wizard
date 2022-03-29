@@ -28,7 +28,7 @@ Specifically, this wizard:
 
 #### Dependencies
 
-- `neomutt` - the email client.
+- `neomutt` - the email client. (If you are using Gentoo GNU/Linux, you will need the `sasl` use flag to be enabled)
 - `curl` - tests connections (required at install).
 - `isync` - downloads and syncs the mail (required if storing IMAP mail locally).
 - `msmtp` - sends the email.

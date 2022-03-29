@@ -108,6 +108,8 @@ set trash = "+Trash"
 set record = "+Sent"
 $extra
 $synccmd
+macro index \eg \"<enter-command>unset wait_key<enter><shell-escape>gpg --list-secret-keys; printf 'Enter email ID of user to publish: '; read eID; printf 'Enter fingerprint of GPG key to publish: '; read eFGPT; $prefix/libexec/gpg-wks-client --create \\\$eFGPT \\\$eID | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\"  \"publish GPG key to WKS provider\"
+macro index \eh \"<pipe-message>$prefix/libexec/gpg-wks-client --receive | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\" \"confirm GPG publication\"
 " > "$accdir/$fulladdr.muttrc"
 
 	[ ! -f "$muttrc" ] && echo "# vim: filetype=neomuttrc" > "$muttrc"
@@ -308,23 +310,27 @@ To change an account's password, run \`pass edit your@email.com\`.
 EOF
 }
 
-reorder(){
+reorder() {
 	tempfile="$(mktemp -u)"
 	trap 'rm -f $tempfile' HUP INT QUIT TERM PWR EXIT
-	echo "# Carefully reorder these accounts with the desired numbers." > "$tempfile"
+  echo "# Carefully reorder these accounts with the desired numbers in the first column.
+# DO NOT reorder rows or rename the accounts in the second column." > "$tempfile"
 	sed -n "
 	/ i[0-9] / s?\(.* i\|'<sync.*/\|\.muttrc.*\)??g p
-	" "$muttrc" > "$tempfile"
+	" "$muttrc" >> "$tempfile"
 	${EDITOR:-vim} "$tempfile" || exit 1
+  sed -i -e 's/#.*//' -e '/^$/d' "$tempfile"
 	default="$(sort -n "$tempfile" | head -n 1)"
 	default="${default#* }"
-	sed -ibu "/.* i[0-9] .*.muttrc/d" "$muttrc" 2>/dev/null; rm -f "$muttrc"bu
+	sed -ibu "
+  /.* i[0-9] .*.muttrc/d
+  /^source.*accounts.*.muttrc/d
+  " "$muttrc" 2>/dev/null; rm -f "$muttrc"bu
 	awk -v a="$accdir" -v d="$default" ' BEGIN { print "source "a"/"d".muttrc" }
 		{
 		print "macro index,pager i"$1" '\''<sync-mailbox><enter-command>source "a"/"$2".muttrc<enter><change-folder>!<enter>;<check-stats>'\'' \"switch to "$2"\""
 		}
 	' "$tempfile" >> "$muttrc"
-
 }
 
 while getopts "rfpPXlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in

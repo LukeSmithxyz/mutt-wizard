@@ -111,6 +111,7 @@ fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
 fsu-jena,exchange.uni-jena.de,993,smtp.uni-jena.de,587
 gcc.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
+ghalv.no,mail.ghalv.no,993,mail.ghalv.no,587
 gmail.com,imap.gmail.com,993,smtp.gmail.com,587
 gmx.*,imap.gmx.net,993,mail.gmx.net,587
 go2.pl,poczta.o2.pl,993,poczta.o2.pl,465
@@ -149,6 +150,7 @@ kean.edu,imap.gmail.com,993,smtp.gmail.com,587
 kipras.org,mail.kipras.org,993,mail.kipras.org,587
 krutt.org,mail.autistici.org,993,smtp.autistici.org,465
 kth.se,webmail.kth.se,993,smtp.kth.se,587
+lancaster.ac.uk,outlook.office365.com,993,smtp.office365.com,587
 larbs.xyz,mail.larbs.xyz,993,mail.larbs.xyz,587
 lavabit.com,lavabit.com,993,lavabit.com,587
 librem.one,imap.librem.one,993,smtp.librem.one,465
@@ -273,6 +275,7 @@ tecnico.ulisboa.pt,mail.tecnico.ulisboa.pt,993,mail.tecnico.ulisboa.pt,465
 teknik.io,mail.teknik.io,993,mail.teknik.io,587
 telenet.be,imap.telenet.be,993,smtp.telenet.be,587
 tfwno.gf,mail.cock.li,993,mail.cock.li,587
+thamognya.com,mail.thamognya.com,993,mail.thamognya.com,587
 thunix.net,thunix.net,143,thunix.net,25
 tlen.pl,poczta.o2.pl,993,poczta.o2.pl,465
 tlu.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
@@ -283,6 +286,7 @@ tum.de,xmail.mwn.de,993,postout.lrz.de,587
 txstate.edu,outlook.office365.com,993,smtp.office365.com,587
 ua.pt,outlook.office365.com,993,mail.ua.pt,25
 uach.mx,imap.gmail.com,993,smtp.gmail.com,587
+ucalgary.ca,outlook.office365.com,993,smtp.office365.com,587
 ucdavis.edu,imap.gmail.com,993,smtp.gmail.com,587
 uclive.ac.nz,outlook.office365.com,993,smtp.office365.com,587
 ucsb.edu,imap.gmail.com,993,smtp.gmail.com,587
@@ -290,6 +294,7 @@ ucsc.edu,imap.gmail.com,993,smtp.gmail.com,587
 ukr.net,imap.ukr.net,993,smtp.ukr.net,465
 uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465
 uni-jena.de,imap.uni-jena.de,993,smtp.uni-jena.de,587
+uni.edu.pe,imap.gmail.com,993,smtp.gmail.com,587
 uni.strath.ac.uk,outlook.office365.com,993,smtp.office365.com,587
 unilodz.eu,outlook.office365.com,993,smtp.office365.com,587
 unitn.it,imap.gmail.com,993,smtp.gmail.com,587
@@ -326,3 +331,4 @@ zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zju.edu.cn,imap.zju.edu.cn,993,smtp.zju.edu.cn,994
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
+sis.hust.edu.vn,outlook.office365.com,993,smtp.office365.com,587

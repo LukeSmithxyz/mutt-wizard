@@ -199,7 +199,7 @@ See Luke's website [here](https://lukesmith.xyz). Email him at
 
 - Gmail accounts need to create an
   [App Password](https://support.google.com/accounts/answer/185833?hl=en) to
-  use with  _**less secure**_ applications. This password is single-use (i.e.
+  use with  "less secure" applications. This password is single-use (i.e.
   for setup) and will be stored and encrypted locally. Enabling third-party
   applications requires turning off two-factor authentication and this will
   circumvent that. You might also need to manually "Enable IMAP" in the

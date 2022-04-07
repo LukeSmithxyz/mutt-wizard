@@ -150,6 +150,7 @@ kean.edu,imap.gmail.com,993,smtp.gmail.com,587
 kipras.org,mail.kipras.org,993,mail.kipras.org,587
 krutt.org,mail.autistici.org,993,smtp.autistici.org,465
 kth.se,webmail.kth.se,993,smtp.kth.se,587
+lancaster.ac.uk,outlook.office365.com,993,smtp.office365.com,587
 larbs.xyz,mail.larbs.xyz,993,mail.larbs.xyz,587
 lavabit.com,lavabit.com,993,lavabit.com,587
 librem.one,imap.librem.one,993,smtp.librem.one,465
@@ -293,6 +294,7 @@ ucsc.edu,imap.gmail.com,993,smtp.gmail.com,587
 ukr.net,imap.ukr.net,993,smtp.ukr.net,465
 uni-duesseldorf.de,mail.hhu.de,993,mail.hhu.de,465
 uni-jena.de,imap.uni-jena.de,993,smtp.uni-jena.de,587
+uni.edu.pe,imap.gmail.com,993,smtp.gmail.com,587
 uni.strath.ac.uk,outlook.office365.com,993,smtp.office365.com,587
 unilodz.eu,outlook.office365.com,993,smtp.office365.com,587
 unitn.it,imap.gmail.com,993,smtp.gmail.com,587

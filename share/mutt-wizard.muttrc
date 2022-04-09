@@ -161,10 +161,10 @@ color underline black default
 color normal default default
 
 # Regex highlighting:
-color header blue default ".*"
-color header brightmagenta default "^(From)"
-color header brightcyan default "^(Subject)"
+color header brightmagenta default "^From"
+color header brightcyan default "^Subject"
 color header brightwhite default "^(CC|BCC)"
+color header blue default ".*"
 color body brightred default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+" # Email addresses
 color body brightblue default "(https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+" # URL
 color body green default "\`[^\`]*\`" # Green text between ` and `

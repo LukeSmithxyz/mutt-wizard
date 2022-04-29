@@ -30,6 +30,8 @@ export GPG_TTY="$(tty)"
 
 [ -n "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC" || MBSYNCRC="$HOME/.mbsyncrc"
 
+lastrun="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun"
+
 # Settings are different for MacOS (Darwin) systems.
 case "$(uname)" in
 	Darwin)
@@ -60,7 +62,7 @@ syncandnotify() {
 	"$HOME/.local/share/mail/$acc/INBOX/cur/"\
 	"$HOME/.local/share/mail/$acc/Inbox/cur/"\
 	"$HOME/.local/share/mail/$acc/inbox/cur/"\
-	-type f -newer "${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun" 2> /dev/null)
+	-type f -newer "$lastrun" 2> /dev/null)
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
     case 1 in
 	$((newcount > 0)) ) notify "$acc" "$newcount" ;;
@@ -87,4 +89,4 @@ wait
 notmuch new 2>/dev/null
 
 #Create a touch file that indicates the time of the last run of mailsync
-touch "${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun"
+touch "$lastrun"

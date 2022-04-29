@@ -100,6 +100,7 @@ etu.sorbonne-universite.fr,imaps.sorbonne-universite.fr,993,smtps.sorbonne-unive
 etu.upmc.fr,imaps.sorbonne-universite.fr,993,smtps.sorbonne-universite.fr,465
 europe.com,imap.mail.com,993,smtp.mail.com,587
 ex-studenti.unitn.it,imap.gmail.com,993,smtp.gmail.com,587
+faks.no,mail.uniweb.no,993,mail.uniweb.no,465
 fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465
 fastmail.fm,imap.fastmail.com,993,smtp.fastmail.com,465
 fct.unl.pt,imap.gmail.com,993,smtp.gmail.com,587

@@ -1,9 +1,9 @@
 text/plain; $EDITOR %s ;
-text/html; openfile %s ; nametemplate=%s.html
+text/html; /usr/local/lib/mutt-wizard/openfile %s ; nametemplate=%s.html
 text/html; lynx -assume_charset=%{charset} -display_charset=utf-8 -dump -width=1024 %s; nametemplate=%s.html; copiousoutput;
-image/*; openfile %s ;
+image/*; /usr/local/lib/mutt-wizard/openfile %s ;
 video/*; setsid mpv --quiet %s &; copiousoutput
 audio/*; mpv %s ;
-application/pdf; openfile %s ;
+application/pdf; /usr/local/lib/mutt-wizard/openfile %s ;
 application/pgp-encrypted; gpg -d '%s'; copiousoutput;
 application/pgp-keys; gpg --import '%s'; copiousoutput;

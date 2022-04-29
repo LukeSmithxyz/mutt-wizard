@@ -10,8 +10,10 @@ endif
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/mutt-wizard
 	cp -f bin/mw bin/mailsync bin/openfile $(DESTDIR)$(PREFIX)/bin/
-	chmod 755 $(DESTDIR)$(PREFIX)/bin/mw $(DESTDIR)$(PREFIX)/bin/mailsync $(DESTDIR)$(PREFIX)/bin/openfile
+	cp -f bin/openfile $(DESTDIR)$(PREFIX)/lib/mutt-wizard
+	chmod 755 $(DESTDIR)$(PREFIX)/bin/mw $(DESTDIR)$(PREFIX)/bin/mailsync $(DESTDIR)$(PREFIX)/lib/mutt-wizard/openfile
 	mkdir -p $(DESTDIR)$(PREFIX)/share/mutt-wizard
 	chmod 755 $(DESTDIR)$(PREFIX)/share/mutt-wizard
 	cp -f share/mailcap share/domains.csv share/mutt-wizard.muttrc share/switch.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard
@@ -26,11 +28,13 @@ install:
 		rm -f $(DESTDIR)$(PREFIX)/bin/mwba; \
 		sed -iba 's:/usr/local:$(PREFIX):' $(DESTDIR)$(MANPREFIX)/man1/mw.1; \
 		rm -f $(DESTDIR)$(MANPREFIX)/man1/mw.1ba; \
+		sed -iba 's:/usr/local:$(PREFIX):' $(DESTDIR)$(PREFIX)/share/mutt-wizard/mailcap; \
+		rm -f $(DESTDIR)$(PREFIX)/share/mutt-wizard/mailcapba; \
 	fi
 
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/bin/mw $(DESTDIR)$(PREFIX)/bin/mailsync $(DESTDIR)$(PREFIX)/bin/openfile
-	rm -rf $(DESTDIR)$(PREFIX)/share/mutt-wizard
+	rm -f $(DESTDIR)$(PREFIX)/bin/mw $(DESTDIR)$(PREFIX)/bin/mailsync $(DESTDIR)$(PREFIX)/lib/mutt-wizard/openfile
+	rm -rf $(DESTDIR)$(PREFIX)/share/mutt-wizard  $(DESTDIR)$(PREFIX)/lib/mutt-wizard
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/mw.1
 
 .PHONY: install uninstall

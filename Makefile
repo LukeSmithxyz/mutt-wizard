@@ -11,8 +11,8 @@ endif
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	mkdir -p $(DESTDIR)$(PREFIX)/lib/mutt-wizard
-	cp -f bin/mw bin/mailsync bin/openfile $(DESTDIR)$(PREFIX)/bin/
-	cp -f bin/openfile $(DESTDIR)$(PREFIX)/lib/mutt-wizard
+	cp -f bin/mw bin/mailsync $(DESTDIR)$(PREFIX)/bin/
+	cp -f lib/openfile $(DESTDIR)$(PREFIX)/lib/mutt-wizard
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/mw $(DESTDIR)$(PREFIX)/bin/mailsync $(DESTDIR)$(PREFIX)/lib/mutt-wizard/openfile
 	mkdir -p $(DESTDIR)$(PREFIX)/share/mutt-wizard
 	chmod 755 $(DESTDIR)$(PREFIX)/share/mutt-wizard

@@ -163,7 +163,7 @@ live.rhul.ac.uk,outlook.office365.com,993,smtp.office365.com,587
 logorroici.org,mail.autistici.org,993,smtp.autistici.org,465
 loves.dicksinhisan.us,mail.cock.li,993,mail.cock.li,587
 loves.dicksinmyan.us,mail.cock.li,993,mail.cock.li,587
-lukesmith.xyz,mail.lukesmith.xyz,993,mail.lukesmith.xyz,465
+lukesmith.xyz,mail.cedars.xyz,993,mail.cedars.xyz,465
 luther.edu,imap.gmail.com,993,smtp.gmail.com,587
 mac.com,imap.mail.me.com,993,smtp.mail.me.com,587
 mace.ac.in,imap.gmail.com,993,smtp.gmail.com,587
@@ -243,6 +243,7 @@ sheridancollege.ca,outlook.office365.com,993,smtp.office365.com,587
 shu.edu.cn,imap.shu.edu.cn,143,smtp.shu.edu.cn,25
 sina.cn,imap.sina.cn,993,smtp.sina.cn,587
 sina.com,imap.sina.com,993,smtp.sina.com,587
+sis.hust.edu.vn,outlook.office365.com,993,smtp.office365.com,587
 smail.inf.h-brs.de,imap.inf.h-brs.de,993,smtp.inf.h-brs.de,587
 sms.ed.ac.uk,pod51015.outlook.com,993,pod51015.outlook.com,587
 snopyta.org,mail.snopyta.org,993,mail.snopyta.org,465
@@ -332,4 +333,3 @@ zaclys.net,mail.zaclys.net,993,mail.zaclys.net,465
 zju.edu.cn,imap.zju.edu.cn,993,smtp.zju.edu.cn,994
 zoho.com,imap.zoho.com,993,smtp.zoho.com,465
 zohomail.eu,imap.zoho.eu,993,smtp.zoho.eu,465
-sis.hust.edu.vn,outlook.office365.com,993,smtp.office365.com,587

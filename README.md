@@ -127,6 +127,7 @@ To give you an example of the interface, here's an idea:
 - `?` - see all keyboard shortcuts
 - `ctrl-j`/`ctrl-k` - move up and down in sidebar, `ctrl-o` opens mailbox.
 - `ctrl-b` - open a menu to select a URL you want to open in your browser.
+- `p` - encrypt/sign your message (in compose view, before sending the email).
 
 ## Additional functionality
 

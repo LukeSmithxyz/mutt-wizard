@@ -228,6 +228,7 @@ privacyrequired.com,mail.autistici.org,993,smtp.autistici.org,465
 prokonto.pl,poczta.o2.pl,993,poczta.o2.pl,465
 protonmail.ch,127.0.0.1,1143,127.0.0.1,1025
 protonmail.com,127.0.0.1,1143,127.0.0.1,1025
+purelymail.com,imap.purelymail.com,993,smtp.purelymail.com,465
 pwned.life,imap.nixnet.email,143,smtp.nixnet.email,587
 qq.com,imap.qq.com,993,smtp.qq.com,587
 rape.lol,mail.cock.li,993,mail.cock.li,587

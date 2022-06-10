@@ -107,6 +107,7 @@ fct.unl.pt,imap.gmail.com,993,smtp.gmail.com,587
 firemail.cc,mail.cock.li,993,mail.cock.li,587
 forpsi.com,imap.forpsi.com,993,smtp.forpsi.com,465
 forthnet.gr,mail.forthnet.gr,993,smtp-auth.forthnet.gr,465
+freedom.nl,imap.freedom.nl,993,smtp.freedom.nl,465
 freedom.xyz,imap.nixnet.email,143,smtp.nixnet.email,587
 fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
 fsu-jena,exchange.uni-jena.de,993,smtp.uni-jena.de,587

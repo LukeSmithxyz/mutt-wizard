@@ -56,12 +56,8 @@ syncandnotify() {
     acc="$(echo "$account" | sed "s/.*\///")"
     if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
     new=$(find\
-	"$HOME/.local/share/mail/$acc/INBOX/new/"\
-	"$HOME/.local/share/mail/$acc/Inbox/new/"\
-	"$HOME/.local/share/mail/$acc/inbox/new/"\
-	"$HOME/.local/share/mail/$acc/INBOX/cur/"\
-	"$HOME/.local/share/mail/$acc/Inbox/cur/"\
-	"$HOME/.local/share/mail/$acc/inbox/cur/"\
+	"$HOME/.local/share/mail/$acc/"[Ii][Nn][Bb][Oo][Xx]/new/\
+	"$HOME/.local/share/mail/$acc/"[Ii][Nn][Bb][Oo][Xx]/cur/\
 	-type f -newer "$lastrun" 2> /dev/null)
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
     case 1 in

@@ -222,6 +222,15 @@ See Luke's website [here](https://lukesmith.xyz). Email him at
   shortcuts since it is looking for English mailbox names. I strongly recommend
   you to set your email language to English on your mail server to avoid these
   problems.
+- For using Gmail without less secure apps option, app password has to be used.
+   - Follow below steps -
+      - [Generate app password](https://www.youtube.com/watch?v=uVDq4VOBMNM)
+      - Replace current password in pass with the app password generated, [refer this for help](https://unix.stackexchange.com/a/239548/402486)
+  - For replacing current password with app password in pass -
+     - pass edit example@gmail.com
+     - enter app password and save
+
+
 
 ## License
 

@@ -224,7 +224,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '\r')"
 	fi
 	[ "$type" = "pop" ] && mailboxes="INBOX"
-	for x in $(sed -n "/^macro.* i[0-9] / s/\(^macro.* i\| .*\)//gp " "$muttrc" | sort -u; echo 0); do
+	for x in $(sed -n "/^macro.* i[0-9] / s/\(^macro.* i\| .*\)//gp " "$muttrc" 2>/dev/null | sort -u; echo 0); do
 		idnum=$((idnum + 1))
 		[ "$idnum" -eq "$x" ] || break
 	done

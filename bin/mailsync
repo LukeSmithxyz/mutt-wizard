@@ -11,8 +11,6 @@
 # issues. It also should at least be compatible with Linux (and maybe BSD) with
 # Xorg and MacOS as well.
 
-# Run only if user logged in (prevent cron errors)
-pgrep -u "${USER:=$LOGNAME}" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
 # Run only if not already running in other instance
 pgrep mbsync >/dev/null && { echo "mbsync is already running."; exit ;}
 

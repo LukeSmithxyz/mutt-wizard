@@ -99,11 +99,10 @@ The mutt-wizard runs via the command `mw`. Once setup is complete, you'll use
 
 #### General Settings
 
-- `-p` -- Add a Protonmail account.
 - `-f` -- Assume mailbox names and force account configuration without
   connecting online at all.
 - `-o` -- Configure mutt for an account, but do not keep mail offline.
-- `-P` -- Use POP protocol instead of IMAP (requires `mpop` installed).
+- `-p` -- Use POP protocol instead of IMAP (requires `mpop` installed).
 
 ## Neomutt user interface
 
@@ -168,7 +167,7 @@ To give you an example of the interface, here's an idea:
   errors generally.
 - Addition of a manual `man mw`
 - Now handles POP protocol via `mpop` for those who prefer it (add an account
-  with the `-P` option). POP configs are still generated automatically.
+  with the `-p` option). POP configs are still generated automatically.
 
 ## Help the Project!
 
@@ -205,15 +204,6 @@ See Luke's website [here](https://lukesmith.xyz). Email him at
   applications requires turning off two-factor authentication and this will
   circumvent that. You might also need to manually "Enable IMAP" in the
   settings.
-- Protonmail accounts require a "Protonmail Bridge" to access
-  PM's IMAP and SMTP servers. Configure that before running mutt-wizard. Note
-  that when mutt-wizard asks for a password, you should put in your
-  [bridge password](https://protonmail.com/bridge/thunderbird#3), not your
-  account password.
-- Protonmail bridge is prone to timing out. Watch out for this while adding an
-  account. If the bridge times out, try again. It might help to
-  [increase the timeout](https://protonmail.com/support/knowledge-base/thunderbird-connection-server-timed-error/)
-  in your `mbsyncrc`.
 - If you have a university email or enterprise-hosted email for work, there
   might be other hurdles or two-factor authentication you have to jump through.
   Some, for example, will want you to create a separate IMAP password, etc.

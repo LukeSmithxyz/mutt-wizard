@@ -80,9 +80,6 @@ Create settings for an account to be used online only without mail syncing abili
 .B -f
 connection will still be attempted in setup to discover mailboxes.
 .TP
-.B -p
-Add a Protonmail account. Protonmail Bridge must be installed and set up.
-.TP
 .B -X
 When removing an email profile with either
 .I -d
@@ -90,7 +87,7 @@ or
 .I -D,
 also delete the local mail (will not delete the mail on the server).
 .TP
-.B -P
+.B -p
 Use POP protocol instead of IMAP. Requires
 .I mpop
 to download mail after configuration. Server details can still be given with the
@@ -154,9 +151,6 @@ on mutt-wizard's Github <https://github.com/lukesmithxyz/mutt-wizard> or Gitlab 
 .TP
 .B Gmail accounts
 Google will require you to allow "less-secure" (third party) applications or remove two-factor authentication in order to access their IMAP servers to download your mail. If you use Gmail, be sure to handle this before running mutt-wizard <https://support.google.com/accounts/answer/6010255>.
-.TP
-.B Protonmail accounts
-Protonmail users must use the Protonmail Bridge <https://protonmail.com/bridge/> to access their IMAP and SMTP servers. This too should be configured before running mutt-wizard.
 .TP
 .B Enterprise and university accounts
 Many universities and businesses might host their domain's email via Google or another service. This often requires a special IMAP/SMTP-specific password that you must generate and use. Again, mutt-wizard can handle these systems, but only once they've been set up.

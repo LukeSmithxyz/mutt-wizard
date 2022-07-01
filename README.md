@@ -1,5 +1,7 @@
 # mutt-wizard
 
+https://muttwizard.com/
+
 Get this great stuff without effort:
 
 - A full-featured and autoconfigured email client on the terminal with neomutt
@@ -176,10 +178,9 @@ To give you an example of the interface, here's an idea:
   errors.
 - Open a PR to add new server information into `domains.csv` so their users can
   more easily use mutt-wizard.
-- If nothing else, [Donate!](https://paypal.me/LukeMSmith)
-
-See Luke's website [here](https://lukesmith.xyz). Email him at
-[luke@lukesmith.xyz](mailto:luke@lukesmith.xyz).
+- If nothing else, donate:
+	- XMR: `8AzeWXhJvYJ1VeENHcNXCR1dLMgDALreZ1BdooZVjRKndv6myr3t1ue6C4ML2an5fWSpcP1sTDA9nKUMevkukDXG6chRjNv`
+	- BTC: `bc1qacqfp36ffv9mafechmvk8f6r8qy4tual6rcm9p`
 
 ## Details for Tinkerers
 

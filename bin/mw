@@ -262,7 +262,7 @@ togglecron() { cron="$(mktemp)"
 		sed -ibu /mailsync/d "$cron"; rm -f "$cron"bu
 	else
 		echo "Adding automatic mailsync every ${cronmin:-10} minutes..."
-		echo "*/${cronmin-10} * * * * $prefix/bin/mailsync" >> "$cron"
+		echo "*/${cronmin:-10} * * * * $prefix/bin/mailsync -q" >> "$cron"
 	fi &&
 	crontab "$cron"; rm -f "$cron" ;}
 

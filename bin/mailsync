@@ -70,14 +70,13 @@ syncandnotify() {
 }
 
 # Sync accounts passed as argument or all.
-if [ "$#" -eq "0" ]; then
-    accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC")"
-else
+if [ "$#" -gt "0" ]; then
     for arg in "$@"; do
         [ "${arg%${arg#?}}" = '-' ] && opts="${opts:+${opts} }${arg}" && shift 1
     done
     accounts=$*
 fi
+[[ ! $accounts ]] && accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC")"
 
 # Parallelize multiple accounts
 for account in $accounts; do
@@ -86,7 +85,7 @@ done
 
 wait
 
-notmuch new 2>/dev/null
+notmuch new --quiet
 
 #Create a touch file that indicates the time of the last run of mailsync
 touch "$lastrun"

@@ -76,7 +76,7 @@ if [ "$#" -gt "0" ]; then
     done
     accounts=$*
 fi
-[[ ! $accounts ]] && accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC")"
+[ -z "$accounts" ] && accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC")"
 
 # Parallelize multiple accounts
 for account in $accounts; do

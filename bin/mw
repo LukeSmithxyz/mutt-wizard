@@ -43,7 +43,7 @@ host $smtp
 port ${sport:-465}
 from $fulladdr
 user $login
-passwordeval \"pass $fulladdr\"
+passwordeval \"pass $passprefix$fulladdr\"
 auth ${auth:-on}
 tls on
 tls_trust_file	$sslcert
@@ -58,7 +58,7 @@ IMAPStore $fulladdr-remote
 Host $imap
 Port ${iport:-993}
 User $login
-PassCmd \"pass $fulladdr\"
+PassCmd \"pass $passprefix$fulladdr\"
 AuthMechs LOGIN
 SSLType ${imapssl:-IMAPS}
 CertificateFile $sslcert
@@ -87,7 +87,7 @@ tls on
 user $login
 host $imap
 delivery maildir ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$fulladdr/${inbox:-INBOX}
-passwordeval pass $fulladdr
+passwordeval pass $passprefix$fulladdr
 " >> "$mpoprc" ;}
 
 prepmutt() { echo "# vim: filetype=neomuttrc
@@ -128,7 +128,7 @@ getprofiles() { \
 	case "$type" in
 		online) folder="imaps://$login@$imap:${iport:-993}"
 extra="set imap_user = \"$login\"
-set imap_pass = \"\`pass $fulladdr\`\"
+set imap_pass = \"\`pass $passprefix$fulladdr\`\"
 set ssl_starttls = yes
 set ssl_force_tls = yes"
 			;;
@@ -176,7 +176,7 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 	sed -ibu "/\([0-9]-\)\?$fulladdr.muttrc/d" "$muttrc" 2>/dev/null; rm -f "$muttrc"bu
 	sed -ibu "/account $fulladdr$/,/^\(\s*$\|account\)/d" "$msmtprc" 2>/dev/null; rm -f "$msmtprc"bu
 	sed -ibu "/account $fulladdr$/,/^\(\s*$\|account\)/d" "$mpoprc" 2>/dev/null; rm -f "$mpoprc"bu
-	pass rm -f "$fulladdr" >/dev/null 2>&1
+	pass rm -f "$passprefix$fulladdr" >/dev/null 2>&1
 	[ -n "${purge+x}" ] && rm -rf "${maildir:?}/${fulladdr:?}"
 
 	for file in "$msmtprc" "$mbsyncrc" "$mpoprc"; do
@@ -200,6 +200,7 @@ askinfo() { \
 		read -r smtp
 	[ "$sport" = 587 ] && tlsline="# tls_starttls"
 	[ -z "$realname" ] && realname="${fulladdr%%@*}"
+	[ -z "$passprefix" ] && passprefix=""
 	hostname="${fulladdr#*@}"
 	login="${login:-$fulladdr}"
 	if [ -n "${password+x}" ]; then
@@ -209,17 +210,17 @@ askinfo() { \
 	fi
 }
 
-createpass() { echo "$password" > "$PASSWORD_STORE_DIR/$fulladdr"
-  "$GPG" -qe $(printf -- " -r %s" $(cat "$PASSWORD_STORE_DIR/.gpg-id")) "$PASSWORD_STORE_DIR/$fulladdr"
-	rm -f "$PASSWORD_STORE_DIR/$fulladdr" ;}
+createpass() { echo "$password" > "$PASSWORD_STORE_DIR/$passprefix$fulladdr"
+  "$GPG" -qe $(printf -- " -r %s" $(cat "$PASSWORD_STORE_DIR/.gpg-id")) "$PASSWORD_STORE_DIR/$passprefix$fulladdr"
+	rm -f "$PASSWORD_STORE_DIR/$passprefix$fulladdr" ;}
 
-getpass() { while : ; do pass rm -f "$fulladdr" >/dev/null 2>&1
-		pass insert -f "$fulladdr" && break; done ;}
+getpass() { while : ; do pass rm -f "$passprefix$fulladdr" >/dev/null 2>&1
+		pass insert -f "$passprefix$fulladdr" && break; done ;}
 
 getboxes() { if [ -n "${force+x}" ] ; then
 		mailboxes="$(printf "INBOX\\nDrafts\\nJunk\\nTrash\\nSent\\nArchive")"
 	else
-		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass "$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
+		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass "$passprefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
 		[ -z "$info" ] && echo "Log-on not successful." && return 1
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '\r')"
 	fi
@@ -297,6 +298,7 @@ Options allowed with -a:
   -s	SMTP server address
   -S	SMTP server port
   -x	Password for account (recommended to be in double quotes)
+  -P	Pass Prefix (prefix of the file where password is stored)
   -p	Add for a POP server instead of IMAP.
   -X	Delete an account's local email too when deleting.
   -o	Configure address, but keep mail online.
@@ -305,7 +307,7 @@ Options allowed with -a:
 NOTE: Once at least one account is added, you can run
 \`mbsync -a\` to begin downloading mail.
 
-To change an account's password, run \`pass edit your@email.com\`.
+To change an account's password, run \`pass edit '$passprefix'your@email.com\`.
 EOF
 }
 
@@ -332,7 +334,7 @@ reorder() {
 	' "$tempfile" >> "$muttrc"
 }
 
-while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
+while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
 	l) setact list || exit 1 ;;
 	r) setact reorder || exit 1 ;;
 	d) setact delete || exit 1 ;;
@@ -346,6 +348,7 @@ while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:x:m:t:" o; do case "${o}" in
 	S) setact add || exit 1 ; sport="$OPTARG" ;;
 	u) setact add || exit 1 ; login="$OPTARG" ;;
 	n) setact add || exit 1 ; realname="$OPTARG" ;;
+	P) setact add || exit 1 ; passprefix="$OPTARG" ;;
 	m) setact add || exit 1 ; maxmes="$OPTARG" ;;
 	o) setact add || exit 1 ; type="online" ;;
 	p) setact add || exit 1 ; type="pop"; protocol="pop3s" ; iport="${iport:-995}" ;;

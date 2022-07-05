@@ -7,14 +7,13 @@ cachedir="${XDG_CACHE_HOME:-$HOME/.cache}/mutt-wizard"
 muttrc="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/muttrc"
 accdir="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/accounts"
 msmtprc="${XDG_CONFIG_HOME:-$HOME/.config}/msmtp/config"
-msmtplog="${XDG_CONFIG_HOME:-$HOME/.config}/msmtp/msmtp.log"
+msmtplog="${XDG_CACHE_HOME:-$HOME/.cache}/msmtp/msmtp.log"
 mbsyncrc="${MBSYNCRC:-$HOME/.mbsyncrc}"
 mpoprc="${XDG_CONFIG_HOME:-$HOME/.config}/mpop/config"
 alias mbsync='mbsync -c "$mbsyncrc"'
 
 # On Ubuntu/Debian, a link is needed since they use an older version.
 if command -V apt-get >/dev/null 2>&1; then
-	ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
 	master="Master"
 	slave="Slave"
 fi
@@ -38,7 +37,9 @@ getaccounts() { accounts="$(find -L "$accdir" -type f 2>/dev/null | grep -o "\S*
 
 list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" || exit 1 ;}
 
-prepmsmtp() { echo "account $fulladdr
+prepmsmtp() { mkdir -p "${msmtprc%/*}" "${msmtplog%/*}"
+	ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
+	echo "account $fulladdr
 host $smtp
 port ${sport:-465}
 from $fulladdr
@@ -90,7 +91,8 @@ delivery maildir ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$fulladdr/${inbox:-IN
 passwordeval pass $fulladdr
 " >> "$mpoprc" ;}
 
-prepmutt() { echo "# vim: filetype=neomuttrc
+prepmutt() { mkdir -p "${muttrc%/*}" "${accdir%/*}"
+	echo "# vim: filetype=neomuttrc
 # muttrc file for account $fulladdr
 set realname = \"$realname\"
 set from = \"$fulladdr\"
@@ -119,8 +121,6 @@ macro index \eh \"<pipe-message>$prefix/libexec/gpg-wks-client --receive | msmtp
 }
 
 getprofiles() { \
-	mkdir -p "${muttrc%/*}" "$accdir" "${XDG_CONFIG_HOME:-$HOME/.config}/msmtp"
-	unset msmtp_header msmtp_profile mutt_profile mbsync_profile
 	case "$iport" in
 		1143) imapssl=None ;;
 		143) imapssl=STARTTLS ;;

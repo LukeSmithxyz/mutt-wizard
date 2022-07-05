@@ -91,7 +91,7 @@ delivery maildir ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$fulladdr/${inbox:-IN
 passwordeval pass $passprefix$fulladdr
 " >> "$mpoprc" ;}
 
-prepmutt() { mkdir -p "${muttrc%/*}" "${accdir%/*}"
+prepmutt() { mkdir -p "${muttrc%/*}" "$accdir"
 	echo "# vim: filetype=neomuttrc
 # muttrc file for account $fulladdr
 set realname = \"$realname\"

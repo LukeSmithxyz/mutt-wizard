@@ -33,6 +33,7 @@ autograf.pl,imap.poczta.onet.pl,993,smtp.poczta.onet.pl,465
 autoproduzioni.net,mail.autistici.org,993,smtp.autistici.org,465
 bartender.net,imap.mail.com,993,smtp.mail.com,587
 bastardi.net,mail.autistici.org,993,smtp.autistici.org,465
+beaumccartney.xyz,mail.beaumccartney.xyz,993,mail.beaumccartney.xyz,465
 bguth.de,wp300.webpack.hosteurope.de,993,wp300.webpack.hosteurope.de,587
 bigpond.com,imap.telstra.com,143,smtp.telstra.com,587
 bikerider.com,imap.mail.com,993,smtp.mail.com,587

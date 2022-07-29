@@ -30,11 +30,12 @@ Specifically, this wizard:
 
 #### Dependencies
 
-- `neomutt` - the email client. (If you are using Gentoo GNU/Linux, you will need the `sasl` use flag to be enabled)
+- `neomutt` - the email client (If you are using Gentoo GNU/Linux, you will need the `sasl` use flag to be enabled).
 - `curl` - tests connections (required at install).
 - `isync` - downloads and syncs the mail (required if storing IMAP mail locally).
 - `msmtp` - sends the email.
 - `pass` - safely encrypts passwords (required at install).
+- `xdg-utils` - desktop integration utilities.
 
 **Note**: There's a chance of errors if you use a slow-release distro like
 Ubuntu, Debian, or Mint. If you get errors in `neomutt`, install the most
@@ -42,7 +43,7 @@ recent version manually or manually remove the offending lines in the config in
 `/usr/share/mutt-wizard/mutt-wizard.muttrc`.
 
 ```bash
-git clone https://github.com/LukeSmithxyz/mutt-wizard
+git clone https://github.com/brauliohms/mutt-wizard
 cd mutt-wizard
 sudo make install
 ```
@@ -55,34 +56,39 @@ A user of Arch-based distros can also install the current mutt-wizard release fr
 - `pam-gnupg` - Automatically logs you into your GPG key on login so you will
   never need to input your password once logged on to your system. Check the
   repo and directions out [here](https://github.com/cruegge/pam-gnupg).
-- `lynx` - view HTML email in neomutt.
+- `lynx` or `w3m` or `links2` - view HTML email in neomutt.
 - `notmuch` - index and search mail. Install it and run `notmuch setup`, tell
-  it that your mail is in `~/.local/share/mail/` (although `mw` will do this
+  it that your mail is in `~/.local/share/mail/` (although `mutt-wizard` will do this
   automatically if you haven't set notmuch up before). You can run it in mutt
   with <kbd>ctrl-f</kbd>. Run `notmuch new` to process new mail.
 - `abook` - a terminal-based address book. Pressing tab while typing an address
   to send mail to will suggest contacts that are in your abook.
 - `urlview` - outputs urls in mail to browser.
-- `cronie` - (or any other major cronjob manager) to set up automatic mail
+- `crontab` - (or any other major cronjob manager) to set up automatic mail
   syncing.
 - `mpop` - If you want to use POP protocol instead of IMAP.
-
+- `aspell` - GNU Aspell spell-checker.
+- `dunst` - dmenu style notification.
+- `feh` - Image viewer.
+- `mpv` - Media file viewer (audio and videos).
+- `zathura` - Pdf viewer.
+- `font-awesome` - Iconic font and CSS toolkit.
 
 ## Usage
 
-The mutt-wizard runs via the command `mw`. Once setup is complete, you'll use
+The mutt-wizard runs via the command `mutt-wizard`. Once setup is complete, you'll use
 `neomutt` to access your mail.
 
-- `mw -a you@email.com` -- add a new email account
-- `mw -l` -- list existing accounts
-- `mw -y your@email.com` -- sync an email account
-- `mw -Y` -- sync all configured email accounts
-- `mw -d` -- choose an account to delete
-- `mw -D your@email.com` -- delete account settings without confirmation
-- `mw -t 30` -- toggle automatic mailsync to every 30 minutes
-- `mw -T` -- toggle mailsync without specifying minutes (default is 10)
-- `mw -r` -- reorder account shortcut numbers
-- `pass edit mw-your@email.com` -- revise an account's password
+- `mutt-wizard -a you@email.com` -- add a new email account
+- `mutt-wizard -l` -- list existing accounts
+- `mutt-wizard -y your@email.com` -- sync an email account
+- `mutt-wizard -Y` -- sync all configured email accounts
+- `mutt-wizard -d` -- choose an account to delete
+- `mutt-wizard -D your@email.com` -- delete account settings without confirmation
+- `mutt-wizard -t 30` -- toggle automatic mailsync to every 30 minutes
+- `mutt-wizard -T` -- toggle mailsync without specifying minutes (default is 10)
+- `mutt-wizard -r` -- reorder account shortcut numbers
+- `pass edit mutt-wizard-your@email.com` -- revise an account's password
 
 ### Options usable when adding an account
 
@@ -135,9 +141,9 @@ To give you an example of the interface, here's an idea:
 - `pam-gnupg` - Automatically logs you into your GPG key on login, so you will
   never need to input your password once logged on to your system. Check the
   repo and directions out [here](https://github.com/cruegge/pam-gnupg).
-- `lynx` - View HTML email in neomutt.
+- `lynx` or `w3m` or `links2` - view HTML email in neomutt.
 - `notmuch` - Index and search mail. Install it and run `notmuch setup`, tell it
-  that your mail is in `~/.local/share/mail/` (although `mw` will do this
+  that your mail is in `~/.local/share/mail/` (although `mutt-wizard` will do this
   automatically if you haven't set notmuch up before). You can run it in mutt
   with <kbd>ctrl-f</kbd>. Run `notmuch new` to process new mail.
 - `abook` - A terminal-based address book. Pressing tab while typing an address
@@ -146,13 +152,12 @@ To give you an example of the interface, here's an idea:
 
 ## New stuff and improvements since the original release
 
-- `mw` is now scriptable with command-line options and can run successfully
+- `mutt-wizard` is now an installed program instead of just a script needed to be kept in
+  your mutt folder. Is now scriptable with command-line options and can run successfully
   without any interaction, making it possible to deploy in a script.
 - `isync`/`mbsync` has replaced `offlineimap` as the backend. Offlineimap was
   error-prone, bloated, used obsolete Python 2 modules, and required separate
   steps to install the system.
-- `mw` is now an installed program instead of just a script needed to be kept in
-  your mutt folder.
 - `dialog` is no longer used and the interface is simply text commands.
 - More autogenerated shortcuts that allow quickly moving and copying mail
   between boxes.
@@ -167,7 +172,7 @@ To give you an example of the interface, here's an idea:
 - Script is POSIX sh compliant.
 - Error handling for the many people who don't read or follow directions. Fewer
   errors generally.
-- Addition of a manual `man mw`
+- Addition of a manual `man mutt-wizard`
 - Now handles POP protocol via `mpop` for those who prefer it (add an account
   with the `-p` option). POP configs are still generated automatically.
 
@@ -209,7 +214,7 @@ To give you an example of the interface, here's an idea:
   might be other hurdles or two-factor authentication you have to jump through.
   Some, for example, will want you to create a separate IMAP password, etc.
 - `isync` is not fully UTF-8 compatible, so non-Latin characters may be garbled
-  (although sync should succeed). `mw` will also not auto-create mailbox
+  (although sync should succeed). `mutt-wizard` will also not auto-create mailbox
   shortcuts since it is looking for English mailbox names. I strongly recommend
   you to set your email language to English on your mail server to avoid these
   problems.

@@ -5,8 +5,9 @@
 # If you want to override any settings, set those in your muttrc.
 set mailcap_path = $HOME/.config/mutt/mailcap:/usr/local/share/mutt-wizard/mailcap:$mailcap_path
 set mime_type_query_command = "file --mime-type -b %s"
-set date_format="%y/%m/%d %I:%M%p"
-set index_format="%2C %Z %?X?A& ? %D %-15.15F %s (%-4.4c)"
+set date_format="%y/%m/%d %H:%M"
+set index_format=" %2C %zs %zc %zt %D  %-28.28L %?M?(%1M)& %4cr ? %?X? &·? %s"
+#set index_format="%2C %Z %?X?A& ? %D %-15.15F %s (%-4.4c)"
 set sort = 'reverse-date'
 set smtp_authenticators = 'gssapi:login'
 set query_command = "abook --mutt-query '%s'"
@@ -27,6 +28,19 @@ auto_view text/html		# automatically show html (mailcap uses lynx)
 auto_view application/pgp-encrypted
 #set display_filter = "tac | sed '/\\\[-- Autoview/,+1d' | tac" # Suppress autoview messages.
 alternative_order text/plain text/enriched text/html
+set to_chars=""
+ifdef crypt_chars set crypt_chars = " "
+set flag_chars = "      "
+
+tag-transforms "replied" "↻ "  \
+               "encrytpted" "" \
+               "signed" "" \
+               "attachment" "" \
+
+tag-formats "replied" "GR" \
+            "encrypted" "GE" \
+            "signed" "GS" \
+            "attachment" "GA" \
 
 bind index,pager i noop
 bind index,pager g noop
@@ -48,6 +62,7 @@ bind pager j next-line
 bind pager k previous-line
 bind pager l view-attachments
 bind index D delete-message
+bind pager D delete-message
 bind index U undelete-message
 bind index L limit
 bind index h noop
@@ -70,6 +85,7 @@ bind index \005 next-undeleted		# Mouse wheel
 bind pager \031 previous-line		# Mouse wheel
 bind pager \005 next-line		# Mouse wheel
 bind editor <Tab> complete-query
+bind index \em recall-message
 
 macro index,pager gi "<change-folder>=INBOX<enter>" "go to inbox"
 macro index,pager Mi ";<save-message>=INBOX<enter>" "move mail to inbox"
@@ -97,7 +113,7 @@ macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"
 
 macro index,pager a "<enter-command>set my_pipe_decode=\$pipe_decode pipe_decode<return><pipe-message>abook --add-email<return><enter-command>set pipe_decode=\$my_pipe_decode; unset my_pipe_decode<return>" "add the sender address to abook"
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
-macro index O "<shell-escape>mw -Y<enter>" "run mw -Y to sync all mail"
+macro index O "<shell-escape>mutt-wizard -Y<enter>" "run mutt-wizard -Y to sync all mail"
 macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>printf 'Enter a search term to find with notmuch: '; read x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;s/\^id:// for@a;$,=\"|\";print@a' | perl -le '@a=<>; chomp@a; s/\\+/\\\\+/ for@a;print@a' \`\"<enter>" "show only messages matching a notmuch pattern"
 macro index A "<limit>all\n" "show all messages (undo limit)"
 
@@ -115,74 +131,74 @@ bind index,pager \Cp sidebar-prev-new
 bind index,pager \Cn sidebar-next-new
 bind index,pager B sidebar-toggle-visible
 
-# Default index colors:
-color index yellow default '.*'
-color index_author red default '.*'
-color index_number blue default
-color index_subject cyan default '.*'
-
-# New mail is boldened:
-color index brightyellow black "~N"
-color index_author brightred black "~N"
-color index_subject brightcyan black "~N"
-
-# Tagged mail is highlighted:
-color index brightyellow blue "~T"
-color index_author brightred blue "~T"
-color index_subject brightcyan blue "~T"
-
-# Other colors and aesthetic settings:
-mono bold bold
-mono underline underline
-mono indicator reverse
-mono error bold
-color normal default default
-color indicator brightblack white
-color sidebar_highlight red default
-color sidebar_divider brightblack black
-color sidebar_flagged red black
-color sidebar_new green black
-color normal brightyellow default
-color error red default
-color tilde black default
-color message cyan default
-color markers red white
-color attachment white default
-color search brightmagenta default
-color status brightyellow black
-color hdrdefault brightgreen default
-color quoted green default
-color quoted1 blue default
-color quoted2 cyan default
-color quoted3 yellow default
-color quoted4 red default
-color quoted5 brightred default
-color signature brightgreen default
-color bold black default
-color underline black default
-color normal default default
-
-# Regex highlighting:
-color header brightmagenta default "^From"
-color header brightcyan default "^Subject"
-color header brightwhite default "^(CC|BCC)"
-color header blue default ".*"
-color body brightred default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+" # Email addresses
-color body brightblue default "(https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+" # URL
-color body green default "\`[^\`]*\`" # Green text between ` and `
-color body brightblue default "^# \.*" # Headings as bold blue
-color body brightcyan default "^## \.*" # Subheadings as bold cyan
-color body brightgreen default "^### \.*" # Subsubheadings as bold green
-color body yellow default "^(\t| )*(-|\\*) \.*" # List items as yellow
-color body brightcyan default "[;:][-o][)/(|]" # emoticons
-color body brightcyan default "[;:][)(|]" # emoticons
-color body brightcyan default "[ ][*][^*]*[*][ ]?" # more emoticon?
-color body brightcyan default "[ ]?[*][^*]*[*][ ]" # more emoticon?
-color body red default "(BAD signature)"
-color body cyan default "(Good signature)"
-color body brightblack default "^gpg: Good signature .*"
-color body brightyellow default "^gpg: "
-color body brightyellow red "^gpg: BAD signature from.*"
-mono body bold "^gpg: Good signature"
-mono body bold "^gpg: BAD signature from.*"
-color body red default "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+## Default index colors:
+#color index yellow default '.*'
+#color index_author red default '.*'
+#color index_number blue default
+#color index_subject cyan default '.*'
+#
+## New mail is boldened:
+#color index brightyellow black "~N"
+#color index_author brightred black "~N"
+#color index_subject brightcyan black "~N"
+#
+## Tagged mail is highlighted:
+#color index brightyellow blue "~T"
+#color index_author brightred blue "~T"
+#color index_subject brightcyan blue "~T"
+#
+## Other colors and aesthetic settings:
+#mono bold bold
+#mono underline underline
+#mono indicator reverse
+#mono error bold
+#color normal default default
+#color indicator brightblack white
+#color sidebar_highlight red default
+#color sidebar_divider brightblack black
+#color sidebar_flagged red black
+#color sidebar_new green black
+#color normal brightyellow default
+#color error red default
+#color tilde black default
+#color message cyan default
+#color markers red white
+#color attachment white default
+#color search brightmagenta default
+#color status brightyellow black
+#color hdrdefault brightgreen default
+#color quoted green default
+#color quoted1 blue default
+#color quoted2 cyan default
+#color quoted3 yellow default
+#color quoted4 red default
+#color quoted5 brightred default
+#color signature brightgreen default
+#color bold black default
+#color underline black default
+#color normal default default
+#
+## Regex highlighting:
+#color header brightmagenta default "^From"
+#color header brightcyan default "^Subject"
+#color header brightwhite default "^(CC|BCC)"
+#color header blue default ".*"
+#color body brightred default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+" # Email addresses
+#color body brightblue default "(https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+" # URL
+#color body green default "\`[^\`]*\`" # Green text between ` and `
+#color body brightblue default "^# \.*" # Headings as bold blue
+#color body brightcyan default "^## \.*" # Subheadings as bold cyan
+#color body brightgreen default "^### \.*" # Subsubheadings as bold green
+#color body yellow default "^(\t| )*(-|\\*) \.*" # List items as yellow
+#color body brightcyan default "[;:][-o][)/(|]" # emoticons
+#color body brightcyan default "[;:][)(|]" # emoticons
+#color body brightcyan default "[ ][*][^*]*[*][ ]?" # more emoticon?
+#color body brightcyan default "[ ]?[*][^*]*[*][ ]" # more emoticon?
+#color body red default "(BAD signature)"
+#color body cyan default "(Good signature)"
+#color body brightblack default "^gpg: Good signature .*"
+#color body brightyellow default "^gpg: "
+#color body brightyellow red "^gpg: BAD signature from.*"
+#mono body bold "^gpg: Good signature"
+#mono body bold "^gpg: BAD signature from.*"
+#color body red default "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"

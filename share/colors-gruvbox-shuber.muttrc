@@ -1,0 +1,96 @@
+# gruvbox dark (contrast dark):
+
+# bg0    = 234
+# bg1    = 237
+# bg2    = 239
+# bg3    = 241
+# bg4    = 243
+# 
+# gray   = 245
+# 
+# fg0    = 229
+# fg1    = 223
+# fg2    = 250
+# fg3    = 248
+# fg4    = 246
+# 
+# red    = 167
+# green  = 142
+# yellow = 214
+# blue   = 109
+# purple = 175
+# aqua   = 108
+# orange = 208
+
+
+# See http://www.mutt.org/doc/manual/#color
+
+color attachment  color109 color234
+color bold        color229 color234
+color error       color167 color234
+color hdrdefault  color246 color234
+color indicator   color223 color237
+color markers     color243 color234
+color normal      color223 color234
+color quoted      color250 color234
+color quoted1     color108 color234
+color quoted2     color250 color234
+color quoted3     color108 color234
+color quoted4     color250 color234
+color quoted5     color108 color234
+color search      color234 color208
+color signature   color108 color234
+color status      color234 color250
+color tilde       color243 color234
+color tree        color142 color234
+color underline   color223 color239
+
+color sidebar_divider    color250 color234
+color sidebar_new        color142 color234
+color sidebar_unread     color108 color234
+
+color index color142 color234 ~N
+color index color108 color234 ~O
+color index color109 color234 ~P
+color index color214 color234 ~F
+color index color175 color234 ~Q
+color index color167 color234 ~=
+color index color234 color223 ~T
+color index color234 color167 ~D
+
+color header color214 color234 "^(To:|From:)"
+color header color142 color234 "^Subject:"
+color header color108 color234 "^X-Spam-Status:"
+color header color108 color234 "^Received:"
+
+# BSD's regex has RE_DUP_MAX set to 255.
+color body color142 color234 "[a-z]{3,255}://[-a-zA-Z0-9@:%._\\+~#=/?&,]+"
+color body color142 color234 "[a-zA-Z]([-a-zA-Z0-9_]+\\.){2,255}[-a-zA-Z0-9_]{2,255}"
+color body color208 color234 "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+color body color208 color234 "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+color body color234 color214 "[;:]-*[)>(<lt;|]"
+color body color229 color234 "\\*[- A-Za-z]+\\*"
+
+color body color214 color234 "^-.*PGP.*-*"
+color body color142 color234 "^gpg: Good signature from"
+color body color167 color234 "^gpg: Can't.*$"
+color body color214 color234 "^gpg: WARNING:.*$"
+color body color167 color234 "^gpg: BAD signature from"
+color body color167 color234 "^gpg: Note: This key has expired!"
+color body color214 color234 "^gpg: There is no indication that the signature belongs to the owner."
+color body color214 color234 "^gpg: can't handle these multiple signatures"
+color body color214 color234 "^gpg: signature verification suppressed"
+color body color214 color234 "^gpg: invalid node with packet of type"
+
+color body color142 color234 "^Good signature from:"
+color body color167 color234 "^.?BAD.? signature from:"
+color body color142 color234 "^Verification successful"
+color body color167 color234 "^Verification [^s][^[:space:]]*$"
+
+color compose header            color223 color234
+color compose security_encrypt  color175 color234
+color compose security_sign     color109 color234
+color compose security_both     color142 color234
+color compose security_none     color208 color234
+
+color sidebar_unread     color108 color234

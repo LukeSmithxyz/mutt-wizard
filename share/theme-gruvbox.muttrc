@@ -1,3 +1,26 @@
+# vim: filetype=neomuttrc
+### Theme for neomutt developed by Braulio Henrique Marques Souto <braulio@disroot.org>
+### Color Profile for mutt by Stefan Huber <shuber-web@sthu.org>
+### (https://github.com/shuber2/mutt-gruvbox)
+### Licensed in GPL-3
+
+set date_format="%y/%m/%d %H:%M"
+set index_format=" %2C %zs %zc %zt %D  %-28.28L %?M?(%1M)& %4cr ? %?X? &·? %s"
+set to_chars=""
+ifdef crypt_chars set crypt_chars = " "
+set flag_chars = "      "
+
+tag-transforms "replied" "↻ "  \
+               "encrytpted" "" \
+               "signed" "" \
+               "attachment" "" \
+
+tag-formats "replied" "GR" \
+            "encrypted" "GE" \
+            "signed" "GS" \
+            "attachment" "GA" \
+
+## Colors
 # gruvbox dark (contrast dark):
 
 # bg0    = 234
@@ -92,5 +115,3 @@ color compose security_encrypt  color175 color234
 color compose security_sign     color109 color234
 color compose security_both     color142 color234
 color compose security_none     color208 color234
-
-color sidebar_unread     color108 color234

@@ -116,19 +116,19 @@ set trash = "+Trash"
 set record = "+Sent"
 $extra
 $synccmd
-set signature = $accdir/$fulladdr.sig
 macro index \eg \"<enter-command>unset wait_key<enter><shell-escape>gpg --list-secret-keys; printf 'Enter email ID of user to publish: '; read eID; printf 'Enter fingerprint of GPG key to publish: '; read eFGPT; $prefix/libexec/gpg-wks-client --create \\\$eFGPT \\\$eID | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\"  \"publish GPG key to WKS provider\"
 macro index \eh \"<pipe-message>$prefix/libexec/gpg-wks-client --receive | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\" \"confirm GPG publication\"
 named-mailboxes "-- $fulladdr ------" "+INBOX"
 mailboxes "=Drafts" "=Sent" "=Trash" "=INBOX"
+set signature = $accdir/$fulladdr.sig
 " > "$accdir/$fulladdr.muttrc"
 
 	[ ! -f "$muttrc" ] && echo "# vim: filetype=neomuttrc" > "$muttrc"
 	! grep -q "^source.*mutt-wizard.muttrc" "$muttrc" && echo "source $muttshare/mutt-wizard.muttrc" >> "$muttrc"
 	! grep "^source.*.muttrc" "$muttrc" | grep -qv "$muttshare/mutt-wizard.muttrc" && echo "source $accdir/$fulladdr.muttrc" >> "$muttrc"
-    echo "set editor=nano" >> "$muttrc"
-    echo "source $muttshare/colors-gruvbox-shuber.muttrc" >> "$muttrc"
-	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$fulladdr.muttrc<enter><change-folder>!<enter>;<check-stats>' \"switch to $fulladdr\"" >> "$muttrc"
+    echo "set editor=nano
+source $muttshare/theme-LukeSmith.muttrc
+macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$fulladdr.muttrc<enter><change-folder>!<enter>;<check-stats>' \"switch to $fulladdr\"" >> "$muttrc"
 }
 
 getprofiles() { \
@@ -268,6 +268,30 @@ synchronize_flags=true
 [crypto]
 gpg_path=$GPG" > "$NOTMUCH_CONFIG" ;}
 
+getthemes() { themes="$(find -L "$muttshare" -type f 2>/dev/null | grep -o "theme.*\.muttrc" | sed "s|.*/\([0-9]-\)*||;s/\.muttrc$//" | sort | nl)"
+}
+
+listthemes() { getthemes && [ -n "$themes" ] && echo "$themes" || exit 1
+}
+
+currenttheme() { currentheme="$(cat $muttrc | sed -n "s|source.*\(theme.*\)\.muttrc|\1|p")"
+}
+
+changetheme(){ currenttheme && [ -n "$currentheme" ] && echo "Your current Theme is $currentheme" || exit 1
+        echo "Select the theme you would like to change (by number):"
+        listthemes || exit 1
+        read -r input
+        getthemes
+
+        choicetheme="$(echo "$themes" | grep "^.....$input" | grep -o "theme-.*")"
+        if [ "$choicetheme" = "$currentheme" ]; then
+        echo "You have selected the current theme, nothing happened" && exit 0
+        else
+        cat "$muttrc" | sed "s|theme.*\.muttrc|$choicetheme.muttrc|" > "$muttrc"
+        echo "Your new theme was changed successfully" && exit 0
+        fi
+}
+
 togglecron() { cron="$(mktemp)"
 	crontab -l > "$cron"
 	if grep -q mailsync "$cron"; then
@@ -346,7 +370,7 @@ reorder() {
 	' "$tempfile" >> "$muttrc"
 }
 
-while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
+while getopts "rfpXlhodTYDc:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
 	l) setact list || exit 1 ;;
 	r) setact reorder || exit 1 ;;
 	d) setact delete || exit 1 ;;
@@ -369,6 +393,7 @@ while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
 	X) setact delete || exit 1 ; purge=True ;;
 	t) setact toggle || exit 1 ; cronmin="$OPTARG" ;;
 	T) setact toggle || exit 1 ;;
+	c) setact theme || exit 1 ;;
 	*) mwinfo;  exit 1 ;;
 esac done
 
@@ -379,5 +404,6 @@ case "$action" in
 	sync) mailsync $fulladdr ;;
 	toggle) togglecron ;;
 	reorder) reorder ;;
+	theme) changetheme ;;
 	*) mwinfo; exit 1 ;;
 esac

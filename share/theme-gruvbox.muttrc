@@ -1,6 +1,7 @@
 # vim: filetype=neomuttrc
 ### Theme for neomutt developed by Braulio Henrique Marques Souto <braulio@disroot.org>
-### Color Profile for mutt by Stefan Huber <shuber-web@sthu.org>
+### Color Profile for mutt by Stefan Huber
+### Copyright 2020-2022 Stefan Huber <shuber-web@sthu.org>
 ### (https://github.com/shuber2/mutt-gruvbox)
 ### Licensed in GPL-3
 

@@ -88,6 +88,7 @@ The mutt-wizard runs via the command `mutt-wizard`. Once setup is complete, you'
 - `mutt-wizard -t 30` -- toggle automatic mailsync to every 30 minutes
 - `mutt-wizard -T` -- toggle mailsync without specifying minutes (default is 10)
 - `mutt-wizard -r` -- reorder account shortcut numbers
+- `mutt-wizard -c` -- change neomutt theme
 - `pass edit mutt-wizard-your@email.com` -- revise an account's password
 
 ### Options usable when adding an account
@@ -200,6 +201,9 @@ To give you an example of the interface, here's an idea:
 - In `/usr/share/mutt-wizard` are several global config files, including
   `mutt-wizard`'s default settings. You can override this in your `muttrc` if
   you wish.
+- To add new files `mutt`/`neomutt` themes or color profile,
+  put the files in `/usr/share/mutt-wizard`, with the name following the pattern
+  `theme-name.muttrc` where `name` is the name of thema.
 
 ## Watch out for these things
 

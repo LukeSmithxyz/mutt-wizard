@@ -16,8 +16,8 @@ install:
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/mutt-wizard $(DESTDIR)$(PREFIX)/bin/mailsync $(DESTDIR)$(PREFIX)/lib/mutt-wizard/openfile
 	mkdir -p $(DESTDIR)$(PREFIX)/share/mutt-wizard
 	chmod 755 $(DESTDIR)$(PREFIX)/share/mutt-wizard
-	cp -f share/mailcap share/domains.csv share/mutt-wizard.muttrc share/switch.muttrc share/theme-gruvbox.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard
-	chmod 644 $(DESTDIR)$(PREFIX)/share/mutt-wizard/mailcap $(DESTDIR)$(PREFIX)/share/mutt-wizard/domains.csv $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard/switch.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard/theme-gruvbox.muttrc
+	cp -f share/mailcap share/domains.csv share/mutt-wizard.muttrc share/switch.muttrc share/theme-LukeSmith.muttrc share/theme-gruvbox.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard
+	chmod 644 $(DESTDIR)$(PREFIX)/share/mutt-wizard/mailcap $(DESTDIR)$(PREFIX)/share/mutt-wizard/domains.csv $(DESTDIR)$(PREFIX)/share/mutt-wizard/mutt-wizard.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard/switch.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard/theme-LukeSmith.muttrc $(DESTDIR)$(PREFIX)/share/mutt-wizard/theme-gruvbox.muttrc
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
 	cp -f mutt-wizard.1 $(DESTDIR)$(MANPREFIX)/man1/mutt-wizard.1
 	cp -f mailsync.1 $(DESTDIR)$(MANPREFIX)/man1/mailsync.1

@@ -274,22 +274,24 @@ getthemes() { themes="$(find -L "$muttshare" -type f 2>/dev/null | grep -o "them
 listthemes() { getthemes && [ -n "$themes" ] && echo "$themes" || exit 1
 }
 
-currenttheme() { currentheme="$(cat $muttrc | sed -n "s|source.*\(theme.*\)\.muttrc|\1|p")"
+currenttheme() { [ ! -f "$muttrc" ] && echo "First you need to add a mail account with mutt-wizard -a" && exit 1 ||
+                currentheme="$(cat $muttrc | sed -n "s|source.*\(theme.*\)\.muttrc|\1|p")"
 }
 
 changetheme(){ currenttheme && [ -n "$currentheme" ] && echo "Your current Theme is $currentheme" || exit 1
-        echo "Select the theme you would like to change (by number):"
-        listthemes || exit 1
-        read -r input
-        getthemes
+    echo "Select the theme you would like to change (by number):"
+    listthemes || exit 1
+    read -r input
+    getthemes
 
-        choicetheme="$(echo "$themes" | grep "^.....$input" | grep -o "theme-.*")"
-        if [ "$choicetheme" = "$currentheme" ]; then
+    choicetheme="$(echo "$themes" | grep "^.....$input" | grep -o "theme-.*")"
+
+    if [ "$choicetheme" = "$currentheme" ]; then
         echo "You have selected the current theme, nothing happened" && exit 0
-        else
+    else
         cat "$muttrc" | sed "s|theme.*\.muttrc|$choicetheme.muttrc|" > "$muttrc"
         echo "Your new theme was changed successfully" && exit 0
-        fi
+    fi
 }
 
 togglecron() { cron="$(mktemp)"
@@ -325,6 +327,7 @@ Main actions:
   -t number		Toggle automatic mailsync every <number> minutes
   -T			Toggle automatic mailsync
   -r			Reorder account numbers
+  -c            Change neomutt theme
 
 Options allowed with -a:
   -u	Account login name if not full address
@@ -370,7 +373,7 @@ reorder() {
 	' "$tempfile" >> "$muttrc"
 }
 
-while getopts "rfpXlhodTYDc:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
+while getopts "crfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
 	l) setact list || exit 1 ;;
 	r) setact reorder || exit 1 ;;
 	d) setact delete || exit 1 ;;

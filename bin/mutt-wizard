@@ -118,7 +118,7 @@ $extra
 $synccmd
 macro index \eg \"<enter-command>unset wait_key<enter><shell-escape>gpg --list-secret-keys; printf 'Enter email ID of user to publish: '; read eID; printf 'Enter fingerprint of GPG key to publish: '; read eFGPT; $prefix/libexec/gpg-wks-client --create \\\$eFGPT \\\$eID | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\"  \"publish GPG key to WKS provider\"
 macro index \eh \"<pipe-message>$prefix/libexec/gpg-wks-client --receive | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\" \"confirm GPG publication\"
-named-mailboxes \"--$hostname----\" \"+INBOX\"
+named-mailboxes \"-$hostname---\" \"+INBOX\"
 set signature = $accdir/$fulladdr.sig
 " > "$accdir/$fulladdr.muttrc"
 

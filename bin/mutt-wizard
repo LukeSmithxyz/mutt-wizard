@@ -118,17 +118,15 @@ $extra
 $synccmd
 macro index \eg \"<enter-command>unset wait_key<enter><shell-escape>gpg --list-secret-keys; printf 'Enter email ID of user to publish: '; read eID; printf 'Enter fingerprint of GPG key to publish: '; read eFGPT; $prefix/libexec/gpg-wks-client --create \\\$eFGPT \\\$eID | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\"  \"publish GPG key to WKS provider\"
 macro index \eh \"<pipe-message>$prefix/libexec/gpg-wks-client --receive | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\" \"confirm GPG publication\"
-named-mailboxes "-- $fulladdr ------" "+INBOX"
-mailboxes "=Drafts" "=Sent" "=Trash" "=INBOX"
+named-mailboxes \"--$hostname----\" \"+INBOX\"
 set signature = $accdir/$fulladdr.sig
 " > "$accdir/$fulladdr.muttrc"
 
 	[ ! -f "$muttrc" ] && echo "# vim: filetype=neomuttrc" > "$muttrc"
 	! grep -q "^source.*mutt-wizard.muttrc" "$muttrc" && echo "source $muttshare/mutt-wizard.muttrc" >> "$muttrc"
 	! grep "^source.*.muttrc" "$muttrc" | grep -qv "$muttshare/mutt-wizard.muttrc" && echo "source $accdir/$fulladdr.muttrc" >> "$muttrc"
-    echo "set editor=nano
-source $muttshare/theme-LukeSmith.muttrc
-macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$fulladdr.muttrc<enter><change-folder>!<enter>;<check-stats>' \"switch to $fulladdr\"" >> "$muttrc"
+	! grep -q "^source.*theme-.*.muttrc" "$muttrc" && echo "source $muttshare/theme-LukeSmith.muttrc" >> "$muttrc"
+	echo "macro index,pager i$idnum '<sync-mailbox><enter-command>source $accdir/$fulladdr.muttrc<enter><change-folder>!<enter>;<check-stats>' \"switch to $fulladdr\"" >> "$muttrc"
 }
 
 getprofiles() { \
@@ -284,13 +282,15 @@ changetheme(){ currenttheme && [ -n "$currentheme" ] && echo "Your current Theme
     read -r input
     getthemes
 
-    choicetheme="$(echo "$themes" | grep "^.....$input" | grep -o "theme-.*")"
+    choicetheme="$(echo "$themes" | grep "$input[[:space:]]" | grep -o "theme-.*")"
 
     if [ "$choicetheme" = "$currentheme" ]; then
-        echo "You have selected the current theme, nothing happened" && exit 0
+	echo "You have selected the current theme, nothing happened" && exit 0
     else
-        cat "$muttrc" | sed "s|theme.*\.muttrc|$choicetheme.muttrc|" > "$muttrc"
-        echo "Your new theme was changed successfully" && exit 0
+	[ -z "$choicetheme" ] && echo "invalid option, enter a theme number that is in the list above, nothing happened" && exit 1 ||
+	change="$(cat "$muttrc" | sed "s|theme.*\.muttrc|$choicetheme.muttrc|")"
+	echo "$change" > "$muttrc"
+	echo "Your new $choicetheme was changed successfully" && exit 0
     fi
 }
 
@@ -327,7 +327,7 @@ Main actions:
   -t number		Toggle automatic mailsync every <number> minutes
   -T			Toggle automatic mailsync
   -r			Reorder account numbers
-  -c            Change neomutt theme
+  -c			Change neomutt theme
 
 Options allowed with -a:
   -u	Account login name if not full address

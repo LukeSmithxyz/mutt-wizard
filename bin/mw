@@ -275,8 +275,7 @@ setact() { if [ -n "${action+x}" ] && [ "$action" != "$1" ]; then
 		action="$1"
 	fi; }
 
-mwinfo() { cat << EOF
-mw: mutt-wizard, auto-configure email accounts for mutt
+mwinfo() { printf "mw: %s" "mutt-wizard, auto-configure email accounts for mutt
 including downloadable mail with \`isync\`.
 
 Main actions:
@@ -292,7 +291,7 @@ Main actions:
 
 Options allowed with -a:
   -u	Account login name if not full address
-  -n	"Real name" to be on the email account
+  -n	\"Real name\" to be on the email account
   -i	IMAP/POP server address
   -I	IMAP/POP server port
   -s	SMTP server address
@@ -308,8 +307,7 @@ NOTE: Once at least one account is added, you can run
 \`mbsync -a\` to begin downloading mail.
 
 To change an account's password, run \`pass edit '$passprefix'your@email.com\`.
-EOF
-}
+"; }
 
 reorder() {
 	tempfile="$(mktemp -u)"

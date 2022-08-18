@@ -1,71 +1,85 @@
 #!/bin/sh
 
-# Sync mail and give notification if there is new mail.
+# - Syncs mail for all accounts, or a single account given as an argument.
+# - Displays a notification showing the number of new mails.
+# - Displays a notification for each new mail with its subject displayed.
+# - Runs notmuch to index new mail.
+# - This script can be set up as a cron job for automated mail syncing.
 
-# Run only if user logged in (prevent cron errors)
-pgrep -u "${USER:=$LOGNAME}" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
+# There are many arbitrary and ugly features in this script because it is
+# inherently difficult to pass environmental variables to cronjobs and other
+# issues. It also should at least be compatible with Linux (and maybe BSD) with
+# Xorg and MacOS as well.
+
 # Run only if not already running in other instance
-pgrep -x mbsync >/dev/null && { echo "mbsync is already running." ; exit ;}
+pgrep mbsync >/dev/null && { echo "mbsync is already running."; exit ;}
 
-# Checks for internet connection and set notification script.
-ping -q -c 1 1.1.1.1 > /dev/null || ping -q -c 1 1.0.0.1 > /dev/null || ping -q -c 1 example.org || { echo "No internet connection detected."; exit ;}
-command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotify-send\` should be installed for pop-up mail notifications with this script."
+# First, we have to get the right variables for the mbsync file, the pass
+# archive, notmuch and the GPG home.  This is done by searching common profile
+# files for variable assignments. This is ugly, but there are few options that
+# will work on the maximum number of machines.
+eval "$(grep -h -- \
+	"^\s*\(export \)\?\(MBSYNCRC\|PASSWORD_STORE_DIR\|NOTMUCH_CONFIG\|GNUPGHOME\)=" \
+	"$HOME/.profile" "$HOME/.bash_profile" "$HOME/.zprofile"  "$HOME/.config/zsh/.zprofile" "$HOME/.zshenv" \
+	"$HOME/.config/zsh/.zshenv" "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.config/zsh/.zshrc" \
+	"$HOME/.pam_environment" 2>/dev/null)"
 
-# Required to display notifications if run as a cronjob:
-export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
-export DISPLAY=:0.0
+export GPG_TTY="$(tty)"
 
-# For individual configurations:
-[ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
+[ -n "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC" || MBSYNCRC="$HOME/.mbsyncrc"
+
+lastrun="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun"
 
 # Settings are different for MacOS (Darwin) systems.
-if [ "$(uname)" = "Darwin" ]; then
-    notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
-    messageinfo() { osascript -e "display notification with title \"📧 $from\" subtitle \"$subject\"" ;}
-else
-    notify() { notify-send --app-name="mutt-wizard" "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account." ;}
-    messageinfo() { notify-send --app-name="mutt-wizard" "📧$from:" "$subject" ;}
-fi
+case "$(uname)" in
+	Darwin)
+		notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
+		;;
+	*)
+		case "$(readlink -f /sbin/init)" in
+			*systemd*|*openrc*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
+		esac
+		# remember if a display server is running since `ps` doesn't always contain a display
+		pgrepoutput="$(pgrep -ax X\(\|org\|wayland\))"
+		displays="$(echo "$pgrepoutput" | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
+		notify() { [ -n "$pgrepoutput" ] && for x in ${displays:-0:}; do
+				export DISPLAY=$x
+				notify-send --app-name="mutt-wizard" "New mail!" "📬 $2 new mail(s) in \`$1\` account."
+			done ;}
+		;;
+esac
 
 # Check account for new mail. Notify if there is new content.
 syncandnotify() {
     acc="$(echo "$account" | sed "s/.*\///")"
     if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
-    new=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "$HOME/.config/mutt/.mailsynclastrun" 2> /dev/null)
+    new=$(find\
+	"$HOME/.local/share/mail/$acc/"[Ii][Nn][Bb][Oo][Xx]/new/\
+	"$HOME/.local/share/mail/$acc/"[Ii][Nn][Bb][Oo][Xx]/cur/\
+	-type f -newer "$lastrun" 2> /dev/null)
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
-    if [ "$newcount" -gt "0" ]; then
-        notify "$acc" "$newcount" &
-        for file in $new; do
-            # Extract subject and sender from mail.
-            from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
-            subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n 1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
-	    messageinfo &
-        done
-    fi
+    case 1 in
+	$((newcount > 0)) ) notify "$acc" "$newcount" ;;
+    esac
 }
 
 # Sync accounts passed as argument or all.
-if [ "$#" -eq "0" ]; then
-    accounts="$(awk '/^Channel/ {print $2}' "$HOME/.mbsyncrc")"
-else
+if [ "$#" -gt "0" ]; then
     for arg in "$@"; do
         [ "${arg%${arg#?}}" = '-' ] && opts="${opts:+${opts} }${arg}" && shift 1
     done
     accounts=$*
 fi
-
-( kill -46 "$(pidof "${STATUSBAR:-dwmblocks}")" >/dev/null 2>&1 ) 2>/dev/null
+[ -z "$accounts" ] && accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC")"
 
 # Parallelize multiple accounts
-for account in $accounts
-do
+for account in $accounts; do
     syncandnotify &
 done
 
 wait
-( kill -46 "$(pidof "${STATUSBAR:-dwmblocks}")" >/dev/null 2>&1 ) 2>/dev/null
 
-notmuch new 2>/dev/null
+notmuch new --quiet
 
 #Create a touch file that indicates the time of the last run of mailsync
-touch "$HOME/.config/mutt/.mailsynclastrun"
+touch "$lastrun"

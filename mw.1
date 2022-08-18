@@ -3,7 +3,9 @@
 mw \- mutt-wizard \- autoconfigure email accounts for neomutt and isync
 .SH SYNOPSIS
 .B mw
-<command>
+[
+.I OPTIONS
+]
 .SH DESCRIPTION
 .B mw
 takes a user email account and sets up a terminal-based email interface for it with
@@ -16,23 +18,93 @@ for sending mail, and also passwords automatically encrypted and stored with
 .B pass.
 .SH COMMANDS
 .TP
-.B add
-configure an email account
+.B -a your@email.com
+add an email address
 .TP
-.B ls
+.B -l
 list all email accounts configured by mutt-wizard
 .TP
-.B delete
-delete the configuration files for an already configured email account
+.B -d
+pick an already configured account and remove its configuration
 .TP
-.B purge
-totally purge all local mutt-wizard accounts
+.B -D your@email.com
+remove a configured account without confirmation
 .TP
-.B cron
-toggle a cronjob that will automatically sync mail with
-.B mailsync
-as often as you wish
+.B -y your@email.com
+download and upload mail for an email account
+.TP
+.B -Y
+sync all email accounts
+.TP
+.B -t 15
+toggle a cronjob that syncs your mail every 15 minutes (or any other number under 60)
+.TP
+.B -T
+toggle a cronjob without specifying minutes between sync
+.TP
+.B -r
+reorder account shortcut numbers
+.SH OPTIONS FOR ADDING ACCOUNTS
+These can be specified on the command line, otherwise, you will be prompted for what is necessary. mutt-wizard knows the IMAP/SMTP server information for most email providers, so specifying them is usually redundant.
+.TP
+.B -u billy
+Account logon/username if required and different from email address.
+.TP
+.B -n Billy
+Real name which will appear in emails. Should be put in quotes if multiple words.
+.TP
+.B -m number
+Set a maximum number of messages to be stored offline.
+.TP
+.B -i
+IMAP/POP server address
+.TP
+.B -I
+IMAP/POP server port (assumed to be 993 for IMAP and 995 for POP if not specified)
+.TP
+.B -s
+SMTP server address
+.TP
+.B -S
+SMTP server port (assumed to be 465 if not specified)
+.TP
+.B -x
+Account password. You will be prompted for the password interactively if this option is not given.
+.B -P
+Pass Prefix. The password will be stored using pass at <passprefix><email>
+.SH OTHER OPTIONS
+.TP
+.B -f
+Force account creation and guess mailboxes without attempting to connect to server. Otherwise if connection cannot be made, the configured account settings will not be persistent.
+.TP
+.B -o
+Create settings for an account to be used online only without mail syncing abilities. Without
+.B -f
+connection will still be attempted in setup to discover mailboxes.
+.TP
+.B -X
+When removing an email profile with either
+.I -d
+or
+.I -D,
+also delete the local mail (will not delete the mail on the server).
+.TP
+.B -p
+Use POP protocol instead of IMAP. Requires
+.I mpop
+to download mail after configuration. Server details can still be given with the
+.I -i
+and
+.I -I
+options as if it were a IMAP.
 .SH DETAILS
+.TP
+.B mailsync
+mutt-wizard calls a script
+.I mailsync
+to sync mail. This script additionally indexes new mail with notmuch and gives you a notification if new mail has arrived. If you want to bypass its additional features, you can always just run
+.I mbsync -a
+to sync your mail directly.
 .TP
 .B Mail location
 If the user chooses to keep offline email with
@@ -52,11 +124,9 @@ and can be edited by the user if needbe. Note that the mutt-wizard will also sou
 file.
 .TP
 .B Mail deletion
-Neither
-.B delete
-or
-.B purge
-will delete downloaded mail for safety (and time)'s sake. If you want to delete downloaded mail, do so manually by removing it from the directory above.
+mutt-wizard's delete action will delete configuration files and
+.I not
+downloaded mail for safety (and time)'s sake. If you want to delete downloaded mail, do so manually by removing it from the directory above.
 .TP
 .B Default settings
 The mutt-wizard has many default settings that focus on making it aesthetically pleasing and supplying more vim-like bindings. These can be found in
@@ -82,9 +152,8 @@ If you would like to help develop mutt-wizard for others, you are invited to add
 on mutt-wizard's Github <https://github.com/lukesmithxyz/mutt-wizard> or Gitlab <https://gitlab.com/lukesmithxyz/mutt-wizard> pages.
 .TP
 .B Gmail accounts
-Google will require you to allow "less-secure" (third party) applications or use two-factor authentication in order to access their IMAP servers to download your mail. If you use Gmail, be sure to handle this before running mutt-wizard <https://support.google.com/accounts/answer/6010255>.
-.B Protonmail accounts
-Protonmail users must use the Protonmail Bridge <https://protonmail.com/bridge/> to access their IMAP and SMTP servers. This too should be configured before running mutt-wizard.
+Google will require you to allow "less-secure" (third party) applications or remove two-factor authentication in order to access their IMAP servers to download your mail. If you use Gmail, be sure to handle this before running mutt-wizard <https://support.google.com/accounts/answer/6010255>.
+.TP
 .B Enterprise and university accounts
 Many universities and businesses might host their domain's email via Google or another service. This often requires a special IMAP/SMTP-specific password that you must generate and use. Again, mutt-wizard can handle these systems, but only once they've been set up.
 .TP
@@ -223,9 +292,11 @@ Written by Luke Smith <luke@lukesmith.xyz> originally in 2018.
 .SH LICENSE
 GPLv3
 .SH SEE ALSO
+.BR mailsync (1),
 .BR neomutt (1),
 .BR neomuttrc (1)
 .BR mbsync (1),
+.BR mpop (1),
 .BR msmtp (1),
 .BR notmuch (1),
 .BR abook (1)

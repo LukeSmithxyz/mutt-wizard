@@ -1,0 +1,60 @@
+.TH MAILSYNC 1
+.SH NAME
+mailsync \- sync mail accounts set up with
+.B mw.
+.SH SYNOPSIS
+.B mailsync
+[
+.I OPTIONS
+]... [
+.I ACCOUNTS
+]
+.SH DESCRIPTION
+.B mailsync
+syncs the mail of all accounts set up with
+.B
+mw,
+or if account names are given, syncs only those accounts.
+
+.B
+mailsync
+can also pass on options to
+.B
+mbsync,
+which it uses to sync mail.
+.B
+mailsync
+is a wrapper for
+.B mbsync,
+but also automatically reindexes new mail with
+.B notmuch,
+gives notifications if new mail is found and can also be set as a cronjob to sync and index mail quietly in the background.
+.SH COMMANDS
+.TP
+.B mailsync
+sync all mail accounts and notify user if there is new mail
+.TP
+.B mailsync account@example.org
+only sync the
+.B account@example.org
+account.
+.TP
+.B
+-*
+See the
+.B
+mbsync
+manual for aditional options that can be used.
+.SH AUTHORS
+Written by Luke Smith <luke@lukesmith.xyz> originally in 2018.
+.SH LICENSE
+GPLv3
+.SH SEE ALSO
+.BR mw (1),
+.BR neomutt (1),
+.BR neomuttrc (1)
+.BR mbsync (1),
+.BR mpop (1),
+.BR msmtp (1),
+.BR notmuch (1),
+.BR abook (1)

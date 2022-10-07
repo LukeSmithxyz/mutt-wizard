@@ -31,13 +31,8 @@ export GPG_TTY="$(tty)"
 
 lastrun="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun"
 
-# Mute notifications or get kernel name.
 # Settings are different for MacOS (Darwin) systems.
-[ -z "$MAILSYNC_MUTE" ] && notify="$(uname)" || notify="mute"
-case "$notify" in
-	mute)
-		notify() { : ;}
-		;;
+case "$(uname)" in
 	Darwin)
 		notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 		;;
@@ -57,42 +52,45 @@ esac
 
 # Check account for new mail. Notify if there is new content.
 syncandnotify() {
-    acc="$(echo "$account" | sed "s/.*\///")"
-    if [ "$1" = "pop" ]; then
-        # Handle POP
-        mpop "$acc"
-    else
-        # Handle IMAP
-        if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
-    fi
-    new=$(find\
-	"$HOME/.local/share/mail/$acc/"[Ii][Nn][Bb][Oo][Xx]/new/\
-	"$HOME/.local/share/mail/$acc/"[Ii][Nn][Bb][Oo][Xx]/cur/\
-	-type f -newer "$lastrun" 2> /dev/null)
-    newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
-    case 1 in
-	$((newcount > 0)) ) notify "$acc" "$newcount" ;;
-    esac
+	acc="$(echo "$account" | sed "s/.*\///")"
+	if [ "$1" = "pop" ]; then
+		# Handle POP
+		mpop "$acc"
+	else
+		# Handle IMAP
+		if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
+	fi
+	new=$(find\
+		"$HOME/.local/share/mail/$acc/"[Ii][Nn][Bb][Oo][Xx]/new/ \
+		"$HOME/.local/share/mail/$acc/"[Ii][Nn][Bb][Oo][Xx]/cur/ \
+		-type f -newer "$lastrun" 2> /dev/null)
+	newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
+	[ -z "$MAILSYNC_MUTE" ] && case 1 in
+		$((newcount > 0)) ) notify "$acc" "$newcount" ;;
+		*)
+		echo lololol
+		;;
+	esac
 }
 
 # Sync accounts passed as argument or all.
 if [ "$#" -gt "0" ]; then
-    for arg in "$@"; do
-        [ "${arg%${arg#?}}" = '-' ] && opts="${opts:+${opts} }${arg}" && shift 1
-    done
-    accounts=$*
+	for arg in "$@"; do
+		[ "${arg%${arg#?}}" = '-' ] && opts="${opts:+${opts} }${arg}" && shift 1
+	done
+	accounts=$*
 fi
 # TODO handle account passed from argument
-[ -z "$accounts" ] && accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC")"
-[ -z "$pop_accounts" ] && pop_accounts="$(awk '/^account/ {print $2}' "$MPOPRC")"
+[ -z "$accounts" ] && accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC" 2>/dev/null)"
+[ -z "$pop_accounts" ] && pop_accounts="$(awk '/^account/ {print $2}' "$MPOPRC" 2>/dev/null)"
 
 # Parallelize multiple accounts
 for account in $accounts; do
-    syncandnotify "imap" &
+	syncandnotify "imap" &
 done
 
 for account in $pop_accounts; do
-    syncandnotify "pop" &
+	syncandnotify "pop" &
 done
 
 wait

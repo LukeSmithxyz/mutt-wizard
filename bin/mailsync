@@ -67,9 +67,6 @@ syncandnotify() {
 	newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
 	[ -z "$MAILSYNC_MUTE" ] && case 1 in
 		$((newcount > 0)) ) notify "$acc" "$newcount" ;;
-		*)
-		echo lololol
-		;;
 	esac
 }
 

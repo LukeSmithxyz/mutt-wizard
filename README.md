@@ -10,7 +10,7 @@ Get this great stuff without effort:
       the internet
     * make backups
 - Provides a `mailsync` script that can be scheduled to run as often as you
-  like, which downloads/syncs mail and notifies you when new mail has arrived.
+  like, which downloads/syncs mail and optionally notifies you when new mail has arrived.
 
 Specifically, this wizard:
 

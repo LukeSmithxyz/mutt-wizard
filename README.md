@@ -1,5 +1,7 @@
 # mutt-wizard
 
+https://muttwizard.com/
+
 Get this great stuff without effort:
 
 - A full-featured and autoconfigured email client on the terminal with neomutt
@@ -57,7 +59,7 @@ A user of Arch-based distros can also install the current mutt-wizard release fr
 - `notmuch` - index and search mail. Install it and run `notmuch setup`, tell
   it that your mail is in `~/.local/share/mail/` (although `mw` will do this
   automatically if you haven't set notmuch up before). You can run it in mutt
-  with `ctrl-f`. Run `notmuch new` to process new mail.
+  with <kbd>ctrl-f</kbd>. Run `notmuch new` to process new mail.
 - `abook` - a terminal-based address book. Pressing tab while typing an address
   to send mail to will suggest contacts that are in your abook.
 - `urlview` - outputs urls in mail to browser.
@@ -99,34 +101,34 @@ The mutt-wizard runs via the command `mw`. Once setup is complete, you'll use
 
 #### General Settings
 
-- `-p` -- Add a Protonmail account.
 - `-f` -- Assume mailbox names and force account configuration without
   connecting online at all.
 - `-o` -- Configure mutt for an account, but do not keep mail offline.
-- `-P` -- Use POP protocol instead of IMAP (requires `mpop` installed).
+- `-p` -- Use POP protocol instead of IMAP (requires `mpop` installed).
 
 ## Neomutt user interface
 
 To give you an example of the interface, here's an idea:
 
-- `m` - send mail (uses your default `$EDITOR` to write)
-- `j`/`k` and `d`/`u` - vim-like bindings to go down and up (or `d`/`u` to go
+- <kbd>m</kbd> - send mail (uses your default `$EDITOR` to write)
+- <kbd>j</kbd>/<kbd>k</kbd> and <kbd>d</kbd>/<kbd>u</kbd> - vim-like bindings to go down and up (or <kbd>d</kbd>/<kbd>u</kbd> to go
   down/up a page).
-- `l` - open mail, or attachment page or attachment
-- `h` - the opposite of `l`
-- `r`/`R` - reply/reply all to highlighted mail
-- `s` - save selected mail or selected attachment
-- `gs`,`gi`,`ga`,`gd`,`gS` - Press `g` followed by another letter to change
-  mailbox: `s`ent, `i`nbox, `a`rchive, `d`rafts, `S`pam, etc.
-- `M` and `C` - For `M`ove and `C`opy: follow them with one of the mailbox
-  letters above, i.e. `MS` means "move to Spam".
-- `i#` - Press `i` followed by a number 1-9 to go to a different account. If you
+- <kbd>l</kbd> - open mail, or attachment page or attachment
+- <kbd>h</kbd> - the opposite of <kbd>l</kbd>
+- <kbd>r</kbd>/<kbd>R</kbd> - reply/reply all to highlighted mail
+- <kbd>s</kbd> - save selected mail or selected attachment
+- <kbd>gs</kbd>,<kbd>gi</kbd>,<kbd>ga</kbd>,<kbd>gd</kbd>,<kbd>gS</kbd> - Press <kbd>g</kbd> followed by another letter to change
+  mailbox: <kbd>s</kbd>ent, <kbd>i</kbd>nbox, <kbd>a</kbd>rchive, <kbd>d</kbd>rafts, <kbd>S</kbd>pam, etc.
+- <kbd>M</kbd> and <kbd>C</kbd> - For <kbd>M</kbd>ove and <kbd>C</kbd>opy: follow them with one of the mailbox
+  letters above, i.e. <kbd>MS</kbd> means "move to Spam".
+- <kbd>i#</kbd> - Press <kbd>i</kbd> followed by a number 1-9 to go to a different account. If you
   add 9 accounts via mutt-wizard, they will each be assigned a number.
-- `a` to add address/person to abook and `Tab` while typing address to complete
+- <kbd>a</kbd> to add address/person to abook and <kbd>Tab</kbd> while typing address to complete
   one from abook.
-- `?` - see all keyboard shortcuts
-- `ctrl-j`/`ctrl-k` - move up and down in sidebar, `ctrl-o` opens mailbox.
-- `ctrl-b` - open a menu to select a URL you want to open in your browser.
+- <kbd>?</kbd> - see all keyboard shortcuts
+- <kbd>ctrl-j</kbd>/<kbd>ctrl-k</kbd> - move up and down in sidebar, <kbd>ctrl-o</kbd> opens mailbox.
+- <kbd>ctrl-b</kbd> - open a menu to select a URL you want to open in your browser.
+- <kbd>p</kbd> - encrypt/sign your message (in compose view, before sending the email).
 
 ## Additional functionality
 
@@ -137,7 +139,7 @@ To give you an example of the interface, here's an idea:
 - `notmuch` - Index and search mail. Install it and run `notmuch setup`, tell it
   that your mail is in `~/.local/share/mail/` (although `mw` will do this
   automatically if you haven't set notmuch up before). You can run it in mutt
-  with `ctrl-f`. Run `notmuch new` to process new mail.
+  with <kbd>ctrl-f</kbd>. Run `notmuch new` to process new mail.
 - `abook` - A terminal-based address book. Pressing tab while typing an address
   to send mail to will suggest contacts that are in your abook.
 - `urlview` - Outputs URLs in an email to your browser.
@@ -167,7 +169,7 @@ To give you an example of the interface, here's an idea:
   errors generally.
 - Addition of a manual `man mw`
 - Now handles POP protocol via `mpop` for those who prefer it (add an account
-  with the `-P` option). POP configs are still generated automatically.
+  with the `-p` option). POP configs are still generated automatically.
 
 ## Help the Project!
 
@@ -176,10 +178,9 @@ To give you an example of the interface, here's an idea:
   errors.
 - Open a PR to add new server information into `domains.csv` so their users can
   more easily use mutt-wizard.
-- If nothing else, [Donate!](https://paypal.me/LukeMSmith)
-
-See Luke's website [here](https://lukesmith.xyz). Email him at
-[luke@lukesmith.xyz](mailto:luke@lukesmith.xyz).
+- If nothing else, donate:
+	- XMR: `8AzeWXhJvYJ1VeENHcNXCR1dLMgDALreZ1BdooZVjRKndv6myr3t1ue6C4ML2an5fWSpcP1sTDA9nKUMevkukDXG6chRjNv`
+	- BTC: `bc1qacqfp36ffv9mafechmvk8f6r8qy4tual6rcm9p`
 
 ## Details for Tinkerers
 
@@ -204,15 +205,6 @@ See Luke's website [here](https://lukesmith.xyz). Email him at
   applications requires turning off two-factor authentication and this will
   circumvent that. You might also need to manually "Enable IMAP" in the
   settings.
-- Protonmail accounts require a "Protonmail Bridge" to access
-  PM's IMAP and SMTP servers. Configure that before running mutt-wizard. Note
-  that when mutt-wizard asks for a password, you should put in your
-  [bridge password](https://protonmail.com/bridge/thunderbird#3), not your
-  account password.
-- Protonmail bridge is prone to timing out. Watch out for this while adding an
-  account. If the bridge times out, try again. It might help to
-  [increase the timeout](https://protonmail.com/support/knowledge-base/thunderbird-connection-server-timed-error/)
-  in your `mbsyncrc`.
 - If you have a university email or enterprise-hosted email for work, there
   might be other hurdles or two-factor authentication you have to jump through.
   Some, for example, will want you to create a separate IMAP password, etc.

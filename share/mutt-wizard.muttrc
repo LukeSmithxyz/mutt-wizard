@@ -58,8 +58,10 @@ bind index,query <space> tag-entry
 macro browser h '<change-dir><kill-line>..<enter>' "Go to parent folder"
 bind index,pager H view-raw-message
 bind browser l select-entry
-bind pager,browser gg top-page
-bind pager,browser G bottom-page
+bind browser gg top-page
+bind browser G bottom-page
+bind pager gg top
+bind pager G bottom
 bind index,pager,browser d half-down
 bind index,pager,browser u half-up
 bind index,pager S sync-mailbox

@@ -11,8 +11,6 @@
 # issues. It also should at least be compatible with Linux (and maybe BSD) with
 # Xorg and MacOS as well.
 
-# Run only if user logged in (prevent cron errors)
-pgrep -u "${USER:=$LOGNAME}" >/dev/null || { echo "$USER not logged in; sync will not run."; exit ;}
 # Run only if not already running in other instance
 pgrep mbsync >/dev/null && { echo "mbsync is already running."; exit ;}
 
@@ -21,7 +19,7 @@ pgrep mbsync >/dev/null && { echo "mbsync is already running."; exit ;}
 # files for variable assignments. This is ugly, but there are few options that
 # will work on the maximum number of machines.
 eval "$(grep -h -- \
-	"^\s*\(export \)\?\(MBSYNCRC\|PASSWORD_STORE_DIR\|NOTMUCH_CONFIG\|GNUPGHOME\)=" \
+	"^\s*\(export \)\?\(MBSYNCRC\|MPOPRC\|PASSWORD_STORE_DIR\|NOTMUCH_CONFIG\|GNUPGHOME\)=" \
 	"$HOME/.profile" "$HOME/.bash_profile" "$HOME/.zprofile"  "$HOME/.config/zsh/.zprofile" "$HOME/.zshenv" \
 	"$HOME/.config/zsh/.zshenv" "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.config/zsh/.zshrc" \
 	"$HOME/.pam_environment" 2>/dev/null)"
@@ -29,6 +27,7 @@ eval "$(grep -h -- \
 export GPG_TTY="$(tty)"
 
 [ -n "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC" || MBSYNCRC="$HOME/.mbsyncrc"
+[ -n "$MPOPRC" ] || MPOPRC="$HOME/.config/mpop/config"
 
 lastrun="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun"
 
@@ -42,7 +41,7 @@ case "$(uname)" in
 			*systemd*|*openrc*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
 		esac
 		# remember if a display server is running since `ps` doesn't always contain a display
-		pgrepoutput="$(pgrep -a X\(org\|wayland\))"
+		pgrepoutput="$(pgrep -ax X\(\|org\|wayland\))"
 		displays="$(echo "$pgrepoutput" | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
 		notify() { [ -n "$pgrepoutput" ] && for x in ${displays:-0:}; do
 				export DISPLAY=$x
@@ -54,14 +53,16 @@ esac
 # Check account for new mail. Notify if there is new content.
 syncandnotify() {
     acc="$(echo "$account" | sed "s/.*\///")"
-    if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
+    if [ "$1" = "pop" ]; then
+        # Handle POP
+        mpop "$acc"
+    else 
+        # Handle IMAP
+        if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
+    fi
     new=$(find\
-	"$HOME/.local/share/mail/$acc/INBOX/new/"\
-	"$HOME/.local/share/mail/$acc/Inbox/new/"\
-	"$HOME/.local/share/mail/$acc/inbox/new/"\
-	"$HOME/.local/share/mail/$acc/INBOX/cur/"\
-	"$HOME/.local/share/mail/$acc/Inbox/cur/"\
-	"$HOME/.local/share/mail/$acc/inbox/cur/"\
+	"$HOME/.local/share/mail/$acc/"[Ii][Nn][Bb][Oo][Xx]/new/\
+	"$HOME/.local/share/mail/$acc/"[Ii][Nn][Bb][Oo][Xx]/cur/\
 	-type f -newer "$lastrun" 2> /dev/null)
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
     case 1 in
@@ -70,23 +71,28 @@ syncandnotify() {
 }
 
 # Sync accounts passed as argument or all.
-if [ "$#" -eq "0" ]; then
-    accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC")"
-else
+if [ "$#" -gt "0" ]; then
     for arg in "$@"; do
         [ "${arg%${arg#?}}" = '-' ] && opts="${opts:+${opts} }${arg}" && shift 1
     done
     accounts=$*
 fi
+# TODO handle account passed from argument
+[ -z "$accounts" ] && accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC")"
+[ -z "$pop_accounts" ] && pop_accounts="$(awk '/^account/ {print $2}' "$MPOPRC")"
 
 # Parallelize multiple accounts
 for account in $accounts; do
-    syncandnotify &
+    syncandnotify "imap" &
+done
+
+for account in $pop_accounts; do
+    syncandnotify "pop" &
 done
 
 wait
 
-notmuch new 2>/dev/null
+notmuch new --quiet
 
 #Create a touch file that indicates the time of the last run of mailsync
 touch "$lastrun"

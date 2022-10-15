@@ -229,7 +229,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 		idnum=$((idnum + 1))
 		[ "$idnum" -eq "$x" ] || break
 	done
-	toappend="mailboxes $(echo "$mailboxes" | sed "s/^/\"=/;s/$/\"/" | paste -sd ' ' - )"
+	toappend="mailboxes $(echo "$mailboxes" | sed "s/^/\"=/;s/$/\"/;s/'/\\\'/g" | paste -sd ' ' - )"
 }
 
 finalize() { echo "$toappend" >> "$accdir/$fulladdr.muttrc"

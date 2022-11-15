@@ -79,7 +79,7 @@ if [ "$#" -gt "0" ]; then
 fi
 # TODO handle account passed from argument
 [ -z "$accounts" ] && accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC" 2>/dev/null)"
-[ -z "$pop_accounts" ] && pop_accounts="$(awk '/^account/ {print $2}' "$MPOPRC" 2>/dev/null)"
+[ -z "$pop_accounts" ] && [ -x $MPOPRC ] && pop_accounts="$(awk '/^account/ {print $2}' "$MPOPRC" 2>/dev/null)"
 
 # Parallelize multiple accounts
 for account in $accounts; do

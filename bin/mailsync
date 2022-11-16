@@ -77,16 +77,27 @@ if [ "$#" -gt "0" ]; then
 	done
 	accounts=$*
 fi
-# TODO handle account passed from argument
-[ -z "$accounts" ] && accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC" 2>/dev/null)"
-[ -z "$pop_accounts" ] && [ -x $MPOPRC ] && pop_accounts="$(awk '/^account/ {print $2}' "$MPOPRC" 2>/dev/null)"
+[ -z "$imap_accounts" ] && [ -r "$MBSYNCRC" ] && imap_accounts="$(awk '/^Channel/ {print $2}' "$MBSYNCRC" 2>/dev/null)"
+[ -z "$pop_accounts" ] && [ -r "$MPOPRC" ] && pop_accounts="$(awk '/^account/ {print $2}' "$MPOPRC" 2>/dev/null)"
 
 # Parallelize multiple accounts
-for account in $accounts; do
+for account in $imap_accounts; do
+	if [ -n "$accounts" ]; then
+		for tmp_ac in $accounts; do
+			[ "$tmp_ac" = "$account" ] && syncandnotify "imap" &
+		done
+		continue
+	fi
 	syncandnotify "imap" &
 done
 
 for account in $pop_accounts; do
+	if [ -n "$accounts" ]; then
+		for tmp_ac in $accounts; do
+			[ "$tmp_ac" = "$account" ] && syncandnotify "pop" &
+		done
+		continue
+	fi
 	syncandnotify "pop" &
 done
 

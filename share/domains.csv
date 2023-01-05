@@ -107,6 +107,7 @@ faks.no,mail.uniweb.no,993,mail.uniweb.no,465
 fastmail.com,imap.fastmail.com,993,smtp.fastmail.com,465
 fastmail.fm,imap.fastmail.com,993,smtp.fastmail.com,465
 fct.unl.pt,imap.gmail.com,993,smtp.gmail.com,587
+fidei.email,box.fidei.email,993,box.fidei.email,465
 firemail.cc,mail.cock.li,993,mail.cock.li,587
 forpsi.com,imap.forpsi.com,993,smtp.forpsi.com,465
 forthnet.gr,mail.forthnet.gr,993,smtp-auth.forthnet.gr,465

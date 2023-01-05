@@ -214,6 +214,21 @@ createpass() { echo "$password" > "$PASSWORD_STORE_DIR/$passprefix$fulladdr"
   "$GPG" -qe $(printf -- " -r %s" $(cat "$PASSWORD_STORE_DIR/.gpg-id")) "$PASSWORD_STORE_DIR/$passprefix$fulladdr"
 	rm -f "$PASSWORD_STORE_DIR/$passprefix$fulladdr" ;}
 
+errorexit() {
+	echo "Log-on not successful."
+	case "$imap" in
+		imap.gmail.com)
+			echo "This account with $service is using Google's Gmail servers, which disable all third-party applications without an application-specific password.
+Please be sure you are using OAUTH with your Gmail account, or better yet, stop using Gmail."
+			;;
+		imap.mail.me.com)
+			echo "This account with $service is using Apple's iCloud servers, which disable all non-Apple applications by default.
+Please be sure you either enable third-party applications, or create an app-specific password, or best of all, stop using Apple."
+			;;
+	esac
+	exit 1
+	}
+
 getpass() { while : ; do pass rm -f "$passprefix$fulladdr" >/dev/null 2>&1
 		pass insert -f "$passprefix$fulladdr" && break; done ;}
 
@@ -221,7 +236,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 		mailboxes="$(printf "INBOX\\nDrafts\\nJunk\\nTrash\\nSent\\nArchive")"
 	else
 		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass "$passprefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
-		[ -z "$info" ] && echo "Log-on not successful." && return 1
+		[ -z "$info" ] && errorexit
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '\r')"
 	fi
 	[ "$type" = "pop" ] && mailboxes="INBOX"

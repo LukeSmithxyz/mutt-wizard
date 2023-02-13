@@ -35,6 +35,7 @@ Specifically, this wizard:
 - `isync` - downloads and syncs the mail (required if storing IMAP mail locally).
 - `msmtp` - sends the email.
 - `pass` - safely encrypts passwords (required at install).
+- `ca-certificates` - required for SSL. Probably installed already.
 
 **Note**: There's a chance of errors if you use a slow-release distro like
 Ubuntu, Debian, or Mint. If you get errors in `neomutt`, install the most
@@ -75,14 +76,14 @@ The mutt-wizard runs via the command `mw`. Once setup is complete, you'll use
 
 - `mw -a you@email.com` -- add a new email account
 - `mw -l` -- list existing accounts
-- `mw -y your@email.com` -- sync an email account
-- `mw -Y` -- sync all configured email accounts
 - `mw -d` -- choose an account to delete
 - `mw -D your@email.com` -- delete account settings without confirmation
 - `mw -t 30` -- toggle automatic mailsync to every 30 minutes
 - `mw -T` -- toggle mailsync without specifying minutes (default is 10)
 - `mw -r` -- reorder account shortcut numbers
 - `pass edit mw-your@email.com` -- revise an account's password
+- `mailsync` -- sync all configured email accounts. Also gives notifications of new mail and indexes new mail with notmuch silently.
+- `mailsync your@email.com` -- sync a particular (or several) email account(s).
 
 ### Options usable when adding an account
 

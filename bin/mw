@@ -12,7 +12,8 @@ mbsyncrc="${MBSYNCRC:-$HOME/.mbsyncrc}"
 mpoprc="${XDG_CONFIG_HOME:-$HOME/.config}/mpop/config"
 alias mbsync='mbsync -c "$mbsyncrc"'
 
-# On Ubuntu/Debian, a link is needed since they use an older version.
+# mbsync now requires "Far/Near" rather than "Master/Slave", but Ubuntu/Debian
+# have the older version.
 if command -V apt-get >/dev/null 2>&1; then
 	master="Master"
 	slave="Slave"
@@ -98,7 +99,7 @@ set realname = \"$realname\"
 set from = \"$fulladdr\"
 set sendmail = \"msmtp -a $fulladdr\"
 alias me $realname <$fulladdr>
-set folder = \"$folder\"
+set folder = \"${folder:-$maildir/$fulladdr}\"
 set header_cache = $cachedir/$fulladdr/headers
 set message_cachedir = $cachedir/$fulladdr/bodies
 set mbox_type = Maildir
@@ -110,6 +111,7 @@ set trash = "+Trash"
 set record = "+Sent"
 $extra
 $synccmd
+macro index o \"<shell-escape>mailsync $fulladdr<enter>\" \"sync $fulladdr\"
 macro index \eg \"<enter-command>unset wait_key<enter><shell-escape>gpg --list-secret-keys; printf 'Enter email ID of user to publish: '; read eID; printf 'Enter fingerprint of GPG key to publish: '; read eFGPT; $prefix/libexec/gpg-wks-client --create \\\$eFGPT \\\$eID | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\"  \"publish GPG key to WKS provider\"
 macro index \eh \"<pipe-message>$prefix/libexec/gpg-wks-client --receive | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\" \"confirm GPG publication\"
 " > "$accdir/$fulladdr.muttrc"
@@ -132,12 +134,8 @@ set imap_pass = \"\`pass $passprefix$fulladdr\`\"
 set ssl_starttls = yes
 set ssl_force_tls = yes"
 			;;
-		pop) synccmd="macro index o \"<shell-escape>mpop $fulladdr<enter>\" \"run mpop to get $fulladdr's mail\""
-			folder="$maildir/$fulladdr"
-			prepmpop ;;
-		*) synccmd="macro index o \"<shell-escape>mw -y $fulladdr<enter>\" \"run mbsync to sync $fulladdr\""
-			folder="$maildir/$fulladdr"
-			prepmbsync ;;
+		pop) prepmpop ;;
+		*) prepmbsync ;;
 	esac
 	prepmsmtp
 	prepmutt
@@ -379,7 +377,10 @@ case "$action" in
 	list) list ;;
 	add) checkbasics && askinfo && getboxes && getprofiles && finalize ;;
 	delete) delete ;;
-	sync) mailsync $fulladdr ;;
+	sync)
+		echo "\`mw -y\` and \`mw -Y\` are now deprecated and will be removed in a future update. Please switch to using \`mailsync\`."
+		mailsync $fulladdr
+		;;
 	toggle) togglecron ;;
 	reorder) reorder ;;
 	*) mwinfo; exit 1 ;;

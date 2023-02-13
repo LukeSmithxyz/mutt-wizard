@@ -21,7 +21,6 @@ notmuchtemp="$muttshare/notmuch-temp"
 # With the use of templates, it's impossible to use parameter substitution.
 # Therefore, some default variables that might be otherwise overwritten are set
 # here.
-folder="$maildir/$fulladdr"
 iport="993"
 sport="465"
 imapssl="IMAPS"
@@ -135,6 +134,7 @@ askinfo() { \
 		echo "$fulladdr is not a valid email address. Please retype the address:"
 		read -r fulladdr
 	done
+	folder="$maildir/$fulladdr"
 	getaccounts; echo "$accounts" | grep -q "\s$fulladdr$" 2>/dev/null &&
 		{ echo "$fulladdr has already been added" && exit 1 ;}
 	{ [ -z "$imap" ] || [ -z "$smtp" ] ;} && parsedomains

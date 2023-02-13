@@ -63,9 +63,11 @@ syncandnotify() {
 		"$HOME/.local/share/mail/$2/"[Ii][Nn][Bb][Oo][Xx]/cur/ \
 		-type f -newer "$lastrun" 2> /dev/null)
 	newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
-	[ -z "$MAILSYNC_MUTE" ] && case 1 in
-		$((newcount > 0)) ) notify "$2" "$newcount" ;;
-	esac
+	case "$newcount" in
+		0) echo "No new mail for $2." ;;
+		*) echo "$newcount new mail for $2."
+		[ -z "$MAILSYNC_MUTE" ] && notify "$2" "$newcount" ;;
+esac
 }
 
 allaccounts="$(grep -hs "^\(Channel\|account\)" "$MBSYNCRC" "$MPOPRC")"

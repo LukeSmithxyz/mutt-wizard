@@ -7,3 +7,4 @@ audio/*; mpv %s ;
 application/pdf; /usr/local/lib/mutt-wizard/openfile %s ;
 application/pgp-encrypted; gpg -d '%s'; copiousoutput;
 application/pgp-keys; gpg --import '%s'; copiousoutput;
+application/x-subrip; $EDITOR %s ;

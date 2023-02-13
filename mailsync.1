@@ -18,14 +18,11 @@ or if account names are given, syncs only those accounts.
 
 .B
 mailsync
-can also pass on options to
-.B
-mbsync,
-which it uses to sync mail.
-.B
-mailsync
 is a wrapper for
-.B mbsync,
+.B mbsync
+and
+.B
+mpop,
 but also automatically reindexes new mail with
 .B notmuch,
 gives notifications if new mail is found and can also be set as a cronjob to sync and index mail quietly in the background.
@@ -38,13 +35,6 @@ sync all mail accounts and notify user if there is new mail
 only sync the
 .B account@example.org
 account.
-.TP
-.B
--*
-See the
-.B
-mbsync
-manual for additional options that can be used.
 .SH AUTHORS
 Written by Luke Smith <luke@lukesmith.xyz> originally in 2018.
 .SH LICENSE

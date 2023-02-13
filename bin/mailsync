@@ -11,6 +11,60 @@
 # issues. It also should at least be compatible with Linux (and maybe BSD) with
 # Xorg and MacOS as well.
 
+USAGE="Usage:\n\
+$(basename "$0") [-p] [-s <email-sybol>] [-S <mailbox-sybol>] <account> [<account>]\n\
+        Arguments:
+		account: name of account to sync, can be any number of accounts, including zero (which will lead to\n\
+			all accounts being synced).\n\
+        Options:
+		-p: Force private mode (by default emails will be displayed with sender and title if fewer than 5).\n\
+                        This option will display only the mailbox and the number of emails, regardless of how many\n\
+			there are.\n\
+		-s: Symbol to use for emails (default \`📧\`).\n\
+			Change to what you want to see or pass empty string for less eye-candy.\n\
+		-S: Symbol to use for mailboxes (default \`📬\`).\n\
+			Change to what you want to see or pass empty string for less eye-candy.\n\
+                -h: displays help message."
+
+# Read Options:
+while getopts ":s:S:ph" flag
+do
+        case "$flag" in
+                s)
+                        mailsymbol="$OPTARG"
+                        ;;
+                S)
+                        boxsymbol="$OPTARG"
+                        ;;
+                p)
+                        private_mode="$OPTARG"
+                        ;;
+                h)
+                        echo -e "$USAGE"
+                        exit 0
+                        ;;
+                \?)
+                        echo "Invalid option: -$OPTARG" >&2
+                        exit 1
+                        ;;
+                :)
+                        echo "Option -$OPTARG requires an argument." >&2
+                        exit 1
+                        ;;
+        esac
+done
+
+# Shift pointer to read accounts:
+shift $((OPTIND - 1))
+
+# Set default symobols:
+if [[ -z ${mailsymbol+.} ]]; then
+        mailsymbol="📧"
+fi
+if [[ -z ${boxsymbol+.} ]]; then
+        boxsymbol="📬"
+fi
+
 # Run only if not already running in other instance
 pgrep mbsync >/dev/null && { echo "mbsync is already running."; exit ;}
 
@@ -34,7 +88,8 @@ lastrun="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun"
 # Settings are different for MacOS (Darwin) systems.
 case "$(uname)" in
 	Darwin)
-		notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
+		notify() { osascript -e "display notification \"$2 in $1\" with title \"Account: $account\" subtitle \"$2 new mail(s)\"" && sleep 2 ;}
+		messageinfo() { osascript -e "display notification with title \"$mailsymbol$from [$account]\" subtitle \"$subject\"" ;}
 		;;
 	*)
 		case "$(readlink -f /sbin/init)" in
@@ -42,12 +97,15 @@ case "$(uname)" in
 		esac
 		# remember if a display server is running since `ps` doesn't always contain a display
 		pgrepoutput="$(pgrep -ax X\(\|org\|wayland\))"
-		displays="$(echo "$pgrepoutput" | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
 		[ -z $displays ] && [ -d /tmp/.X11-unix ] && displays=$(cd /tmp/.X11-unix && for x in X*; do echo ":${x#X}"; done)
 
 		notify() { [ -n "$pgrepoutput" ] && for x in ${displays:-0:}; do
 				export DISPLAY=$x
-				notify-send --app-name="mutt-wizard" "New mail!" "📬 $2 new mail(s) in \`$1\` account."
+				notify-send --app-name="mutt-wizard" "Account: $1" "$boxsymbol $2 new mail(s)."
+			done ;}
+		messageinfo() { [ -n "$pgrepoutput" ] && for x in ${displays:-0:}; do
+				export DISPLAY=$x
+				notify-send --app-name="mutt-wizard" "$mailsymbol$from [$account]" "$subject"
 			done ;}
 		;;
 esac
@@ -68,7 +126,13 @@ syncandnotify() {
 		-type f -newer "$lastrun" 2> /dev/null)
 	newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
 	[ -z "$MAILSYNC_MUTE" ] && case 1 in
-		$((newcount > 0)) ) notify "$acc" "$newcount" ;;
+		$((newcount > 5)) ) notify "$acc" "$newcount" ;;
+			$((newcount > 0)) ) for file in $new; do
+				# Extract subject and sender from mail.
+				from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
+				subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n 1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
+				messageinfo &
+			done ;;
 	esac
 }
 

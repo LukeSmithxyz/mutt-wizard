@@ -16,6 +16,17 @@ mpoptemp="$muttshare/mpop-temp"
 mbsynctemp="$muttshare/mbsync-temp"
 mutttemp="$muttshare/mutt-temp"
 msmtptemp="$muttshare/msmtp-temp"
+onlinetemp="$muttshare/online-temp"
+notmuchtemp="$muttshare/notmuch-temp"
+# With the use of templates, it's impossible to use parameter substitution.
+# Therefore, some default variables that might be otherwise overwritten are set
+# here.
+folder="$maildir/$fulladdr"
+iport="993"
+sport="465"
+imapssl="IMAPS"
+tlsline="tls_starttls off"
+maxmes="0"
 
 alias mbsync='mbsync -c "$mbsyncrc"'
 
@@ -50,9 +61,9 @@ list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" || exit 1 ;}
 
 prepmsmtp() { mkdir -p "${msmtprc%/*}" "${msmtplog%/*}" ; ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null ; envsubst < "$msmtptemp"  >> "$msmtprc" ;}
 
-prepmbsync() { folder="$maildir/$fulladdr" ; maxmes="${maxmes:-0}" ; mkdir -p "${mbsyncrc%/*}" ; envsubst < "$mbsynctemp" >> "$mbsyncrc" ;}
+prepmbsync() { mkdir -p "${mbsyncrc%/*}" ; [ -f "$mbsyncrc" ] && echo >> "$mbsyncrc" ; envsubst < "$mbsynctemp" >> "$mbsyncrc" ;}
 
-prepmpop() { folder="$maildir/$fulladdr" ; mkdir -p "${mpoprc%/*}" ; envsubst < "$mpoptemp" >> "$mpoprc" ;}
+prepmpop() { mkdir -p "${mpoprc%/*}" ; envsubst < "$mpoptemp" >> "$mpoprc" ;}
 
 prepmutt() { mkdir -p "${muttrc%/*}" "$accdir"
 	envsubst < "$mutttemp" > "$accdir/$fulladdr.muttrc"
@@ -63,25 +74,22 @@ prepmutt() { mkdir -p "${muttrc%/*}" "$accdir"
 }
 
 getprofiles() { \
-	case "$iport" in
-		1143) imapssl=None ;;
-		143) imapssl=STARTTLS ;;
-		"") iport="993"; imapssl=IMAPS ;;
-		*) imapssl=IMAPS ;;
-	esac
 	case "$type" in
-		online) folder="imaps://$login@$imap:$iport"
-extra="set imap_user = \"$login\"
-set imap_pass = \"\`pass $passprefix$fulladdr\`\"
-set ssl_starttls = yes
-set ssl_force_tls = yes"
+		online)
+			folder="imaps://$login@$imap:$iport"
+			extra="$(envsubst < "$onlinetemp")"
 			;;
 		pop) prepmpop ;;
-		*) prepmbsync ;;
+		*)
+		case "$iport" in
+			1143) imapssl=None ;;
+			143) imapssl=STARTTLS ;;
+		esac
+		prepmbsync ;;
 	esac
 	prepmsmtp
 	prepmutt
-	prepnotmuch # Create a notmuch config file if not present already.
+	prepnotmuch
 }
 
 parsedomains(){ serverinfo="$(grep "^${fulladdr#*@}" "$muttshare/domains.csv" 2>/dev/null)"
@@ -118,10 +126,6 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 	sed -ibu "/account $fulladdr$/,/^\(\s*$\|account\)/d" "$mpoprc" 2>/dev/null; rm -f "$mpoprc"bu
 	pass rm -f "$passprefix$fulladdr" >/dev/null 2>&1
 	[ -n "${purge+x}" ] && rm -rf "${maildir:?}/${fulladdr:?}"
-
-	for file in "$msmtprc" "$mbsyncrc" "$mpoprc"; do
-		sed -ibu 'N;/^\n$/D;P;D;' "$file" 2>/dev/null; rm -f "$file"bu
-	done
 }
 
 askinfo() { \
@@ -140,8 +144,6 @@ askinfo() { \
 		read -r smtp
 	case $sport in
 		587) tlsline="# tls_starttls" ;;
-		"") tlsline="tls_starttls off"; sport="465" ;;
-		*) tlsline="tls_starttls off" ;;
 	esac
 	[ -z "$realname" ] && realname="${fulladdr%%@*}"
 	[ -z "$passprefix" ] && passprefix=""
@@ -156,6 +158,10 @@ askinfo() { \
 
 createpass() { echo "$password" > "$PASSWORD_STORE_DIR/$passprefix$fulladdr"
   "$GPG" -qe $(printf -- " -r %s" $(cat "$PASSWORD_STORE_DIR/.gpg-id")) "$PASSWORD_STORE_DIR/$passprefix$fulladdr"
+	case "$(uname)" in
+		Darwin|*BSD) rm -P "$PASSWORD_STORE_DIR/$passprefix$fulladdr" ;;
+		*) shred -u "$PASSWORD_STORE_DIR/$passprefix$fulladdr" ;;
+	esac
 	rm -f "$PASSWORD_STORE_DIR/$passprefix$fulladdr" ;}
 
 errorexit() {
@@ -200,20 +206,7 @@ finalize() { echo "$toappend" >> "$accdir/$fulladdr.muttrc"
 prepnotmuch() { \
 	[ -z "$NOTMUCH_CONFIG" ] && NOTMUCH_CONFIG="$HOME/.notmuch-config"
 	[ -f "$NOTMUCH_CONFIG" ] && return 0
-	echo "[database]
-path=$maildir
-[user]
-name=$realname
-primary_email=$fulladdr
-[new]
-tags=unread;inbox;
-ignore=.mbsyncstate;.uidvalidity
-[search]
-exclude_tags=deleted;spam;
-[maildir]
-synchronize_flags=true
-[crypto]
-gpg_path=$GPG" > "$NOTMUCH_CONFIG" ;}
+	envsubst < "$notmuchtemp" > "$NOTMUCH_CONFIG" ;}
 
 togglecron() { cron="$(mktemp)"
 	crontab -l > "$cron"
@@ -229,7 +222,7 @@ togglecron() { cron="$(mktemp)"
 setact() { if [ -n "${action+x}" ] && [ "$action" != "$1" ]; then
 		echo "Running $1 with $action..."
 		echo "Incompatible options given. Only one action may be specified per run."
-		return 1
+		exit 1
 	else
 		action="$1"
 	fi; }
@@ -294,29 +287,29 @@ reorder() {
 }
 
 while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
-	l) setact list || exit 1 ;;
-	r) setact reorder || exit 1 ;;
-	d) setact delete || exit 1 ;;
-	D) setact delete || exit 1 ; fulladdr="$OPTARG" ;;
-	y) setact sync || exit 1 ; fulladdr="$OPTARG" ;;
-	Y) setact sync || exit 1 ;;
-	a) setact add || exit 1 ; fulladdr="$OPTARG" ;;
-	i) setact add || exit 1 ; imap="$OPTARG" ;;
-	I) setact add || exit 1 ; iport="$OPTARG" ;;
-	s) setact add || exit 1 ; smtp="$OPTARG" ;;
-	S) setact add || exit 1 ; sport="$OPTARG" ;;
-	u) setact add || exit 1 ; login="$OPTARG" ;;
-	n) setact add || exit 1 ; realname="$OPTARG" ;;
-	P) setact add || exit 1 ; passprefix="$OPTARG" ;;
-	m) setact add || exit 1 ; maxmes="$OPTARG" ;;
-	o) setact add || exit 1 ; type="online" ;;
-	p) setact add || exit 1 ; type="pop"; protocol="pop3s" ; iport="${iport:-995}" ;;
-	f) setact add || exit 1 ; force=True ;;
-	x) setact add || exit 1 ; password="$OPTARG" ;;
-	X) setact delete || exit 1 ; purge=True ;;
-	t) setact toggle || exit 1 ; cronmin="$OPTARG" ;;
-	T) setact toggle || exit 1 ;;
-	*) mwinfo;  exit 1 ;;
+	l) setact list ;;
+	r) setact reorder1 ;;
+	d) setact delete ;;
+	D) setact delete ; fulladdr="$OPTARG" ;;
+	y) setact sync ; fulladdr="$OPTARG" ;;
+	Y) setact sync ;;
+	a) setact add ; fulladdr="$OPTARG" ;;
+	i) setact add ; imap="$OPTARG" ;;
+	I) setact add ; iport="$OPTARG" ;;
+	s) setact add ; smtp="$OPTARG" ;;
+	S) setact add ; sport="$OPTARG" ;;
+	u) setact add ; login="$OPTARG" ;;
+	n) setact add ; realname="$OPTARG" ;;
+	P) setact add ; passprefix="$OPTARG" ;;
+	m) setact add ; maxmes="$OPTARG" ;;
+	o) setact add ; type="online" ;;
+	p) setact add ; type="pop"; protocol="pop3s" ; iport="${iport:-995}" ;;
+	f) setact add ; force=True ;;
+	x) setact add ; password="$OPTARG" ;;
+	X) setact delete ; purge=True ;;
+	t) setact toggle ; cronmin="$OPTARG" ;;
+	T) setact toggle ;;
+	*) mwinfo ;;
 esac done
 
 case "$action" in

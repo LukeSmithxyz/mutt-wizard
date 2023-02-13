@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -a
+
 prefix="/usr/local"
 maildir="${XDG_DATA_HOME:-$HOME/.local/share}/mail"
 muttshare="$prefix/share/mutt-wizard"
@@ -10,6 +12,11 @@ msmtprc="${XDG_CONFIG_HOME:-$HOME/.config}/msmtp/config"
 msmtplog="${XDG_CACHE_HOME:-$HOME/.cache}/msmtp/msmtp.log"
 mbsyncrc="${MBSYNCRC:-$HOME/.mbsyncrc}"
 mpoprc="${XDG_CONFIG_HOME:-$HOME/.config}/mpop/config"
+mpoptemp="$muttshare/mpop-temp"
+mbsynctemp="$muttshare/mbsync-temp"
+mutttemp="$muttshare/mutt-temp"
+msmtptemp="$muttshare/msmtp-temp"
+
 alias mbsync='mbsync -c "$mbsyncrc"'
 
 # mbsync now requires "Far/Near" rather than "Master/Slave", but Ubuntu/Debian
@@ -17,6 +24,9 @@ alias mbsync='mbsync -c "$mbsyncrc"'
 if command -V apt-get >/dev/null 2>&1; then
 	master="Master"
 	slave="Slave"
+else
+	master="Far"
+	slave="Near"
 fi
 
 for x in "/etc/ssl/certs/ca-certificates.crt" \
@@ -38,84 +48,14 @@ getaccounts() { accounts="$(find -L "$accdir" -type f 2>/dev/null | grep -o "\S*
 
 list() { getaccounts && [ -n "$accounts" ] && echo "$accounts" || exit 1 ;}
 
-prepmsmtp() { mkdir -p "${msmtprc%/*}" "${msmtplog%/*}"
-	ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null
-	echo "account $fulladdr
-host $smtp
-port ${sport:-465}
-from $fulladdr
-user $login
-passwordeval \"pass $passprefix$fulladdr\"
-auth ${auth:-on}
-tls on
-tls_trust_file	$sslcert
-logfile $msmtplog
-${tlsline:-tls_starttls off}
-" >> "$msmtprc"
-}
+prepmsmtp() { mkdir -p "${msmtprc%/*}" "${msmtplog%/*}" ; ln -s "$msmtprc" "$HOME/.msmtprc" 2>/dev/null ; envsubst < "$msmtptemp"  >> "$msmtprc" ;}
 
-prepmbsync() { mkdir -p "${mbsyncrc%/*}"
-	echo "
-IMAPStore $fulladdr-remote
-Host $imap
-Port ${iport:-993}
-User $login
-PassCmd \"pass $passprefix$fulladdr\"
-AuthMechs LOGIN
-SSLType ${imapssl:-IMAPS}
-CertificateFile $sslcert
+prepmbsync() { folder="$maildir/$fulladdr" ; maxmes="${maxmes:-0}" ; mkdir -p "${mbsyncrc%/*}" ; envsubst < "$mbsynctemp" >> "$mbsyncrc" ;}
 
-MaildirStore $fulladdr-local
-Subfolders Verbatim
-Path ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$fulladdr/
-Inbox ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$fulladdr/${inbox:-INBOX}
-
-Channel $fulladdr
-Expunge Both
-${master:-Far} :$fulladdr-remote:
-${slave:-Near} :$fulladdr-local:
-Patterns * !\"[Gmail]/All Mail\"
-Create Both
-SyncState *
-MaxMessages ${maxmes:-0}
-ExpireUnread no
-# End profile
-" >> "$mbsyncrc" ;}
-
-prepmpop() { mkdir -p "${mpoprc%/*}"
-	echo "
-account $fulladdr
-tls on
-user $login
-host $imap
-delivery maildir ${XDG_DATA_HOME:-$HOME/.local/share}/mail/$fulladdr/${inbox:-INBOX}
-passwordeval pass $passprefix$fulladdr
-" >> "$mpoprc" ;}
+prepmpop() { folder="$maildir/$fulladdr" ; mkdir -p "${mpoprc%/*}" ; envsubst < "$mpoptemp" >> "$mpoprc" ;}
 
 prepmutt() { mkdir -p "${muttrc%/*}" "$accdir"
-	echo "# vim: filetype=neomuttrc
-# muttrc file for account $fulladdr
-set realname = \"$realname\"
-set from = \"$fulladdr\"
-set sendmail = \"msmtp -a $fulladdr\"
-alias me $realname <$fulladdr>
-set folder = \"${folder:-$maildir/$fulladdr}\"
-set header_cache = $cachedir/$fulladdr/headers
-set message_cachedir = $cachedir/$fulladdr/bodies
-set mbox_type = Maildir
-set hostname = \"$hostname\"
-source $muttshare/switch.muttrc
-set spoolfile = "+INBOX"
-set postponed = "+Drafts"
-set trash = "+Trash"
-set record = "+Sent"
-$extra
-$synccmd
-macro index o \"<shell-escape>mailsync $fulladdr<enter>\" \"sync $fulladdr\"
-macro index \eg \"<enter-command>unset wait_key<enter><shell-escape>gpg --list-secret-keys; printf 'Enter email ID of user to publish: '; read eID; printf 'Enter fingerprint of GPG key to publish: '; read eFGPT; $prefix/libexec/gpg-wks-client --create \\\$eFGPT \\\$eID | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\"  \"publish GPG key to WKS provider\"
-macro index \eh \"<pipe-message>$prefix/libexec/gpg-wks-client --receive | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>\" \"confirm GPG publication\"
-" > "$accdir/$fulladdr.muttrc"
-
+	envsubst < "$mutttemp" > "$accdir/$fulladdr.muttrc"
 	[ ! -f "$muttrc" ] && echo "# vim: filetype=neomuttrc" > "$muttrc"
 	! grep -q "^source.*mutt-wizard.muttrc" "$muttrc" && echo "source $muttshare/mutt-wizard.muttrc" >> "$muttrc"
 	! grep "^source.*.muttrc" "$muttrc" | grep -qv "$muttshare/mutt-wizard.muttrc" && echo "source $accdir/$fulladdr.muttrc" >> "$muttrc"
@@ -126,9 +66,11 @@ getprofiles() { \
 	case "$iport" in
 		1143) imapssl=None ;;
 		143) imapssl=STARTTLS ;;
+		"") iport="993"; imapssl=IMAPS ;;
+		*) imapssl=IMAPS ;;
 	esac
 	case "$type" in
-		online) folder="imaps://$login@$imap:${iport:-993}"
+		online) folder="imaps://$login@$imap:$iport"
 extra="set imap_user = \"$login\"
 set imap_pass = \"\`pass $passprefix$fulladdr\`\"
 set ssl_starttls = yes
@@ -196,7 +138,11 @@ askinfo() { \
 		read -r imap
 	[ -z "$smtp" ] && echo "Give your email server's SMTP address (excluding the port number):" &&
 		read -r smtp
-	[ "$sport" = 587 ] && tlsline="# tls_starttls"
+	case $sport in
+		587) tlsline="# tls_starttls" ;;
+		"") tlsline="tls_starttls off"; sport="465" ;;
+		*) tlsline="tls_starttls off" ;;
+	esac
 	[ -z "$realname" ] && realname="${fulladdr%%@*}"
 	[ -z "$passprefix" ] && passprefix=""
 	hostname="${fulladdr#*@}"

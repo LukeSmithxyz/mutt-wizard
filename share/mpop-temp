@@ -1,0 +1,6 @@
+account $fulladdr
+tls on
+user $login
+host $imap
+delivery maildir $maildir/$fulladdr/INBOX
+passwordeval pass $passprefix$fulladdr

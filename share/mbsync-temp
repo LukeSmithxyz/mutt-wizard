@@ -1,0 +1,24 @@
+IMAPStore $fulladdr-remote
+Host $imap
+Port $iport
+User $login
+PassCmd "pass $passprefix$fulladdr"
+AuthMechs LOGIN
+SSLType $imapssl
+CertificateFile $sslcert
+
+MaildirStore $fulladdr-local
+Subfolders Verbatim
+Path $maildir/$fulladdr/
+Inbox $maildir/$fulladdr/INBOX
+
+Channel $fulladdr
+Expunge Both
+$master :$fulladdr-remote:
+$slave :$fulladdr-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages $maxmes
+ExpireUnread no
+# End profile

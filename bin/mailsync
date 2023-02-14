@@ -33,23 +33,21 @@ lastrun="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun"
 
 # Settings are different for MacOS (Darwin) systems.
 case "$(uname)" in
-	Darwin)
-		notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
-		;;
+	Darwin) notify() { osascript -e "display notification \"$2\" with title \"$1\"" ;} ;;
 	*)
-		case "$(readlink -f /sbin/init)" in
-			*systemd*|*openrc*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
-		esac
-		# remember if a display server is running since `ps` doesn't always contain a display
-		pgrepoutput="$(pgrep -ax X\(\|org\|wayland\))"
-		displays="$(echo "$pgrepoutput" | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
-		[ -z "$displays" ] && [ -d /tmp/.X11-unix ] && displays=$(cd /tmp/.X11-unix && for x in X*; do echo ":${x#X}"; done)
+	case "$(readlink -f /sbin/init)" in
+		*systemd*|*openrc*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
+	esac
+	# remember if a display server is running since `ps` doesn't always contain a display
+	pgrepoutput="$(pgrep -ax X\(\|org\|wayland\))"
+	displays="$(echo "$pgrepoutput" | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
+	[ -z "$displays" ] && [ -d /tmp/.X11-unix ] && displays=$(cd /tmp/.X11-unix && for x in X*; do echo ":${x#X}"; done)
 
-		notify() { [ -n "$pgrepoutput" ] && for x in ${displays:-0:}; do
-				export DISPLAY="$x"
-				notify-send --app-name="mutt-wizard" "New mail!" "📬 $2 new mail(s) in \`$1\` account."
-			done ;}
-		;;
+	notify() { [ -n "$pgrepoutput" ] && for x in ${displays:-0:}; do
+			export DISPLAY="$x"
+			notify-send --app-name="mutt-wizard" "$1" "$2"
+		done ;}
+	;;
 esac
 
 # Check account for new mail. Notify if there is new content.
@@ -63,10 +61,22 @@ syncandnotify() {
 		"$HOME/.local/share/mail/$2/"[Ii][Nn][Bb][Oo][Xx]/cur/ \
 		-type f -newer "$lastrun" 2> /dev/null)
 	newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
-	case "$newcount" in
-		0) echo "No new mail for $2." ;;
-		*) echo "$newcount new mail for $2."
-		[ -z "$MAILSYNC_MUTE" ] && notify "$2" "$newcount" ;;
+	case 1 in
+		$((newcount > 5)) )
+			echo "$newcount new mail for $2."
+			[ -z "$MAILSYNC_MUTE" ] && notify "New Mail!" "📬 $newcount new mail(s) in \`$2\` account."
+			;;
+		$((newcount > 0)) )
+			echo "$newcount new mail for $2."
+			[ -z "$MAILSYNC_MUTE" ] &&
+			for file in $new; do
+		    		# Extract subject and sender from mail.
+				from="$(sed -n "/^From:/ s/\(.*: \| *<.*\)//g p" "$file")"
+				subject="$(sed -n "/^Subject:/ s|.*: || p" "$file")"
+				notify "📧$from:" "$subject"
+			done
+			;;
+		*) echo "No new mail for $2." ;;
 esac
 }
 
@@ -90,7 +100,6 @@ for account in $tosync; do
 		error*) echo "ERROR: Account ${account##* } not found." ;;
 	esac
 done
-
 
 wait
 

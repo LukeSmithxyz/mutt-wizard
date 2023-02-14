@@ -5,8 +5,8 @@ set from = "$fulladdr"
 set sendmail = "msmtp -a $fulladdr"
 alias me $realname <$fulladdr>
 set folder = "$folder"
-set header_cache = $cachedir/$fulladdr/headers
-set message_cachedir = $cachedir/$fulladdr/bodies
+set header_cache = "$cachedir/$safename/headers"
+set message_cachedir = "$cachedir/$safename/bodies"
 set mbox_type = Maildir
 set hostname = "$hostname"
 source $muttshare/switch.muttrc
@@ -16,5 +16,3 @@ set trash = "+Trash"
 set record = "+Sent"
 $extra
 macro index o "<shell-escape>mailsync $fulladdr<enter>" "sync $fulladdr"
-macro index \eg "<enter-command>unset wait_key<enter><shell-escape>gpg --list-secret-keys; printf 'Enter email ID of user to publish: '; read eID; printf 'Enter fingerprint of GPG key to publish: '; read eFGPT; $prefix/libexec/gpg-wks-client --create \\\$eFGPT \\\$eID | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>"  "publish GPG key to WKS provider"
-macro index \eh "<pipe-message>$prefix/libexec/gpg-wks-client --receive | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>" "confirm GPG publication"

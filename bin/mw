@@ -73,6 +73,7 @@ prepmutt() { mkdir -p "${muttrc%/*}" "$accdir"
 }
 
 getprofiles() { \
+	safename="$(echo $fulladdr | sed 's/@/_/g')"
 	case "$type" in
 		online)
 			folder="imaps://$login@$imap:$iport"
@@ -124,7 +125,7 @@ delete() { if [ -z "${fulladdr+x}" ]; then
 	sed -ibu "/account $fulladdr$/,/^\(\s*$\|account\)/d" "$msmtprc" 2>/dev/null; rm -f "$msmtprc"bu
 	sed -ibu "/account $fulladdr$/,/^\(\s*$\|account\)/d" "$mpoprc" 2>/dev/null; rm -f "$mpoprc"bu
 	pass rm -f "$passprefix$fulladdr" >/dev/null 2>&1
-	[ -n "${purge+x}" ] && rm -rf "${maildir:?}/${fulladdr:?}"
+	[ -n "${purge+x}" ] && safename="$(echo $fulladdr | sed 's/@/_/g')" && rm -rf "${cachedir:?}/${safename:?}" "${maildir:?}/${fulladdr:?}"
 }
 
 askinfo() { \
@@ -199,6 +200,7 @@ getboxes() { if [ -n "${force+x}" ] ; then
 
 finalize() { echo "$toappend" >> "$accdir/$fulladdr.muttrc"
 	[ "$type" != "online" ] && echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$fulladdr/{}/cur" "$maildir/$fulladdr/{}/tmp" "$maildir/$fulladdr/{}/new"
+	mkdir -p "$cachedir/$safename/bodies"
 	echo "$fulladdr (account #$idnum) added successfully."
 	command -V urlview >/dev/null 2>&1 && [ ! -f "$HOME/.urlview" ] && echo "COMMAND \$BROWSER" > "$HOME/.urlview"
 	return 0 ;}
@@ -236,8 +238,6 @@ Main actions:
   -l			List email addresses configured
   -d			Remove an already added address
   -D your@email.com	Force remove account without confirmation
-  -y your@email.com	Sync mail for account by name
-  -Y			Sync mail for all accounts
   -t number		Toggle automatic mailsync every <number> minutes
   -T			Toggle automatic mailsync
   -r			Reorder account numbers
@@ -250,8 +250,8 @@ Options allowed with -a:
   -s	SMTP server address
   -S	SMTP server port
   -x	Password for account (recommended to be in double quotes)
-  -P	Pass Prefix (prefix of the file where password is stored)
   -p	Add for a POP server instead of IMAP.
+  -P	Pass Prefix (prefix of the file where password is stored)
   -X	Delete an account's local email too when deleting.
   -o	Configure address, but keep mail online.
   -f	Assume typical English mailboxes without attempting log-on.

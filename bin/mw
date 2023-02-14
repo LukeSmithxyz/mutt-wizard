@@ -309,7 +309,8 @@ while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
 	X) setact delete ; purge=True ;;
 	t) setact toggle ; cronmin="$OPTARG" ;;
 	T) setact toggle ;;
-	*) mwinfo ;;
+	h) setact info ;;
+	\?) echo "See \`$(basename $0) -h\` for possible options and help."; exit 1 ;;
 esac done
 
 case "$action" in
@@ -322,5 +323,5 @@ case "$action" in
 		;;
 	toggle) togglecron ;;
 	reorder) reorder ;;
-	*) mwinfo; exit 1 ;;
+	info) mwinfo; exit 1 ;;
 esac

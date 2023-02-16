@@ -227,6 +227,7 @@ polimi.it,outlook.office365.com,993,smtp.office365.com,587
 polito.it,mail.polito.it,993,mail.polito.it,465
 post.com,imap.mail.com,993,smtp.mail.com,587
 posteo.*,posteo.de,993,posteo.de,465
+privateemail.com,mail.privateemail.com,993,mail.privateemail.com,443
 privacy.xyz,imap.nixnet.email,143,smtp.nixnet.email,587
 privacyrequired.com,mail.autistici.org,993,smtp.autistici.org,465
 prokonto.pl,poczta.o2.pl,993,poczta.o2.pl,465

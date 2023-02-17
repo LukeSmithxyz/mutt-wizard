@@ -70,13 +70,13 @@ syncandnotify() {
 			echo "$newcount new mail for $2."
 			[ -z "$MAILSYNC_MUTE" ] &&
 			for file in $new; do
-		    		# Extract and decode subject and sender from mail.
-				subject="$(sed -n "/^Subject:/ s|Subject: *|| p" "$file" |
+				# Extract and decode subject and sender from mail.
+				subject="$(sed -n "/^Subject:/ s|^Subject: *|| p" "$file" |
 					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')"
-				from="$(sed -n "/^From:/ s|From: *|| p" "$file" |
+				from="$(sed -n "/^From:/ s|^From: *|| p" "$file" |
 					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')"
 				from="${from% *}" ; from="${from%\"}" ; from="${from#\"}"
-				notify "📧$from:" "$subject"
+				notify "📧 $from :" "$subject"
 			done
 			;;
 		*) echo "No new mail for $2." ;;

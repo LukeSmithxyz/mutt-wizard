@@ -70,16 +70,12 @@ syncandnotify() {
 			echo "$newcount new mail for $2."
 			[ -z "$MAILSYNC_MUTE" ] &&
 			for file in $new; do
-		    		# Extract subject and sender from mail. TODO: beautify and clean up.
-				from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" |
-					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' |
-					awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' |
-					sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
-				subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" |
-					head -n 1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' |
-					sed 's/^Subject: //' |
-					sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' |
-					tr -d '\n')
+		    		# Extract and decode subject and sender from mail.
+				subject="$(sed -n "/^Subject:/ s|Subject: *|| p" "$file" |
+					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')"
+				from="$(sed -n "/^From:/ s|From: *|| p" "$file" |
+					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')"
+				from="${from% *}" ; from="${from%\"}" ; from="${from#\"}"
 				notify "📧$from:" "$subject"
 			done
 			;;

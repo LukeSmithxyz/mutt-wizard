@@ -313,6 +313,8 @@ while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
 	\?) echo "See \`$(basename $0) -h\` for possible options and help."; exit 1 ;;
 esac done
 
+[ -z "$action" ] && action="info"
+
 case "$action" in
 	list) list ;;
 	add) checkbasics && askinfo && getboxes && getprofiles && finalize ;;

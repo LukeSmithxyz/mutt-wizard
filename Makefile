@@ -34,10 +34,15 @@ install:
 		sed -iba 's:/usr/local:$(PREFIX):' $(DESTDIR)$(PREFIX)/share/mutt-wizard/mailcap; \
 		rm -f $(DESTDIR)$(PREFIX)/share/mutt-wizard/mailcapba; \
 	fi
+	mkdir -p $(DESTDIR)$(PREFIX)/share/zsh/site-functions/
+	chmod 755 $(DESTDIR)$(PREFIX)/share/zsh/site-functions/
+	cp -f completion/_mutt-wizard.zsh $(DESTDIR)$(PREFIX)/share/zsh/site-functions/_mutt-wizard.zsh
+	chmod 644 $(DESTDIR)$(PREFIX)/share/zsh/site-functions/_mutt-wizard.zsh
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/mw $(DESTDIR)$(PREFIX)/bin/mailsync $(DESTDIR)$(PREFIX)/lib/mutt-wizard/openfile
 	rm -rf $(DESTDIR)$(PREFIX)/share/mutt-wizard  $(DESTDIR)$(PREFIX)/lib/mutt-wizard
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/mw.1  $(DESTDIR)$(MANPREFIX)/man1/mailsync.1
+	rm -f $(DESTDIR)$(PREFIX)/share/zsh/site-functions/_mutt-wizard.zsh
 
 .PHONY: install uninstall

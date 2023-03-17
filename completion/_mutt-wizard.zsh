@@ -24,9 +24,22 @@ case "$state" in
 		case $line[1] in
 			-a)
 				_alternative \
-				'args: :((-u\:"Account login name if not full address" -n\:"Real name to be on the email account" -i\:"IMAP/POP server address" -I\:"IMAP/POP server port" -s\:"SMTP server address" -S\:"SMTP server port" -x\:"Password for account (recommended to be in double quotes)" -P\:"Pass Prefix (prefix of the file where password is stored)" -p\:"Add for a POP server instead of IMAP." -X\:"Delete an account'"'"'s local email too when deleting." -o\:"Configure address, but keep mail online." -f\:"Assume typical English mailboxes without attempting log-on."))'
+				'args: :((
+					-u\:"Account login name if not full address"
+					-n\:"Real name to be on the email account"
+					-i\:"IMAP/POP server address"
+					-I\:"IMAP/POP server port"
+					-s\:"SMTP server address"
+					-S\:"SMTP server port"
+					-x\:"Password for account (recommended to be in double quotes)"
+					-P\:"Pass Prefix (prefix of the file where password is stored)"
+					-p\:"Add for a POP server instead of IMAP."
+					-X\:"Delete an account'"'"'s local email too when deleting."
+					-o\:"Configure address, but keep mail online."
+					-f\:"Assume typical English mailboxes without attempting log-on."
+					))'
 				;;
 			-D|-y)
-				_values 'email list' $(mw -l | cut -f2)
+				_values 'email list' $(mw -l | cut -f2) 2>/dev/null
 		esac
 esac

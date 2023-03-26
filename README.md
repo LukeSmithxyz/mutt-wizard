@@ -36,6 +36,7 @@ Specifically, this wizard:
 - `msmtp` - sends the email.
 - `pass` - safely encrypts passwords (required at install).
 - `ca-certificates` - required for SSL. Probably installed already.
+- `goimapnotify` - required for push notifications. [Check here for reference](https://wiki.archlinux.org/title/Isync#With_imapnotify).
 
 **Note**: There's a chance of errors if you use a slow-release distro like
 Ubuntu, Debian, or Mint. If you get errors in `neomutt`, install the most
@@ -132,6 +133,12 @@ To give you an example of the interface, here's an idea:
 - <kbd>ctrl-j</kbd>/<kbd>ctrl-k</kbd> - move up and down in sidebar, <kbd>ctrl-o</kbd> opens mailbox.
 - <kbd>ctrl-b</kbd> - open a menu to select a URL you want to open in your browser.
 - <kbd>p</kbd> - encrypt/sign your message (in compose view, before sending the email).
+
+## Enable push notifications per mail
+**Note**: Replace the `fulladdrs` with your actual email address. You have to do this for each new mail you want to setup instant notifications.
+```bash
+systemctl enable --user goimapnotify@fulladdrs.service
+```
 
 ## Additional functionality
 

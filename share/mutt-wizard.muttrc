@@ -134,6 +134,11 @@ color index brightyellow blue "~T"
 color index_author brightred blue "~T"
 color index_subject brightcyan blue "~T"
 
+# Flagged mail is highlighted:
+color index brightgreen default "~F"
+color index_subject brightgreen default "~F"
+color index_author brightgreen default "~F"
+
 # Other colors and aesthetic settings:
 mono bold bold
 mono underline underline

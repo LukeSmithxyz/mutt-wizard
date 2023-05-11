@@ -15,7 +15,8 @@ set rfc2047_parameters = yes
 set sleep_time = 0		# Pause 0 seconds for informational messages
 set markers = no		# Disables the `+` displayed at line wraps
 set mark_old = no		# Unread mail stay unread until read
-set mime_forward = yes		# attachments are forwarded with mail
+set mime_forward = no	# mail body is forwarded as text
+set forward_attachments = yes	# attachments are forwarded with mail
 set wait_key = no		# mutt won't ask "press key to continue"
 set fast_reply			# skip to compose when replying
 set fcc_attach			# save attachments with the body
@@ -132,6 +133,11 @@ color index_subject brightcyan black "~N"
 color index brightyellow blue "~T"
 color index_author brightred blue "~T"
 color index_subject brightcyan blue "~T"
+
+# Flagged mail is highlighted:
+color index brightgreen default "~F"
+color index_subject brightgreen default "~F"
+color index_author brightgreen default "~F"
 
 # Other colors and aesthetic settings:
 mono bold bold

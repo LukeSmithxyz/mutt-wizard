@@ -53,6 +53,7 @@ carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 cash4u.com,imap.mail.com,993,smtp.mail.com,587
 cedars.xyz,mail.cedars.xyz,993,mail.cedars.xyz,465
 ceng.metu.edu.tr,imap.ceng.metu.edu.tr,993,mailhost.ceng.metu.edu.tr,587
+cerex.no,mail.cerex.no,993,mail.cerex.no,465
 cheerful.com,imap.mail.com,993,smtp.mail.com,587
 chef.net,imap.mail.com,993,smtp.mail.com,587
 chemist.com,imap.mail.com,993,smtp.mail.com,587

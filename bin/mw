@@ -214,8 +214,7 @@ getboxes() {
 	if [ -n "${force+x}" ]; then
 		mailboxes="$(printf "INBOX\\nDrafts\\nJunk\\nTrash\\nSent\\nArchive")"
 	else
-        [ ! -z "$sslcertself" ] && addarg="-k"
-		info="$(curl "$addarg" --location-trusted -s -m 5 --user "$login:$(pass "$passprefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
+		info="$(curl "$curlarg" --location-trusted -s -m 5 --user "$login:$(pass "$passprefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
 		[ -z "$info" ] && errorexit
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '\r')"
 	fi
@@ -397,8 +396,8 @@ while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:c:" o; do case "${o}" in
 		;;
 	c)
 		setact add
-		sslcertself="$OPTARG"
 		sslcert="$OPTARG"
+        curlarg="$curlarg -k"
 		;;
 	X)
 		setact delete

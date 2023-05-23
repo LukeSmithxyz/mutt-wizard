@@ -397,7 +397,7 @@ while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:c:" o; do case "${o}" in
 	c)
 		setact add
 		sslcert="$OPTARG"
-        curlarg="$curlarg -k"
+		curlarg="$curlarg -k"
 		;;
 	X)
 		setact delete

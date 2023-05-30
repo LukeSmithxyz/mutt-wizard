@@ -89,6 +89,7 @@ diplomats.com,imap.mail.com,993,smtp.mail.com,587
 dismail.de,imap.dismail.de,993,smtp.dismail.de,465
 disroot.org,disroot.org,993,disroot.org,587
 distruzione.org,mail.autistici.org,993,smtp.autistici.org,465
+domeneshop.no,imap.domeneshop.no,993,smtp.domeneshop.no,587
 dorriseaton.com,outlook.office365.com,993,smtp.office365.com,587
 dr.com,imap.mail.com,993,smtp.mail.com,587
 duke.edu,outlook.office365.com,993,smtp.office365.com,587

@@ -234,7 +234,7 @@ finalize() {
 	[ "$type" != "online" ] && echo "$mailboxes" | xargs -I {} mkdir -p "$maildir/$fulladdr/{}/cur" "$maildir/$fulladdr/{}/tmp" "$maildir/$fulladdr/{}/new"
 	mkdir -p "$cachedir/$safename/bodies"
 	echo "$fulladdr (account #$idnum) added successfully."
-	command -V urlview >/dev/null 2>&1 && [ ! -f "$HOME/.urlview" ] && echo "COMMAND \$BROWSER" >"$HOME/.urlview"
+	command -V urlview >/dev/null 2>&1 && [ ! -f "$HOME/.urlview" ] && echo "COMMAND setsid -f \$BROWSER >/dev/null 2>&1" >"$HOME/.urlview"
 	return 0
 }
 

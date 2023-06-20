@@ -36,6 +36,7 @@ Specifically, this wizard:
 - `msmtp` - sends the email.
 - `pass` - safely encrypts passwords (required at install).
 - `ca-certificates` - required for SSL. Probably installed already.
+- `gettext` - writes config files. Probably installed already.
 
 **Note**: There's a chance of errors if you use a slow-release distro like
 Ubuntu, Debian, or Mint. If you get errors in `neomutt`, install the most

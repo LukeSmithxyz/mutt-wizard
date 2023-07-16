@@ -16,7 +16,7 @@ Channel $fulladdr
 Expunge Both
 $master :$fulladdr-remote:
 $slave :$fulladdr-local:
-Patterns * !"[Gmail]/All Mail"
+Patterns * !"[Gmail]/All Mail" !"*fts-flatcurve*" !"*virtual*"
 Create Both
 SyncState *
 MaxMessages $maxmes

@@ -181,6 +181,12 @@ askinfo() {
         if [ -f "$oauthtokenfile" ]; then
             authtype_msmtp=xoauth2
             authtype_mbsync=XOAUTH2
+            printf "Token will be moved to '%s', do you want to remove the original token file [y/N]? " "$PASSWORD_STORE_DIR/$prefix$fulladdr.tokens"
+            read -r prompt
+            case "$prompt" in
+                y|Y) mv "$oauthtokenfile" "$PASSWORD_STORE_DIR/$prefix$fulladdr.tokens" ;;
+                *) cp "$oauthtokenfile" "$PASSWORD_STORE_DIR/$prefix$fulladdr.tokens" ;;
+            esac
         else
             [ -n "$oauthtokenfile" ] && echo "Token file not found"
             authtype_msmtp=on

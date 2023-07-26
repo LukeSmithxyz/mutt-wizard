@@ -54,6 +54,7 @@ A user of Arch-based distros can also install the current mutt-wizard release fr
 
 ### Optional Dependencies
 
+- `cyrus-sasl-xoauth2-git` - Support for OAUTH2.
 - `pam-gnupg` - Automatically logs you into your GPG key on login so you will
   never need to input your password once logged on to your system. Check the
   repo and directions out [here](https://github.com/cruegge/pam-gnupg).

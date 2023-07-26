@@ -3,8 +3,8 @@ host $smtp
 port $sport
 from $fulladdr
 user $login
-passwordeval "pass $passprefix$fulladdr"
-auth on
+passwordeval "$pass_cmdline"
+auth $authtype_msmtp
 tls on
 tls_trust_file	$sslcert
 logfile $msmtplog

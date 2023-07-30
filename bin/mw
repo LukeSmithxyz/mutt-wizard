@@ -181,11 +181,11 @@ askinfo() {
         if [ -f "$oauthtokenfile" ]; then
             authtype_msmtp=xoauth2
             authtype_mbsync=XOAUTH2
-            printf "Token will be moved to '%s', do you want to remove the original token file [y/N]? " "$PASSWORD_STORE_DIR/$prefix$fulladdr.tokens"
+            printf "Token will be moved to '%s', do you want to remove the original token file [y/N]? " "$PASSWORD_STORE_DIR/$passprefix$fulladdr.tokens"
             read -r prompt
             case "$prompt" in
-                y|Y) mv "$oauthtokenfile" "$PASSWORD_STORE_DIR/$prefix$fulladdr.tokens" ;;
-                *) cp "$oauthtokenfile" "$PASSWORD_STORE_DIR/$prefix$fulladdr.tokens" ;;
+                y|Y) mv "$oauthtokenfile" "$PASSWORD_STORE_DIR/$passprefix$fulladdr.tokens" ;;
+                *) cp "$oauthtokenfile" "$PASSWORD_STORE_DIR/$passprefix$fulladdr.tokens" ;;
             esac
         else
             [ -n "$oauthtokenfile" ] && echo "Token file not found"
@@ -243,7 +243,7 @@ getboxes() {
 	if [ -f "$oauthtokenfile" ] || [ -n "${force+x}" ]; then
 		mailboxes="$(printf "INBOX\\nDrafts\\nJunk\\nTrash\\nSent\\nArchive")"
 	else
-		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass show "$prefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
+		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass show "$passprefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
 		[ -z "$info" ] && errorexit
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '\r')"
 	fi

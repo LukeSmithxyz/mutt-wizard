@@ -328,7 +328,7 @@ reorder() {
 
 while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
 	l) setact list ;;
-	r) setact reorder1 ;;
+	r) setact reorder ;;
 	d) setact delete ;;
 	D)
 		setact delete

@@ -2,7 +2,7 @@ IMAPStore $fulladdr-remote
 Host $imap
 Port $iport
 User $login
-PassCmd "pass $passprefix$fulladdr"
+PassCmd "$pass_cmdline"
 AuthMechs $authtype_mbsync
 SSLType $imapssl
 CertificateFile $sslcert

@@ -63,11 +63,11 @@ syncandnotify() {
 	newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
 	case 1 in
 		$((newcount > 5)) )
-			echo "$newcount new mail for $2."
+			echo "$newcount new mail for $2." >/dev/tty
 			[ -z "$MAILSYNC_MUTE" ] && notify "New Mail!" "📬 $newcount new mail(s) in \`$2\` account."
 			;;
 		$((newcount > 0)) )
-			echo "$newcount new mail for $2."
+			echo "$newcount new mail for $2." >/dev/tty
 			[ -z "$MAILSYNC_MUTE" ] &&
 			for file in $new; do
 		    		# Extract and decode subject and sender from mail.

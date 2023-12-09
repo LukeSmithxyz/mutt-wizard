@@ -30,6 +30,7 @@ export GPG_TTY="$(tty)"
 [ -n "$MPOPRC" ] || MPOPRC="$HOME/.config/mpop/config"
 
 lastrun="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun"
+hidelist="${XDG_CONFIG_HOME:-$HOME/.config}/mutt/hidelist"
 
 # Settings are different for MacOS (Darwin) systems.
 case "$(uname)" in
@@ -75,8 +76,21 @@ syncandnotify() {
 					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')"
 				from="$(sed -n "/^From:/ s|From: *|| p" "$file" |
 					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')"
-				from="${from% *}" ; from="${from%\"}" ; from="${from#\"}"
-				notify "📧$from:" "$subject"
+
+				fromaddr="${from#*<}" fromaddr="${fromaddr%*>}"
+
+				# Hide email notifications for sender address patterns in hidelist file
+				while IFS= read -r pattern; do
+					echo "$fromaddr" | grep -q "^$pattern$" && break
+				done  <<-EOT
+				$(sed 's/#.*//' "$hidelist")
+				EOT
+
+				[ "$?" = 0 ] && notify "New Mail!" "📬 1 new mail in \`$2\` account." ||
+					{ fromperson="${from% *}"
+					  fromperson="${fromperson%\"}"
+					  fromperson="${fromperson#\"}";
+					  notify "📧$fromperson:" "$subject"; }
 			done
 			;;
 		*) echo "No new mail for $2." ;;

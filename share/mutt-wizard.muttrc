@@ -91,7 +91,7 @@ macro index,pager ga "<change-folder>=Archive<enter>" "go to archive"
 macro index,pager Ma ";<save-message>=Archive<enter>" "move mail to archive"
 macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"
 
-#set crypt_autosign = yes
+#set crypt_auto_sign = yes
 #set crypt_opportunistic_encrypt = yes
 #set pgp_self_encrypt = yes
 #set pgp_default_key  = 'your@gpgemailaddre.ss'

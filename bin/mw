@@ -174,20 +174,14 @@ askinfo() {
 	hostname="${fulladdr#*@}"
 	login="${login:-$fulladdr}"
 	if [ -n "${password+x}" ]; then
-		createpass
+		insertpass
 	else
 		getpass
 	fi
 }
 
-createpass() {
-	echo "$password" >"$PASSWORD_STORE_DIR/$passprefix$fulladdr"
-	"$GPG" -qe $(printf -- " -r %s" $(cat "$PASSWORD_STORE_DIR/.gpg-id")) "$PASSWORD_STORE_DIR/$passprefix$fulladdr"
-	case "$(uname)" in
-	Darwin | *BSD) rm -P "$PASSWORD_STORE_DIR/$passprefix$fulladdr" ;;
-	*) shred -u "$PASSWORD_STORE_DIR/$passprefix$fulladdr" ;;
-	esac
-	rm -f "$PASSWORD_STORE_DIR/$passprefix$fulladdr"
+insertpass() {
+	printf "%s" "$password" | pass insert -fe "$PASSWORD_STORE_DIR/$passprefix$fulladdr"
 }
 
 errorexit() {
@@ -331,7 +325,7 @@ reorder() {
 
 while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:c:" o; do case "${o}" in
 	l) setact list ;;
-	r) setact reorder1 ;;
+	r) setact reorder ;;
 	d) setact delete ;;
 	D)
 		setact delete

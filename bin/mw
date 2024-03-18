@@ -173,11 +173,11 @@ askinfo() {
 	[ -z "$passprefix" ] && passprefix=""
 	hostname="${fulladdr#*@}"
 	login="${login:-$fulladdr}"
-	if [ -n "${password+x}" ]; then
+	if [ -n "${password+x}" ] && [ ! -f "$PASSWORD_STORE_DIR/$passprefix$fulladdr.gpg" ]; then
 		insertpass
-	else
+	elif [ ! -f "$PASSWORD_STORE_DIR/$passprefix$fulladdr.gpg" ]; then
 		getpass
-	fi
+    fi
 }
 
 insertpass() {

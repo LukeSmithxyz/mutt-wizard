@@ -209,6 +209,8 @@ To give you an example of the interface, here's an idea:
   applications requires turning off two-factor authentication and this will
   circumvent that. You might also need to manually "Enable IMAP" in the
   settings.
+  To create an App Password for your Google account,
+  you can directly visit the [App Passwords](https://myaccount.google.com/apppasswords) page in your Google Account settings.
 - If you have a university email or enterprise-hosted email for work, there
   might be other hurdles or two-factor authentication you have to jump through.
   Some, for example, will want you to create a separate IMAP password, etc.

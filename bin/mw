@@ -88,6 +88,7 @@ prepmutt() {
 }
 
 getprofiles() {
+        # TODO: oauth2 only for mbsync right now
 	safename="$(echo $fulladdr | sed 's/@/_/g')"
 	case "$type" in
 	online)
@@ -173,11 +174,30 @@ askinfo() {
 	[ -z "$passprefix" ] && passprefix=""
 	hostname="${fulladdr#*@}"
 	login="${login:-$fulladdr}"
-	if [ -n "${password+x}" ]; then
-		insertpass
-	else
-		getpass
-	fi
+        [ -f "$oauthtokenfile" ] ||
+            printf "If you want to use OAUTH2 (for Microsoft or Google), input path to pre-created token file (see help). Otherwise, leave empty: " &&
+            read -r oauthtokenfile
+
+        if [ -f "$oauthtokenfile" ]; then
+            authtype_msmtp=xoauth2
+            authtype_mbsync=XOAUTH2
+            printf "Token will be moved to '%s', do you want to remove the original token file [y/N]? " "$PASSWORD_STORE_DIR/$passprefix$fulladdr.tokens"
+            read -r prompt
+            case "$prompt" in
+                y|Y) mv "$oauthtokenfile" "$PASSWORD_STORE_DIR/$passprefix$fulladdr.tokens" ;;
+                *) cp "$oauthtokenfile" "$PASSWORD_STORE_DIR/$passprefix$fulladdr.tokens" ;;
+            esac
+        else
+            [ -n "$oauthtokenfile" ] && echo "Token file not found"
+            authtype_msmtp=on
+            authtype_mbsync=LOGIN
+            if [ -n "${password+x}" ]; then
+                insertpass
+            else
+                getpass
+            fi
+        fi
+        pass_cmdline="$(pass_cmdline)"
 }
 
 insertpass() {
@@ -187,10 +207,6 @@ insertpass() {
 errorexit() {
 	echo "Log-on not successful."
 	case "$imap" in
-	imap.gmail.com)
-		echo "This account with $service is using Google's Gmail servers, which disable all third-party applications without an application-specific password.
-Please be sure you are using OAUTH with your Gmail account, or better yet, stop using Gmail."
-		;;
 	imap.mail.me.com)
 		echo "This account with $service is using Apple's iCloud servers, which disable all non-Apple applications by default.
 Please be sure you either enable third-party applications, or create an app-specific password, or best of all, stop using Apple."
@@ -199,16 +215,35 @@ Please be sure you either enable third-party applications, or create an app-spec
 	exit 1
 }
 
+pass_cmdline() {
+    if [ -f "$oauthtokenfile" ]; then
+        # do not use pass insert to not clutter pass git history with token updates
+        encrypt_pipe="$GPG -qe $(printf -- " -r %s" $(cat "$PASSWORD_STORE_DIR/.gpg-id"))"
+        printf '%s ' /usr/share/neomutt/oauth2/mutt_oauth2.py --encryption-pipe "$encrypt_pipe" "$passprefix$fulladdr.tokens"
+    else
+        printf '%s ' pass "$passprefix$fulladdr"
+    fi
+}
+
 getpass() { while :; do
 	pass rm -f "$passprefix$fulladdr" >/dev/null 2>&1
 	pass insert -f "$passprefix$fulladdr" && break
 done; }
 
 getboxes() {
-	if [ -n "${force+x}" ]; then
+        # TODO: add oauth2 curl
+        # in the meantime, get box names after syncing from folder structure:
+        #for d in "$maildir"/*
+        #do
+        #    echo "$(basename "$d"):"
+        #    mailboxes="$(find "$d" -mindepth 1 -type d -not -name 'cur' -not -name 'new' -not -name 'tmp' -printf '="%P" ')"
+        #    printf "\tmailboxes %s\n\n" "$mailboxes"
+        #done
+
+	if [ -f "$oauthtokenfile" ] || [ -n "${force+x}" ]; then
 		mailboxes="$(printf "INBOX\\nDrafts\\nJunk\\nTrash\\nSent\\nArchive")"
 	else
-		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass "$passprefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
+		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass show "$passprefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
 		[ -z "$info" ] && errorexit
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '\r')"
 	fi
@@ -283,6 +318,7 @@ Options allowed with -a:
   -s	SMTP server address
   -S	SMTP server port
   -x	Password for account (recommended to be in double quotes)
+  -o    Registered OAUTH2 token file path. See mw(1) for more info.
   -p	Add for a POP server instead of IMAP.
   -P	Pass Prefix (prefix of the file where password is stored)
   -X	Delete an account's local email too when deleting.
@@ -320,7 +356,7 @@ reorder() {
 	' "$tempfile" >>"$muttrc"
 }
 
-while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
+while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:O:m:t:" o; do case "${o}" in
 	l) setact list ;;
 	r) setact reorder ;;
 	d) setact delete ;;
@@ -387,6 +423,10 @@ while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
 		setact add
 		password="$OPTARG"
 		;;
+        O)      
+                setact add
+                oauthtokenfile="$OPTARG"
+                ;;
 	X)
 		setact delete
 		purge=True

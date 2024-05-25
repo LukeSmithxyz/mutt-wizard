@@ -68,6 +68,35 @@ SMTP server address
 .B -S
 SMTP server port (assumed to be 465 if not specified)
 .TP
+.B -O path
+Path to registered OAUTH2 token file. The file has to be first created using external scripts, see for example
+.I https://wiki.archlinux.org/title/Isync#mutt_oauth2.py
+for more information. If you already have 
+.B neomutt
+installed, the script should be located in 
+.I /usr/share/neomutt/oauth2/mutt_oauth2.py
+and you need to first create the token by specifying your authorization credentials. If your organization does not permit any new registrations, use Mozilla Thunderbird Client ID, for example, from
+.I https://hg.mozilla.org/comm-central/file/tip/mailnews/base/src/OAuth2Providers.jsm
+and pick your provider (Google or Microsoft).
+Then you can use the script as
+.IP
+.EX
+\&$ /usr/share/neomutt/oauth2/mutt_oauth2.py -v -t \\
+\&    --authorize --client-id "9e5f94bc-e8a4-4e73-b8be-63364c29d753" --client-secret "" \\
+\&    --email "<your email>" --provider microsoft \\
+\&    --encryption-pipe "gpg --encrypt --recipient <your_gpg_key>" \\
+\&    token_path
+.EE
+.
+.XP
+
+The token file is then decrypted by 
+.B mw
+and saved to password store as 
+.I <passprefix><email>.tokens
+encrypted using gpg. The file will not be tracked by git history by default.
+
+.TP
 .B -x
 Account password. You will be prompted for the password interactively if this option is not given.
 .B -P

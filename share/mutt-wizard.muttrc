@@ -29,6 +29,8 @@ auto_view text/html		# automatically show html (mailcap uses lynx)
 auto_view application/pgp-encrypted
 #set display_filter = "tac | sed '/\\\[-- Autoview/,+1d' | tac" # Suppress autoview messages.
 alternative_order text/plain text/enriched text/html
+# change header cache database from older kyotocabinet for improved performance
+set header_cache_backend = "lmdb"
 
 bind index,pager i noop
 bind index,pager g noop

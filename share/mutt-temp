@@ -1,6 +1,6 @@
 # vim: filetype=neomuttrc
 # muttrc file for account $fulladdr
-set realname = "$realname"
+set real_name = "$realname"
 set from = "$fulladdr"
 set sendmail = "msmtp -a $fulladdr"
 alias me $realname <$fulladdr>
@@ -10,7 +10,7 @@ set message_cachedir = "$cachedir/$safename/bodies"
 set mbox_type = Maildir
 set hostname = "$hostname"
 source $muttshare/switch.muttrc
-set spoolfile = "+INBOX"
+set spool_file = "+INBOX"
 set postponed = "+Drafts"
 set trash = "+Trash"
 set record = "+Sent"

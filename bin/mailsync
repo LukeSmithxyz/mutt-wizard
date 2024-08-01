@@ -24,6 +24,9 @@ eval "$(grep -h -- \
 	"$HOME/.config/zsh/.zshenv" "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.config/zsh/.zshrc" \
 	"$HOME/.pam_environment" 2>/dev/null)"
 
+# For non-interactive shell (e.g. cron job) run only when the GPG key (in $GNUPGHOME or pass --homedir) is unlocked
+tty -s || (echo "dummy" | gpg --sign --batch --pinentry-mode error -o /dev/null > /dev/null 2>&1) || exit
+
 export GPG_TTY="$(tty)"
 
 [ -n "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC" || MBSYNCRC="$HOME/.mbsyncrc"

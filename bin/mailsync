@@ -45,7 +45,7 @@ case "$(uname)" in
 
 	notify() { [ -n "$pgrepoutput" ] && for x in ${displays:-:0}; do
 			export DISPLAY="$x"
-			notify-send --app-name="mutt-wizard" "$1" "$2"
+			notify-send --app-name="mutt-wizard" -- "$1" "$2"
 		done ;}
 	;;
 esac

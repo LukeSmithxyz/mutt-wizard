@@ -1,0 +1,15 @@
+{
+    "host": "$imap",
+    "port": $iport,
+    "tls": true,
+    "tlsOptions": {
+            "rejectUnauthorized": false
+    },
+    "username": "$login",
+    "password": "",
+    "passwordCmd": "pass $passprefix$fulladdr",
+    "onNewMail": "mailsync",
+    "onNewMailPost": "",
+    "boxes": [ "INBOX" ]
+}
+

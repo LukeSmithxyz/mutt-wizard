@@ -12,12 +12,14 @@ msmtprc="${XDG_CONFIG_HOME:-$HOME/.config}/msmtp/config"
 msmtplog="${XDG_STATE_HOME:-$HOME/.local/state}/msmtp/msmtp.log"
 mbsyncrc="${MBSYNCRC:-$HOME/.mbsyncrc}"
 mpoprc="${XDG_CONFIG_HOME:-$HOME/.config}/mpop/config"
+imapnotify="${XDG_CONFIG_HOME:-$HOME/.config}/imapnotify"
 mpoptemp="$muttshare/mpop-temp"
 mbsynctemp="$muttshare/mbsync-temp"
 mutttemp="$muttshare/mutt-temp"
 msmtptemp="$muttshare/msmtp-temp"
 onlinetemp="$muttshare/online-temp"
 notmuchtemp="$muttshare/notmuch-temp"
+imapnotifytemp="$muttshare/imapnotify-temp"
 # With the use of templates, it's impossible to use parameter substitution.
 # Therefore, some default variables that might be otherwise overwritten are set
 # here.
@@ -78,6 +80,10 @@ prepmpop() {
 	envsubst <"$mpoptemp" >>"$mpoprc"
 }
 
+prepimapnotify() {
+  mkdir -p "${imapnotify%/*}" ; envsubst < "$imapnotifytemp" >> "$imapnotify/$fulladdr.conf"
+}
+
 prepmutt() {
 	mkdir -p "${muttrc%/*}" "$accdir"
 	envsubst <"$mutttemp" >"$accdir/$fulladdr.muttrc"
@@ -106,6 +112,7 @@ getprofiles() {
 	prepmsmtp
 	prepmutt
 	prepnotmuch
+  prepimapnotify
 }
 
 parsedomains() {

@@ -4,7 +4,7 @@ https://muttwizard.com/
 
 Get this great stuff without effort:
 
-- A full-featured and autoconfigured email client on the terminal with neomutt
+- A full-featured and autoconfigured email client on the terminal wibuiltth neomutt
 - Mail stored offline enabling the ability to:
     * view and write emails while you're away from
       the internet
@@ -54,6 +54,8 @@ A user of Arch-based distros can also install the current mutt-wizard release fr
 
 ### Optional Dependencies
 
+- `goimapnotify` - required for push notifications.
+  [Check here for reference](https://wiki.archlinux.org/title/Isync#With_imapnotify).
 - `pam-gnupg` - Automatically logs you into your GPG key on login so you will
   never need to input your password once logged on to your system. Check the
   repo and directions out [here](https://github.com/cruegge/pam-gnupg).
@@ -133,6 +135,12 @@ To give you an example of the interface, here's an idea:
 - <kbd>ctrl-j</kbd>/<kbd>ctrl-k</kbd> - move up and down in sidebar, <kbd>ctrl-o</kbd> opens mailbox.
 - <kbd>ctrl-b</kbd> - open a menu to select a URL you want to open in your browser.
 - <kbd>p</kbd> - encrypt/sign your message (in compose view, before sending the email).
+
+## Enable push notifications per mail
+**Note**: Replace the `fulladdrs` with your actual email address. You have to do this for each new mail you want to setup instant notifications.
+```bash
+systemctl enable --user goimapnotify@fulladdrs.service
+```
 
 ## Additional functionality
 

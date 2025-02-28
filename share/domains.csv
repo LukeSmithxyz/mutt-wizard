@@ -53,6 +53,7 @@ carleton.ca,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 cash4u.com,imap.mail.com,993,smtp.mail.com,587
 cedars.xyz,mail.cedars.xyz,993,mail.cedars.xyz,465
 ceng.metu.edu.tr,imap.ceng.metu.edu.tr,993,mailhost.ceng.metu.edu.tr,587
+cerex.no,mail.cerex.no,993,mail.cerex.no,465
 cheerful.com,imap.mail.com,993,smtp.mail.com,587
 chef.net,imap.mail.com,993,smtp.mail.com,587
 chemist.com,imap.mail.com,993,smtp.mail.com,587
@@ -88,6 +89,7 @@ diplomats.com,imap.mail.com,993,smtp.mail.com,587
 dismail.de,imap.dismail.de,993,smtp.dismail.de,465
 disroot.org,disroot.org,993,disroot.org,587
 distruzione.org,mail.autistici.org,993,smtp.autistici.org,465
+domeneshop.no,imap.domeneshop.no,993,smtp.domeneshop.no,587
 dorriseaton.com,outlook.office365.com,993,smtp.office365.com,587
 dr.com,imap.mail.com,993,smtp.mail.com,587
 duke.edu,outlook.office365.com,993,smtp.office365.com,587
@@ -115,9 +117,10 @@ freedom.nl,imap.freedom.nl,993,smtp.freedom.nl,465
 freedom.xyz,imap.nixnet.email,143,smtp.nixnet.email,587
 fsmpi.rwth-aachen.de,mail.fsmpi.rwth-aachen.de,993,mail.fsmpi.rwth-aachen.de,465
 fsu-jena,exchange.uni-jena.de,993,smtp.uni-jena.de,587
+fz-juelich.de,imap.fz-juelich.de,993,mail.fz-juelich.de,587
 gcc.edu,imap-mail.outlook.com,993,smtp-mail.outlook.com,587
 getbackinthe.kitchen,mail.cock.li,993,mail.cock.li,587
-ghalv.no,mail.ghalv.no,993,mail.ghalv.no,587
+ghalv.no,mail.ghalv.no,993,mail.ghalv.no,465
 gmail.com,imap.gmail.com,993,smtp.gmail.com,587
 gmx.*,imap.gmx.net,993,mail.gmx.net,587
 go2.pl,poczta.o2.pl,993,poczta.o2.pl,465
@@ -198,7 +201,7 @@ national.shitposting.agency,mail.cock.li,993,mail.cock.li,587
 ncsu.edu,imap.gmail.com,993,smtp.gmail.com,587
 netcourrier.com,mail.netcourrier.com,993,mail.netcourrier.com,465
 nigge.rs,mail.cock.li,993,mail.cock.li,587
-niser.ac.in,imap.gmail.com,993,smtp.gmail.com,587
+niser.ac.in,imap.gmail.com,993,smtp.gmail.com,465
 nixnet.email,imap.nixnet.email,143,smtp.nixnet.email,587
 nixnet.xyz,imap.nixnet.email,143,smtp.nixnet.email,587
 nixnetmail.com,imap.nixnet.email,143,smtp.nixnet.email,587

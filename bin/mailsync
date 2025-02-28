@@ -45,7 +45,7 @@ case "$(uname)" in
 
 	notify() { [ -n "$pgrepoutput" ] && for x in ${displays:-:0}; do
 			export DISPLAY="$x"
-			notify-send --app-name="mutt-wizard" "$1" "$2"
+			notify-send --app-name="mutt-wizard" -- "$1" "$2"
 		done ;}
 	;;
 esac
@@ -63,16 +63,17 @@ syncandnotify() {
 	newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
 	case 1 in
 		$((newcount > 5)) )
-			echo "$newcount new mail for $2."
-			[ -z "$MAILSYNC_MUTE" ] && notify "New Mail!" "📬 $newcount new mail(s) in \`$2\` account."
+			echo "$newcount new mails for $2." >/dev/tty
+			[ -z "$MAILSYNC_MUTE" ] && notify "New Mail!" "📬 $newcount new mails in \`$2\` account."
 			;;
 		$((newcount > 0)) )
-			echo "$newcount new mail for $2."
+			echo "$newcount new mail(s) for $2." >/dev/tty
 			[ -z "$MAILSYNC_MUTE" ] &&
 			for file in $new; do
-		    		# Extract and decode subject and sender from mail.
-				subject="$(sed -n "/^Subject:/ s|Subject: *|| p" "$file" |
-					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')"
+				# Extract and decode subject and sender from mail.
+				subject=$(awk '/^Subject: / && ++n == 1,/^.*: / && ++i == 2' "$file" | head -n-1 |
+					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' |
+					sed 's/^Subject: //' | tr -d '\n\t')
 				from="$(sed -n "/^From:/ s|From: *|| p" "$file" |
 					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')"
 				from="${from% *}" ; from="${from%\"}" ; from="${from#\"}"

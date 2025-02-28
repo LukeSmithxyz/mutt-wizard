@@ -15,7 +15,8 @@ set rfc2047_parameters = yes
 set sleep_time = 0		# Pause 0 seconds for informational messages
 set markers = no		# Disables the `+` displayed at line wraps
 set mark_old = no		# Unread mail stay unread until read
-set mime_forward = yes		# attachments are forwarded with mail
+set mime_forward = no	# mail body is forwarded as text
+set forward_attachments = yes	# attachments are forwarded with mail
 set wait_key = no		# mutt won't ask "press key to continue"
 set fast_reply			# skip to compose when replying
 set fcc_attach			# save attachments with the body
@@ -90,7 +91,7 @@ macro index,pager ga "<change-folder>=Archive<enter>" "go to archive"
 macro index,pager Ma ";<save-message>=Archive<enter>" "move mail to archive"
 macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"
 
-#set crypt_autosign = yes
+#set crypt_auto_sign = yes
 #set crypt_opportunistic_encrypt = yes
 #set pgp_self_encrypt = yes
 #set pgp_default_key  = 'your@gpgemailaddre.ss'
@@ -99,8 +100,8 @@ macro index \eh "<pipe-message>$prefix/libexec/gpg-wks-client --receive | msmtp 
 
 macro index,pager a "<enter-command>set my_pipe_decode=\$pipe_decode pipe_decode<return><pipe-message>abook --add-email<return><enter-command>set pipe_decode=\$my_pipe_decode; unset my_pipe_decode<return>" "add the sender address to abook"
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
-macro index O "<shell-escape>mw -Y<enter>" "run mw -Y to sync all mail"
-macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>printf 'Enter a search term to find with notmuch: '; read x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;s/\^id:// for@a;$,=\"|\";print@a' | perl -le '@a=<>; chomp@a; s/\\+/\\\\+/ for@a;print@a' \`\"<enter>" "show only messages matching a notmuch pattern"
+macro index O "<shell-escape>mailsync<enter>" "run mailsync to sync all mail"
+macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>printf 'Enter a search term to find with notmuch: '; read x; echo \$x >\"\${XDG_CACHE_HOME:-\$HOME/.cache}/mutt_terms\"<enter><limit>~i \"\`notmuch search --output=messages \$(cat \"\${XDG_CACHE_HOME:-\$HOME/.cache}/mutt_terms\") | head -n 600 | perl -le '@a=<>;s/\^id:// for@a;$,=\"|\";print@a' | perl -le '@a=<>; chomp@a; s/\\+/\\\\+/g for@a; s/\\$/\\\\\\$/g for@a;print@a' \`\"<enter>" "show only messages matching a notmuch pattern"
 macro index A "<limit>all\n" "show all messages (undo limit)"
 
 # Sidebar mappings
@@ -132,6 +133,11 @@ color index_subject brightcyan black "~N"
 color index brightyellow blue "~T"
 color index_author brightred blue "~T"
 color index_subject brightcyan blue "~T"
+
+# Flagged mail is highlighted:
+color index brightgreen default "~F"
+color index_subject brightgreen default "~F"
+color index_author brightgreen default "~F"
 
 # Other colors and aesthetic settings:
 mono bold bold

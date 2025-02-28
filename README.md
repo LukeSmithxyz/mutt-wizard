@@ -4,7 +4,7 @@ https://muttwizard.com/
 
 Get this great stuff without effort:
 
-- A full-featured and autoconfigured email client on the terminal with neomutt
+- A full-featured and autoconfigured email client on the terminal wibuiltth neomutt
 - Mail stored offline enabling the ability to:
     * view and write emails while you're away from
       the internet
@@ -36,7 +36,7 @@ Specifically, this wizard:
 - `msmtp` - sends the email.
 - `pass` - safely encrypts passwords (required at install).
 - `ca-certificates` - required for SSL. Probably installed already.
-- `goimapnotify` - required for push notifications. [Check here for reference](https://wiki.archlinux.org/title/Isync#With_imapnotify).
+- `gettext` - writes config files. Probably installed already.
 
 **Note**: There's a chance of errors if you use a slow-release distro like
 Ubuntu, Debian, or Mint. If you get errors in `neomutt`, install the most
@@ -54,6 +54,8 @@ A user of Arch-based distros can also install the current mutt-wizard release fr
 
 ### Optional Dependencies
 
+- `goimapnotify` - required for push notifications.
+  [Check here for reference](https://wiki.archlinux.org/title/Isync#With_imapnotify).
 - `pam-gnupg` - Automatically logs you into your GPG key on login so you will
   never need to input your password once logged on to your system. Check the
   repo and directions out [here](https://github.com/cruegge/pam-gnupg).
@@ -215,6 +217,8 @@ systemctl enable --user goimapnotify@fulladdrs.service
   applications requires turning off two-factor authentication and this will
   circumvent that. You might also need to manually "Enable IMAP" in the
   settings.
+  To create an App Password for your Google account,
+  you can directly visit the [App Passwords](https://myaccount.google.com/apppasswords) page in your Google Account settings.
 - If you have a university email or enterprise-hosted email for work, there
   might be other hurdles or two-factor authentication you have to jump through.
   Some, for example, will want you to create a separate IMAP password, etc.

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -a
 
@@ -31,14 +31,15 @@ maxmes="0"
 
 alias mbsync='mbsync -c "$mbsyncrc"'
 
-# mbsync now requires "Far/Near" rather than "Master/Slave", but Ubuntu/Debian
-# have the older version.
-if command -V apt-get >/dev/null 2>&1; then
-	master="Master"
-	slave="Slave"
-else
+# mbsync >=1.4.0 requires "Far/Near" rather than "Master/Slave."
+mbver="$(mbsync -v)"
+mbver="${mbver#* }"
+if [ "${mbver%.*}" >= 1.4 ]; then
 	master="Far"
 	slave="Near"
+else
+	master="Master"
+	slave="Slave"
 fi
 
 for x in "/etc/ssl/certs/ca-certificates.crt" \

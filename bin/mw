@@ -223,7 +223,7 @@ getboxes() {
 	fi
 	[ "$type" = "pop" ] && mailboxes="INBOX"
 	for x in $(
-		sed -n "/^macro.* i[0-9] / s/\(^macro.* i\| .*\)//gp " "$muttrc" 2>/dev/null | sort -u
+		sed -n "/^macro.* i[0-9] / s/\(^macro\s+i\| .*\)//gp " "$muttrc" 2>/dev/null | sort -u
 		echo 0
 	); do
 		idnum=$((idnum + 1))

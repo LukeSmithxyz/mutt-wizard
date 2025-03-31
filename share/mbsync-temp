@@ -4,7 +4,7 @@ Port $iport
 User $login
 PassCmd "pass $passprefix$fulladdr"
 AuthMechs LOGIN
-SSLType $imapssl
+TLSType $imapssl
 CertificateFile $sslcert
 
 MaildirStore $fulladdr-local

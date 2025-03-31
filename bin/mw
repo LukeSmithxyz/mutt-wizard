@@ -34,7 +34,11 @@ alias mbsync='mbsync -c "$mbsyncrc"'
 # mbsync >=1.4.0 requires "Far/Near" rather than "Master/Slave."
 mbver="$(mbsync -v)"
 mbver="${mbver#* }"
-if [ "${mbver%.*}" >= 1.4 ]; then
+mbver="${mbver%.*}"
+# Comparing two float numbers in bash is a pain in the butt, so we get rid of
+# dots and turn them into nice integers
+mbver="${mbver/\./}"
+if [ "${mbver}" -gt 14 ]; then
 	master="Far"
 	slave="Near"
 else

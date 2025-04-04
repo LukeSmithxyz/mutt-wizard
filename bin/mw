@@ -221,7 +221,9 @@ getboxes() {
 	if [ -n "${force+x}" ]; then
 		mailboxes="$(printf "INBOX\\nDrafts\\nJunk\\nTrash\\nSent\\nArchive")"
 	else
-		info="$(curl --location-trusted -s -m 5 --user "$login:$(pass "$passprefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
+        [ -n "$sslcert" ] \
+			&& info="$(curl --location-trusted -s -m 5 --user "$login:$(pass "$passprefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")" \
+			|| info="$(curl -k --location-trusted -s -m 5 --user "$login:$(pass "$passprefix$fulladdr")" --url "${protocol:-imaps}://$imap:${iport:-993}")"
 		[ -z "$info" ] && errorexit
 		mailboxes="$(echo "$info" | grep -v HasChildren | sed "s/.*\" //;s/\"//g" | tr -d '\r')"
 	fi
@@ -301,6 +303,7 @@ Options allowed with -a:
   -X	Delete an account's local email too when deleting.
   -o	Configure address, but keep mail online.
   -f	Assume typical English mailboxes without attempting log-on.
+  -c	Path to self-signed TLS certificate.
 
 NOTE: Once at least one account is added, you can run
 \`mbsync -a\` to begin downloading mail.
@@ -333,7 +336,7 @@ reorder() {
 	' "$tempfile" >>"$muttrc"
 }
 
-while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
+while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:c:" o; do case "${o}" in
 	l) setact list ;;
 	r) setact reorder ;;
 	d) setact delete ;;
@@ -399,6 +402,10 @@ while getopts "rfpXlhodTYD:y:i:I:s:S:u:a:n:P:x:m:t:" o; do case "${o}" in
 	x)
 		setact add
 		password="$OPTARG"
+		;;
+	c)
+		setact add
+		sslcert="$OPTARG"
 		;;
 	X)
 		setact delete

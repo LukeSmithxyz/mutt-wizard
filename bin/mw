@@ -194,7 +194,7 @@ askinfo() {
 }
 
 insertpass() {
-	printf "%s" "$password" | pass insert -fe "$PASSWORD_STORE_DIR/$passprefix$fulladdr"
+	printf "%s" "$password" | pass insert -fe "$passprefix$fulladdr"
 }
 
 errorexit() {

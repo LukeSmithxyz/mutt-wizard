@@ -80,7 +80,20 @@ syncandnotify() {
 				from="$(sed -n "/^From:/ s|From: *|| p" "$file" |
 					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')"
 				from="${from% *}" ; from="${from%\"}" ; from="${from#\"}"
-				notify "📧$from:" "$subject"
+				message_id=$(sed -n 's/^Message-ID: *\(<.*>\)$/\1/p' "$file")
+				ACTION=$(notify "📧$from:" "$subject" --action="open=Open email" "📧$from:" "$subject")
+				case "$ACTION" in
+					open)
+						if [ -n "$message_id" ]; then
+							$TERMINAL -e neomutt -f "$XDG_DATA_HOME/mail/$2/INBOX" -e "'push L~i$message_id\n\n'"
+						else
+							$TERMINAL -e neomutt -f "$XDG_DATA_HOME/mail/$2/INBOX"
+						fi
+						;;
+					*)
+						echo "No valid action selected"
+						;;
+				esac
 			done
 			;;
 		*) echo "No new mail for $2." ;;

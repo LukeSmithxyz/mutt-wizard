@@ -108,7 +108,7 @@ The mutt-wizard runs via the command `mw`. Once setup is complete, you'll use
 - `-f` -- Assume mailbox names and force account configuration without
   connecting online at all.
 - `-o` -- Configure mutt for an account, but do not keep mail offline.
-- `-p` -- Use POP protocol instead of IMAP (requires `mpop` installed).
+- `-P` -- Use POP protocol instead of IMAP (requires `mpop` installed).
 - `mailsync` gives visual messages of new mail by default. Or, set
   `MAILSYNC_MUTE=1` as an environmental variable if you prefer not having them.
 

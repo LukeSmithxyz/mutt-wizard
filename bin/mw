@@ -86,7 +86,7 @@ prepmpop() {
 }
 
 prepimapnotify() {
-  mkdir -p "$imapnotify" ; envsubst < "$imapnotifytemp" >> "$imapnotify/$fulladdr.conf"
+  mkdir -p "$imapnotify" ; envsubst < "$imapnotifytemp" >> "$imapnotify/$fulladdr.yaml"
 }
 
 prepmutt() {

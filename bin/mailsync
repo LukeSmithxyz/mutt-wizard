@@ -58,7 +58,7 @@ syncandnotify() {
 	case "$1" in
 		imap) mbsync -q "$2" ;;
 		pop) mpop -q "$2" ;;
-	esac
+	esac || return 1
 	new=$(find\
 		"$HOME/.local/share/mail/$2/"[Ii][Nn][Bb][Oo][Xx]/new/ \
 		"$HOME/.local/share/mail/$2/"[Ii][Nn][Bb][Oo][Xx]/cur/ \
@@ -100,15 +100,34 @@ else
 	done || echo "error $arg"; done)"
 fi
 
+pids=      # PIDs of backgrounded subshells
+count=0    # number of accounts in $tosync
+failed=0   # number of failed sync attempts
 for account in $tosync; do
+	count=$((count+1))
 	case $account in
-		Channel*) syncandnotify imap "${account##* }" & ;;
-		account*) syncandnotify pop "${account##* }" & ;;
-		error*) echo "ERROR: Account ${account##* } not found." ;;
+		Channel*)
+			syncandnotify imap "${account##* }" &
+			pids="$pids $!"
+			;;
+		account*)
+			syncandnotify pop "${account##* }" &
+			pids="$pids $!"
+			;;
+		error*)
+			echo "ERROR: Account ${account##* } not found."
+			failed=$((failed+1))
+			;;
 	esac
 done
 
-wait
+IFS=' '
+for pid in $pids; do
+	wait $pid || failed=$((failed+1))
+done
+
+# Abort if no account sync succeeded
+[ "$count" -gt "$failed" ] || exit 1
 
 notmuch new --quiet
 

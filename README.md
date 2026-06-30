@@ -4,7 +4,7 @@ https://muttwizard.com/
 
 Get this great stuff without effort:
 
-- A full-featured and autoconfigured email client on the terminal wibuiltth neomutt
+- A full-featured and autoconfigured email client on the terminal built with neomutt
 - Mail stored offline enabling the ability to:
     * view and write emails while you're away from
       the internet

@@ -74,7 +74,7 @@ syncandnotify() {
 			[ -z "$MAILSYNC_MUTE" ] &&
 			for file in $new; do
 				# Extract and decode subject and sender from mail.
-				subject=$(awk '/^Subject: / && ++n == 1,/^.*: / && ++i == 2' "$file" | head -n-1 |
+				subject=$(awk '/^Subject: / && ++n == 1,/^.*: / && ++i == 2' "$file" | sed '$d' |
 					perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' |
 					sed 's/^Subject: //' | tr -d '\n\t')
 				from="$(sed -n "/^From:/ s|From: *|| p" "$file" |

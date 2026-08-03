@@ -26,11 +26,16 @@ install:
 	chmod 755 $(DESTDIR)$(PREFIX)/share/zsh/site-functions/
 	cp -f completion/_mutt-wizard.zsh $(DESTDIR)$(PREFIX)/share/zsh/site-functions/_mutt-wizard.zsh
 	chmod 644 $(DESTDIR)$(PREFIX)/share/zsh/site-functions/_mutt-wizard.zsh
+	mkdir -p $(DESTDIR)$(PREFIX)/share/fish/vendor_completions.d/
+	chmod 755 $(DESTDIR)$(PREFIX)/share/fish/vendor_completions.d/
+	cp -f completion/mw.fish $(DESTDIR)$(PREFIX)/share/fish/vendor_completions.d/mw.fish
+	chmod 644 $(DESTDIR)$(PREFIX)/share/fish/vendor_completions.d/mw.fish
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/mw $(DESTDIR)$(PREFIX)/bin/mailsync $(DESTDIR)$(PREFIX)/lib/mutt-wizard/openfile
 	rm -rf $(DESTDIR)$(PREFIX)/share/mutt-wizard  $(DESTDIR)$(PREFIX)/lib/mutt-wizard
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/mw.1  $(DESTDIR)$(MANPREFIX)/man1/mailsync.1
 	rm -f $(DESTDIR)$(PREFIX)/share/zsh/site-functions/_mutt-wizard.zsh
+	rm -f $(DESTDIR)$(PREFIX)/share/fish/vendor_completions.d/mw.fish
 
 .PHONY: install uninstall
